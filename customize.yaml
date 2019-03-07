@@ -1,0 +1,218 @@
+group.all_automations:
+  hidden: false
+group.all_scripts:
+  hidden: false
+binary_sensor.water_sensor_attic:
+  friendly_name: Attic Water Leak Sensor
+  icon: mdi:water
+binary_sensor.water_sensor_kitchen:
+  icon: mdi:water
+sensor.downstairs_temperature:
+  friendly_name: Downstairs Thermostat Temperature
+sensor.upstairs_temperature:
+  friendly_name: Upstairs Hallway Thermostat Temperature
+device_tracker.pauls_iphone:
+  friendly_name: Paul Presence (App)
+device_tracker.pauls_iphone_2:
+  friendly_name: Paul Presence (Router)
+device_tracker.paul:
+  friendly_name: Paul (360)
+device_tracker.google_maps_118013912887885302155:
+  friendly_name: Paul (Google)
+binary_sensor.homekit_presence_Paul:
+  friendly_name: Paul Presence (HomeKit)
+binary_sensor.paul_presence:
+  friendly_name: Paul Presence (Bayesian)
+device_tracker.paul_all:
+  friendly_name: Paul
+device_tracker.tracys_iphone:
+  friendly_name: Tracy Presence (App)
+device_tracker.tracys_iphone_2:
+  friendly_name: Tracy Presence (Router)
+device_tracker.Tracy:
+  friendly_name: Tracy (360)
+device_tracker.google_maps_116112519745623760034:
+  friendly_name: Tracy (Google)
+binary_sensor.homekit_presence_tracy:
+  friendly_name: Tracy Presence (HomeKit)
+binary_sensor.tracy_presence:
+  friendly_name: Tracy Presence (Bayesian)
+device_tracker.tracy_all:
+  friendly_name: Tracy
+sensor.lock_garage_door_lock_alarm_level:
+  friendly_name: Garage Door Lock
+sensor.motion_sensor_attic_alarm_level:
+  hidden: true
+sensor.motion_sensor_attic_alarm_type:
+  hidden: true
+sensor.motion_sensor_attic_burglar:
+  hidden: true
+sensor.motion_sensor_attic_clock:
+  hidden: true
+sensor.motion_sensor_attic_sourcenodeid:
+  hidden: true
+binary_sensor.motion_sensor_attic_sensor:
+  hidden: true
+sensor.motion_sensor_attic_system:
+  hidden: true
+sensor.bmotion_sensor_attic_emergency:
+  hidden: true
+sensor.motion_sensor_attic_power_management:
+  hidden: true
+sensor.motion_sensor_attic_homehealth:
+  hidden: true        
+sensor.motion_sensor_attic_luminance:
+  friendly_name: Luminance
+  icon: mdi:brightness-5
+sensor.motion_sensor_attic_relative_humidity:
+  friendly_name: Attic Humidity
+  icon: mdi:water-percent
+sensor.motion_sensor_attic_temperature:
+  friendly_name: Attic Temperature
+  icon: mdi:temperature-fahrenheit
+sensor.motion_sensor_attic_battery:
+  friendly_name: Attic Multisensor Battery
+binary_sensor.motion_sensor_attic_tamper:
+  friendly_name: Tamper
+binary_sensor.motion_sensor_attic_motion:
+  friendly_name: Motion Sensor (Attic)
+group.motion_sensor_attic:
+  group:
+    group.motion_sensors:
+      friendly_name: Attic Alarm
+sensor.dark_sky_minutely_summary:
+  friendly_name: Hourly Weather
+sensor.dark_sky_hourly_summary:
+  friendly_name: Daily Weather
+sensor.dark_sky_daily_summary:
+  friendly_name: Weekly Weather
+sensor.dark_sky_apparent_temperature:
+  friendly_name: Current Real Feel Temp
+sensor.dark_sky_wind_speed:
+  friendly_name: Wind Speed
+sensor.motion_sensor_frog_battery:
+  icon: mdi:battery
+sensor.motion_sensor_office_battery:
+  icon: mdi:battery
+sensor.motion_sensor_kitchen_battery:
+  icon: mdi:battery
+sensor.motion_sensor_garage_battery:
+  icon: mdi:battery
+sensor.motion_sensor_hallway_battery:
+  icon: mdi:battery
+sensor.motion_sensor_closet_battery:
+  icon: mdi:battery
+sensor.open_close_livingroom_window_front_battery:
+  icon: mdi:battery
+sensor.open_close_sensor_front_door_battery:
+  icon: mdi:battery
+sensor.open_close_sensor_garage_door_battery:
+  icon: mdi:battery
+sensor.open_close_sensor_back_door_battery:
+  icon: mdi:battery
+sensor.open_close_sensor_garage_fridge_battery:
+  icon: mdi:battery
+sensor.water_sensor_kitchen_battery:
+  icon: mdi:battery
+binary_sensor.open_close_sensor_garage_door:
+  icon: mdi:door  
+binary_sensor.open_close_sensor_front_door:
+  icon: mdi:door
+binary_sensor.open_close_sensor_back_door:
+  icon: mdi:door
+binary_sensor.open_close_sensor_office_window:
+  icon: mdi:window-closed
+binary_sensor.open_close_sensor_livingroom_window_back:
+  icon: mdi:window-closed
+binary_sensor.open_close_sensor_livingroom_window_front:
+  icon: mdi:window-closed
+light.bedroom_lamp_one:
+  icon: mdi:lamp
+light.bedroom_lamp_two:
+  icon: mdi:lamp
+light.bedroom_ceiling_light:
+  icon: mdi:wall-sconce-flat
+light.guest_bedroom_lamp:
+  icon: mdi:lamp
+light.guest_bedroom_light:
+  icon: mdi:wall-sconce-variant
+light.living_room_fan_light:
+  icon: mdi:wall-sconce-variant
+light.frog_ceiling_light:
+  icon: mdi:wall-sconce-flat
+light.frog_fan_light:
+  icon: mdi:wall-sconce-variant
+light.ashleys_room_lamp:
+  icon: mdi:lamp
+light.ashleys_room_ceiling_light:
+  icon: mdi:wall-sconce-variant
+light.kitchen_counter_light:
+  icon: mdi:wall-sconce-flat
+light.kitchen_island_light:
+  icon: mdi:wall-sconce-flat
+light.living_room_ceiling_light:
+  icon: mdi:wall-sconce-flat
+light.hallway_light:
+  icon: mdi:wall-sconce-flat
+light.alcove_light:
+  icon: mdi:wall-sconce-flat
+light.office_lamp_two:
+  icon: mdi:lamp
+light.office_fan_light:
+  icon: mdi:wall-sconce-variant
+light.kitchen_cabinet_tops:
+  icon: mdi:led-strip
+light.kitchen_cabinet_bottoms:
+  icon: mdi:led-strip
+switch.office_lamp_one:
+  icon: mdi:lamp 
+switch.bedroom_fan:
+  icon: mdi:fan
+switch.closet_light:
+  icon: mdi:wall-sconce-flat
+switch.garage_light_indoor:
+  icon: mdi:lightbulb
+switch.garage_light_outdoor: 
+  icon: mdi:wall-sconce
+switch.rope_lights:
+  icon: mdi:ceiling-light
+switch.back_porch_light:
+  icon: mdi:wall-sconce
+switch.front_porch_light:
+  icon: mdi:wall-sconce
+switch.lamp_post:
+  icon: mdi:floor-lamp
+switch.living_room_plug_one:
+  icon: mdi:power-socket-us
+switch.living_room_plug_two:
+  icon: mdi:power-socket-us
+switch.living_room_plug_three:
+  icon: mdi:power-socket-us
+switch.stairwell_light:
+  icon: mdi:ceiling-light
+switch.front_door_entry:
+  icon: mdi:ceiling-light
+switch.sconce_light:
+  icon: mdi:wall-sconce
+switch.lava_lamp_two:
+  icon: mdi:lava-lamp
+switch.lava_lamp_plug:
+  icon: mdi:lava-lamp
+switch.fireplace:
+  emulated_hue_hidden: false
+  icon: mdi:fire
+light.living_room_lamp_one:
+  icon: mdi:lamp
+  emulated_hue_hidden: false
+light.living_room_lamp_two:
+  icon: mdi:lamp
+  emulated_hue_hidden: false
+light.left_shelf_lights:
+  icon: mdi:drag-vertical
+  emulated_hue_hidden: false
+light.tv_backlights:
+  icon: mdi:crop-landscape
+  emulated_hue_hidden: false
+light.right_shelf_lights:
+  icon: mdi:drag-vertical
+  emulated_hue_hidden: false

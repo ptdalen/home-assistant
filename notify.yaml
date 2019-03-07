@@ -1,0 +1,145 @@
+  - platform: ios
+  - name: PushBullet_Notifications
+    platform: pushbullet
+    api_key: !secret pushbullet_api_key
+  - platform: nfandroidtv
+    name: Sony TV
+    host: 192.168.1.80
+    duration: 8
+  - name: gmail_house_archive
+    platform: smtp
+    server: smtp.gmail.com
+    port: 587
+    timeout: 15
+    sender: !secret notificationemail
+    encryption: starttls
+    username: !secret notificationemail
+    password: !secret gmailpassword
+    recipient:
+      - !secret notificationemail
+    sender_name: The House
+  - name: gmail_all
+    platform: smtp
+    server: smtp.gmail.com
+    port: 587
+    timeout: 15
+    sender: !secret notificationemail
+    encryption: starttls
+    username: !secret notificationemail
+    password: !secret gmailpassword
+    recipient:
+      - !secret pauls_secret_gmail
+      - !secret tracys_secret_gmail
+    sender_name: The House
+  - name: gmail_paul
+    platform: smtp
+    server: smtp.gmail.com
+    port: 587
+    timeout: 15
+    sender: !secret notificationemail
+    encryption: starttls
+    username: !secret notificationemail
+    password: !secret gmailpassword
+    recipient:
+      - !secret pauls_secret_gmail
+    sender_name: The House
+  - name: sms_paul
+    platform: smtp
+    server: smtp.gmail.com
+    port: 587
+    timeout: 15
+    sender: !secret notificationemail
+    encryption: starttls
+    username: !secret notificationemail
+    password: !secret gmailpassword
+    recipient:
+      - !secret pauls_secret_sms
+    sender_name: The House
+  - name: gmail_tracy
+    platform: smtp
+    server: smtp.gmail.com
+    port: 587
+    timeout: 15
+    sender: !secret notificationemail
+    encryption: starttls
+    username: !secret notificationemail
+    password: !secret gmailpassword
+    recipient:
+      - !secret tracys_secret_gmail
+    sender_name: The House
+  - name: sms_tracy
+    platform: smtp
+    server: smtp.gmail.com
+    port: 587
+    timeout: 15
+    sender: !secret notificationemail
+    encryption: starttls
+    username: !secret notificationemail
+    password: !secret gmailpassword
+    recipient:
+      - !secret tracys_secret_sms
+    sender_name: The House
+
+  - platform: command_line
+    name: 'livingroom'
+    command: "/home/homeassistant/.homeassistant/alexa_wrapper.sh -d 'livingroom'"
+ 
+  - platform: command_line
+    name: 'office'
+    command: "/home/homeassistant/.homeassistant/alexa_wrapper.sh -d 'office'"
+ 
+  - platform: command_line
+    name: 'garage'
+    command: "/home/homeassistant/.homeassistant/alexa_wrapper.sh -d 'garage'"
+ 
+  - platform: command_line
+    name: 'old_dot'
+    command: "/home/homeassistant/.homeassistant/alexa_wrapper.sh -d 'old_dot'"
+
+  - platform: command_line
+    name: 'kitchen'
+    command: "/home/homeassistant/.homeassistant/alexa_wrapper.sh -d 'kitchen'"
+ 
+  - platform: command_line
+    name: 'bedroom'
+    command: "/home/homeassistant/.homeassistant/alexa_wrapper.sh -d 'bedroom'"
+
+  - platform: command_line
+    name: 'ashleysroom'
+    command: "/home/homeassistant/.homeassistant/alexa_wrapper.sh -d 'ashleysroom'"
+ 
+  - platform: command_line
+    name: 'guestroom'
+    command: "/home/homeassistant/.homeassistant/alexa_wrapper.sh -d 'guestroom'"
+ 
+  - platform: command_line
+    name: 'frog'
+    command: "/home/homeassistant/.homeassistant/alexa_wrapper.sh -d 'frog'"
+    
+  - platform: command_line
+    name: 'All Alexas'
+    command: "/home/homeassistant/.homeassistant/alexa_wrapper.sh -d 'ALL'"
+    
+  - name: Main Echos
+    platform: group
+    services:
+      - service: bedroom
+      - service: kitchen
+      - service: frog
+      - service: garage
+
+  - name: Upstairs Echos
+    platform: group
+    services:
+      - service: bedroom
+      - service: guestroom
+      - service: frog
+      - service: ashleysroom
+      
+  - name: Downstairs Echos
+    platform: group
+    services:
+      - service: office
+      - service: kitchen
+      - service: livingroom
+      - service: garage

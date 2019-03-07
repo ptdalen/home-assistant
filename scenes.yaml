@@ -1,0 +1,307 @@
+  - name: TV Lights
+    entities:
+      light.kitchen_cabinet_bottoms:
+        state: on
+        brightness: 152
+        rgb_color: [255, 240, 198]
+       
+      light.kitchen_cabinet_tops:
+        state: on
+        brightness: 191
+        rgb_color: [164, 234, 255]
+
+      light.living_room_lamp_two:
+        state: off
+      
+      light.living_room_lamp_one:
+        state: on
+        brightness: 190
+        rgb_color: [255, 207, 120]
+      
+      light.left_shelf_lights:
+        state: on
+        brightness: 71
+        rgb_color: [246, 255, 254]
+      
+      light.tv_backlights:
+        state: on
+        brightness: 71
+        rgb_color: [246, 255, 254]
+        
+      light.right_shelf_lights:
+        state: on
+        brightness: 71
+        rgb_color: [246, 255, 254]
+           
+      light.alcove_light:
+        state: on
+        brightness: 150
+        color_temp: 444
+
+      light.sconce_light:
+        state: on
+
+#      light.christmas_tree:
+#        state: on
+
+  - name: Evening Lighting
+    entities:
+      light.kitchen_cabinet_bottoms:
+        state: on
+        brightness: 254
+        rgb_color: [255, 240, 198]
+      
+      light.kitchen_cabinet_tops:
+        state: on
+        brightness: 254
+        rgb_color: [255, 240, 198]
+      
+      light.living_room_lamp_one:
+        state: on
+        brightness: 254
+        rgb_color: [255, 240, 198]
+      
+      light.living_room_lamp_two:
+        state: on
+        brightness: 254
+        rgb_color: [255, 240, 198]
+      
+      light.left_shelf_lights:
+        state: on
+        brightness: 166
+        rgb_color: [255, 240, 198]
+      
+      light.tv_backlights:
+        state: off
+      
+      light.right_shelf_lights:
+        state: on
+        brightness: 166
+        rgb_color: [255, 240, 198]
+      
+      light.alcove_light:
+        state: on
+        brightness: 150
+        color_temp: 444
+
+      light.sconce_light:
+        state: on
+
+#      light.christmas_tree:
+#        state: on
+
+  - name: Morning Lighting
+    entities:
+      light.kitchen_cabinet_bottoms:
+        state: on
+        brightness: 254
+        rgb_color: [255, 240, 198]
+
+      light.kitchen_cabinet_tops:
+        state: on
+        brightness: 254
+        rgb_color: [255, 240, 198]
+
+      light.left_shelf_lights:
+        state: on
+        brightness: 166
+        rgb_color: [255, 240, 198]
+
+      light.right_shelf_lights:
+        state: on
+        brightness: 166
+        rgb_color: [255, 240, 198]
+
+      light.tv_backlights:
+        state: off
+
+      light.living_room_lamp_one:
+        state: off
+      
+      light.living_room_lamp_two:
+        state: off
+
+      light.alcove_light:
+        state: off
+
+  - name: Casual Lighting
+    entities:
+      light.kitchen_cabinet_bottoms:
+        state: on
+        brightness: 152
+        rgb_color: [255, 240, 198]
+       
+      light.kitchen_cabinet_tops:
+        state: on
+        brightness: 191
+        rgb_color: [164, 234, 255]
+      
+      light.living_room_lamp_one:
+        state: on
+        brightness: 190
+        rgb_color: [255, 207, 120]
+      
+      light.living_room_lamp_two:
+        state: on
+        brightness: 190
+        rgb_color: [255, 207, 120]
+      
+      light.left_shelf_lights:
+        state: on
+        brightness: 166
+        rgb_color: [255, 240, 198]
+      
+      light.tv_backlights:
+        state: off
+      
+      light.right_shelf_lights:
+        state: on
+        brightness: 166
+        rgb_color: [255, 240, 198]
+      
+      light.alcove_light:
+        state: on
+        brightness: 150
+        color_temp: 444
+
+      light.sconce_light:
+        state: on
+
+#      light.christmas_tree:
+#        state: on
+
+  - name: Downstairs Color Loop
+    entities:
+      light.kitchen_cabinet_bottoms:
+        state: on
+        transition: 15
+        effect: colorloop
+      
+      light.kitchen_cabinet_tops:
+        state: on
+        transition: 15
+        effect: colorloop
+      
+      light.living_room_lamp_one:
+        state: on
+        transition: 15
+        effect: colorloop
+      
+      light.living_room_lamp_two:
+        state: on
+        transition: 15
+        effect: colorloop
+      
+      light.left_shelf_lights:
+        state: on
+        transition: 15
+        effect: colorloop
+      
+      light.tv_backlights:
+        state: on
+        transition: 15
+        effect: colorloop
+      
+      light.right_shelf_lights:
+        state: on
+        transition: 15
+        effect: colorloop
+      
+      light.alcove_light:
+        state: on
+        transition: 15
+        effect: colorloop
+
+  - name: Downstairs Nightlight
+    entities:
+      light.kitchen_cabinet_bottoms:
+        state: on
+        brightness: 25
+        rgb_color: [255, 240, 198]
+       
+      light.kitchen_cabinet_tops:
+        state: on
+        brightness: 25
+        rgb_color: [164, 234, 255]
+      
+      light.living_room_lamp_one:
+        state: on
+        brightness: 25
+        rgb_color: [255, 207, 120]
+      
+      light.living_room_lamp_two:
+        state: on
+        brightness: 25
+        rgb_color: [255, 207, 120]
+      
+      light.left_shelf_lights:
+        state: on
+        brightness: 25
+        rgb_color: [255, 240, 198]
+      
+      light.tv_backlights:
+        state: off
+      
+      light.right_shelf_lights:
+        state: on
+        brightness: 25
+        rgb_color: [255, 240, 198]
+      
+      light.alcove_light:
+        state: on
+        brightness: 25
+        color_temp: 444
+
+  - name: Downstairs All Off
+    entities:
+      light.kitchen_cabinet_bottoms:
+        state: off
+       
+      light.kitchen_cabinet_tops:
+        state: off
+      
+      light.living_room_lamp_one:
+        state: off
+      
+      light.living_room_lamp_two:
+        state: off
+      
+      light.left_shelf_lights:
+        state: off
+      
+      light.tv_backlights:
+        state: off
+      
+      light.right_shelf_lights:
+        state: off
+      
+      light.alcove_light:
+        state: off
+
+  - name: Best of the Week
+    entities:
+      media_player.living_room:
+        state: playing
+        volume_level: 0.15
+        source: "Best of the Week"
+
+  - name: Beats 1
+    entities:
+      media_player.living_room:
+        state: playing
+        volume_level: 0.15
+        source: "Beats 1"
+
+  - name: Fleetwood Mac Radio
+    entities:
+      media_player.living_room:
+        state: playing
+        volume_level: 0.15
+        source: "Fleetwood Mac Radio"
+
+  - name: Reggae Classics
+    entities:
+      media_player.living_room:
+        state: playing
+        volume_level: 0.15
+        source: "Reggae Classics"

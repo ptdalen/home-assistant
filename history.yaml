@@ -1,0 +1,47 @@
+  use_include_order: True
+  include:
+    entities:
+# Attic Water Sensors
+      - binary_sensor.water_sensor_attic
+      - binary_sensor.water_sensor_kitchen
+#open Close Sensors
+      - binary_sensor.open_close_sensor_back_door
+      - binary_sensor.open_close_sensor_front_door
+      - binary_sensor.open_close_sensor_garage_door
+      - binary_sensor.open_close_sensor_livingroom_window_back
+      - binary_sensor.open_close_sensor_livingroom_window_front
+      - binary_sensor.open_close_sensor_office_window
+#garage Door Opener
+      - binary_sensor.garage_door_opener
+#door Locks
+      - lock.lock_back_door_lock
+      - lock.lock_front_door_lock
+      - lock.lock_garage_door_lock
+      - cover.garage_door_opener
+#Which UserCode last opened a a deadbolt
+#      - sensor.back_door_report
+#      - sensor.front_door_report
+#      - sensor.garagedoor_code
+# Ecobee Ocupancy Sensors
+      - binary_sensor.living_room_occupancy
+      - binary_sensor.office_occupancy
+      - binary_sensor.master_bedroom_occupancy
+      - binary_sensor.ashleys_room_occupancy
+      - binary_sensor.guest_room_occupancy
+      - binary_sensor.frog_occupancy
+#House temps I care about
+      - sensor.downstairs_temperature
+      - sensor.upstairs_temperature
+      - sensor.master_bedroom_temperature
+      - sensor.temp_garage_fridge
+      - sensor.dark_sky_apparent_temperature
+#House States
+      - sensor.security_system_state
+      - sensor.house_mode
+#presense Sensor States
+      - device_tracker.paul_all
+      - device_tracker.tracy_all
+#      - binary_sensor.paul_presence
+#      - binary_sensor.tracy_presence
+
+

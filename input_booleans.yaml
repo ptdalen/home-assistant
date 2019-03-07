@@ -1,0 +1,55 @@
+paul_present:
+  name: Paul
+  icon: mdi:account
+tracy_present:
+  name: Tracy
+  icon: mdi:account
+paul_in_bed:
+  name: Paul Sleeping
+  icon: mdi:account
+tracy_in_bed:
+  name: Tracy Sleeping
+  icon: mdi:account
+guests_present:
+  name: We have guests
+  icon: mdi:account-multiple  
+garage_changed_with_ha:
+  name: Garage opened via Automation
+  icon: mdi:garage
+open_garage_for_paul:
+  name: Open Garage for Paul
+  icon: mdi:garage
+open_garage_for_tracy:
+  name: Open Garage for Tracy
+  icon: mdi:garage
+back_door_opened_for_paul:
+  name: Back Door Unlocked for Paul
+  icon: mdi:garage
+back_door_opened_for_tracy:
+  name: Back Door Unlocked for Tracy
+  icon: mdi:garage
+back_door_opened_for_guests:
+  name: Back Door Unlocked for Tracy
+  icon: mdi:garage
+goodnight_switch:
+  name: Goodnight
+  icon: mdi:home
+goodmorning_switch:
+  name: Good Morning
+  icon: mdi:home
+notify_paul:
+  name: Notify Paul
+notify_tracy:
+  name: Notify Tracy
+wheres_tracy:
+  name: Where is Tracy
+  icon: mdi:account
+wheres_paul:
+  name: Where is Paul
+  icon: mdi:account
+whats_going_on:
+  name: Whats Going On
+  icon: mdi:account
+vacation_mode:
+  name: Vacation Mode
+  icon: mdi:account

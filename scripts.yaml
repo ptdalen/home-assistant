@@ -1,0 +1,567 @@
+##########################################
+## Hue Lighting Scenes                  ##
+##########################################
+downstairs_colorloop:
+  alias: Downstairs Color Loop
+  sequence:
+    - service: light.turn_on
+      entity_id: group.color_hue_lights
+      data_template:
+        hs_color:
+          - "{{ range(360)|random }}"
+          - "{{ range(80,101)|random }}"
+        brightness_pct: 100
+    - delay: '00:00:02'
+    - service: light.turn_on
+      entity_id: group.color_hue_lights
+      data_template:
+        effect: colorloop
+        brightness: 190
+        transition: 5
+        
+reset_downstairs_lighting:
+  alias: Reset Downstairs Lighting
+  sequence:
+    - service: light.turn_on
+      entity_id: group.color_hue_lights
+      data:
+        brightness: 150
+        rgb_color: [255,200,118]
+    - delay: '00:00:01'
+    - service: scene.turn_on
+      entity_id: scene.casual_lighting
+
+
+##########################################
+## Theater Room AV Resets               ##
+##########################################
+theater_room_soundbar_reset:
+  alias: Theater Room Sound Bar Reset
+  sequence:
+  - service: remote.turn_on
+    entity_id: remote.theater_room_harmony_hub
+    data:
+      activity: "27555534"
+
+theater_room_harmony_hub_off:
+  sequence:
+  - service: remote.turn_off
+    entity_id: remote.theater_room_harmony_hub
+    
+##########################################
+## TTS Scripts                          ##
+##########################################
+#TTS Script		
+audio_notify:
+  alias: 'Alexa TTS Script'
+  sequence: 
+    - service: media_player.alexa_tts
+      data_template:       
+        entity_id: >
+          {% if (mplayer == "all") %}
+            media_player.bedroom,media_player.kitchen,media_player.office,media_player.livingroom,media_player.garage,media_player.frog,media_player.guestroom,media_player.ashleysroom
+          {% elif (mplayer == "downstairs_media_players") %}
+            media_player.kitchen,media_player.office,media_player.livingroom,media_player.garage
+          {% elif (mplayer == "upstairs_media_players") %}
+            media_player.bedroom,media_player.frog,media_player.guestroom,media_player.ashleysroom
+          {% elif (mplayer == "main") %}
+            media_player.bedroom,media_player.frog,media_player.kitchen,media_player.garage
+          {% else %}
+            media_player.{{ mplayer }}
+          {% endif %} 
+        message: "{{ tts_msg }}"
+        
+alexa_notify:
+  alias: 'Alexa Timer Notification Script'
+  sequence: 
+    - service: media_player.alexa_tts
+      data_template:       
+        entity_id: media_player.bedroom_spot,media_player.kitchen,media_player.office,media_player.living_room_echo,media_player.garage,media_player.media_room
+        message: "An Alexa Timer has gone off"
+
+car_lock_car_doors:
+  alias: 'Car Lock Car Doors'
+  sequence: 
+    - service: notify.old_dot
+      data_template:       
+        message: "alexa. tell Blue Link to lock my Sonata"
+    - delay: 00:00:16
+    - service: notify.old_dot
+      data_template:       
+        message: !secret blue_link_pin
+
+car_start_car:
+  alias: 'Car Start Car'
+  sequence: 
+    - service: notify.old_dot
+      data_template:       
+        message: "alexa. tell Blue Link to start my Sonata and set the temperature to 72 degrees"
+    - delay: 00:00:18
+    - service: notify.old_dot
+      data_template:       
+        message: !secret blue_link_pin
+
+sonos_say:
+  alias: "Sonos TTS script"
+  sequence:
+    - service: media_player.sonos_snapshot
+      data_template:
+        entity_id: "{{ sonos_entity|default('media_player.living_room') }}"
+    - service: media_player.sonos_unjoin
+      data_template:
+        entity_id: "{{ sonos_entity|default('media_player.living_room') }}"
+    - service: media_player.volume_set
+      data_template:
+        entity_id: "{{ sonos_entity|default('media_player.living_room') }}"
+        volume_level: "{{ volume|default(0.5) }}"
+    - service: tts.google_say
+      data_template:
+        entity_id: "{{ sonos_entity|default('media_player.living_room') }}"
+        message: "{{ message }}"
+    - delay: "{{ delay|default('00:00:00') }}"
+    - wait_template: "{{ is_state(sonos_entity|default('media_player.living_room'), 'playing') }}"
+      timeout: '00:00:05'
+    - service: media_player.sonos_restore
+      data_template:
+        entity_id: "{{ sonos_entity|default('media_player.living_room') }}"
+
+notificationalarm:
+  alias: 'Notify that sensors changed when nobody is home'
+  sequence:
+    - service: media_player.sonos_snapshot
+      entity_id: media_player.living_room
+    - service: media_player.volume_set
+      entity_id: media_player.living_room
+      data:
+        volume_level: .9
+    - service: media_player.play_media
+      entity_id: media_player.living_room
+      data:
+        media_content_id: 'https://dl.dropboxusercontent.com/u/7457/HASS/Burglar_Alarm.mp3'
+        media_content_type: 'music'
+    - delay: '00:01:28'
+    - service: media_player.sonos_restore
+      entity_id: media_player.living_room 
+
+##########################################
+## Garage Door Toggle                   ##
+##########################################
+toggle_cover:
+  alias: 'Garage Door Button'
+  sequence:
+    - service: homeassistant.turn_on
+      entity_id: input_boolean.garage_changed_with_ha
+    - service_template: >
+        {% if is_state('cover.garage_door_opener', 'open') %}
+          cover.close_cover
+        {% else %}
+          cover.open_cover
+        {% endif %}
+      entity_id: cover.garage_door_opener
+
+garage_door_open:
+  alias: 'Garage Door Open'
+  sequence:
+    - service: cover.open_cover
+      entity_id: cover.garage_door_opener
+
+garage_door_close:
+  alias: 'Garage Door Close'
+  sequence:
+    - service: cover.close_cover
+      entity_id: cover.garage_door_opener
+
+##########################################
+## Ecobee Mode Settings                 ##
+##########################################
+ecobee_resume_mode:
+  alias: "Resume Ecobee mode"
+  sequence:
+    - service: climate.ecobee_resume_program
+      entity_id:
+       - climate.downstairs
+       - climate.upstairs
+
+ecobee_home_mode:
+  alias: "Ecobee Home Mode"
+  sequence:
+    - service: climate.set_hold_mode
+      entity_id:
+       - climate.downstairs
+       - climate.upstairs
+      data:
+        hold_mode: 'home'
+
+ecobee_away_mode:
+  alias: "Ecobee Away Mode"
+  sequence:
+    - service: climate.set_hold_mode
+      entity_id:
+       - climate.downstairs
+       - climate.upstairs
+      data:
+        hold_mode: 'away'
+
+ecobee_sleep_mode:
+  alias: "Ecobee Sleep mode"
+  sequence:
+    - condition: template
+      value_template: "{{ states.climate.downstairs.attributes.climate_mode != 'Sleep' }}"
+    - service: climate.set_hold_mode
+      entity_id:
+       - climate.downstairs
+       - climate.upstairs
+      data:
+        hold_mode: 'sleep'
+
+ecobee_worker_mode:
+  alias: "Ecobee Worker Mode"
+  sequence:
+    - service: climate.set_hold_mode
+      entity_id:
+       - climate.downstairs
+       - climate.upstairs
+      data:
+        hold_mode: 'smart1'
+
+##########################################
+## Security Camera Photo Capture        ##
+##########################################
+capture_driveway1_camera:
+  alias: Capture Still Image from Driveway 1 Camera
+  sequence:
+    - service: switch.turn_on
+      entity_id: switch.save_driveway1
+    - service: switch.turn_off
+      entity_id: switch.save_driveway1
+
+capture_driveway2_camera:
+  alias: Capture Still Image from Driveway 2 Camera
+  sequence:
+    - service: switch.turn_on
+      entity_id: switch.save_driveway2
+    - service: switch.turn_off
+      entity_id: switch.save_driveway2
+
+capture_backgate_camera:
+  alias: Capture Still Image from Backgate Camera
+  sequence:
+    - service: switch.turn_on
+      entity_id: switch.save_backgate
+    - service: switch.turn_off
+      entity_id: switch.save_backgate
+
+capture_sideyard_camera:
+  alias: Capture Still Image from Sideyard Camera
+  sequence:
+    - service: switch.turn_on
+      entity_id: switch.save_sideyard
+    - service: switch.turn_off
+      entity_id: switch.save_sideyard
+
+capture_frontdoor_camera:
+  alias: Capture Still Image from Frontdoor Camera
+  sequence:
+    - service: switch.turn_on
+      entity_id: switch.save_frontdoor
+    - service: switch.turn_off
+      entity_id: switch.save_frontdoor
+
+gif_picture_script:
+  alias: GIF Picture
+  sequence:
+  - data:
+      entity_id: camera.front_door
+      filename: /home/homeassistant/.homeassistant/www/tmp/frontdoor1.png
+    service: camera.snapshot
+  - delay: '00:00:01'
+  - data:
+      entity_id: camera.front_door
+      filename: /home/homeassistant/.homeassistant/www/tmp/frontdoor2.png
+    service: camera.snapshot
+  - data:
+      entity_id: camera.front_door
+      filename: /home/homeassistant/.homeassistant/www/tmp/frontdoor3.png
+    service: camera.snapshot
+  - data:
+      entity_id: camera.front_door
+      filename: /home/homeassistant/.homeassistant/www/tmp/frontdoor4.png
+    service: camera.snapshot
+  - data:
+      entity_id: camera.front_door
+      filename: /home/homeassistant/.homeassistant/www/tmp/frontdoor5.png
+    service: camera.snapshot
+  - data:
+      entity_id: camera.front_door
+      filename: /home/homeassistant/.homeassistant/www/tmp/frontdoor5.png
+    service: camera.snapshot
+  - data:
+      entity_id: camera.front_door
+      filename: /home/homeassistant/.homeassistant/www/tmp/frontdoor6.png
+    service: camera.snapshot
+  - data:
+      entity_id: camera.front_door
+      filename: /home/homeassistant/.homeassistant/www/tmp/frontdoor7.png
+    service: camera.snapshot
+  - data:
+      entity_id: camera.front_door
+      filename: /home/homeassistant/.homeassistant/www/tmp/frontdoor8.png
+    service: camera.snapshot
+  - data:
+      entity_id: camera.front_door
+      filename: /home/homeassistant/.homeassistant/www/tmp/frontdoor9.png
+    service: camera.snapshot
+  - service: shell_command.snapshot_frontdoor_gif
+  - delay: '00:00:15'
+  - service: notify.pushbullet_notifications
+    data:
+      message: "{{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}" 
+      target:
+      - !secret pauls_secret_email
+      - !secret tracys_secret_email      
+      title: Driveway Crossing
+      data:
+        file: /home/homeassistant/.homeassistant/www/tmp/frontdoor.gif
+
+sms_notify_with_images:
+  alias: SMS Notify with Images
+  sequence:
+  - condition: template
+    value_template: "{{ condition }}"
+  - service_template: "{{ service }}"
+    data_template:
+      title: "{{ title }}"
+      message: "{{ message }}"
+      data:
+        images:
+          - "{{ imagename }}"
+
+ # The main mockupancy script...
+mockupancy:
+  sequence:
+    # Wait until it is after 6pm and dark to start the routine
+    - wait_template: "{{ states.sensor.time.state >= '18:00' and is_state('binary_sensor.dark_outside' , 'on') }}"
+
+    # Check that it Vacation mode is still on
+    - condition: state
+      entity_id: input_boolean.vacation_mode
+      state: 'on'
+
+    # Pick a random bedtime between 10pm and midnight.
+    - service: input_datetime.set_time
+      data_template:
+        entity_id: input_datetime.mockupancy_bedtime
+        time: "{{ (range(22, 23)|random|int) }}:{{ (range(0, 59)|random|int) }}:00"
+
+    # Start the routine, switch on the 'usual' lights
+    - service: homeassistant.turn_on
+      entity_id:
+        - scene.tv_lighting
+
+    # Start scripts to randomise occasional lights
+    - service: script.random_master_bedroom
+    - service: script.random_kitchen
+
+    # Start scripts to randomise kids' bedtime simulation
+    - service: script.random_guest_room
+    - service: script.random_ashleys_room
+
+    # 1 hour before bedtime, change lighting as if TV was turned off
+    - wait_template: "{{ states('sensor.time') == (((state_attr('input_datetime.mockupancy_bedtime' , 'timestamp')) - (60 * 60))|timestamp_custom('%H:%M', false)) }}"
+    - service: homeassistant.turn_on
+      entity_id:
+        - scene.casual_lighting
+
+    # 20 minutes before bedtime, turn on kitchen lights only
+    - wait_template: "{{ states('sensor.time') == (((state_attr('input_datetime.mockupancy_bedtime' , 'timestamp')) - (20 * 60))|timestamp_custom('%H:%M', false)) }}"
+    - service: homeassistant.turn_on
+      entity_id:
+        - scene.morning_lighting
+
+    # Stop kitchen/master bedroom randomisation
+    - service: homeassistant.turn_off
+      entity_id:
+        - script.random_master_bedroom
+        - script.random_master_bedroom_loop
+        - script.random_kitchen
+        - script.random_kitchen_loop
+
+    # At 'bedtime', turn on Master Bedroom for random time between 2 and 15 minutes
+    # turn off kitchen, wait 20-30 seconds, turn off living room wait 30-59 seconds,
+    # turn on bedroom.
+    - wait_template: "{{ states('sensor.time') == (state_attr('input_datetime.mockupancy_bedtime' , 'timestamp')|int|timestamp_custom('%H:%M', False)) }}"
+    - service: homeassistant.turn_on
+      entity_id: switch.stairwell_light
+    - delay: "00:00:{{ (range(15, 59)|random|int) }}"
+    - service: homeassistant.turn_off
+      entity_id: group.livingroom
+    - delay: "00:00:{{ (range(20, 30)|random|int) }}"
+    - service: homeassistant.turn_off
+      entity_id: group.kitchen
+    - delay: "00:00{{ (range(20, 30)|random|int) }}"
+    - service: homeassistant.turn_on
+      entity_id: light.bedroom_ceiling_light
+      data:
+        brightness: 80
+    - delay: "00:{{ (range(2, 15)|random|int) }}:00"
+    - service: homeassistant.turn_off
+      entity_id: switch.stairwell_light
+    - delay: "00:{{ (range(15, 59)|random|int) }}:00"
+    - service: homeassistant.turn_off
+      entity_id: light.bedroom_ceiling_light
+
+#    # After a random time between 15 minutes and an hour, turn off the lights
+    - delay: "00:{{ (range(15, 30)|random|int) }}:00"
+    - service: input_boolean.turn_on
+      entity_id: input_boolean.goodnight_switch
+
+    # If light before 7am, switch off lights, stop and loop, if not run a further script first
+#    - wait_template: "{{ now().hour == 7 }}"
+    - wait_template: "{{ states.sensor.time.state == '07:00' }}"
+    - service_template: >
+        {% if states('binary_sensor.dark_outside' , 'on') %} script.morning_mockupancy
+        {% else %} script.mockupancy_loop {% endif %}
+
+
+# A further script for if it is still dark in the morning
+morning_mockupancy:
+  sequence:
+    # Check that it Vacation mode is still on
+    - condition: state
+      entity_id: input_boolean.vacation_mode
+      state: 'on'
+
+    # Wait a random nmber of minutes between 1 and 30 and switch on the morning lights
+    - delay: "00:{{ (range(1, 30)|random|int) }}:00"
+    - service: homeassistant.turn_on
+      entity_id: scene.morning_lighting
+
+    # Wait until it is light, switch off lights and loop
+    - wait_template: "{{ is_state('binary_sensor.dark_outside' , 'off') }}"
+    - service: script.mockupancy_loop
+
+
+# Randomising beditmes for the upstairs rooms
+random_guest_room:
+  sequence:
+    # Wait until after 8pm, and create a random delay up to 30 minutes and check if it is dark
+#    - wait_template: "{{ now().hour >= 20 }}"
+    - wait_template: "{{ states.sensor.time.state >= '20:00' }}"
+    - delay: "00:{{ (range(1, 30)|random|int) }}:00"
+    - condition: state
+      entity_id: binary_sensor.dark_outside
+      state: 'on'
+
+    # Switch light on for between 10 and 30 minutes
+    - service: homeassistant.turn_on
+      entity_id: light.guest_bedroom_lamp
+    - delay: "00:{{ (range(10, 30)|random|int) }}:00"
+    - service: homeassistant.turn_off
+      entity_id: light.guest_bedroom_lamp
+
+random_ashleys_room:
+  sequence:
+    # Wait until after 9pm, and create a random delay up to 30 minutes and check if it is dark
+#    - wait_template: "{{ now().hour >= 21 }}"
+    - wait_template: "{{ states.sensor.time.state >= '21:00' }}"
+    - delay: "00:{{ (range(1, 30)|random|int) }}:00"
+    - condition: state
+      entity_id: binary_sensor.dark_outside
+      state: 'on'
+
+    # Switch light on for between 10 and 30 minutes
+    - service: homeassistant.turn_on
+      entity_id: light.ashleys_room_lamp
+    - delay: "00:{{ (range(10, 30)|random|int) }}:00"
+    - service: homeassistant.turn_off
+      entity_id: light.ashleys_room_lamp
+
+
+# Randomising rooms we're in and out off
+random_master_bedroom:
+  sequence:
+    # Check that it Vacation mode is still on
+    - condition: state
+      entity_id: input_boolean.vacation_mode
+      state: 'on'
+
+    # Wait a random nmber of minutes between 15 and 90 and switch on
+    - delay: "00:{{ (range(15, 90)|random|int) }}:00"
+    - service: homeassistant.turn_on
+      entity_id: light.bedroom_ceiling_light
+      data:
+        brightness: 100
+
+    # Wait for between 3 minutes and 9 minutes and switch off
+    - delay: "00:{{ (range(3, 9)|random|int) }}:00"
+    - service: homeassistant.turn_off
+      entity_id: light.bedroom_ceiling_light
+
+    # Loop the script for next time.
+    - service: script.random_master_bedroom_loop
+
+
+random_kitchen:
+  sequence:
+    # Check that it Vacation mode is still on
+    - condition: state
+      entity_id: input_boolean.vacation_mode
+      state: 'on'
+
+    # Wait a random nmber of minutes between 15 and 90 and switch on
+    - delay: "00:{{ (range(15, 90)|random|int) }}:00"
+    - service: homeassistant.turn_on
+      entity_id: light.kitchen_island_light
+      data:
+        brightness: 100
+
+    # Wait for between 3 minutes and 9 minutes and switch off
+    - delay: "00:{{ (range(3, 9)|random|int) }}:00"
+    - service: homeassistant.turn_off
+      entity_id: light.kitchen_island_light
+
+    # Loop the script for next time.
+    - service: script.random_kitchen_loop
+
+
+# Scripts that loop the ones above that need looping
+mockupancy_loop:
+  sequence:
+    # Switch off the lights, and make sure the calling scripts have stopped
+    - service: homeassistant.turn_off
+      entity_id:
+        - group.all_lights
+        - script.mockupancy
+    - delay: 00:05:00
+
+    # Check that it Vacation mode is still on and restart the script for a new day
+    - condition: state
+      entity_id: input_boolean.vacation_mode
+      state: 'on'
+    - service: script.mockupancy
+
+random_master_bedroom_loop:
+  sequence:
+    # Stop the calling script
+    - service: homeassistant.turn_off
+      entity_id: script.random_master_bedroom
+    - delay: 00:05:00
+
+    # Check that Vacation mode is on and restart the script
+    - condition: state
+      entity_id: input_boolean.vacation_mode
+      state: 'on'
+    - service: script.random_master_bedroom
+
+random_kitchen_loop:
+  sequence:
+    # Stop the calling script
+    - service: homeassistant.turn_off
+      entity_id: script.random_kitchen
+    - delay: 00:05:00
+
+    # Check that Vacation mode is on and restart the script
+    - condition: state
+      entity_id: input_boolean.vacation_mode
+      state: 'on'
+    - service: script.random_kitchen

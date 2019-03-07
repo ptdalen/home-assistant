@@ -1,0 +1,59 @@
+- platform: generic
+  still_image_url: http://192.168.1.101/ISAPI/Streaming/channels/101/picture
+  name: Front Door
+  username: admin
+  password: !secret camera_doorbell_password
+  authentication: basic
+- platform: generic
+  still_image_url: http://192.168.1.100:65002/ISAPI/Streaming/channels/1/picture  
+  name: Driveway One
+  username: hass
+  password: !secret camera_nvr_password
+  authentication: digest
+- platform: generic
+  still_image_url: http://192.168.1.100:65003/ISAPI/Streaming/channels/1/picture  
+  name: Driveway Two
+  username: hass
+  password: !secret camera_nvr_password
+  authentication: digest
+- platform: generic
+  still_image_url: http://192.168.1.100:65004/ISAPI/Streaming/channels/1/picture  
+  name: Back Gate
+  username: hass
+  password: !secret camera_nvr_password
+  authentication: digest
+- platform: generic
+  still_image_url: http://192.168.1.100:65005/ISAPI/Streaming/channels/1/picture  
+  name: Side Yard
+  username: hass
+  password: !secret camera_nvr_password
+  authentication: digest
+- platform: local_file
+  file_path: /home/homeassistant/.homeassistant/www/tmp/front_door_latest.jpg
+  name: Front Door Processed
+- platform: local_file
+  file_path: /home/homeassistant/.homeassistant/www/tmp/back_gate_latest.jpg
+  name: Parking Pad Processed
+- platform: local_file
+  file_path: /home/homeassistant/.homeassistant/www/tmp/back_gate_yard_latest.jpg
+  name: Back Yard Processed
+#- platform: ffmpeg
+#  input: !secret camera_url_1
+#  name: Front Door
+#  extra_arguments: -pred 1 -q:v 2
+#- platform: ffmpeg
+#  input: !secret camera_url_2
+#  extra_arguments: -pred 1 -q:v 2
+#  name: driveway one
+#- platform: ffmpeg
+#  input: !secret camera_url_3
+#  extra_arguments: -pred 1 -q:v 2
+#  name: driveway two
+#- platform: ffmpeg
+#  input: !secret camera_url_4
+#  extra_arguments: -pred 1 -q:v 2
+#  name: back gate
+#- platform: ffmpeg
+#  input: !secret camera_url_5
+#  extra_arguments: -pred 1 -q:v 2
+#  name: side yard

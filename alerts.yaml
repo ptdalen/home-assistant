@@ -1,0 +1,128 @@
+  garage_door:
+    name: Garage is open
+    done_message: Garage is closed
+    entity_id: cover.garage_door_opener
+    state: 'open'
+    repeat:
+      - 60
+    can_acknowledge: True
+    skip_first: True
+    notifiers:
+      - ios_pauls_iphone
+      - ios_tracys_iphone
+
+  garage_fridge_temp:
+    name: Garage Fridge temp above 40 degreees
+    done_message: Garage Fridge temp is now less than 40 degrees
+    entity_id: binary_sensor.garage_fridge_cold
+    state: 'off'
+    repeat:
+      - 15
+      - 30
+      - 60
+    can_acknowledge: True
+    skip_first: True
+    notifiers:
+      - ios_pauls_iphone
+
+  water_leak_attic:
+    name: Water Sensor in Attic reporting leak
+    done_message: Leak has been cleared
+    entity_id: binary_sensor.water_sensor_attic
+    state: 'on'
+    repeat: 5
+    can_acknowledge: True
+    notifiers:
+      - ios_pauls_iphone
+      - sony_tv
+      - ios_tracys_iphone
+
+  water_leak_kitchen:
+    name: Water Sensor under the Kitchen Sing Reporting a leak
+    done_message: Kitchen Water Leak has been cleared
+    entity_id: binary_sensor.water_sensor_kitchen
+    state: 'on'
+    repeat: 5
+    can_acknowledge: True
+    notifiers:
+      - ios_pauls_iphone
+      - sony_tv
+      - ios_tracys_iphone
+      
+  smoke_detector_smoke_attic:
+    name: Attic Smoke Alarm - Smoke Detected
+    done_message: Smoke has been cleared
+    entity_id: binary_sensor.attic_smoke_detector_smoke
+    state: 'on'
+    repeat: 5
+    can_acknowledge: True
+    notifiers:
+      - ios_pauls_iphone
+      - ios_tracys_iphone
+      - sony_tv
+
+  smoke_detector_co2_attic:
+    name: Attic Smoke Alarm - CO2 Detected
+    done_message: CO2 has been cleared
+    entity_id: binary_sensor.attic_smoke_detector_co2
+    state: 'on'
+    repeat: 5
+    can_acknowledge: True
+    notifiers:
+      - ios_pauls_iphone
+      - ios_tracys_iphone
+      - sony_tv
+      
+  smoke_detector_test_attic:
+    name: Attic Smoke Alarm - Testing
+    done_message: Smoke Alarm Testing completed
+    entity_id: binary_sensor.attic_smoke_detector_testing
+    state: 'on'
+    repeat: 5
+    can_acknowledge: True
+    notifiers:
+      - ios_pauls_iphone
+      - ios_tracys_iphone
+      - sony_tv
+
+  front_door:
+    name: Front Door is open
+    done_message: Front Door is closed
+    entity_id: binary_sensor.open_close_sensor_front_door
+    state: 'on'
+    repeat:
+      - 5
+      - 15
+    can_acknowledge: True
+    skip_first: True
+    notifiers:
+      - ios_pauls_iphone
+      - ios_tracys_iphone
+
+  back_door:
+    name: Back Door is open
+    done_message: Back Door is closed
+    entity_id: binary_sensor.open_close_sensor_back_door
+    state: 'on'
+    repeat:
+      - 10
+      - 20
+    can_acknowledge: True
+    skip_first: True
+    notifiers:
+      - ios_pauls_iphone
+      - ios_tracys_iphone
+
+  garage_door_door:
+    name: Door to the Garage is open
+    done_message: Door to the Garage is closed
+    entity_id: binary_sensor.open_close_sensor_garage_door
+    state: 'on'
+    repeat:
+      - 10
+      - 30
+    can_acknowledge: True
+    skip_first: True
+    notifiers:
+      - ios_pauls_iphone
+      - ios_tracys_iphone

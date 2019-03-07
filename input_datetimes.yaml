@@ -1,0 +1,8 @@
+  work_time_paul:
+    name: Work Time
+    has_date: false
+    has_time: true
+  mockupancy_bedtime:
+    has_date: false
+    has_time: true
+    initial: '23:00'

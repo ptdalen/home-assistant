@@ -1,0 +1,330 @@
+homeassistant:
+  # Name of the location where Home Assistant is running
+  name: Home
+  # Location required to calculate the time the sun rises and sets
+  latitude: !secret home_latitude
+  longitude: !secret home_longitude
+  # Impacts weather/sunrise data (altitude above sea level in meters)
+  elevation: 0
+  # metric for Metric, imperial for Imperial
+  unit_system: imperial
+  # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  time_zone: America/New_York
+  # Customization file
+  customize: !include customize.yaml
+  packages: !include_dir_named packages
+  whitelist_external_dirs:
+    - '/tmp'
+# Configure a default setup of Home Assistant (frontend, api, etc)
+default_config:
+
+# Text to speech
+tts:
+  - platform: google
+
+recorder:
+  purge_interval: 1
+  purge_keep_days: 5
+
+http:
+#  api_password: !secret http_password
+  ssl_certificate: !secret ssl_certificate_path
+  ssl_key: !secret ssl_certificate_key_path
+  base_url: !secret base_ha_url
+
+duckdns:
+  domain: !secret ha_domain_name
+  access_token: !secret duckdns_access_token
+
+device_tracker:
+#  - platform: bluetooth_tracker
+#    request_rssi: true
+#    consider_home: 180
+#  - platform: icloud3
+#    username: !secret pauls_apple_id
+#    password: !secret pauls_apple_password
+#    account_name: Pauls iCloud
+#    include_device_type: iphone
+  - platform: google_maps
+    username: !secret notificationemail
+    password: !secret gmailpassword
+    max_gps_accuracy: 150
+  - platform: life360
+    username: !secret life360_user
+    password: !secret life360_password
+    max_gps_accuracy: 150
+    interval_seconds: 12
+    driving_speed: 12
+    max_update_wait:
+      minutes: 30
+  - platform: composite
+    name: Paul_All
+    entity_id:
+      - device_tracker.paul
+#      - device_tracker.pauls_iphone
+      - device_tracker.google_maps_118013912887885302155
+  - platform: composite
+    name: Tracy_All
+    entity_id:
+      - device_tracker.tracy
+#      - device_tracker.tracys_iphone
+      - device_tracker.google_maps_116112519745623760034
+
+asuswrt:
+    host: !secret router_ip
+    username: !secret router_user
+    password: !secret router_password
+    protocol: ssh
+
+hue:
+  bridges:
+    - host: 192.168.1.121
+#      allow_unreachable: true
+      allow_hue_groups: false
+
+emulated_hue:
+  host_ip: 192.168.1.12
+  expose_by_default: false
+
+homekit:
+  filter:
+    include_entities:
+      - input_boolean.paul_present
+      - input_boolean.tracy_present
+
+google:
+  client_id: !secret google_calendar_id
+  client_secret: !secret google_calendar_secret
+
+api:
+
+remote:
+  - platform: harmony
+    host: 192.168.1.51
+    name: Living Room Harmony Hub
+  - platform: harmony
+    host: 192.168.1.50
+    name: Theater Room Harmony Hub 
+
+ifttt:
+  key: !secret ifttt_key
+  
+ecobee:
+  api_key: !secret ecobee_api_key
+  
+nest:
+  client_id: !secret nest_client_id
+  client_secret: !secret nest_secret
+
+media_player:
+  - platform: braviatv_psk
+    name: Living Room TV
+    host: 192.168.1.80
+    psk: 1234
+    mac: 04:5D:4B:AA:70:89
+    amp: True
+    android: True
+  - platform: vizio
+    host: 192.168.1.82
+    access_token: Z6xoq7pviz
+    name: Theater Room TV Control
+  - platform: vizio
+    host: 192.168.1.84
+    access_token: Zbo7pxfs55
+    name: Bedroom TV Control
+    
+person:
+  - name: Paul
+    id: Paul
+    user_id: 2d95d022b9a644298260725f09d734a0
+    device_trackers:
+      - device_tracker.paul
+      - device_tracker.google_maps_118013912887885302155
+  - name: Tracy
+    id: Tracy
+    user_id: c05370f5a00b40c580b69f01f68a6ee8
+    device_trackers:
+      - device_tracker.tracy
+      - device_tracker.google_maps_116112519745623760034
+
+input_number:
+  commute_start_time:
+    name: Commute Start Time
+    min: 0
+    max: 100000000000
+
+light:
+  - platform: template
+    lights:
+      alexa_virtual:
+        friendly_name: "Alexa Dummy Light"
+        turn_on:
+        turn_off:
+        set_level:
+  - platform: switch
+    name: Sconce Light
+    entity_id: switch.sconce_light
+  - platform: switch
+    name: Stairwell Light
+    entity_id: switch.stairwell_light
+  - platform: switch
+    name: Christmas Tree
+    entity_id: switch.living_room_plug_two
+
+# Zigbee
+zha:
+  usb_path: /dev/ttyUSB1
+  database_path: /home/homeassistant/.homeassistant/zigbee.db
+
+# Zwave
+zwave:
+  usb_path: /dev/ttyUSB0
+  network_key: !secret zwave_network_key
+  autoheal: false
+  polling_interval: 30000
+  device_config:
+    light.bedroom_ceiling_light:
+      polling_intensity: 1
+      refresh_value: True
+      delay: 3
+    light.frog_ceiling_light:
+      polling_intensity: 1
+      refresh_value: True
+      delay: 3
+    light.hallway_light:
+      polling_intensity: 1
+      refresh_value: True
+      delay: 3
+    light.frog_fan_light:
+      polling_intensity: 1
+      refresh_value: True
+      delay: 3
+    light.kitchen_counter_light:
+      polling_intensity: 1
+      refresh_value: True
+      delay: 3
+    light.kitchen_island_light:
+      polling_intensity: 1
+      refresh_value: True
+      delay: 3
+    light.living_room_ceiling_light:
+      polling_intensity: 1
+      refresh_value: True
+      delay: 3
+    light.living_room_fan_light:
+      polling_intensity: 1
+      refresh_value: True
+      delay: 3
+    light.guest_bedroom_light:
+      polling_intensity: 1
+      refresh_value: True
+      delay: 3
+    light.ashleys_room_ceiling_light:
+      polling_intensity: 1
+      refresh_value: True
+      delay: 3
+
+ffmpeg:
+#  ffmpeg_bin: /usr/bin/avconv
+
+image_processing:
+ - platform: tensorflow
+   scan_interval: 20000
+   source:
+     - entity_id: camera.back_gate
+   file_out:
+      - "/home/homeassistant/.homeassistant/www/tmp/{{ camera_entity.split('.')[1] }}_latest.jpg"
+   model:
+     graph: /home/homeassistant/.homeassistant/tensorflow/faster_rcnn_inception_v2_coco_2018_01_28/frozen_inference_graph.pb
+#     graph: /home/homeassistant/.homeassistant/tensorflow/ssd_mobilenet_v2_coco_2018_03_29/frozen_inference_graph.pb
+     area:
+       # Exclude top 16% of image
+       top: 0.16
+       # Exclude left 38% of image
+       left: 0.38
+       # Exclude right 18% of image
+       right: 0.82
+       # Exclude right 30% of image
+       bottom: 0.70
+ - platform: tensorflow
+   scan_interval: 20000
+   source:
+     - entity_id: camera.back_gate
+   file_out:
+      - "/home/homeassistant/.homeassistant/www/tmp/{{ camera_entity.split('.')[1] }}_yard_latest.jpg"
+   model:
+     graph: /home/homeassistant/.homeassistant/tensorflow/faster_rcnn_inception_v2_coco_2018_01_28/frozen_inference_graph.pb
+#     graph: /home/homeassistant/.homeassistant/tensorflow/ssd_mobilenet_v2_coco_2018_03_29/frozen_inference_graph.pb
+     area:
+       # Exclude top 34% of image
+       top: 0.34
+       # Exclude left 30% of image
+       left: 0.30
+       # Exclude right 10% of image
+       right: 0.90
+ - platform: tensorflow
+   scan_interval: 20000
+   source:
+     - entity_id: camera.front_door
+   file_out:
+      - "/home/homeassistant/.homeassistant/www/tmp/{{ camera_entity.split('.')[1] }}_latest.jpg"
+   model:
+     graph: /home/homeassistant/.homeassistant/tensorflow/faster_rcnn_inception_v2_coco_2018_01_28/frozen_inference_graph.pb
+#     graph: /home/homeassistant/.homeassistant/tensorflow/ssd_mobilenet_v2_coco_2018_03_29/frozen_inference_graph.pb
+     area:
+       # Exclude left 5% of image
+       left: 0.05
+
+ios:
+  push:
+    categories:
+      - name: Garage Alert
+        identifier: 'garage_alert'
+        actions:
+          - identifier: 'CANCEL_GARAGE_ALERT'
+            title: 'Cancel Alert'
+          - identifier: 'CLOSE_GARAGE'
+            title: 'Close Garage'
+      - name: Shopping Alert
+        identifier: 'shopping_alert'
+        actions:
+          - identifier: 'CANCEL_SHOPPING_ALERT'
+            title: 'No'
+          - identifier: 'OPEN_GARAGE_WHEN_I_GET_HOME'
+            title: 'Yes'
+timer:
+  guests_just_arrived:
+    duration: '00:07:00'
+  paul_just_arrived:
+    duration: '00:07:00'
+  tracy_just_arrived:
+    duration: '00:07:00'
+  frog_tv_reset:
+    duration: '00:05:00'
+  camera_action:
+    duration: '00:00:30'
+
+switch:
+  - platform: command_line
+    switches:
+      last_echo_used:
+        command_on: "/home/homeassistant/.homeassistant/alexa_remote_control.sh -lastalexa"
+        command_off: ""
+
+logbook: !include logbook.yaml
+alexa: !include alexa.yaml
+notify: !include notify.yaml
+zone: !include zones.yaml
+binary_sensor: !include binary_sensors.yaml
+sensor: !include sensors.yaml
+input_select: !include input_selects.yaml
+input_text: !include input_texts.yaml
+input_datetime: !include input_datetimes.yaml
+input_boolean: !include input_booleans.yaml
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
+alert: !include alerts.yaml
+history: !include history.yaml
+camera: !include cameras.yaml
+scene: !include scenes.yaml

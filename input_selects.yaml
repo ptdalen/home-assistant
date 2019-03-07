@@ -1,0 +1,20 @@
+  house_mode:
+      name: Mode
+      options:
+          - Home
+          - Away
+          - Night
+          - Extended Away
+
+  security_system:
+      name: Security System
+      options:
+          - Disarmed
+          - Armed (Home)
+          - Armed (Away)
+  work_location:
+      name: Work Location
+      options:
+          - Avis
+          - Base
+          - CACI

@@ -1,0 +1,35 @@
+
+- cal_id: bj7651qel3ntrcq4vaqda13uuk@group.calendar.google.com
+  entities:
+  - device_id: home_assistant
+    ignore_availability: true
+    name: Home Assistant
+    track: true
+
+- cal_id: hjr6uggnssrea443sp5pnlkcho@group.calendar.google.com
+  entities:
+  - device_id: shared_family_calendar
+    ignore_availability: true
+    name: Shared Family Calendar
+    track: true
+
+- cal_id: dalenberg@gmail.com
+  entities:
+  - device_id: paul_dalenberg
+    ignore_availability: true
+    name: Paul Dalenberg
+    track: true
+
+- cal_id: '#contacts@group.v.calendar.google.com'
+  entities:
+  - device_id: contacts
+    ignore_availability: true
+    name: Contacts
+    track: true
+
+- cal_id: en.usa#holiday@group.v.calendar.google.com
+  entities:
+  - device_id: holidays_in_united_states
+    ignore_availability: true
+    name: Holidays in United States
+    track: true

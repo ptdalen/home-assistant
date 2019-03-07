@@ -1,0 +1,343 @@
+# - platform: hikvision
+#   host: 192.168.1.100
+#   port: 80
+#   ssl: false
+#   username: admin
+#   password: !secret camera_nvr_password
+#   customize:
+#     binary_sensor.driveway_1_field_detection:
+#       ignored: true
+#     binary_sensor.driveway_1_tamper_detection:
+#       ignored: true
+#     binary_sensor.driveway_2_field_detection:
+#       ignored: true
+#     binary_sensor.driveway_2_tamper_detection:
+#       ignored: true
+#     binary_sensor.sideyard_field_detection:
+#       ignored: true
+#     binary_sensor.sideyard_tamper_detection:
+#       ignored: true
+#     binary_sensor.backyard_field_detection:
+#       ignored: true
+#     binary_sensor.backyard_tamper_detection:
+#       ignored: true
+ - platform: hikvision
+   host: 192.168.1.100
+   port: 65002
+   ssl: False
+   username: hass
+   password: !secret camera_nvr_password
+ - platform: hikvision
+   host: 192.168.1.100
+   port: 65003
+   ssl: False
+   username: hass
+   password: !secret camera_nvr_password
+ - platform: hikvision
+   host: 192.168.1.100
+   port: 65004
+   ssl: False
+   username: hass
+   password: !secret camera_nvr_password
+ - platform: hikvision
+   host: 192.168.1.100
+   port: 65005
+   ssl: False
+   username: hass
+   password: !secret camera_nvr_password
+ - platform: ffmpeg_motion
+   input: !secret camera_url_1
+   name: Front Door Camera Motion
+   extra_arguments: -pred 1 -q:v 2
+   changes: 10
+   reset: 30
+# - platform: hikvision
+#   host: 192.168.1.101
+#   port: 80
+#   ssl: False
+#   name: doorbell camera
+#   username: admin
+#   password: !secret camera_nvr_password
+
+ - platform: template
+   sensors:
+     garage_fridge_cold:
+       value_template: "{{ states('sensor.temp_garage_fridge') | float < 40.0 }}"
+       entity_id: sensor.temp_garage_fridge
+       device_class: cold
+
+     motion_delay_kitchen:
+       friendly_name: Kitchen Lighting motion delay
+       value_template: "{{ is_state('binary_sensor.motion_sensor_kitchen_motion', 'on') }}"
+       delay_off:
+         seconds: 30
+       entity_id: binary_sensor.motion_sensor_kitchen_motion
+       device_class: motion
+
+     motion_delay_office:
+       friendly_name: Office Lighting motion delay
+       value_template: "{{ is_state('binary_sensor.motion_sensor_office_motion', 'on') }}"
+       delay_off:
+         seconds: 30
+       entity_id: binary_sensor.motion_sensor_office_motion
+       device_class: motion
+
+     motion_delay_frog:
+       friendly_name: FROG Lighting motion delay
+       value_template: "{{ is_state('binary_sensor.motion_sensor_frog', 'on') }}"
+       delay_off:
+         seconds: 60
+       entity_id: binary_sensor.motion_sensor_frog
+       device_class: motion
+
+     motion_delay_hallway:
+       friendly_name: Hallway Lighting motion delay
+       value_template: "{{ is_state('binary_sensor.motion_sensor_hallway_motion', 'on') }}"
+       delay_off:
+         seconds: 90
+       entity_id: binary_sensor.motion_sensor_hallway_motion
+       device_class: motion
+
+     motion_delay_living_room:
+       friendly_name: Living Room Lighting motion delay
+       value_template: "{{ is_state('binary_sensor.motion_sensor_living_room_motion', 'on') }}"
+       delay_off:
+         seconds: 60
+       entity_id: binary_sensor.motion_sensor_living_room_motion
+       device_class: motion
+
+     motion_delay_driveway:
+       friendly_name: Driveway motion delay
+       value_template: "{{ is_state('binary_sensor.driveway_1_motion', 'on') }}"
+       delay_off:
+         seconds: 20
+       entity_id: binary_sensor.driveway_1_motion
+       device_class: motion
+       
+     motion_delay_front_door:
+       friendly_name: Front Door motion delay
+       value_template: "{{ is_state('binary_sensor.front_door_camera_motion', 'on') }}"
+       delay_off:
+         seconds: 20
+       entity_id: binary_sensor.front_door_camera_motion
+       device_class: motion
+
+     motion_delay_backyard:
+       friendly_name: Backyard motion delay
+       value_template: "{{ is_state('binary_sensor.backyard_motion', 'on') }}"
+       delay_off:
+         seconds: 20
+       entity_id: binary_sensor.backyard_motion
+       device_class: motion
+
+     homekit_presence_paul:
+       friendly_name: "Paul"
+       device_class: presence
+       value_template: >-
+         {{ is_state('input_boolean.paul_present', 'on') }}     
+       entity_id: input_boolean.paul_present
+
+     homekit_presence_tracy:
+       friendly_name: "Tracy"
+       device_class: presence
+       value_template: >-
+         {{ is_state('input_boolean.tracy_present', 'on') }}
+       entity_id: input_boolean.tracy_present
+
+     dark_outside:
+       value_template: "{{ is_state('sun.sun', 'below_horizon') }}"
+       friendly_name: "Dark Outside"
+
+     people_home:
+       friendly_name: People Home
+       device_class: presence
+       value_template: >
+         {{ is_state('group.primary_presence', 'on') or
+            is_state('input_boolean.guests_present', 'on') or
+            is_state('group.extra_device_trackers', 'home')  }}
+       entity_id: group.primary_presence,input_boolean.guests_present,group.extra_device_trackers
+
+     attic_smoke_detector_smoke:
+       value_template: "{{ is_state('sensor.smoke_detector_attic_alarm_type', '1') }}"
+       friendly_name: "Attic Smoke Detector - Smoke"
+       device_class: smoke
+       entity_id: sensor.smoke_detector_attic_alarm_type
+
+     attic_smoke_detector_co2:
+       value_template: "{{ is_state('sensor.smoke_detector_attic_alarm_type', '2') }}"
+       friendly_name: "Attic Smoke Detector - CO2"
+       device_class: gas
+       entity_id: sensor.smoke_detector_attic_alarm_type
+       
+     attic_smoke_detector_testing:
+       value_template: "{{ is_state('sensor.smoke_detector_attic_alarm_type', '12') }}"
+       friendly_name: "Attic Smoke Detector - Testing"
+       entity_id: sensor.smoke_detector_attic_alarm_type
+       
+     open_close_sensor_office_window:
+       value_template: "{{ is_state('sensor.office_window_sensor_alarm_level', '255') }}"
+       friendly_name: "Office Window"
+       device_class: window
+       entity_id: sensor.office_window_sensor_alarm_level
+
+     open_close_sensor_livingroom_window_back:
+       value_template: "{{ is_state('sensor.living_room_window_sensor_alarm_level', '255') }}"
+       friendly_name: "Living Room Back Window"
+       device_class: window
+       entity_id: sensor.living_room_window_sensor_alarm_level
+
+     motion_sensor_frog_old:
+       value_template: "{{ is_state('sensor.motion_sensor_frog_alarm_level', '255') }}"
+       friendly_name: "Motion Sensor (Old)"
+       device_class: motion
+       entity_id: sensor.motion_sensor_frog_alarm_level
+       
+     motion_sensor_front_door_motion:
+       value_template: "{{ is_state('sensor.motion_sensor_front_door_motion', '8') }}"
+       friendly_name: "Motion Sensor (Front Door)"
+       device_class: motion
+       entity_id: sensor.motion_sensor_front_door_motion
+
+     motion_sensor_living_room_motion:
+       value_template: "{{ is_state('sensor.motion_sensor_living_room_motion', '8') }}"
+       friendly_name: "Motion Sensor (Living Room)"
+       device_class: motion
+       entity_id: sensor.motion_sensor_living_room_motion
+
+     motion_sensor_hallway_motion:
+       value_template: "{{ is_state('sensor.motion_sensor_hallway_motion', '8') }}"
+       friendly_name: "Motion Sensor (Hallway)"
+       device_class: motion
+       entity_id: sensor.motion_sensor_hallway_motion
+       
+     doors_unlocked:
+       value_template: >
+         {% set locks = [ states.lock.lock_back_door_lock, states.lock.lock_front_door_lock, states.lock.lock_garage_door_lock ] %}
+         {% set unlocked = locks | selectattr('state','eq','unlocked') | list %}
+         {{ unlocked | length >= 1 }}
+       friendly_name: 'Are doors unlocked?'
+
+     zigbee_offline:
+       value_template: >
+         {% set offline = states.zha | selectattr('state','eq','offline') | list %}
+         {{ offline | length >= 1 }}
+       friendly_name: 'Zigbee Devices Offline?'
+       entity_id: zha.bedroom_tv_lights,zha.frog_couch_backlight,zha.motion_sensor_closet,zha.motion_sensor_garage,zha.motion_sensor_hallway,zha.motion_sensor_kitchen,zha.motion_sensor_office,zha.motion_sensor_sensor_living_room,zha.open_close_sensor_back_door,zha.open_close_sensor_front_door,zha.open_close_sensor_garage_door,zha.open_close_sensor_garage_fridge,zha.open_close_sensor_livingroom_window_front,zha.water_sensor_kitchen,zha.zigbee_zwave_repeater_1,zha.zigbee_zwave_repeater_2
+
+     objects_in_parking_pad:
+       friendly_name: Objects in backyard
+       value_template: "{{ states('image_processing.tensorflow_back_gate') | float >= 1 }}"
+       entity_id: image_processing.tensorflow_back_gate
+
+     person_in_parking_pad:
+       friendly_name: Person in Backyard
+       value_template: >
+         {% set m = state_attr('image_processing.tensorflow_back_gate', 'matches') %}
+         {{ m.person is defined and (m.person[0].score) | float >= 80 }}
+       entity_id: image_processing.tensorflow_back_gate
+
+     vehicle_in_parking_pad:
+       friendly_name: Vehicle in Parking Pad
+       value_template: >
+         {% set m = state_attr('image_processing.tensorflow_back_gate', 'matches') %}
+         {{ m.truck is defined and (m.truck[0].score) | float >= 80 or m.car is defined and (m.car[0].score) | float >= 80 or m.bike is defined and (m.bike[0].score) | float >= 80 }}
+       entity_id: image_processing.tensorflow_back_gate
+
+     objects_in_backyard:
+       friendly_name: Objects in backyard
+       value_template: "{{ states('image_processing.tensorflow_back_gate_2') | float >= 1 }}"
+       entity_id: image_processing.tensorflow_back_gate_2
+
+     person_in_backyard:
+       friendly_name: Person in Backyard
+       value_template: >
+         {% set m = state_attr('image_processing.tensorflow_back_gate_2', 'matches') %}
+         {{ m.person is defined and (m.person[0].score) | float >= 80 }}
+       entity_id: image_processing.tensorflow_back_gate_2
+
+     objects_in_driveway:
+       friendly_name: Objects in driveway
+       value_template: "{{ states('image_processing.tensorflow_front_door') | float >= 1 }}"
+       entity_id: image_processing.tensorflow_front_door
+
+     person_in_driveway:
+       friendly_name: Person in Drivway
+       value_template: >
+         {% set m = state_attr('image_processing.tensorflow_front_door', 'matches') %}
+         {{ m.person is defined and (m.person[0].score) | float >= 80 }}
+       entity_id: image_processing.tensorflow_front_door
+
+     vehicle_in_driveway:
+       friendly_name: Vehicle in Driveway
+       value_template: >
+         {% set m = state_attr('image_processing.tensorflow_front_door', 'matches') %}
+         {{ m.truck is defined and (m.truck[0].score) | float >= 80 or m.car is defined and (m.car[0].score) | float >= 80 or m.bike is defined and (m.bike[0].score) | float >= 80 }}
+       entity_id: image_processing.tensorflow_front_door
+
+ - platform: workday
+   country: 'UnitedStates'
+   workdays: [mon, tue, wed, thu, fri]
+
+ - platform: bayesian
+   prior: 0.6
+   name: Paul Presence
+   probability_threshold: 0.92
+#   device_class: presence
+   observations:
+   - entity_id: 'input_boolean.paul_present'
+     prob_given_true: 0.8
+     prob_given_false: 0.3
+     platform: 'state'
+     to_state: 'on'
+   - entity_id: 'device_tracker.pauls_iphone_2'
+     prob_given_true: 0.8
+     prob_given_false: 0.3
+     platform: 'state'
+     to_state: 'home'
+   - entity_id: 'device_tracker.pauls_iphone'
+     prob_given_true: 0.8
+     prob_given_false: 0.3
+     platform: 'state'
+     to_state: 'home'
+   - entity_id: 'device_tracker.google_maps_118013912887885302155'
+     prob_given_true: 0.8
+     prob_given_false: 0.3
+     platform: 'state'
+     to_state: 'home'
+   - entity_id: 'device_tracker.paul'
+     prob_given_true: 0.8
+     prob_given_false: 0.3
+     platform: 'state'
+     to_state: 'home'
+
+ - platform: bayesian
+   prior: 0.6
+   name: Tracy Presence
+   probability_threshold: 0.92
+#   device_class: presence
+   observations:
+   - entity_id: 'input_boolean.tracy_present'
+     prob_given_true: 0.8
+     prob_given_false: 0.3
+     platform: 'state'
+     to_state: 'on'
+   - entity_id: 'device_tracker.tracys_iphone_2'
+     prob_given_true: 0.8
+     prob_given_false: 0.3
+     platform: 'state'
+     to_state: 'home'
+   - entity_id: 'device_tracker.tracys_iphone'
+     prob_given_true: 0.8
+     prob_given_false: 0.3
+     platform: 'state'
+     to_state: 'home'
+   - entity_id: 'device_tracker.google_maps_116112519745623760034'
+     prob_given_true: 0.8
+     prob_given_false: 0.3
+     platform: 'state'
+     to_state: 'home'
+   - entity_id: 'device_tracker.tracy'
+     prob_given_true: 0.8
+     prob_given_false: 0.3
+     platform: 'state'
+     to_state: 'home'

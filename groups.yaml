@@ -1,0 +1,261 @@
+livingroom:
+  name: Living Room
+  view: no
+  control: hidden
+  entities:
+    - light.left_shelf_lights
+    - light.living_room_ceiling_light
+    - light.living_room_fan_light
+    - light.living_room_lamp_one
+    - light.living_room_lamp_two
+    - light.right_shelf_lights
+    - light.tv_backlights
+    - fan.living_room_fan
+    - switch.fireplace
+    - switch.living_room_plug_one
+    - switch.living_room_plug_three
+    - switch.living_room_plug_two
+    - switch.sconce_light
+    - switch.zigbee_zwave_repeater_2
+    - switch.stairwell_light
+    - media_player.living_room
+    - media_player.living_room_tv
+    - remote.living_room_harmony_hub
+
+kitchen_office:
+  name: Kitchen and Office
+  view: no
+  control: hidden
+  entities:
+    - light.alcove_light
+    - light.kitchen_cabinet_bottoms
+    - light.kitchen_cabinet_tops
+    - light.kitchen_counter_light
+    - light.kitchen_island_light
+    - light.office_lamp_two
+    - light.office_fan_light
+    - switch.office_lamp_one
+    - switch.front_door_entry
+
+master_bedroom:
+  name: Master Bedroom
+  view: no
+  control: hidden
+  entities:
+    - light.bedroom_ceiling_light
+    - light.bedroom_lamp_one
+    - light.bedroom_lamp_two
+    - light.bedroom_tv_lights
+    - switch.bedroom_fan
+    - switch.closet_light
+    - media_player.bedroom_tv_control
+
+guest_rooms:
+  name: Master Bedroom
+  view: no
+  control: hidden
+  entities:
+    - light.ashleys_room_ceiling_light
+    - light.ashleys_room_lamp
+    - light.guest_bedroom_lamp
+    - light.guest_bedroom_light
+    - light.hallway_light
+    - light.zigbee_zwave_repeater_1
+
+theater_room:
+  name: Theater Room
+  view: no
+  control: hidden
+  entities:
+    - light.frog_ceiling_light
+    - light.frog_couch_backlight
+    - light.frog_fan_light
+    - fan.frog_fan
+    - switch.lava_lamp_plug
+    - switch.lava_lamp_two
+    - media_player.theater_room_tv_cast
+    - media_player.theater_room_tv_control
+    - remote.theater_room_harmony_hub
+
+outdoor:
+  name: Outdoors
+  view: no
+  control: hidden
+  entities:
+    - switch.back_porch_light
+    - switch.front_porch_light
+    - switch.garage_light_indoor
+    - switch.garage_light_outdoor
+    - switch.lamp_post
+    - switch.rope_lights
+
+outdoor_lights_sunset:
+  name: Outdoor Lights for sunset
+  view: no
+  entities:
+    - switch.rope_lights
+    - switch.front_porch_light
+    - switch.garage_light_outdoor
+    - switch.lamp_post
+
+goodbye_lights_and_switches:
+  name: Turn off everything except outdoor lights
+  view: no
+  icon: mdi:lightbulb-outline
+  entities:
+    - group.livingroom
+    - group.kitchen_office
+    - group.master_bedroom
+    - group.guest_rooms
+    - group.theater_room
+
+good_night_lights:
+  view: no
+  icon: mdi:home-automation
+  entities:
+#    - group.livingroom
+#    - group.kitchen_office
+#    - group.guest_rooms
+#    - switch.rope_lights
+    - light.left_shelf_lights
+    - light.living_room_lamp_one
+    - light.living_room_lamp_two
+    - light.right_shelf_lights
+    - light.tv_backlights
+    - light.alcove_light
+    - light.kitchen_cabinet_bottoms
+    - light.kitchen_cabinet_tops
+    - light.office_lamp_two
+    - light.ashleys_room_lamp
+    - light.guest_bedroom_lamp
+    - light.living_room_ceiling_light
+    - light.living_room_fan_light
+    - light.kitchen_counter_light
+    - light.kitchen_island_light
+    - light.ashleys_room_ceiling_light
+    - light.guest_bedroom_light
+    - light.hallway_light
+    - switch.fireplace
+    - switch.living_room_plug_one
+    - switch.living_room_plug_three
+    - switch.living_room_plug_two
+    - switch.sconce_light
+    - switch.stairwell_light
+    - switch.office_lamp_one
+    - switch.front_door_entry
+    - switch.rope_lights
+    - fan.living_room_fan
+    - switch.zigbee_zwave_repeater_2
+    - light.zigbee_zwave_repeater_1
+    - media_player.living_room
+    - media_player.living_room_tv
+    - remote.living_room_harmony_hub
+
+kitchen_zwave_lights:
+  name: Kitchen Dimmers
+  view: no
+  entities:
+    - light.kitchen_counter_light
+    - light.kitchen_island_light
+
+office_lights:
+  name: Office
+  view: no
+  control: hidden
+  entities:
+    - light.office_lamp_two
+    - switch.office_lamp_one
+
+color_hue_lights:
+  name: Color Hue Lights
+  view: no
+  control: hidden
+  entities:
+    - light.left_shelf_lights
+    - light.tv_backlights
+    - light.right_shelf_lights
+    - light.kitchen_cabinet_tops
+    - light.kitchen_cabinet_bottoms
+    - light.living_room_lamp_one
+    - light.living_room_lamp_two
+    - light.alcove_light
+
+indoor_motion_sensors:
+  name: Motion Sensors
+  view: no
+  control: hidden
+  entities:
+    - binary_sensor.motion_sensor_frog
+    - binary_sensor.motion_sensor_front_door_motion
+    - binary_sensor.motion_sensor_garage_motion
+    - binary_sensor.motion_sensor_hallway_motion
+    - binary_sensor.motion_sensor_living_room_motion
+    - binary_sensor.motion_sensor_office_motion
+
+# Only for Primary People (aka Paul and Tracy)
+primary_presence:
+  name: Primary Presence for Routines
+  icon: mdi:account-multiple
+  view: no
+  entities:
+    - binary_sensor.paul_presence
+    - binary_sensor.tracy_presence
+
+# Add guests here who are staying over
+extra_device_trackers:
+  name: Guest Presence Sensors
+  icon: mdi:account-multiple
+  view: no
+  entities:
+    - device_tracker.carolsiphone
+    - device_tracker.jimsiphone
+
+router_connections:
+  name: Things on the Network
+  view: no
+  icon: mdi:router-wireless
+  entities:
+    - device_tracker.pauls_iphone
+    - device_tracker.tracys_iphone 
+    - device_tracker.ecobee_downstairs
+    - device_tracker.ecobee_upstairs
+    - device_tracker.front_doorbell_camera
+    - device_tracker.harmony_hub_living_room
+    - device_tracker.harmonyhub_frog
+    - device_tracker.hue_hub
+    - device_tracker.office_pc
+    - device_tracker.plexserver
+    - device_tracker.slingbox
+    - device_tracker.sonos_sub_living_room
+    - device_tracker.sonos_playbar_living_room
+    - device_tracker.sony_tv_living_room
+
+all_zigbee:
+  name: Zigbee Devices
+  view: no
+  icon: mdi:lock-outline
+  entities:
+    - zha.bedroom_tv_lights
+    - zha.frog_couch_backlight
+    - zha.motion_sensor_closet
+    - zha.motion_sensor_garage
+    - zha.motion_sensor_hallway
+    - zha.motion_sensor_kitchen
+    - zha.motion_sensor_office
+    - zha.motion_sensor_sensor_living_room
+    - zha.open_close_sensor_back_door
+    - zha.open_close_sensor_front_door
+    - zha.open_close_sensor_garage_door
+    - zha.open_close_sensor_garage_fridge
+    - zha.open_close_sensor_livingroom_window_front
+    - zha.water_sensor_kitchen
+    - zha.zigbee_zwave_repeater_1
+    - zha.zigbee_zwave_repeater_2
+
+thermostats:
+  name: Thermostats
+  view: No
+  icon: mdi:garage
+  entities:
+    - device_tracker.ecobee_downstairs
+    - device_tracker.ecobee_upstairs
