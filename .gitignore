@@ -9,6 +9,10 @@
 !.gitignore
 !*.md
 !*packages
+!*custom_components
+!*.js
+!*.css
+!*.txt
 
 # Ignore folders.
 .storage
