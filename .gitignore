@@ -8,6 +8,7 @@
 !*.yaml
 !.gitignore
 !*.md
+!*packages
 
 # Ignore folders.
 .storage
