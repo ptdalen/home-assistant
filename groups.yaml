@@ -12,7 +12,7 @@ livingroom:
     - light.tv_backlights
     - fan.living_room_fan
     - switch.fireplace
-    - switch.living_room_plug_one
+#    - switch.living_room_plug_one
     - switch.living_room_plug_three
     - switch.living_room_plug_two
     - switch.sconce_light
@@ -136,7 +136,7 @@ good_night_lights:
     - light.guest_bedroom_light
     - light.hallway_light
     - switch.fireplace
-    - switch.living_room_plug_one
+#    - switch.living_room_plug_one
     - switch.living_room_plug_three
     - switch.living_room_plug_two
     - switch.sconce_light

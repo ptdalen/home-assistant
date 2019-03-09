@@ -152,6 +152,10 @@ input_number:
     name: Commute Start Time
     min: 0
     max: 100000000000
+  vehicles_in_driveway:
+    name: vehicles in driveway
+    min: 0
+    max: 6
 
 light:
   - platform: template
@@ -224,7 +228,7 @@ zwave:
       refresh_value: True
       delay: 3
 
-ffmpeg:
+#ffmpeg:
 #  ffmpeg_bin: /usr/bin/avconv
 
 image_processing:
@@ -245,7 +249,7 @@ image_processing:
        # Exclude right 18% of image
        right: 0.82
        # Exclude right 30% of image
-       bottom: 0.70
+       bottom: 0.40
  - platform: tensorflow
    scan_interval: 20000
    source:

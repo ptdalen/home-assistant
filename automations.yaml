@@ -198,6 +198,18 @@
     entity_id:
       - image_processing.tensorflow_front_door
       - image_processing.tensorflow_back_gate
+      - image_processing.tensorflow_back_gate_2
+  - delay:
+      seconds: 20
+  - service: input_number.set_value
+    data_template:
+      entity_id: input_number.vehicles_in_driveway
+      value:  >-
+        {% if states('image_processing.tensorflow_back_gate.state')| int  > 0  %}
+          {{(states.image_processing.tensorflow_back_gate.state)}}
+        {% else %}
+          0
+        {% endif %}
   - condition: numeric_state
     entity_id: sun.sun
     value_template: '{{ state.attributes.elevation }}'
@@ -538,7 +550,7 @@
     from: 'on'
     to: 'off'
     for:
-      seconds: 30
+      seconds: 10
   action:
   - service: switch.turn_off
     entity_id: switch.closet_light
@@ -1598,9 +1610,9 @@
   - platform: state
     entity_id: binary_sensor.motion_delay_driveway
     to: 'on'
-  - platform: state
-    entity_id: binary_sensor.motion_delay_front_door
-    to: 'on'
+#  - platform: state
+#    entity_id: binary_sensor.motion_delay_front_door
+#    to: 'on'
   condition:
   - condition: template
     value_template: '{{ as_timestamp(now()) - as_timestamp(states.automation.cameras_driveway_analysis.attributes.last_triggered) | int > 30 }}'
@@ -1611,7 +1623,7 @@
 - alias: 'Cameras Driveway Analysis part 2'
   trigger:
   - platform: state
-    entity_id: binary_sensor.driveway_1_motion
+    entity_id: binary_sensor.motion_delay_driveway
     to: 'off'
   action:
   - service: image_processing.scan
@@ -1712,12 +1724,11 @@
   - condition: numeric_state
     entity_id: sensor.ha_runtime_in_minutes
     above: 3
-  - condition: state
-    entity_id: binary_sensor.vehicle_in_parking_pad
-    state: 'on'
-  - condition: state
-    entity_id: binary_sensor.person_in_parking_pad
-    state: 'off'
+#  - condition: state
+#    entity_id: binary_sensor.vehicle_in_parking_pad
+#    state: 'on'
+  - condition: template
+    value_template: '{{(states.image_processing.tensorflow_back_gate.state)| int  > (states.input_number.vehicles_in_driveway.state)| int }}'
   - condition: state
     entity_id: binary_sensor.people_home
     state: 'off'
@@ -1799,13 +1810,15 @@
       title: "Person Detected (Back Yard)"
       message: "{{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}"
       data:
-        file: '/home/homeassistant/.homeassistant/www/tmp/back_gate_latest.jpg'
+        file: '/home/homeassistant/.homeassistant/www/tmp/back_gate_yard_latest.jpg'
 
 - alias: 'Cameras Notify if vehicle in parking pad while away'
   trigger:
-  - platform: state
-    entity_id: binary_sensor.vehicle_in_parking_pad
-    to: 'on'
+#  - platform: state
+#    entity_id: binary_sensor.vehicle_in_parking_pad
+#    to: 'on'
+  - platform: template
+    value_template: '{{(states.image_processing.tensorflow_back_gate.state)| int  > (states.input_number.vehicles_in_driveway.state)| int }}'
   condition:
   - condition: numeric_state
     entity_id: sensor.ha_runtime_in_minutes

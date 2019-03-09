@@ -45,16 +45,16 @@
    ssl: False
    username: hass
    password: !secret camera_nvr_password
- - platform: ffmpeg_motion
-   input: !secret camera_url_1
-   name: Front Door Camera Motion
-   extra_arguments: -pred 1 -q:v 2
-   changes: 10
-   reset: 30
+# - platform: ffmpeg_motion
+#   input: !secret camera_url_1
+#   name: Front Door Camera Motion
+#   extra_arguments: -pred 1 -q:v 2
+#   changes: 10
+#   reset: 30
 # - platform: hikvision
 #   host: 192.168.1.101
-#   port: 80
-#   ssl: False
+#   port: 443
+#   ssl: true
 #   name: doorbell camera
 #   username: admin
 #   password: !secret camera_nvr_password
@@ -230,7 +230,7 @@
        entity_id: image_processing.tensorflow_back_gate
 
      person_in_parking_pad:
-       friendly_name: Person in Backyard
+       friendly_name: Person in Parking Pad
        value_template: >
          {% set m = state_attr('image_processing.tensorflow_back_gate', 'matches') %}
          {{ m.person is defined and (m.person[0].score) | float >= 80 }}
@@ -240,7 +240,7 @@
        friendly_name: Vehicle in Parking Pad
        value_template: >
          {% set m = state_attr('image_processing.tensorflow_back_gate', 'matches') %}
-         {{ m.truck is defined and (m.truck[0].score) | float >= 80 or m.car is defined and (m.car[0].score) | float >= 80 or m.bike is defined and (m.bike[0].score) | float >= 80 }}
+         {{ m.van is defined and (m.van[0].score) | float >= 80 or m.truck is defined and (m.truck[0].score) | float >= 80 or m.car is defined and (m.car[0].score) | float >= 80 or m.bike is defined and (m.bike[0].score) | float >= 80 }}
        entity_id: image_processing.tensorflow_back_gate
 
      objects_in_backyard:
@@ -271,7 +271,7 @@
        friendly_name: Vehicle in Driveway
        value_template: >
          {% set m = state_attr('image_processing.tensorflow_front_door', 'matches') %}
-         {{ m.truck is defined and (m.truck[0].score) | float >= 80 or m.car is defined and (m.car[0].score) | float >= 80 or m.bike is defined and (m.bike[0].score) | float >= 80 }}
+         {{ m.van is defined and (m.van[0].score) | float >= 80 or m.truck is defined and (m.truck[0].score) | float >= 80 or m.car is defined and (m.car[0].score) | float >= 80 or m.bike is defined and (m.bike[0].score) | float >= 80 }}
        entity_id: image_processing.tensorflow_front_door
 
  - platform: workday
