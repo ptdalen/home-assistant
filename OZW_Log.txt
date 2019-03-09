@@ -15531,3 +15531,407 @@
 2019-03-09 10:18:51.070 Detail, 
 2019-03-09 10:18:51.070 Detail, Node101, Removing current message
 2019-03-09 10:18:51.070 Detail, Node101, Notification: ValueChanged
+2019-03-09 10:19:21.080 Detail, Node125, Polling: COMMAND_CLASS_SWITCH_MULTILEVEL index = 0 instance = 1 (poll queue has 0 messages)
+2019-03-09 10:19:21.080 Detail, Node125, Queuing (Poll) SwitchMultilevelCmd_Get (Node=125): 0x01, 0x09, 0x00, 0x13, 0x7d, 0x02, 0x26, 0x02, 0x25, 0xf9, 0x62
+2019-03-09 10:19:21.080 Detail, 
+2019-03-09 10:19:21.080 Info, Node125, Sending (Poll) message (Callback ID=0xf9, Expected Reply=0x04) - SwitchMultilevelCmd_Get (Node=125): 0x01, 0x09, 0x00, 0x13, 0x7d, 0x02, 0x26, 0x02, 0x25, 0xf9, 0x62
+2019-03-09 10:19:21.086 Detail, Node125,   Received: 0x01, 0x04, 0x01, 0x13, 0x01, 0xe8
+2019-03-09 10:19:21.087 Detail, Node125,   ZW_SEND_DATA delivered to Z-Wave stack
+2019-03-09 10:19:21.124 Detail, Node125,   Received: 0x01, 0x05, 0x00, 0x13, 0xf9, 0x00, 0x10
+2019-03-09 10:19:21.124 Detail, Node125,   ZW_SEND_DATA Request with callback ID 0xf9 received (expected 0xf9)
+2019-03-09 10:19:21.124 Info, Node125, Request RTT 43 Average Request RTT 43
+2019-03-09 10:19:21.124 Detail,   Expected callbackId was received
+2019-03-09 10:19:21.193 Detail, Node125,   Received: 0x01, 0x09, 0x00, 0x04, 0x00, 0x7d, 0x03, 0x26, 0x03, 0x00, 0xa9
+2019-03-09 10:19:21.193 Detail, 
+2019-03-09 10:19:21.193 Info, Node125, Response RTT 112 Average Response RTT 115
+2019-03-09 10:19:21.193 Info, Node125, Received SwitchMultiLevel report: level=0
+2019-03-09 10:19:21.193 Detail, Node125, Refreshed Value: old value=0, new value=0, type=byte
+2019-03-09 10:19:21.193 Detail, Node125, Changes to this value are not verified
+2019-03-09 10:19:21.193 Detail, Node125,   Expected reply and command class was received
+2019-03-09 10:19:21.193 Detail, Node125,   Message transaction complete
+2019-03-09 10:19:21.193 Detail, 
+2019-03-09 10:19:21.193 Detail, Node125, Removing current message
+2019-03-09 10:19:21.193 Detail, Node125, Notification: ValueChanged
+2019-03-09 10:19:23.196 Detail, Node089,   Received: 0x01, 0x08, 0x00, 0x04, 0x00, 0x59, 0x02, 0x98, 0x40, 0x70
+2019-03-09 10:19:23.197 Info, Node089, Received SecurityCmd_NonceGet from node 89
+2019-03-09 10:19:23.197 Info, NONCES: 0xbf, 0x09, 0xb8, 0x59, 0xdf, 0x48, 0x8d, 0xac
+2019-03-09 10:19:23.197 Info, NONCES: 0x85, 0xe5, 0x3d, 0xac, 0xb9, 0x76, 0xc9, 0x2d
+2019-03-09 10:19:23.197 Info, NONCES: 0x37, 0x62, 0xc7, 0x21, 0x03, 0x25, 0xbe, 0x87
+2019-03-09 10:19:23.197 Info, NONCES: 0xd6, 0x27, 0xac, 0x52, 0x58, 0x88, 0x75, 0xa3
+2019-03-09 10:19:23.197 Info, NONCES: 0xb7, 0x75, 0x8a, 0x01, 0x44, 0x31, 0xb1, 0x71
+2019-03-09 10:19:23.197 Info, NONCES: 0x19, 0xcf, 0xe1, 0xfc, 0x85, 0x48, 0x2e, 0x5b
+2019-03-09 10:19:23.197 Info, NONCES: 0x9a, 0xf7, 0x1b, 0xde, 0x28, 0xcd, 0x50, 0x65
+2019-03-09 10:19:23.197 Info, NONCES: 0xe5, 0xe6, 0x0a, 0x6b, 0x2f, 0x38, 0xc7, 0x9f
+2019-03-09 10:19:23.197 Info, Node089, Sending (Poll) message (Callback ID=0x01, Expected Reply=0x00) - Nonce_Report - 0x01, 0x11, 0x00, 0x13, 0x59, 0x0a, 0x98, 0x80, 0x37, 0x62, 0xc7, 0x21, 0x03, 0x25, 0xbe, 0x87, 0x05, 0x01, 0x1e:
+2019-03-09 10:19:23.204 Detail,   Received: 0x01, 0x04, 0x01, 0x13, 0x01, 0xe8
+2019-03-09 10:19:23.205 Detail,   ZW_SEND_DATA delivered to Z-Wave stack
+2019-03-09 10:19:23.226 Detail,   Received: 0x01, 0x05, 0x00, 0x13, 0x01, 0x00, 0xe8
+2019-03-09 10:19:23.226 Detail,   ZW_SEND_DATA Request with callback ID 0x01 received (expected 0x01)
+2019-03-09 10:19:23.247 Detail, Node089,   Received: 0x01, 0x1d, 0x00, 0x04, 0x00, 0x59, 0x17, 0x98, 0x81, 0xb3, 0xfa, 0xbb, 0x8f, 0xa8, 0x7c, 0x70, 0xd9, 0xb9, 0xc0, 0xbc, 0x1a, 0x37, 0x72, 0x70, 0xcb, 0xca, 0x29, 0xe3, 0xdd, 0xcf, 0x82
+2019-03-09 10:19:23.247 Info, Raw: 0x98, 0x81, 0xb3, 0xfa, 0xbb, 0x8f, 0xa8, 0x7c, 0x70, 0xd9, 0xb9, 0xc0, 0xbc, 0x1a, 0x37, 0x72, 0x70, 0xcb, 0xca, 0x29, 0xe3, 0xdd, 0xcf, 0x82
+2019-03-09 10:19:23.247 Detail, Node089, Decrypted Packet: 0x00, 0x20, 0x01, 0x00
+2019-03-09 10:19:23.247 Detail, 
+2019-03-09 10:19:23.247 Info, Node089, Received Basic set from node 89: level=0. Treating it as a Basic report.
+2019-03-09 10:19:23.247 Detail, Node089, Refreshed Value: old value=255, new value=0, type=byte
+2019-03-09 10:19:23.247 Detail, Node089, Changes to this value are not verified
+2019-03-09 10:19:23.247 Detail, Node089, Notification: ValueChanged
+2019-03-09 10:19:23.266 Detail, Node089,   Received: 0x01, 0x08, 0x00, 0x04, 0x00, 0x59, 0x02, 0x98, 0x40, 0x70
+2019-03-09 10:19:23.266 Info, Node089, Received SecurityCmd_NonceGet from node 89
+2019-03-09 10:19:23.266 Info, NONCES: 0xbf, 0x09, 0xb8, 0x59, 0xdf, 0x48, 0x8d, 0xac
+2019-03-09 10:19:23.266 Info, NONCES: 0x85, 0xe5, 0x3d, 0xac, 0xb9, 0x76, 0xc9, 0x2d
+2019-03-09 10:19:23.266 Info, NONCES: 0x37, 0x62, 0xc7, 0x21, 0x03, 0x25, 0xbe, 0x87
+2019-03-09 10:19:23.266 Info, NONCES: 0x86, 0x3f, 0x39, 0x8a, 0xe5, 0xd8, 0x3c, 0x6a
+2019-03-09 10:19:23.266 Info, NONCES: 0xb7, 0x75, 0x8a, 0x01, 0x44, 0x31, 0xb1, 0x71
+2019-03-09 10:19:23.266 Info, NONCES: 0x19, 0xcf, 0xe1, 0xfc, 0x85, 0x48, 0x2e, 0x5b
+2019-03-09 10:19:23.266 Info, NONCES: 0x9a, 0xf7, 0x1b, 0xde, 0x28, 0xcd, 0x50, 0x65
+2019-03-09 10:19:23.266 Info, NONCES: 0xe5, 0xe6, 0x0a, 0x6b, 0x2f, 0x38, 0xc7, 0x9f
+2019-03-09 10:19:23.266 Info, Node089, Sending (Poll) message (Callback ID=0x01, Expected Reply=0x00) - Nonce_Report - 0x01, 0x11, 0x00, 0x13, 0x59, 0x0a, 0x98, 0x80, 0x86, 0x3f, 0x39, 0x8a, 0xe5, 0xd8, 0x3c, 0x6a, 0x05, 0x01, 0xd3:
+2019-03-09 10:19:23.273 Detail,   Received: 0x01, 0x04, 0x01, 0x13, 0x01, 0xe8
+2019-03-09 10:19:23.273 Detail,   ZW_SEND_DATA delivered to Z-Wave stack
+2019-03-09 10:19:23.294 Detail,   Received: 0x01, 0x05, 0x00, 0x13, 0x01, 0x00, 0xe8
+2019-03-09 10:19:23.294 Detail,   ZW_SEND_DATA Request with callback ID 0x01 received (expected 0x01)
+2019-03-09 10:19:23.319 Detail, Node089,   Received: 0x01, 0x25, 0x00, 0x04, 0x00, 0x59, 0x1f, 0x98, 0x81, 0x9b, 0xad, 0x38, 0xa3, 0x16, 0x80, 0x3c, 0x0c, 0x31, 0x98, 0x07, 0x98, 0x25, 0x27, 0x20, 0x4f, 0x6c, 0xad, 0xfb, 0xb1, 0x86, 0xcf, 0x3c, 0x30, 0x0e, 0x3c, 0x6d, 0xe9, 0xff, 0x56
+2019-03-09 10:19:23.319 Info, Raw: 0x98, 0x81, 0x9b, 0xad, 0x38, 0xa3, 0x16, 0x80, 0x3c, 0x0c, 0x31, 0x98, 0x07, 0x98, 0x25, 0x27, 0x20, 0x4f, 0x6c, 0xad, 0xfb, 0xb1, 0x86, 0xcf, 0x3c, 0x30, 0x0e, 0x3c, 0x6d, 0xe9, 0xff, 0x56
+2019-03-09 10:19:23.319 Detail, Node089, Decrypted Packet: 0x00, 0x71, 0x05, 0x07, 0x00, 0x00, 0xff, 0x07, 0x00, 0x01, 0x08, 0x00
+2019-03-09 10:19:23.319 Detail, 
+2019-03-09 10:19:23.319 Info, Node089, Received Alarm report: type=7, level=0, sensorSrcID=0, type:Burglar event:0, status=255
+2019-03-09 10:19:23.319 Detail, Node089, Refreshed Value: old value=7, new value=7, type=byte
+2019-03-09 10:19:23.319 Detail, Node089, Changes to this value are not verified
+2019-03-09 10:19:23.319 Detail, Node089, Refreshed Value: old value=255, new value=0, type=byte
+2019-03-09 10:19:23.319 Detail, Node089, Changes to this value are not verified
+2019-03-09 10:19:23.319 Detail, Node089, Refreshed Value: old value=0, new value=0, type=byte
+2019-03-09 10:19:23.319 Detail, Node089, Changes to this value are not verified
+2019-03-09 10:19:23.319 Detail, Node089, Refreshed Value: old value=254, new value=0, type=byte
+2019-03-09 10:19:23.319 Detail, Node089, Changes to this value are not verified
+2019-03-09 10:19:23.319 Detail, Node089, Notification: ValueChanged
+2019-03-09 10:19:23.327 Detail, Node089, Notification: ValueChanged
+2019-03-09 10:19:23.334 Detail, Node089, Notification: ValueChanged
+2019-03-09 10:19:23.338 Detail, Node089, Notification: ValueChanged
+2019-03-09 10:19:24.203 Info, mgr,     Refreshing node 125: COMMAND_CLASS_SWITCH_MULTILEVEL index = 0 instance = 1 (to confirm a reported change)
+2019-03-09 10:19:24.203 Detail, Node125, Queuing (Send) SwitchMultilevelCmd_Get (Node=125): 0x01, 0x09, 0x00, 0x13, 0x7d, 0x02, 0x26, 0x02, 0x25, 0xfa, 0x61
+2019-03-09 10:19:24.203 Detail, 
+2019-03-09 10:19:24.203 Info, Node125, Sending (Send) message (Callback ID=0xfa, Expected Reply=0x04) - SwitchMultilevelCmd_Get (Node=125): 0x01, 0x09, 0x00, 0x13, 0x7d, 0x02, 0x26, 0x02, 0x25, 0xfa, 0x61
+2019-03-09 10:19:24.209 Detail, Node125,   Received: 0x01, 0x04, 0x01, 0x13, 0x01, 0xe8
+2019-03-09 10:19:24.209 Detail, Node125,   ZW_SEND_DATA delivered to Z-Wave stack
+2019-03-09 10:19:24.247 Detail, Node125,   Received: 0x01, 0x05, 0x00, 0x13, 0xfa, 0x00, 0x13
+2019-03-09 10:19:24.247 Detail, Node125,   ZW_SEND_DATA Request with callback ID 0xfa received (expected 0xfa)
+2019-03-09 10:19:24.247 Info, Node125, Request RTT 43 Average Request RTT 43
+2019-03-09 10:19:24.247 Detail,   Expected callbackId was received
+2019-03-09 10:19:24.323 Detail, Node125,   Received: 0x01, 0x09, 0x00, 0x04, 0x00, 0x7d, 0x03, 0x26, 0x03, 0x00, 0xa9
+2019-03-09 10:19:24.323 Detail, 
+2019-03-09 10:19:24.323 Info, Node125, Response RTT 119 Average Response RTT 117
+2019-03-09 10:19:24.323 Info, Node125, Received SwitchMultiLevel report: level=0
+2019-03-09 10:19:24.323 Detail, Node125, Refreshed Value: old value=0, new value=0, type=byte
+2019-03-09 10:19:24.323 Detail, Node125, Changes to this value are not verified
+2019-03-09 10:19:24.323 Detail, Node125,   Expected reply and command class was received
+2019-03-09 10:19:24.323 Detail, Node125,   Message transaction complete
+2019-03-09 10:19:24.323 Detail, 
+2019-03-09 10:19:24.323 Detail, Node125, Removing current message
+2019-03-09 10:19:24.323 Detail, Node125, Notification: ValueChanged
+2019-03-09 10:19:51.202 Detail, Node127, Polling: COMMAND_CLASS_SWITCH_MULTILEVEL index = 0 instance = 1 (poll queue has 0 messages)
+2019-03-09 10:19:51.203 Detail, Node127, Queuing (Poll) SwitchMultilevelCmd_Get (Node=127): 0x01, 0x09, 0x00, 0x13, 0x7f, 0x02, 0x26, 0x02, 0x25, 0xfb, 0x62
+2019-03-09 10:19:51.203 Detail, 
+2019-03-09 10:19:51.203 Info, Node127, Sending (Poll) message (Callback ID=0xfb, Expected Reply=0x04) - SwitchMultilevelCmd_Get (Node=127): 0x01, 0x09, 0x00, 0x13, 0x7f, 0x02, 0x26, 0x02, 0x25, 0xfb, 0x62
+2019-03-09 10:19:51.209 Detail, Node127,   Received: 0x01, 0x04, 0x01, 0x13, 0x01, 0xe8
+2019-03-09 10:19:51.209 Detail, Node127,   ZW_SEND_DATA delivered to Z-Wave stack
+2019-03-09 10:19:51.228 Detail, Node127,   Received: 0x01, 0x05, 0x00, 0x13, 0xfb, 0x00, 0x12
+2019-03-09 10:19:51.228 Detail, Node127,   ZW_SEND_DATA Request with callback ID 0xfb received (expected 0xfb)
+2019-03-09 10:19:51.228 Info, Node127, Request RTT 25 Average Request RTT 33
+2019-03-09 10:19:51.229 Detail,   Expected callbackId was received
+2019-03-09 10:19:51.241 Detail, Node127,   Received: 0x01, 0x09, 0x00, 0x04, 0x00, 0x7f, 0x03, 0x26, 0x03, 0x00, 0xab
+2019-03-09 10:19:51.241 Detail, 
+2019-03-09 10:19:51.241 Info, Node127, Response RTT 37 Average Response RTT 45
+2019-03-09 10:19:51.241 Info, Node127, Received SwitchMultiLevel report: level=0
+2019-03-09 10:19:51.241 Detail, Node127, Refreshed Value: old value=0, new value=0, type=byte
+2019-03-09 10:19:51.241 Detail, Node127, Changes to this value are not verified
+2019-03-09 10:19:51.241 Detail, Node127,   Expected reply and command class was received
+2019-03-09 10:19:51.241 Detail, Node127,   Message transaction complete
+2019-03-09 10:19:51.241 Detail, 
+2019-03-09 10:19:51.242 Detail, Node127, Removing current message
+2019-03-09 10:19:51.242 Detail, Node127, Notification: ValueChanged
+2019-03-09 10:19:54.253 Info, mgr,     Refreshing node 127: COMMAND_CLASS_SWITCH_MULTILEVEL index = 0 instance = 1 (to confirm a reported change)
+2019-03-09 10:19:54.254 Detail, Node127, Queuing (Send) SwitchMultilevelCmd_Get (Node=127): 0x01, 0x09, 0x00, 0x13, 0x7f, 0x02, 0x26, 0x02, 0x25, 0xfc, 0x65
+2019-03-09 10:19:54.254 Detail, 
+2019-03-09 10:19:54.254 Info, Node127, Sending (Send) message (Callback ID=0xfc, Expected Reply=0x04) - SwitchMultilevelCmd_Get (Node=127): 0x01, 0x09, 0x00, 0x13, 0x7f, 0x02, 0x26, 0x02, 0x25, 0xfc, 0x65
+2019-03-09 10:19:54.260 Detail, Node127,   Received: 0x01, 0x04, 0x01, 0x13, 0x01, 0xe8
+2019-03-09 10:19:54.260 Detail, Node127,   ZW_SEND_DATA delivered to Z-Wave stack
+2019-03-09 10:19:54.279 Detail, Node127,   Received: 0x01, 0x05, 0x00, 0x13, 0xfc, 0x00, 0x15
+2019-03-09 10:19:54.280 Detail, Node127,   ZW_SEND_DATA Request with callback ID 0xfc received (expected 0xfc)
+2019-03-09 10:19:54.280 Info, Node127, Request RTT 25 Average Request RTT 29
+2019-03-09 10:19:54.280 Detail,   Expected callbackId was received
+2019-03-09 10:19:54.292 Detail, Node127,   Received: 0x01, 0x09, 0x00, 0x04, 0x00, 0x7f, 0x03, 0x26, 0x03, 0x00, 0xab
+2019-03-09 10:19:54.292 Detail, 
+2019-03-09 10:19:54.292 Info, Node127, Response RTT 38 Average Response RTT 41
+2019-03-09 10:19:54.292 Info, Node127, Received SwitchMultiLevel report: level=0
+2019-03-09 10:19:54.292 Detail, Node127, Refreshed Value: old value=0, new value=0, type=byte
+2019-03-09 10:19:54.292 Detail, Node127, Changes to this value are not verified
+2019-03-09 10:19:54.292 Detail, Node127,   Expected reply and command class was received
+2019-03-09 10:19:54.292 Detail, Node127,   Message transaction complete
+2019-03-09 10:19:54.292 Detail, 
+2019-03-09 10:19:54.292 Detail, Node127, Removing current message
+2019-03-09 10:19:54.293 Detail, Node127, Notification: ValueChanged
+2019-03-09 10:20:21.243 Detail, Node131, Polling: COMMAND_CLASS_SWITCH_MULTILEVEL index = 0 instance = 1 (poll queue has 0 messages)
+2019-03-09 10:20:21.244 Detail, Node131, Queuing (Poll) SwitchMultilevelCmd_Get (Node=131): 0x01, 0x09, 0x00, 0x13, 0x83, 0x02, 0x26, 0x02, 0x25, 0xfd, 0x98
+2019-03-09 10:20:21.244 Detail, 
+2019-03-09 10:20:21.244 Info, Node131, Sending (Poll) message (Callback ID=0xfd, Expected Reply=0x04) - SwitchMultilevelCmd_Get (Node=131): 0x01, 0x09, 0x00, 0x13, 0x83, 0x02, 0x26, 0x02, 0x25, 0xfd, 0x98
+2019-03-09 10:20:21.250 Detail, Node131,   Received: 0x01, 0x04, 0x01, 0x13, 0x01, 0xe8
+2019-03-09 10:20:21.250 Detail, Node131,   ZW_SEND_DATA delivered to Z-Wave stack
+2019-03-09 10:20:21.287 Detail, Node131,   Received: 0x01, 0x05, 0x00, 0x13, 0xfd, 0x00, 0x14
+2019-03-09 10:20:21.288 Detail, Node131,   ZW_SEND_DATA Request with callback ID 0xfd received (expected 0xfd)
+2019-03-09 10:20:21.288 Info, Node131, Request RTT 43 Average Request RTT 43
+2019-03-09 10:20:21.288 Detail,   Expected callbackId was received
+2019-03-09 10:20:21.355 Detail, Node131,   Received: 0x01, 0x09, 0x00, 0x04, 0x00, 0x83, 0x03, 0x26, 0x03, 0x00, 0x57
+2019-03-09 10:20:21.355 Detail, 
+2019-03-09 10:20:21.355 Info, Node131, Response RTT 111 Average Response RTT 114
+2019-03-09 10:20:21.355 Info, Node131, Received SwitchMultiLevel report: level=0
+2019-03-09 10:20:21.355 Detail, Node131, Refreshed Value: old value=0, new value=0, type=byte
+2019-03-09 10:20:21.355 Detail, Node131, Changes to this value are not verified
+2019-03-09 10:20:21.356 Detail, Node131,   Expected reply and command class was received
+2019-03-09 10:20:21.356 Detail, Node131,   Message transaction complete
+2019-03-09 10:20:21.356 Detail, 
+2019-03-09 10:20:21.356 Detail, Node131, Removing current message
+2019-03-09 10:20:21.356 Detail, Node131, Notification: ValueChanged
+2019-03-09 10:20:24.368 Info, mgr,     Refreshing node 131: COMMAND_CLASS_SWITCH_MULTILEVEL index = 0 instance = 1 (to confirm a reported change)
+2019-03-09 10:20:24.368 Detail, Node131, Queuing (Send) SwitchMultilevelCmd_Get (Node=131): 0x01, 0x09, 0x00, 0x13, 0x83, 0x02, 0x26, 0x02, 0x25, 0xfe, 0x9b
+2019-03-09 10:20:24.368 Detail, 
+2019-03-09 10:20:24.369 Info, Node131, Sending (Send) message (Callback ID=0xfe, Expected Reply=0x04) - SwitchMultilevelCmd_Get (Node=131): 0x01, 0x09, 0x00, 0x13, 0x83, 0x02, 0x26, 0x02, 0x25, 0xfe, 0x9b
+2019-03-09 10:20:24.375 Detail, Node131,   Received: 0x01, 0x04, 0x01, 0x13, 0x01, 0xe8
+2019-03-09 10:20:24.375 Detail, Node131,   ZW_SEND_DATA delivered to Z-Wave stack
+2019-03-09 10:20:24.412 Detail, Node131,   Received: 0x01, 0x05, 0x00, 0x13, 0xfe, 0x00, 0x17
+2019-03-09 10:20:24.412 Detail, Node131,   ZW_SEND_DATA Request with callback ID 0xfe received (expected 0xfe)
+2019-03-09 10:20:24.412 Info, Node131, Request RTT 43 Average Request RTT 43
+2019-03-09 10:20:24.412 Detail,   Expected callbackId was received
+2019-03-09 10:20:24.485 Detail, Node131,   Received: 0x01, 0x09, 0x00, 0x04, 0x00, 0x83, 0x03, 0x26, 0x03, 0x00, 0x57
+2019-03-09 10:20:24.485 Detail, 
+2019-03-09 10:20:24.485 Info, Node131, Response RTT 116 Average Response RTT 115
+2019-03-09 10:20:24.485 Info, Node131, Received SwitchMultiLevel report: level=0
+2019-03-09 10:20:24.486 Detail, Node131, Refreshed Value: old value=0, new value=0, type=byte
+2019-03-09 10:20:24.486 Detail, Node131, Changes to this value are not verified
+2019-03-09 10:20:24.486 Detail, Node131,   Expected reply and command class was received
+2019-03-09 10:20:24.486 Detail, Node131,   Message transaction complete
+2019-03-09 10:20:24.486 Detail, 
+2019-03-09 10:20:24.486 Detail, Node131, Removing current message
+2019-03-09 10:20:24.486 Detail, Node131, Notification: ValueChanged
+2019-03-09 10:20:51.366 Detail, Node004, Polling: COMMAND_CLASS_SWITCH_MULTILEVEL index = 0 instance = 1 (poll queue has 0 messages)
+2019-03-09 10:20:51.366 Detail, Node004, Queuing (Poll) SwitchMultilevelCmd_Get (Node=4): 0x01, 0x09, 0x00, 0x13, 0x04, 0x02, 0x26, 0x02, 0x25, 0xff, 0x1d
+2019-03-09 10:20:51.366 Detail, 
+2019-03-09 10:20:51.366 Info, Node004, Sending (Poll) message (Callback ID=0xff, Expected Reply=0x04) - SwitchMultilevelCmd_Get (Node=4): 0x01, 0x09, 0x00, 0x13, 0x04, 0x02, 0x26, 0x02, 0x25, 0xff, 0x1d
+2019-03-09 10:20:51.373 Detail, Node004,   Received: 0x01, 0x04, 0x01, 0x13, 0x01, 0xe8
+2019-03-09 10:20:51.373 Detail, Node004,   ZW_SEND_DATA delivered to Z-Wave stack
+2019-03-09 10:20:51.395 Detail, Node004,   Received: 0x01, 0x05, 0x00, 0x13, 0xff, 0x00, 0x16
+2019-03-09 10:20:51.395 Detail, Node004,   ZW_SEND_DATA Request with callback ID 0xff received (expected 0xff)
+2019-03-09 10:20:51.395 Info, Node004, Request RTT 28 Average Request RTT 28
+2019-03-09 10:20:51.395 Detail,   Expected callbackId was received
+2019-03-09 10:20:51.410 Detail, Node004,   Received: 0x01, 0x09, 0x00, 0x04, 0x00, 0x04, 0x03, 0x26, 0x03, 0x00, 0xd0
+2019-03-09 10:20:51.410 Detail, 
+2019-03-09 10:20:51.410 Info, Node004, Response RTT 43 Average Response RTT 45
+2019-03-09 10:20:51.410 Info, Node004, Received SwitchMultiLevel report: level=0
+2019-03-09 10:20:51.410 Detail, Node004, Refreshed Value: old value=0, new value=0, type=byte
+2019-03-09 10:20:51.410 Detail, Node004, Changes to this value are not verified
+2019-03-09 10:20:51.410 Detail, Node004,   Expected reply and command class was received
+2019-03-09 10:20:51.410 Detail, Node004,   Message transaction complete
+2019-03-09 10:20:51.411 Detail, 
+2019-03-09 10:20:51.411 Detail, Node004, Removing current message
+2019-03-09 10:20:51.411 Detail, Node004, Notification: ValueChanged
+2019-03-09 10:20:54.419 Info, mgr,     Refreshing node 4: COMMAND_CLASS_SWITCH_MULTILEVEL index = 0 instance = 1 (to confirm a reported change)
+2019-03-09 10:20:54.420 Detail, Node004, Queuing (Send) SwitchMultilevelCmd_Get (Node=4): 0x01, 0x09, 0x00, 0x13, 0x04, 0x02, 0x26, 0x02, 0x25, 0x0a, 0xe8
+2019-03-09 10:20:54.420 Detail, 
+2019-03-09 10:20:54.420 Info, Node004, Sending (Send) message (Callback ID=0x0a, Expected Reply=0x04) - SwitchMultilevelCmd_Get (Node=4): 0x01, 0x09, 0x00, 0x13, 0x04, 0x02, 0x26, 0x02, 0x25, 0x0a, 0xe8
+2019-03-09 10:20:54.426 Detail, Node004,   Received: 0x01, 0x04, 0x01, 0x13, 0x01, 0xe8
+2019-03-09 10:20:54.426 Detail, Node004,   ZW_SEND_DATA delivered to Z-Wave stack
+2019-03-09 10:20:54.448 Detail, Node004,   Received: 0x01, 0x05, 0x00, 0x13, 0x0a, 0x00, 0xe3
+2019-03-09 10:20:54.448 Detail, Node004,   ZW_SEND_DATA Request with callback ID 0x0a received (expected 0x0a)
+2019-03-09 10:20:54.448 Info, Node004, Request RTT 28 Average Request RTT 28
+2019-03-09 10:20:54.448 Detail,   Expected callbackId was received
+2019-03-09 10:20:54.464 Detail, Node004,   Received: 0x01, 0x09, 0x00, 0x04, 0x00, 0x04, 0x03, 0x26, 0x03, 0x00, 0xd0
+2019-03-09 10:20:54.464 Detail, 
+2019-03-09 10:20:54.464 Info, Node004, Response RTT 43 Average Response RTT 44
+2019-03-09 10:20:54.464 Info, Node004, Received SwitchMultiLevel report: level=0
+2019-03-09 10:20:54.464 Detail, Node004, Refreshed Value: old value=0, new value=0, type=byte
+2019-03-09 10:20:54.464 Detail, Node004, Changes to this value are not verified
+2019-03-09 10:20:54.464 Detail, Node004,   Expected reply and command class was received
+2019-03-09 10:20:54.464 Detail, Node004,   Message transaction complete
+2019-03-09 10:20:54.464 Detail, 
+2019-03-09 10:20:54.464 Detail, Node004, Removing current message
+2019-03-09 10:20:54.464 Detail, Node004, Notification: ValueChanged
+2019-03-09 10:21:21.417 Detail, Node006, Polling: COMMAND_CLASS_SWITCH_MULTILEVEL index = 0 instance = 1 (poll queue has 0 messages)
+2019-03-09 10:21:21.417 Detail, Node006, Queuing (Poll) SwitchMultilevelCmd_Get (Node=6): 0x01, 0x09, 0x00, 0x13, 0x06, 0x02, 0x26, 0x02, 0x25, 0x0b, 0xeb
+2019-03-09 10:21:21.418 Detail, 
+2019-03-09 10:21:21.418 Info, Node006, Sending (Poll) message (Callback ID=0x0b, Expected Reply=0x04) - SwitchMultilevelCmd_Get (Node=6): 0x01, 0x09, 0x00, 0x13, 0x06, 0x02, 0x26, 0x02, 0x25, 0x0b, 0xeb
+2019-03-09 10:21:21.424 Detail, Node006,   Received: 0x01, 0x04, 0x01, 0x13, 0x01, 0xe8
+2019-03-09 10:21:21.424 Detail, Node006,   ZW_SEND_DATA delivered to Z-Wave stack
+2019-03-09 10:21:21.472 Detail, Node006,   Received: 0x01, 0x05, 0x00, 0x13, 0x0b, 0x00, 0xe2
+2019-03-09 10:21:21.472 Detail, Node006,   ZW_SEND_DATA Request with callback ID 0x0b received (expected 0x0b)
+2019-03-09 10:21:21.473 Info, Node006, Request RTT 54 Average Request RTT 54
+2019-03-09 10:21:21.473 Detail,   Expected callbackId was received
+2019-03-09 10:21:21.526 Detail, Node006,   Received: 0x01, 0x09, 0x00, 0x04, 0x00, 0x06, 0x03, 0x26, 0x03, 0x00, 0xd2
+2019-03-09 10:21:21.527 Detail, 
+2019-03-09 10:21:21.527 Info, Node006, Response RTT 108 Average Response RTT 107
+2019-03-09 10:21:21.527 Info, Node006, Received SwitchMultiLevel report: level=0
+2019-03-09 10:21:21.527 Detail, Node006, Refreshed Value: old value=0, new value=0, type=byte
+2019-03-09 10:21:21.527 Detail, Node006, Changes to this value are not verified
+2019-03-09 10:21:21.527 Detail, Node006,   Expected reply and command class was received
+2019-03-09 10:21:21.527 Detail, Node006,   Message transaction complete
+2019-03-09 10:21:21.527 Detail, 
+2019-03-09 10:21:21.527 Detail, Node006, Removing current message
+2019-03-09 10:21:21.527 Detail, Node006, Notification: ValueChanged
+2019-03-09 10:21:24.531 Info, mgr,     Refreshing node 6: COMMAND_CLASS_SWITCH_MULTILEVEL index = 0 instance = 1 (to confirm a reported change)
+2019-03-09 10:21:24.531 Detail, Node006, Queuing (Send) SwitchMultilevelCmd_Get (Node=6): 0x01, 0x09, 0x00, 0x13, 0x06, 0x02, 0x26, 0x02, 0x25, 0x0c, 0xec
+2019-03-09 10:21:24.531 Detail, 
+2019-03-09 10:21:24.531 Info, Node006, Sending (Send) message (Callback ID=0x0c, Expected Reply=0x04) - SwitchMultilevelCmd_Get (Node=6): 0x01, 0x09, 0x00, 0x13, 0x06, 0x02, 0x26, 0x02, 0x25, 0x0c, 0xec
+2019-03-09 10:21:24.537 Detail, Node006,   Received: 0x01, 0x04, 0x01, 0x13, 0x01, 0xe8
+2019-03-09 10:21:24.538 Detail, Node006,   ZW_SEND_DATA delivered to Z-Wave stack
+2019-03-09 10:21:24.586 Detail, Node006,   Received: 0x01, 0x05, 0x00, 0x13, 0x0c, 0x00, 0xe5
+2019-03-09 10:21:24.587 Detail, Node006,   ZW_SEND_DATA Request with callback ID 0x0c received (expected 0x0c)
+2019-03-09 10:21:24.587 Info, Node006, Request RTT 55 Average Request RTT 54
+2019-03-09 10:21:24.587 Detail,   Expected callbackId was received
+2019-03-09 10:21:24.641 Detail, Node006,   Received: 0x01, 0x09, 0x00, 0x04, 0x00, 0x06, 0x03, 0x26, 0x03, 0x00, 0xd2
+2019-03-09 10:21:24.641 Detail, 
+2019-03-09 10:21:24.641 Info, Node006, Response RTT 109 Average Response RTT 108
+2019-03-09 10:21:24.641 Info, Node006, Received SwitchMultiLevel report: level=0
+2019-03-09 10:21:24.641 Detail, Node006, Refreshed Value: old value=0, new value=0, type=byte
+2019-03-09 10:21:24.641 Detail, Node006, Changes to this value are not verified
+2019-03-09 10:21:24.641 Detail, Node006,   Expected reply and command class was received
+2019-03-09 10:21:24.641 Detail, Node006,   Message transaction complete
+2019-03-09 10:21:24.641 Detail, 
+2019-03-09 10:21:24.641 Detail, Node006, Removing current message
+2019-03-09 10:21:24.641 Detail, Node006, Notification: ValueChanged
+2019-03-09 10:21:51.530 Detail, Node013, Polling: COMMAND_CLASS_SWITCH_MULTILEVEL index = 0 instance = 1 (poll queue has 0 messages)
+2019-03-09 10:21:51.530 Detail, Node013, Queuing (Poll) SwitchMultilevelCmd_Get (Node=13): 0x01, 0x09, 0x00, 0x13, 0x0d, 0x02, 0x26, 0x02, 0x25, 0x0d, 0xe6
+2019-03-09 10:21:51.530 Detail, 
+2019-03-09 10:21:51.530 Info, Node013, Sending (Poll) message (Callback ID=0x0d, Expected Reply=0x04) - SwitchMultilevelCmd_Get (Node=13): 0x01, 0x09, 0x00, 0x13, 0x0d, 0x02, 0x26, 0x02, 0x25, 0x0d, 0xe6
+2019-03-09 10:21:51.536 Detail, Node013,   Received: 0x01, 0x04, 0x01, 0x13, 0x01, 0xe8
+2019-03-09 10:21:51.536 Detail, Node013,   ZW_SEND_DATA delivered to Z-Wave stack
+2019-03-09 10:21:51.584 Detail, Node013,   Received: 0x01, 0x05, 0x00, 0x13, 0x0d, 0x00, 0xe4
+2019-03-09 10:21:51.585 Detail, Node013,   ZW_SEND_DATA Request with callback ID 0x0d received (expected 0x0d)
+2019-03-09 10:21:51.585 Info, Node013, Request RTT 54 Average Request RTT 54
+2019-03-09 10:21:51.585 Detail,   Expected callbackId was received
+2019-03-09 10:21:51.638 Detail, Node013,   Received: 0x01, 0x09, 0x00, 0x04, 0x00, 0x0d, 0x03, 0x26, 0x03, 0x00, 0xd9
+2019-03-09 10:21:51.638 Detail, 
+2019-03-09 10:21:51.638 Info, Node013, Response RTT 107 Average Response RTT 106
+2019-03-09 10:21:51.638 Info, Node013, Received SwitchMultiLevel report: level=0
+2019-03-09 10:21:51.638 Detail, Node013, Refreshed Value: old value=0, new value=0, type=byte
+2019-03-09 10:21:51.638 Detail, Node013, Changes to this value are not verified
+2019-03-09 10:21:51.638 Detail, Node013,   Expected reply and command class was received
+2019-03-09 10:21:51.638 Detail, Node013,   Message transaction complete
+2019-03-09 10:21:51.638 Detail, 
+2019-03-09 10:21:51.638 Detail, Node013, Removing current message
+2019-03-09 10:21:51.638 Detail, Node013, Notification: ValueChanged
+2019-03-09 10:21:54.643 Info, mgr,     Refreshing node 13: COMMAND_CLASS_SWITCH_MULTILEVEL index = 0 instance = 1 (to confirm a reported change)
+2019-03-09 10:21:54.643 Detail, Node013, Queuing (Send) SwitchMultilevelCmd_Get (Node=13): 0x01, 0x09, 0x00, 0x13, 0x0d, 0x02, 0x26, 0x02, 0x25, 0x0e, 0xe5
+2019-03-09 10:21:54.643 Detail, 
+2019-03-09 10:21:54.643 Info, Node013, Sending (Send) message (Callback ID=0x0e, Expected Reply=0x04) - SwitchMultilevelCmd_Get (Node=13): 0x01, 0x09, 0x00, 0x13, 0x0d, 0x02, 0x26, 0x02, 0x25, 0x0e, 0xe5
+2019-03-09 10:21:54.649 Detail, Node013,   Received: 0x01, 0x04, 0x01, 0x13, 0x01, 0xe8
+2019-03-09 10:21:54.650 Detail, Node013,   ZW_SEND_DATA delivered to Z-Wave stack
+2019-03-09 10:21:54.698 Detail, Node013,   Received: 0x01, 0x05, 0x00, 0x13, 0x0e, 0x00, 0xe7
+2019-03-09 10:21:54.698 Detail, Node013,   ZW_SEND_DATA Request with callback ID 0x0e received (expected 0x0e)
+2019-03-09 10:21:54.698 Info, Node013, Request RTT 54 Average Request RTT 54
+2019-03-09 10:21:54.698 Detail,   Expected callbackId was received
+2019-03-09 10:21:54.752 Detail, Node013,   Received: 0x01, 0x09, 0x00, 0x04, 0x00, 0x0d, 0x03, 0x26, 0x03, 0x00, 0xd9
+2019-03-09 10:21:54.752 Detail, 
+2019-03-09 10:21:54.752 Info, Node013, Response RTT 108 Average Response RTT 107
+2019-03-09 10:21:54.752 Info, Node013, Received SwitchMultiLevel report: level=0
+2019-03-09 10:21:54.752 Detail, Node013, Refreshed Value: old value=0, new value=0, type=byte
+2019-03-09 10:21:54.752 Detail, Node013, Changes to this value are not verified
+2019-03-09 10:21:54.752 Detail, Node013,   Expected reply and command class was received
+2019-03-09 10:21:54.752 Detail, Node013,   Message transaction complete
+2019-03-09 10:21:54.752 Detail, 
+2019-03-09 10:21:54.753 Detail, Node013, Removing current message
+2019-03-09 10:21:54.753 Detail, Node013, Notification: ValueChanged
+2019-03-09 10:21:56.840 Detail, Node089,   Received: 0x01, 0x08, 0x00, 0x04, 0x00, 0x59, 0x02, 0x98, 0x40, 0x70
+2019-03-09 10:21:56.840 Info, Node089, Received SecurityCmd_NonceGet from node 89
+2019-03-09 10:21:56.840 Info, NONCES: 0xbf, 0x09, 0xb8, 0x59, 0xdf, 0x48, 0x8d, 0xac
+2019-03-09 10:21:56.841 Info, NONCES: 0x85, 0xe5, 0x3d, 0xac, 0xb9, 0x76, 0xc9, 0x2d
+2019-03-09 10:21:56.841 Info, NONCES: 0x37, 0x62, 0xc7, 0x21, 0x03, 0x25, 0xbe, 0x87
+2019-03-09 10:21:56.841 Info, NONCES: 0x86, 0x3f, 0x39, 0x8a, 0xe5, 0xd8, 0x3c, 0x6a
+2019-03-09 10:21:56.841 Info, NONCES: 0xbd, 0x7a, 0x17, 0x76, 0xf0, 0xe1, 0xa3, 0x44
+2019-03-09 10:21:56.841 Info, NONCES: 0x19, 0xcf, 0xe1, 0xfc, 0x85, 0x48, 0x2e, 0x5b
+2019-03-09 10:21:56.841 Info, NONCES: 0x9a, 0xf7, 0x1b, 0xde, 0x28, 0xcd, 0x50, 0x65
+2019-03-09 10:21:56.841 Info, NONCES: 0xe5, 0xe6, 0x0a, 0x6b, 0x2f, 0x38, 0xc7, 0x9f
+2019-03-09 10:21:56.841 Info, Node089, Sending (Send) message (Callback ID=0x01, Expected Reply=0x00) - Nonce_Report - 0x01, 0x11, 0x00, 0x13, 0x59, 0x0a, 0x98, 0x80, 0xbd, 0x7a, 0x17, 0x76, 0xf0, 0xe1, 0xa3, 0x44, 0x05, 0x01, 0xe2:
+2019-03-09 10:21:56.848 Detail,   Received: 0x01, 0x04, 0x01, 0x13, 0x01, 0xe8
+2019-03-09 10:21:56.848 Detail,   ZW_SEND_DATA delivered to Z-Wave stack
+2019-03-09 10:21:56.869 Detail,   Received: 0x01, 0x05, 0x00, 0x13, 0x01, 0x00, 0xe8
+2019-03-09 10:21:56.869 Detail,   ZW_SEND_DATA Request with callback ID 0x01 received (expected 0x01)
+2019-03-09 10:21:56.890 Detail, Node089,   Received: 0x01, 0x1d, 0x00, 0x04, 0x00, 0x59, 0x17, 0x98, 0x81, 0xf0, 0x7a, 0xd0, 0xe6, 0xd9, 0xdb, 0xfa, 0x01, 0xa9, 0x86, 0xc2, 0x81, 0xbd, 0xfe, 0xdc, 0x73, 0x40, 0xba, 0x84, 0x54, 0xc2, 0x9c
+2019-03-09 10:21:56.890 Info, Raw: 0x98, 0x81, 0xf0, 0x7a, 0xd0, 0xe6, 0xd9, 0xdb, 0xfa, 0x01, 0xa9, 0x86, 0xc2, 0x81, 0xbd, 0xfe, 0xdc, 0x73, 0x40, 0xba, 0x84, 0x54, 0xc2, 0x9c
+2019-03-09 10:21:56.890 Detail, Node089, Decrypted Packet: 0x00, 0x20, 0x01, 0xff
+2019-03-09 10:21:56.891 Detail, 
+2019-03-09 10:21:56.891 Info, Node089, Received Basic set from node 89: level=255. Treating it as a Basic report.
+2019-03-09 10:21:56.891 Detail, Node089, Refreshed Value: old value=0, new value=255, type=byte
+2019-03-09 10:21:56.891 Detail, Node089, Changes to this value are not verified
+2019-03-09 10:21:56.891 Detail, Node089, Notification: ValueChanged
+2019-03-09 10:21:56.909 Detail, Node089,   Received: 0x01, 0x08, 0x00, 0x04, 0x00, 0x59, 0x02, 0x98, 0x40, 0x70
+2019-03-09 10:21:56.910 Info, Node089, Received SecurityCmd_NonceGet from node 89
+2019-03-09 10:21:56.910 Info, NONCES: 0xbf, 0x09, 0xb8, 0x59, 0xdf, 0x48, 0x8d, 0xac
+2019-03-09 10:21:56.910 Info, NONCES: 0x85, 0xe5, 0x3d, 0xac, 0xb9, 0x76, 0xc9, 0x2d
+2019-03-09 10:21:56.910 Info, NONCES: 0x37, 0x62, 0xc7, 0x21, 0x03, 0x25, 0xbe, 0x87
+2019-03-09 10:21:56.910 Info, NONCES: 0x86, 0x3f, 0x39, 0x8a, 0xe5, 0xd8, 0x3c, 0x6a
+2019-03-09 10:21:56.910 Info, NONCES: 0xbd, 0x7a, 0x17, 0x76, 0xf0, 0xe1, 0xa3, 0x44
+2019-03-09 10:21:56.910 Info, NONCES: 0x47, 0x72, 0x75, 0x4d, 0x96, 0xe0, 0x83, 0xf8
+2019-03-09 10:21:56.910 Info, NONCES: 0x9a, 0xf7, 0x1b, 0xde, 0x28, 0xcd, 0x50, 0x65
+2019-03-09 10:21:56.910 Info, NONCES: 0xe5, 0xe6, 0x0a, 0x6b, 0x2f, 0x38, 0xc7, 0x9f
+2019-03-09 10:21:56.910 Info, Node089, Sending (Send) message (Callback ID=0x01, Expected Reply=0x00) - Nonce_Report - 0x01, 0x11, 0x00, 0x13, 0x59, 0x0a, 0x98, 0x80, 0x47, 0x72, 0x75, 0x4d, 0x96, 0xe0, 0x83, 0xf8, 0x05, 0x01, 0xb2:
+2019-03-09 10:21:56.917 Detail,   Received: 0x01, 0x04, 0x01, 0x13, 0x01, 0xe8
+2019-03-09 10:21:56.917 Detail,   ZW_SEND_DATA delivered to Z-Wave stack
+2019-03-09 10:21:56.938 Detail,   Received: 0x01, 0x05, 0x00, 0x13, 0x01, 0x00, 0xe8
+2019-03-09 10:21:56.938 Detail,   ZW_SEND_DATA Request with callback ID 0x01 received (expected 0x01)
+2019-03-09 10:21:56.962 Detail, Node089,   Received: 0x01, 0x24, 0x00, 0x04, 0x00, 0x59, 0x1e, 0x98, 0x81, 0xb2, 0x65, 0x5a, 0x75, 0x18, 0xb6, 0xbd, 0x94, 0x49, 0x0c, 0x29, 0x11, 0x20, 0xce, 0x77, 0x85, 0x16, 0xbe, 0x01, 0x47, 0x34, 0xef, 0x51, 0x3a, 0xa8, 0x61, 0x54, 0x59, 0x05
+2019-03-09 10:21:56.962 Info, Raw: 0x98, 0x81, 0xb2, 0x65, 0x5a, 0x75, 0x18, 0xb6, 0xbd, 0x94, 0x49, 0x0c, 0x29, 0x11, 0x20, 0xce, 0x77, 0x85, 0x16, 0xbe, 0x01, 0x47, 0x34, 0xef, 0x51, 0x3a, 0xa8, 0x61, 0x54, 0x59, 0x05
+2019-03-09 10:21:56.962 Detail, Node089, Decrypted Packet: 0x00, 0x71, 0x05, 0x07, 0xff, 0x00, 0xff, 0x07, 0x08, 0x00, 0x00
+2019-03-09 10:21:56.962 Detail, 
+2019-03-09 10:21:56.962 Info, Node089, Received Alarm report: type=7, level=255, sensorSrcID=0, type:Burglar event:8, status=255
+2019-03-09 10:21:56.962 Detail, Node089, Refreshed Value: old value=7, new value=7, type=byte
+2019-03-09 10:21:56.962 Detail, Node089, Changes to this value are not verified
+2019-03-09 10:21:56.962 Detail, Node089, Refreshed Value: old value=0, new value=255, type=byte
+2019-03-09 10:21:56.962 Detail, Node089, Changes to this value are not verified
+2019-03-09 10:21:56.962 Detail, Node089, Refreshed Value: old value=0, new value=0, type=byte
+2019-03-09 10:21:56.962 Detail, Node089, Changes to this value are not verified
+2019-03-09 10:21:56.962 Detail, Node089, Refreshed Value: old value=0, new value=8, type=byte
+2019-03-09 10:21:56.962 Detail, Node089, Changes to this value are not verified
+2019-03-09 10:21:56.962 Detail, Node089, Notification: ValueChanged
+2019-03-09 10:21:56.972 Detail, Node089, Notification: ValueChanged
+2019-03-09 10:21:56.978 Detail, Node089, Notification: ValueChanged
+2019-03-09 10:21:56.982 Detail, Node089, Notification: ValueChanged
+2019-03-09 10:22:21.642 Detail, Node014, Polling: COMMAND_CLASS_SWITCH_MULTILEVEL index = 0 instance = 1 (poll queue has 0 messages)
+2019-03-09 10:22:21.642 Detail, Node014, Queuing (Poll) SwitchMultilevelCmd_Get (Node=14): 0x01, 0x09, 0x00, 0x13, 0x0e, 0x02, 0x26, 0x02, 0x25, 0x0f, 0xe7
+2019-03-09 10:22:21.642 Detail, 
+2019-03-09 10:22:21.642 Info, Node014, Sending (Poll) message (Callback ID=0x0f, Expected Reply=0x04) - SwitchMultilevelCmd_Get (Node=14): 0x01, 0x09, 0x00, 0x13, 0x0e, 0x02, 0x26, 0x02, 0x25, 0x0f, 0xe7
+2019-03-09 10:22:21.649 Detail, Node014,   Received: 0x01, 0x04, 0x01, 0x13, 0x01, 0xe8
+2019-03-09 10:22:21.649 Detail, Node014,   ZW_SEND_DATA delivered to Z-Wave stack
+2019-03-09 10:22:21.686 Detail, Node014,   Received: 0x01, 0x05, 0x00, 0x13, 0x0f, 0x00, 0xe6
+2019-03-09 10:22:21.686 Detail, Node014,   ZW_SEND_DATA Request with callback ID 0x0f received (expected 0x0f)
+2019-03-09 10:22:21.686 Info, Node014, Request RTT 43 Average Request RTT 43
+2019-03-09 10:22:21.686 Detail,   Expected callbackId was received
+2019-03-09 10:22:21.762 Detail, Node014,   Received: 0x01, 0x09, 0x00, 0x04, 0x00, 0x0e, 0x03, 0x26, 0x03, 0x00, 0xda
+2019-03-09 10:22:21.762 Detail, 
+2019-03-09 10:22:21.762 Info, Node014, Response RTT 119 Average Response RTT 116
+2019-03-09 10:22:21.762 Info, Node014, Received SwitchMultiLevel report: level=0
+2019-03-09 10:22:21.763 Detail, Node014, Refreshed Value: old value=0, new value=0, type=byte
+2019-03-09 10:22:21.763 Detail, Node014, Changes to this value are not verified
+2019-03-09 10:22:21.763 Detail, Node014,   Expected reply and command class was received
+2019-03-09 10:22:21.763 Detail, Node014,   Message transaction complete
+2019-03-09 10:22:21.763 Detail, 
+2019-03-09 10:22:21.763 Detail, Node014, Removing current message
+2019-03-09 10:22:21.763 Detail, Node014, Notification: ValueChanged
+2019-03-09 10:22:24.766 Info, mgr,     Refreshing node 14: COMMAND_CLASS_SWITCH_MULTILEVEL index = 0 instance = 1 (to confirm a reported change)
+2019-03-09 10:22:24.766 Detail, Node014, Queuing (Send) SwitchMultilevelCmd_Get (Node=14): 0x01, 0x09, 0x00, 0x13, 0x0e, 0x02, 0x26, 0x02, 0x25, 0x10, 0xf8
+2019-03-09 10:22:24.766 Detail, 
+2019-03-09 10:22:24.766 Info, Node014, Sending (Send) message (Callback ID=0x10, Expected Reply=0x04) - SwitchMultilevelCmd_Get (Node=14): 0x01, 0x09, 0x00, 0x13, 0x0e, 0x02, 0x26, 0x02, 0x25, 0x10, 0xf8
+2019-03-09 10:22:24.772 Detail, Node014,   Received: 0x01, 0x04, 0x01, 0x13, 0x01, 0xe8
+2019-03-09 10:22:24.773 Detail, Node014,   ZW_SEND_DATA delivered to Z-Wave stack
+2019-03-09 10:22:24.810 Detail, Node014,   Received: 0x01, 0x05, 0x00, 0x13, 0x10, 0x00, 0xf9
+2019-03-09 10:22:24.810 Detail, Node014,   ZW_SEND_DATA Request with callback ID 0x10 received (expected 0x10)
+2019-03-09 10:22:24.810 Info, Node014, Request RTT 43 Average Request RTT 43
+2019-03-09 10:22:24.810 Detail,   Expected callbackId was received
+2019-03-09 10:22:24.882 Detail, Node014,   Received: 0x01, 0x09, 0x00, 0x04, 0x00, 0x0e, 0x03, 0x26, 0x03, 0x00, 0xda
+2019-03-09 10:22:24.882 Detail, 
+2019-03-09 10:22:24.882 Info, Node014, Response RTT 115 Average Response RTT 115
+2019-03-09 10:22:24.883 Info, Node014, Received SwitchMultiLevel report: level=0
+2019-03-09 10:22:24.883 Detail, Node014, Refreshed Value: old value=0, new value=0, type=byte
+2019-03-09 10:22:24.883 Detail, Node014, Changes to this value are not verified
+2019-03-09 10:22:24.883 Detail, Node014,   Expected reply and command class was received
+2019-03-09 10:22:24.883 Detail, Node014,   Message transaction complete
+2019-03-09 10:22:24.883 Detail, 
+2019-03-09 10:22:24.883 Detail, Node014, Removing current message
+2019-03-09 10:22:24.883 Detail, Node014, Notification: ValueChanged

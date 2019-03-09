@@ -25,3 +25,5 @@ secrets.yaml
 known_devices.yaml
 zones.yaml
 .google_maps_location_sharing.cookies
+.gitignore
+OZW_Log.txt
