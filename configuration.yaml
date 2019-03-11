@@ -254,6 +254,7 @@ image_processing:
    scan_interval: 20000
    source:
      - entity_id: camera.back_gate
+       name: back yard
    file_out:
       - "/home/homeassistant/.homeassistant/www/tmp/{{ camera_entity.split('.')[1] }}_yard_latest.jpg"
    model:

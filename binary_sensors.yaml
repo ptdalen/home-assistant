@@ -225,7 +225,7 @@
        entity_id: zha.bedroom_tv_lights,zha.frog_couch_backlight,zha.motion_sensor_closet,zha.motion_sensor_garage,zha.motion_sensor_hallway,zha.motion_sensor_kitchen,zha.motion_sensor_office,zha.motion_sensor_sensor_living_room,zha.open_close_sensor_back_door,zha.open_close_sensor_front_door,zha.open_close_sensor_garage_door,zha.open_close_sensor_garage_fridge,zha.open_close_sensor_livingroom_window_front,zha.water_sensor_kitchen,zha.zigbee_zwave_repeater_1,zha.zigbee_zwave_repeater_2
 
      objects_in_parking_pad:
-       friendly_name: Objects in backyard
+       friendly_name: Objects in Parking Pad
        value_template: "{{ states('image_processing.tensorflow_back_gate') | float >= 1 }}"
        entity_id: image_processing.tensorflow_back_gate
 
@@ -245,15 +245,15 @@
 
      objects_in_backyard:
        friendly_name: Objects in backyard
-       value_template: "{{ states('image_processing.tensorflow_back_gate_2') | float >= 1 }}"
-       entity_id: image_processing.tensorflow_back_gate_2
+       value_template: "{{ states('image_processing.back_yard') | float >= 1 }}"
+       entity_id: image_processing.back_yard
 
      person_in_backyard:
        friendly_name: Person in Backyard
        value_template: >
-         {% set m = state_attr('image_processing.tensorflow_back_gate_2', 'matches') %}
+         {% set m = state_attr('image_processing.back_yard', 'matches') %}
          {{ m.person is defined and (m.person[0].score) | float >= 80 }}
-       entity_id: image_processing.tensorflow_back_gate_2
+       entity_id: image_processing.back_yard
 
      objects_in_driveway:
        friendly_name: Objects in driveway

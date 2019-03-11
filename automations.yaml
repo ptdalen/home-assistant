@@ -176,10 +176,6 @@
   - service: homeassistant.turn_off
     entity_id:
       - group.goodbye_lights_and_switches
-#  - service: media_player.turn_off
-#    entity_id: media_player.living_room_tv
-#  - service: media_player.media_pause
-#    entity_id: media_player.living_room
   - service: automation.turn_on
     entity_id:
       - automation.cameras_back_gate_picture
@@ -198,18 +194,22 @@
     entity_id:
       - image_processing.tensorflow_front_door
       - image_processing.tensorflow_back_gate
-      - image_processing.tensorflow_back_gate_2
+      - image_processing.back_yard
   - delay:
       seconds: 20
   - service: input_number.set_value
     data_template:
       entity_id: input_number.vehicles_in_driveway
       value:  >-
-        {% if states('image_processing.tensorflow_back_gate.state')| int  > 0  %}
+        {% if states('image_processing.tensorflow_back_gate')| int  > 0  %}
           {{(states.image_processing.tensorflow_back_gate.state)}}
         {% else %}
           0
         {% endif %}
+# turing off lights a second time to catch any that did not respond the 1st time (usually Hue)
+  - service: homeassistant.turn_off
+    entity_id:
+      - group.goodbye_lights_and_switches
   - condition: numeric_state
     entity_id: sun.sun
     value_template: '{{ state.attributes.elevation }}'
@@ -285,7 +285,7 @@
       title: "Good Night Routine Ran"
       message: "Lights off, doors locked, garage closed"
   - delay:
-      seconds: 10
+      seconds: 60
   - service: automation.turn_on
     entity_id:
       - automation.cameras_back_gate_picture
@@ -529,6 +529,9 @@
     state: 'off'
     for:
       minutes: 1
+  - condition: state
+    entity_id: binary_sensor.open_close_sensor_garage_door
+    state: 'off'
   action:
   - service: switch.turn_off
     entity_id: switch.garage_light_indoor
@@ -933,6 +936,40 @@
       message: >
         {% set unlocked = states | selectattr('entity_id', 'in', state_attr('group.all_locks','entity_id')) | selectattr('state','eq','unlocked') | map(attribute='name') | join(', ') %}
           The following locks failed to lock: {{ unlocked }}.  This was the second attempt.  Please lock using the app.
+
+- alias: Light alert
+  trigger:
+  - platform: state
+    entity_id: input_select.security_system
+    to: 'Armed (Home)'
+    for:
+      minutes: 3
+  - platform: state
+    entity_id: input_select.security_system
+    to: 'Armed (Away)'
+    for:
+      minutes: 3
+  condition:
+  - condition: state
+    entity_id: group.good_night_lights
+    state: 'on'
+  action:
+  - service: homeassistant.turn_off
+    entity_id:
+      - group.good_night_lights
+  - delay:
+      seconds: 15
+  - condition: state
+    entity_id: group.good_night_lights
+    state: 'on'
+  - service: notify.pushbullet_notifications
+    data_template:
+      target:
+      - !secret pauls_secret_email
+      title: Lights failed to turn off
+      message: >
+        {% set lights_on = states | selectattr('entity_id', 'in', state_attr('group.good_night_lights','entity_id')) | selectattr('state','eq','on') | map(attribute='name') | join(', ') %}
+          The following Lights failed to turn off: {{ lights_on }}.  This was the second attempt.  Please turn off using the app.
 
 - alias: Zigbee Device Offline
   trigger:
@@ -1684,7 +1721,7 @@
     above: 1
   action:
   - service: image_processing.scan
-    entity_id: image_processing.tensorflow_back_gate_2
+    entity_id: image_processing.back_yard
 
 - alias: Person Detection in the Parking Pad Reset
   trigger:
@@ -1714,7 +1751,7 @@
     state: 'on'
   action:
   - service: image_processing.scan
-    entity_id: image_processing.tensorflow_back_gate_2
+    entity_id: image_processing.back_yard
 
 - alias: Vehicle Detection in the Parking Pad Reset
   trigger:
