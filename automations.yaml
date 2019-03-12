@@ -202,7 +202,7 @@
       entity_id: input_number.vehicles_in_driveway
       value:  >-
         {% if states('image_processing.tensorflow_back_gate')| int  > 0  %}
-          {{(states.image_processing.tensorflow_back_gate.state)}}
+          {{ state_attr('image_processing.tensorflow_back_gate', 'matches') | select('in', ['car','truck','van','motorcycle']) | list | length }}
         {% else %}
           0
         {% endif %}
@@ -1118,6 +1118,12 @@
       - binary_sensor.office_window_open_close
     to: 'on'
   condition:
+  - condition: state
+    entity_id: timer.paul_just_arrived
+    state: 'idle'
+  - condition: state
+    entity_id: timer.paul_just_arrived
+    state: 'idle'
   - condition: numeric_state
     entity_id: sensor.ha_runtime_in_minutes
     above: 1
@@ -1765,7 +1771,7 @@
 #    entity_id: binary_sensor.vehicle_in_parking_pad
 #    state: 'on'
   - condition: template
-    value_template: '{{(states.image_processing.tensorflow_back_gate.state)| int  > (states.input_number.vehicles_in_driveway.state)| int }}'
+    value_template: "{{ state_attr('image_processing.tensorflow_back_gate', 'matches') | select('in', ['car','truck','van','motorcycle']) | list | length   > (states.input_number.vehicles_in_driveway.state)| int }}"
   - condition: state
     entity_id: binary_sensor.people_home
     state: 'off'
@@ -1855,7 +1861,7 @@
 #    entity_id: binary_sensor.vehicle_in_parking_pad
 #    to: 'on'
   - platform: template
-    value_template: '{{(states.image_processing.tensorflow_back_gate.state)| int  > (states.input_number.vehicles_in_driveway.state)| int }}'
+    value_template: "{{ state_attr('image_processing.tensorflow_back_gate', 'matches') | select('in', ['car','truck','van','motorcycle']) | list | length   > (states.input_number.vehicles_in_driveway.state)| int }}"
   condition:
   - condition: numeric_state
     entity_id: sensor.ha_runtime_in_minutes
