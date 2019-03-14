@@ -132,7 +132,20 @@ media_player:
     host: 192.168.1.84
     access_token: Zbo7pxfs55
     name: Bedroom TV Control
-    
+
+alexa_media:
+  accounts:
+    email: !secret amazon_user
+    password: !secret amazon_password
+    url: amazon.com
+    exclude_devices:
+    - "This Device"
+    - "Paul's Alexa Apps"
+    - "Tracy's Alexa Apps"
+    - "Downstairs"
+    - "My Dash"
+    - "Living Room"
+
 person:
   - name: Paul
     id: Paul
@@ -231,6 +244,12 @@ zwave:
 #ffmpeg:
 #  ffmpeg_bin: /usr/bin/avconv
 
+panel_custom:
+  - name: zwavegraph2
+    sidebar_title: ZWave Graph2
+    sidebar_icon: mdi:access-point-network
+    url_path: zwave
+
 image_processing:
  - platform: tensorflow
    scan_interval: 20000
@@ -239,7 +258,9 @@ image_processing:
    file_out:
       - "/home/homeassistant/.homeassistant/www/tmp/{{ camera_entity.split('.')[1] }}_latest.jpg"
    model:
-     graph: /home/homeassistant/.homeassistant/tensorflow/faster_rcnn_inception_v2_coco_2018_01_28/frozen_inference_graph.pb
+#     graph: /home/homeassistant/.homeassistant/tensorflow/faster_rcnn_inception_v2_coco_2018_01_28/frozen_inference_graph.pb
+     graph: /home/homeassistant/.homeassistant/tensorflow/ssd_mobilenet_v2_oid_v4_2018_12_12/frozen_inference_graph.pb
+#     graph: /home/homeassistant/.homeassistant/tensorflow/ssd_resnet101_v1_fpn_shared_box_predictor_oid_512x512_sync_2019_01_20/frozen_inference_graph.pb
 #     graph: /home/homeassistant/.homeassistant/tensorflow/ssd_mobilenet_v2_coco_2018_03_29/frozen_inference_graph.pb
      area:
        # Exclude top 16% of image
@@ -249,7 +270,7 @@ image_processing:
        # Exclude right 18% of image
        right: 0.82
        # Exclude right 30% of image
-       bottom: 0.40
+#       bottom: 0.40
  - platform: tensorflow
    scan_interval: 20000
    source:

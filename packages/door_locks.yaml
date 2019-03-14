@@ -180,33 +180,33 @@ automation:
 # Update 9/4/18 - I have updated my openzwave for the locks and the clear usercode now works.  I have commented
 # out the section with the random number.  If you are are using the release version you can uncommoment that section
 # and comment out the clear user code sections
-#      - service: lock.set_usercode
-#        data_template:
-#          usercode: >-
-#            {{ range(1000, 9999) | random }}
-## if your lock does not end in "door_lock" ie. often its "door_locked" change line 3 below to match
-## no other things should need to be changed
-#          node_id: >-
-#            {% set object_id = trigger.to_state.object_id %}
-#            {% set lock_name = "_".join(object_id.split("_")[3:-1]) %}
-#            {% set lock_id = 'lock_' ~ lock_name ~ '_door_lock' %}
-#            {{ states['lock'][lock_id].attributes.node_id }}
-#
-#          code_slot: >-
-#            {% set object_id = trigger.to_state.object_id %}
-#            {% set code_slot = "_".join(object_id.split("_")[2:-2]) %}
-#            {{ code_slot }}
-      - service: lock.clear_usercode
-        data_template:      
+      - service: lock.set_usercode
+        data_template:
+          usercode: >-
+            {{ range(1000, 9999) | random }}
+# if your lock does not end in "door_lock" ie. often its "door_locked" change line 3 below to match
+# no other things should need to be changed
           node_id: >-
             {% set object_id = trigger.to_state.object_id %}
             {% set lock_name = "_".join(object_id.split("_")[3:-1]) %}
             {% set lock_id = 'lock_' ~ lock_name ~ '_door_lock' %}
             {{ states['lock'][lock_id].attributes.node_id }}
+
           code_slot: >-
             {% set object_id = trigger.to_state.object_id %}
             {% set code_slot = "_".join(object_id.split("_")[2:-2]) %}
             {{ code_slot }}
+#      - service: lock.clear_usercode
+#        data_template:      
+#          node_id: >-
+#            {% set object_id = trigger.to_state.object_id %}
+#            {% set lock_name = "_".join(object_id.split("_")[3:-1]) %}
+#            {% set lock_id = 'lock_' ~ lock_name ~ '_door_lock' %}
+#            {{ states['lock'][lock_id].attributes.node_id }}
+#          code_slot: >-
+#            {% set object_id = trigger.to_state.object_id %}
+#            {% set code_slot = "_".join(object_id.split("_")[2:-2]) %}
+#            {{ code_slot }}
 
   - alias: Keypad temporary code start (Front)
     trigger:
@@ -451,62 +451,62 @@ automation:
 # out the section with the random number.  If you are are using the release version you can uncommoment that section
 # and comment out the clear user code sections
     action:
-#      - service: lock.set_usercode
-#        data_template:
-#          usercode: >-
-#            {{ range(1000, 9999) | random }}
-## Front Door Deadbolt.  You must put in the zwave node id's here 
-#          node_id: 82
-#          code_slot: >-
-#            {% set object_id = trigger.to_state.object_id %}
-#            {% set code_slot = object_id[7:-19] %}
-#            {{ code_slot }}
-#         
-#      - service: lock.set_usercode
-#        data_template:
-#          usercode: >-
-#            {{ range(1000, 9999) | random }}
-## Back Door Deadbolt.   You must put in the zwave node id's here 
-#          node_id: 99
-#          code_slot: >-
-#            {% set object_id = trigger.to_state.object_id %}
-#            {% set code_slot = object_id[7:-19] %}
-#            {{ code_slot }}
-#            
-#      - service: lock.set_usercode
-#        data_template:
-#          usercode: >-
-#            {{ range(1000, 9999) | random }}
-##Garage Door Lock  You must put in the zwave node id's here 
-#          node_id: 103
-#          code_slot: >-
-#            {% set object_id = trigger.to_state.object_id %}
-#            {% set code_slot = object_id[7:-19] %}
-#            {{ code_slot }}
-      - service: lock.clear_usercode
+      - service: lock.set_usercode
         data_template:
-# Front Door Deadbolt.  You must put in the zwave node id's here         
+          usercode: >-
+            {{ range(1000, 9999) | random }}
+# Front Door Deadbolt.  You must put in the zwave node id's here 
           node_id: 104
           code_slot: >-
             {% set object_id = trigger.to_state.object_id %}
             {% set code_slot = object_id[7:-19] %}
-            {{ code_slot }}   
-      - service: lock.clear_usercode
+            {{ code_slot }}
+         
+      - service: lock.set_usercode
         data_template:
-# Back Door Deadbolt.   You must put in the zwave node id's here         
+          usercode: >-
+            {{ range(1000, 9999) | random }}
+# Back Door Deadbolt.   You must put in the zwave node id's here 
           node_id: 105
           code_slot: >-
             {% set object_id = trigger.to_state.object_id %}
             {% set code_slot = object_id[7:-19] %}
             {{ code_slot }}
-      - service: lock.clear_usercode
+            
+      - service: lock.set_usercode
         data_template:
-# Garage Door Lock  You must put in the zwave node id's here
+          usercode: >-
+            {{ range(1000, 9999) | random }}
+#Garage Door Lock  You must put in the zwave node id's here 
           node_id: 103
           code_slot: >-
             {% set object_id = trigger.to_state.object_id %}
             {% set code_slot = object_id[7:-19] %}
-            {{ code_slot }}   
+            {{ code_slot }}
+#      - service: lock.clear_usercode
+#        data_template:
+## Front Door Deadbolt.  You must put in the zwave node id's here         
+#          node_id: 104
+#          code_slot: >-
+#            {% set object_id = trigger.to_state.object_id %}
+#            {% set code_slot = object_id[7:-19] %}
+#            {{ code_slot }}   
+#      - service: lock.clear_usercode
+#        data_template:
+## Back Door Deadbolt.   You must put in the zwave node id's here         
+#          node_id: 105
+#          code_slot: >-
+#            {% set object_id = trigger.to_state.object_id %}
+#            {% set code_slot = object_id[7:-19] %}
+#            {{ code_slot }}
+#      - service: lock.clear_usercode
+#        data_template:
+## Garage Door Lock  You must put in the zwave node id's here
+#          node_id: 103
+#          code_slot: >-
+#            {% set object_id = trigger.to_state.object_id %}
+#            {% set code_slot = object_id[7:-19] %}
+#            {{ code_slot }}   
 
       - service: notify.pushbullet_notifications
         data_template:

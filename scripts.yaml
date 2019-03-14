@@ -52,53 +52,42 @@ theater_room_harmony_hub_off:
 ## TTS Scripts                          ##
 ##########################################
 #TTS Script		
-audio_notify:
-  alias: 'Alexa TTS Script'
-  sequence: 
-    - service: media_player.alexa_tts
-      data_template:       
-        entity_id: >
-          {% if (mplayer == "all") %}
-            media_player.bedroom,media_player.kitchen,media_player.office,media_player.livingroom,media_player.garage,media_player.frog,media_player.guestroom,media_player.ashleysroom
-          {% elif (mplayer == "downstairs_media_players") %}
-            media_player.kitchen,media_player.office,media_player.livingroom,media_player.garage
-          {% elif (mplayer == "upstairs_media_players") %}
-            media_player.bedroom,media_player.frog,media_player.guestroom,media_player.ashleysroom
-          {% elif (mplayer == "main") %}
-            media_player.bedroom,media_player.frog,media_player.kitchen,media_player.garage
-          {% else %}
-            media_player.{{ mplayer }}
-          {% endif %} 
-        message: "{{ tts_msg }}"
-        
-alexa_notify:
-  alias: 'Alexa Timer Notification Script'
-  sequence: 
-    - service: media_player.alexa_tts
-      data_template:       
-        entity_id: media_player.bedroom_spot,media_player.kitchen,media_player.office,media_player.living_room_echo,media_player.garage,media_player.media_room
-        message: "An Alexa Timer has gone off"
-
 car_lock_car_doors:
   alias: 'Car Lock Car Doors'
   sequence: 
-    - service: notify.old_dot
-      data_template:       
+    - service: notify.alexa_media
+      data_template:
+        target:
+          - media_player.old_dot
+        data:
+          type: tts
         message: "alexa. tell Blue Link to lock my Sonata"
     - delay: 00:00:16
-    - service: notify.old_dot
-      data_template:       
+    - service: notify.alexa_media
+      data_template:
+        target:
+          - media_player.old_dot
+        data:
+          type: tts
         message: !secret blue_link_pin
 
 car_start_car:
   alias: 'Car Start Car'
   sequence: 
-    - service: notify.old_dot
-      data_template:       
+    - service: notify.alexa_media
+      data_template:
+        target:
+          - media_player.old_dot
+        data:
+          type: tts
         message: "alexa. tell Blue Link to start my Sonata and set the temperature to 72 degrees"
     - delay: 00:00:18
-    - service: notify.old_dot
-      data_template:       
+    - service: notify.alexa_media
+      data_template:
+        target:
+          - media_player.old_dot
+        data:
+          type: tts
         message: !secret blue_link_pin
 
 sonos_say:

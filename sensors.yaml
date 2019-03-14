@@ -142,7 +142,7 @@
     name: Last Used Echo
     command: "/home/homeassistant/.homeassistant/alexa_remote_control.sh -lastalexa"
 #    entity_id: switch.last_echo_used
-          
+
   - platform: template
     sensors:
       security_system_state:
@@ -368,4 +368,17 @@
             friendly_name: 'Attic Smoke Alarm'
             entity_id: sensor.smoke_detector_attic_alarm_type
  
-
+      last_alexa:
+        entity_id:
+          - media_player.kitchen
+          - media_player.office
+          - media_player.old_dot
+          - media_player.bedroom
+          - media_player.frog
+          - media_player.livingroom
+          - media_player.garage
+          - media_player.guestroom
+          - media_player.ashleysroom
+        value_template: >
+          {{ states.media_player | selectattr('attributes.last_called','eq',True) | map(attribute='entity_id') | first }}
+      

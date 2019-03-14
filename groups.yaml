@@ -259,3 +259,48 @@ thermostats:
   entities:
     - device_tracker.ecobee_downstairs
     - device_tracker.ecobee_upstairs
+ 
+all_echos:
+  name: All Echos
+  view: No
+  entities: 
+    - media_player.ashleysroom
+    - media_player.bedroom
+    - media_player.everywhere
+    - media_player.frog
+    - media_player.garage
+    - media_player.guestroom
+    - media_player.kitchen
+    - media_player.kitchen_show
+    - media_player.livingroom
+    - media_player.office
+    - media_player.old_dot
+
+main_echos:
+  name: Main Echos
+  view: No
+  entities: 
+    - media_player.bedroom
+    - media_player.kitchen
+    - media_player.frog
+    - media_player.garage
+
+upstairs_echos:
+  name: Upstairs Echos
+  view: No
+  entities: 
+    - media_player.ashleysroom
+    - media_player.bedroom
+    - media_player.frog
+    - media_player.guestroom
+
+downstairs_echos:
+  name: Downstairs Echos
+  view: No
+  entities: 
+    - media_player.garage
+    - media_player.kitchen
+    - media_player.kitchen_show
+    - media_player.livingroom
+    - media_player.office
+    - media_player.old_dot

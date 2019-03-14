@@ -240,6 +240,16 @@
         {%- else -%}
           scene.morning_lighting
         {% endif %}
+  - delay:
+      seconds: 3
+  - service: scene.turn_on
+    data_template:
+      entity_id: >
+        {% if (states.sun.sun.attributes.elevation) <= 4 %}
+          scene.evening_lighting
+        {%- else -%}
+          scene.morning_lighting
+        {% endif %}
 
 - alias: 'Goodnight Routine'
   trigger:
@@ -398,6 +408,10 @@
     entity_id: input_boolean.goodmorning_switch
     to: 'on'
   action:
+  - service: scene.turn_on
+    entity_id: scene.morning_lighting
+  - delay:
+      seconds: 3
   - service: scene.turn_on
     entity_id: scene.morning_lighting
   - service: input_select.select_option
@@ -754,6 +768,10 @@
   action:
   - service: scene.turn_on
     entity_id: scene.tv_lights
+  - delay:
+      seconds: 3
+  - service: scene.turn_on
+    entity_id: scene.tv_lights
 
 - alias: Lighting after sunset if TV is turned off
   trigger:
@@ -773,6 +791,10 @@
   action:
   - service: scene.turn_on
     entity_id: scene.casual_lighting
+  - delay:
+      seconds: 3
+  - service: scene.turn_on
+    entity_id: scene.casual_lighting
 
 - alias: TV Evening Lighting after turning TV Off
   trigger:
@@ -789,6 +811,10 @@
     entity_id: input_select.house_mode
     state: 'Home'  
   action:
+  - service: scene.turn_on
+    entity_id: scene.casual_lighting
+  - delay:
+      seconds: 3
   - service: scene.turn_on
     entity_id: scene.casual_lighting
 
@@ -1376,8 +1402,12 @@
     entity_id: binary_sensor.paul_presence
     state: 'on'
   action:
-  - service: notify.main_echos
+  - service: notify.alexa_media
     data_template:
+      target:
+        - group.main_echos
+      data:
+        type: announce
       message: >-
         {% if states('input_select.work_location') == 'Base' %}
           Based on current traffic, you have 15 minutes to leave if you want to get to the Navy Base by {{ states.input_datetime.work_time_paul.attributes.hour }} {{ states.input_datetime.work_time_paul.attributes.minute }}.  Traffic is {{ states('sensor.pauls_traffic_density_to_base') }} today.
@@ -1409,8 +1439,12 @@
     entity_id: binary_sensor.paul_presence
     state: 'on'
   action:
-  - service: notify.main_echos
+  - service: notify.alexa_media
     data_template:
+      target:
+        - group.main_echos
+      data:
+        type: announce
       message: "You have about 10 minutes to leave if you want to get to work on time"
 
 - alias: "Notify Paul when its time to leave for work now"
@@ -1435,8 +1469,12 @@
     entity_id: binary_sensor.paul_presence
     state: 'on'
   action:
-  - service: notify.main_echos
+  - service: notify.alexa_media
     data_template:
+      target:
+        - group.main_echos
+      data:
+        type: announce
       message: "You need to leave right now, if you want to get to work on time"
 
 - alias: "Notify Tracy when its time to leave for work"
@@ -1799,7 +1837,7 @@
       data:
         file: '/home/homeassistant/.homeassistant/www/tmp/front_door_latest.jpg'
 
-- alias: 'Cameras Notify if person in parking pad while away or at night'
+- alias: 'Cameras Notify if person in parking pad at night'
   trigger:
   - platform: state
     entity_id: binary_sensor.person_in_parking_pad
@@ -1808,14 +1846,9 @@
   - condition: numeric_state
     entity_id: sensor.ha_runtime_in_minutes
     above: 2
-  - condition: or
-    conditions:
-    - condition: state
-      entity_id: input_select.house_mode
-      state: 'Night' 
-    - condition: state
-      entity_id: input_select.house_mode
-      state: 'Away'
+  - condition: state
+    entity_id: input_select.house_mode
+    state: 'Night' 
   action:
   - service: notify.pushbullet_notifications
     data_template:
@@ -1936,7 +1969,7 @@
       title: Driveway Crossing
       data:
         file:
-          path: /tmp/frontdoor.jpg
+          path: /tmp/front_door_latest.jpg
   - condition: or
     conditions:
     - condition: state
@@ -1967,8 +2000,12 @@
     entity_id: sensor.ha_runtime_in_minutes
     above: 4
   action:
-  - service: notify.kitchen
+  - service: notify.alexa_media
     data_template:
+      target:
+        - media_player.kitchen
+      data:
+        type: announce
       message: "The {{ trigger.to_state.attributes.friendly_name }} is {{ trigger.to_state.state }}"
 
 - alias: Doors or windows left opened
@@ -1989,8 +2026,12 @@
     entity_id: sensor.ha_runtime_in_minutes
     above: 1
   action:
-  - service: notify.main_echos
+  - service: notify.alexa_media
     data_template:
+      target:
+        - group.all_echos
+      data:
+        type: announce
       message: "The {{ trigger.to_state.attributes.friendly_name }} is open"
   - condition: state
     entity_id: binary_sensor.people_home
@@ -2012,8 +2053,12 @@
     entity_id: sensor.ha_runtime_in_minutes
     above: 6
   action:
-  - service: notify.main_echos
+  - service: notify.alexa_media
     data_template:
+      target:
+        - group.all_echos
+      data:
+        type: announce
       message: >-
         The {{ trigger.to_state.name }} 
           {%- if trigger.to_state.state in ['on', 'off'] -%}
@@ -2044,12 +2089,12 @@
     entity_id: sensor.ha_runtime_in_minutes
     above: 1
   action:
-  - service: shell_command.alexa_vol
+  - service: notify.alexa_media
     data_template:
-      device: ALL
-      volume: 100
-  - service: notify.all_alexas
-    data_template:
+      target:
+        - group.all_echos
+      data:
+        type: announce
       message: >-
         The {{ trigger.to_state.name }} 
           {%- if trigger.to_state.state in ['warning', 'emergency', 'Ok' ] -%}
@@ -2088,8 +2133,12 @@
     entity_id: sensor.ha_runtime_in_minutes
     above: 1
   action:
-  - service: notify.all_alexas
+  - service: notify.alexa_media
     data_template:
+      target:
+        - group.all_echos
+      data:
+        type: announce
       message: >-
         The {{ trigger.to_state.name }} 
           {%- if trigger.to_state.state in ['warning', 'emergency', 'Ok' ] -%}
@@ -2129,12 +2178,12 @@
     entity_id: sensor.ha_runtime_in_minutes
     above: 1
   action:
-  - service: shell_command.alexa_vol
+  - service: notify.alexa_media
     data_template:
-      device: ALL
-      volume: 100
-  - service: notify.all_alexas
-    data_template:
+      target:
+        - group.all_echos
+      data:
+        type: announce
       message: The Attic Smoke Detector is reporting a smoke warning.
   - service: notify.pushbullet_notifications
     data_template:
@@ -2164,8 +2213,12 @@
     data_template:
       device: ALL
       volume: 100
-  - service: notify.all_alexas
+  - service: notify.alexa_media
     data_template:
+      target:
+        - group.all_echos
+      data:
+        type: announce
       message: The Attic Smoke Detector is reporting a C O 2 warning.
   - service: notify.pushbullet_notifications
     data_template:
@@ -2185,12 +2238,12 @@
     entity_id: sensor.ha_runtime_in_minutes
     above: 1
   action:
-  - service: shell_command.alexa_vol
+  - service: notify.alexa_media
     data_template:
-      device: ALL
-      volume: 100
-  - service: notify.all_alexas
-    data_template:
+      target:
+        - group.all_echos
+      data:
+        type: announce
       message: Test Test Test.  The Attic Smoke Detector is reporting a smoke warning. This is only a test
   - service: notify.pushbullet_notifications
     data_template:
@@ -2221,8 +2274,12 @@
     data_template:
       entity_id: input_text.commute_start_zone_tracy
       value: '{{ trigger.from_state.state }}'
-  - service: notify.main_echos
+  - service: notify.alexa_media
     data_template:
+      target: 
+        - group.main_echos
+      data:
+        type: announce
       message: "Tracy left {{ states('input_text.commute_start_zone_tracy') }} at {{ as_timestamp (now()) | timestamp_custom('%-I %-M %p') }} and should be home in approximately {{ states('sensor.tracys_time_to_home') }} minutes."
 
 - alias: Paul Travel Notice
@@ -2246,8 +2303,12 @@
     data_template:
       entity_id: input_text.commute_start_zone
       value: '{{ trigger.from_state.state }}'
-  - service: notify.main_echos
+  - service: notify.alexa_media
     data_template:
+      target: 
+        - group.main_echos
+      data:
+        type: announce
       message: >-
         {% if states('input_text.commute_start_zone') == 'CACI' %}
           "Paul left khaki at {{ as_timestamp (now()) | timestamp_custom('%-I %-M %p') }} and should be home in approximately {{ states('sensor.pauls_time_to_home') }} minutes."
@@ -2274,8 +2335,12 @@
     state: 'Home' 
   action:
   - delay: 00:00:03
-  - service: notify.main_echos
+  - service: notify.alexa_media
     data_template:
+      target: 
+        - group.main_echos
+      data:
+        type: announce
       message: "Paul is on his way and should be home in approximately {{ states('sensor.pauls_time_to_home') }} minutes."
 
 - alias: Tracy Travel Notice nearing Home
@@ -2297,8 +2362,12 @@
     state: 'Home' 
   action:
   - delay: 00:00:03
-  - service: notify.main_echos
+  - service: notify.alexa_media
     data_template:
+      target: 
+        - group.main_echos
+      data:
+        type: announce
       message: "Tracy is on her way and should be home in approximately {{ states('sensor.tracys_time_to_home') }} minutes."
 
 - alias: "Alexa Report"
@@ -2311,11 +2380,17 @@
     entity_id: sensor.ha_runtime_in_minutes
     above: 1
   action:
-  - service: homeassistant.update_entity
-    data:
-      entity_id: sensor.last_used_echo
-  - service_template: "notify.{{ states('sensor.last_used_echo') }}"
+  - service: alexa_media.update_last_called
+  - delay: 00:00:01
+#  - service: homeassistant.update_entity
+#    data:
+#      entity_id: sensor.last_used_echo
+  - service: notify.alexa_media
     data_template:
+      target: 
+        -  '{{ states.sensor.last_alexa.state }}' 
+      data:
+        type: tts
       message: >-
         {% if (states.light.alexa_virtual.attributes.brightness | int / 255 * 100 ) | round  == 1 and states('device_tracker.tracy_all') == 'not_home' %}
           Tracy is away and is approximately {{ states('sensor.tracys_time_to_home') }} minutes from home.
