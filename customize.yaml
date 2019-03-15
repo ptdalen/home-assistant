@@ -216,3 +216,6 @@ light.tv_backlights:
 light.right_shelf_lights:
   icon: mdi:drag-vertical
   emulated_hue_hidden: false
+script.fireplace_toggle:
+  emulated_hue_hidden: false
+  icon: mdi:fire

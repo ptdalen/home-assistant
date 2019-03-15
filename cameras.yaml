@@ -32,10 +32,7 @@
   file_path: /home/homeassistant/.homeassistant/www/tmp/front_door_latest.jpg
   name: Front Door Processed
 - platform: local_file
-  file_path: /home/homeassistant/.homeassistant/www/tmp/back_gate_latest.jpg
-  name: Parking Pad Processed
-- platform: local_file
-  file_path: /home/homeassistant/.homeassistant/www/tmp/back_gate_yard_latest.jpg
+  file_path: /home/homeassistant/.homeassistant/www/tmp/back_yard_latest.jpg
   name: Back Yard Processed
 #- platform: ffmpeg
 #  input: !secret camera_url_1

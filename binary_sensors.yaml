@@ -224,29 +224,17 @@
        friendly_name: 'Zigbee Devices Offline?'
        entity_id: zha.bedroom_tv_lights,zha.frog_couch_backlight,zha.motion_sensor_closet,zha.motion_sensor_garage,zha.motion_sensor_hallway,zha.motion_sensor_kitchen,zha.motion_sensor_office,zha.motion_sensor_sensor_living_room,zha.open_close_sensor_back_door,zha.open_close_sensor_front_door,zha.open_close_sensor_garage_door,zha.open_close_sensor_garage_fridge,zha.open_close_sensor_livingroom_window_front,zha.water_sensor_kitchen,zha.zigbee_zwave_repeater_1,zha.zigbee_zwave_repeater_2
 
-     objects_in_parking_pad:
-       friendly_name: Objects in Parking Pad
-       value_template: "{{ states('image_processing.tensorflow_back_gate') | float >= 1 }}"
-       entity_id: image_processing.tensorflow_back_gate
-
-     person_in_parking_pad:
-       friendly_name: Person in Parking Pad
-       value_template: >
-         {% set m = state_attr('image_processing.tensorflow_back_gate', 'matches') %}
-         {{ m.person is defined and (m.person[0].score) | float >= 80 }}
-       entity_id: image_processing.tensorflow_back_gate
-
      vehicle_in_parking_pad:
        friendly_name: Vehicle in Parking Pad
        value_template: >
-         {% set m = state_attr('image_processing.tensorflow_back_gate', 'matches') %}
-         {{ m.van is defined and (m.van[0].score) | float >= 80 or m.truck is defined and (m.truck[0].score) | float >= 80 or m.car is defined and (m.car[0].score) | float >= 80 or m.bike is defined and (m.bike[0].score) | float >= 80 }}
-       entity_id: image_processing.tensorflow_back_gate
-
-     objects_in_backyard:
-       friendly_name: Objects in backyard
-       value_template: "{{ states('image_processing.back_yard') | float >= 1 }}"
+         {% set m = state_attr('image_processing.back_yard', 'matches') %}
+         {{ m.van is defined and (m.van[0].score) | float >= 80 or m.truck is defined and (m.truck[0].score) | float >= 80 or m.car is defined and (m.car[0].score) | float >= 80  }}
        entity_id: image_processing.back_yard
+
+#     objects_in_backyard:
+#       friendly_name: Objects in backyard
+#       value_template: "{{ states('image_processing.back_yard') | float >= 1 }}"
+#       entity_id: image_processing.back_yard
 
      person_in_backyard:
        friendly_name: Person in Backyard
@@ -255,24 +243,24 @@
          {{ m.person is defined and (m.person[0].score) | float >= 80 }}
        entity_id: image_processing.back_yard
 
-     objects_in_driveway:
-       friendly_name: Objects in driveway
-       value_template: "{{ states('image_processing.tensorflow_front_door') | float >= 1 }}"
-       entity_id: image_processing.tensorflow_front_door
+#     objects_in_driveway:
+#       friendly_name: Objects in driveway
+#       value_template: "{{ states('image_processing.front_door') | float >= 1 }}"
+#       entity_id: image_processing.front_door
 
      person_in_driveway:
        friendly_name: Person in Drivway
        value_template: >
-         {% set m = state_attr('image_processing.tensorflow_front_door', 'matches') %}
+         {% set m = state_attr('image_processing.front_door', 'matches') %}
          {{ m.person is defined and (m.person[0].score) | float >= 80 }}
-       entity_id: image_processing.tensorflow_front_door
+       entity_id: image_processing.front_door
 
      vehicle_in_driveway:
        friendly_name: Vehicle in Driveway
        value_template: >
-         {% set m = state_attr('image_processing.tensorflow_front_door', 'matches') %}
+         {% set m = state_attr('image_processing.front_door', 'matches') %}
          {{ m.van is defined and (m.van[0].score) | float >= 80 or m.truck is defined and (m.truck[0].score) | float >= 80 or m.car is defined and (m.car[0].score) | float >= 80 or m.bike is defined and (m.bike[0].score) | float >= 80 }}
-       entity_id: image_processing.tensorflow_front_door
+       entity_id: image_processing.front_door
 
  - platform: workday
    country: 'UnitedStates'

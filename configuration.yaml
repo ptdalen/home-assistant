@@ -240,6 +240,10 @@ zwave:
       polling_intensity: 1
       refresh_value: True
       delay: 3
+    switch.fireplace:
+      polling_intensity: 1
+      refresh_value: True
+      delay: 3
 
 #ffmpeg:
 #  ffmpeg_bin: /usr/bin/avconv
@@ -251,55 +255,104 @@ panel_custom:
     url_path: zwave
 
 image_processing:
- - platform: tensorflow
-   scan_interval: 20000
-   source:
-     - entity_id: camera.back_gate
-   file_out:
-      - "/home/homeassistant/.homeassistant/www/tmp/{{ camera_entity.split('.')[1] }}_latest.jpg"
-   model:
+  - platform: tensorflow
+    scan_interval: 20000
+    source:
+      - entity_id: camera.back_gate
+        name: back yard
+    file_out:
+      - "/home/homeassistant/.homeassistant/www/tmp/back_yard_latest.jpg"
+    model:
+      graph: /home/homeassistant/.homeassistant/tensorflow/faster_rcnn_inception_v2_coco_2018_01_28/frozen_inference_graph.pb
+      categories:
+        - category: person
+          area:
+            top: 0.20
+            right: 0.90
+            left: 0.30
+        - category: car
+          area:
+            top: 0.15
+            right: 0.88
+            left: 0.38
+            bottom: 0.40
+        - category: truck
+          area:
+            top: 0.15
+            right: 0.88
+            left: 0.38
+            bottom: 0.40
+        - category: van
+          area:
+            top: 0.15
+            right: 0.88
+            left: 0.38
+            bottom: 0.40
+        - category: motorcycle
+          area:
+            top: 0.15
+            right: 0.88
+            left: 0.38
+            bottom: 0.40
+  - platform: tensorflow
+    scan_interval: 20000
+    source:
+      - entity_id: camera.front_door
+        name: front door
+    file_out:
+       - "/home/homeassistant/.homeassistant/www/tmp/front_door_latest.jpg"
+    model:
+      graph: /home/homeassistant/.homeassistant/tensorflow/faster_rcnn_inception_v2_coco_2018_01_28/frozen_inference_graph.pb
+      area:
+        # Exclude left 5% of image
+        left: 0.05
+# - platform: tensorflow
+#   scan_interval: 20000
+#   source:
+#     - entity_id: camera.back_gate
+#       name: parking pad
+#   file_out:
+#      - "/home/homeassistant/.homeassistant/www/tmp/parking_pad_latest.jpg"
+#   model:
 #     graph: /home/homeassistant/.homeassistant/tensorflow/faster_rcnn_inception_v2_coco_2018_01_28/frozen_inference_graph.pb
-     graph: /home/homeassistant/.homeassistant/tensorflow/ssd_mobilenet_v2_oid_v4_2018_12_12/frozen_inference_graph.pb
-#     graph: /home/homeassistant/.homeassistant/tensorflow/ssd_resnet101_v1_fpn_shared_box_predictor_oid_512x512_sync_2019_01_20/frozen_inference_graph.pb
-#     graph: /home/homeassistant/.homeassistant/tensorflow/ssd_mobilenet_v2_coco_2018_03_29/frozen_inference_graph.pb
-     area:
-       # Exclude top 16% of image
-       top: 0.16
-       # Exclude left 38% of image
-       left: 0.38
-       # Exclude right 18% of image
-       right: 0.82
-       # Exclude right 30% of image
-#       bottom: 0.40
- - platform: tensorflow
-   scan_interval: 20000
-   source:
-     - entity_id: camera.back_gate
-       name: back yard
-   file_out:
-      - "/home/homeassistant/.homeassistant/www/tmp/{{ camera_entity.split('.')[1] }}_yard_latest.jpg"
-   model:
-     graph: /home/homeassistant/.homeassistant/tensorflow/faster_rcnn_inception_v2_coco_2018_01_28/frozen_inference_graph.pb
-#     graph: /home/homeassistant/.homeassistant/tensorflow/ssd_mobilenet_v2_coco_2018_03_29/frozen_inference_graph.pb
-     area:
-       # Exclude top 34% of image
-       top: 0.34
-       # Exclude left 30% of image
-       left: 0.30
-       # Exclude right 10% of image
-       right: 0.90
- - platform: tensorflow
-   scan_interval: 20000
-   source:
-     - entity_id: camera.front_door
-   file_out:
-      - "/home/homeassistant/.homeassistant/www/tmp/{{ camera_entity.split('.')[1] }}_latest.jpg"
-   model:
-     graph: /home/homeassistant/.homeassistant/tensorflow/faster_rcnn_inception_v2_coco_2018_01_28/frozen_inference_graph.pb
-#     graph: /home/homeassistant/.homeassistant/tensorflow/ssd_mobilenet_v2_coco_2018_03_29/frozen_inference_graph.pb
-     area:
-       # Exclude left 5% of image
-       left: 0.05
+#     area:
+#       # Exclude top 34% of image
+#       top: 0.15
+#       # Exclude left 30% of image
+#       left: 0.38
+#       # Exclude right 10% of image
+#       right: 0.88
+#       bottom: 90
+# - platform: tensorflow
+#   scan_interval: 20000
+#   source:
+#     - entity_id: camera.back_gate
+#       name: back yard
+#   file_out:
+#      - "/home/homeassistant/.homeassistant/www/tmp/back_yard_latest.jpg"
+#   model:
+#     graph: /home/homeassistant/.homeassistant/tensorflow/faster_rcnn_inception_v2_coco_2018_01_28/frozen_inference_graph.pb
+#     categories:
+#     - category: person
+#       area:
+#         # Exclude top 10% of image
+#         top: 0.22
+#         # Exclude right 15% of image
+#         right: 0.90
+#         left: 0.30
+#     - car, truck, van, motorcycle
+#       area:
+#         top: 0.15
+#         right: 0.88
+#         left: 0.38
+#         bottom: 0.90
+#     - truck
+#       area:
+#         top: 0.15
+#         right: 0.88
+#         left: 0.38
+#         bottom: 0.90
+
 
 ios:
   push:

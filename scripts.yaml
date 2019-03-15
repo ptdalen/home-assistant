@@ -90,48 +90,6 @@ car_start_car:
           type: tts
         message: !secret blue_link_pin
 
-sonos_say:
-  alias: "Sonos TTS script"
-  sequence:
-    - service: media_player.sonos_snapshot
-      data_template:
-        entity_id: "{{ sonos_entity|default('media_player.living_room') }}"
-    - service: media_player.sonos_unjoin
-      data_template:
-        entity_id: "{{ sonos_entity|default('media_player.living_room') }}"
-    - service: media_player.volume_set
-      data_template:
-        entity_id: "{{ sonos_entity|default('media_player.living_room') }}"
-        volume_level: "{{ volume|default(0.5) }}"
-    - service: tts.google_say
-      data_template:
-        entity_id: "{{ sonos_entity|default('media_player.living_room') }}"
-        message: "{{ message }}"
-    - delay: "{{ delay|default('00:00:00') }}"
-    - wait_template: "{{ is_state(sonos_entity|default('media_player.living_room'), 'playing') }}"
-      timeout: '00:00:05'
-    - service: media_player.sonos_restore
-      data_template:
-        entity_id: "{{ sonos_entity|default('media_player.living_room') }}"
-
-notificationalarm:
-  alias: 'Notify that sensors changed when nobody is home'
-  sequence:
-    - service: media_player.sonos_snapshot
-      entity_id: media_player.living_room
-    - service: media_player.volume_set
-      entity_id: media_player.living_room
-      data:
-        volume_level: .9
-    - service: media_player.play_media
-      entity_id: media_player.living_room
-      data:
-        media_content_id: 'https://dl.dropboxusercontent.com/u/7457/HASS/Burglar_Alarm.mp3'
-        media_content_type: 'music'
-    - delay: '00:01:28'
-    - service: media_player.sonos_restore
-      entity_id: media_player.living_room 
-
 ##########################################
 ## Garage Door Toggle                   ##
 ##########################################
@@ -214,103 +172,23 @@ ecobee_worker_mode:
         hold_mode: 'smart1'
 
 ##########################################
-## Security Camera Photo Capture        ##
+## Harmony scripts                      ##
 ##########################################
-capture_driveway1_camera:
-  alias: Capture Still Image from Driveway 1 Camera
+fireplace_toggle:
+  alias: 'Fireplace Toggle'
   sequence:
-    - service: switch.turn_on
-      entity_id: switch.save_driveway1
-    - service: switch.turn_off
-      entity_id: switch.save_driveway1
+    - service_template: >
+        {% if is_state('switch.fireplace', 'on') %}
+          switch.turn_off
+        {% else %}
+          switch.turn_off
+        {% endif %}
+      entity_id: switch.fireplace
 
-capture_driveway2_camera:
-  alias: Capture Still Image from Driveway 2 Camera
-  sequence:
-    - service: switch.turn_on
-      entity_id: switch.save_driveway2
-    - service: switch.turn_off
-      entity_id: switch.save_driveway2
-
-capture_backgate_camera:
-  alias: Capture Still Image from Backgate Camera
-  sequence:
-    - service: switch.turn_on
-      entity_id: switch.save_backgate
-    - service: switch.turn_off
-      entity_id: switch.save_backgate
-
-capture_sideyard_camera:
-  alias: Capture Still Image from Sideyard Camera
-  sequence:
-    - service: switch.turn_on
-      entity_id: switch.save_sideyard
-    - service: switch.turn_off
-      entity_id: switch.save_sideyard
-
-capture_frontdoor_camera:
-  alias: Capture Still Image from Frontdoor Camera
-  sequence:
-    - service: switch.turn_on
-      entity_id: switch.save_frontdoor
-    - service: switch.turn_off
-      entity_id: switch.save_frontdoor
-
-gif_picture_script:
-  alias: GIF Picture
-  sequence:
-  - data:
-      entity_id: camera.front_door
-      filename: /home/homeassistant/.homeassistant/www/tmp/frontdoor1.png
-    service: camera.snapshot
-  - delay: '00:00:01'
-  - data:
-      entity_id: camera.front_door
-      filename: /home/homeassistant/.homeassistant/www/tmp/frontdoor2.png
-    service: camera.snapshot
-  - data:
-      entity_id: camera.front_door
-      filename: /home/homeassistant/.homeassistant/www/tmp/frontdoor3.png
-    service: camera.snapshot
-  - data:
-      entity_id: camera.front_door
-      filename: /home/homeassistant/.homeassistant/www/tmp/frontdoor4.png
-    service: camera.snapshot
-  - data:
-      entity_id: camera.front_door
-      filename: /home/homeassistant/.homeassistant/www/tmp/frontdoor5.png
-    service: camera.snapshot
-  - data:
-      entity_id: camera.front_door
-      filename: /home/homeassistant/.homeassistant/www/tmp/frontdoor5.png
-    service: camera.snapshot
-  - data:
-      entity_id: camera.front_door
-      filename: /home/homeassistant/.homeassistant/www/tmp/frontdoor6.png
-    service: camera.snapshot
-  - data:
-      entity_id: camera.front_door
-      filename: /home/homeassistant/.homeassistant/www/tmp/frontdoor7.png
-    service: camera.snapshot
-  - data:
-      entity_id: camera.front_door
-      filename: /home/homeassistant/.homeassistant/www/tmp/frontdoor8.png
-    service: camera.snapshot
-  - data:
-      entity_id: camera.front_door
-      filename: /home/homeassistant/.homeassistant/www/tmp/frontdoor9.png
-    service: camera.snapshot
-  - service: shell_command.snapshot_frontdoor_gif
-  - delay: '00:00:15'
-  - service: notify.pushbullet_notifications
-    data:
-      message: "{{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}" 
-      target:
-      - !secret pauls_secret_email
-      - !secret tracys_secret_email      
-      title: Driveway Crossing
-      data:
-        file: /home/homeassistant/.homeassistant/www/tmp/frontdoor.gif
+      
+##########################################
+## For Sending Emails                   ##
+##########################################
 
 sms_notify_with_images:
   alias: SMS Notify with Images
