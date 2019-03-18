@@ -110,25 +110,26 @@
        friendly_name: Driveway motion delay
        value_template: "{{ is_state('binary_sensor.driveway_1_motion', 'on') }}"
        delay_off:
-         seconds: 20
+         seconds: 60
        entity_id: binary_sensor.driveway_1_motion
        device_class: motion
-       
-     motion_delay_front_door:
-       friendly_name: Front Door motion delay
-       value_template: "{{ is_state('binary_sensor.front_door_camera_motion', 'on') }}"
-       delay_off:
-         seconds: 20
-       entity_id: binary_sensor.front_door_camera_motion
-       device_class: motion
 
-     motion_delay_backyard:
-       friendly_name: Backyard motion delay
-       value_template: "{{ is_state('binary_sensor.backyard_motion', 'on') }}"
-       delay_off:
-         seconds: 20
-       entity_id: binary_sensor.backyard_motion
-       device_class: motion
+#  Not currently used       
+#     motion_delay_front_door:
+#       friendly_name: Front Door motion delay
+#       value_template: "{{ is_state('binary_sensor.front_door_camera_motion', 'on') }}"
+#       delay_off:
+#         seconds: 20
+#       entity_id: binary_sensor.front_door_camera_motion
+#       device_class: motion
+
+#     motion_delay_backyard:
+#       friendly_name: Backyard motion delay
+#       value_template: "{{ is_state('binary_sensor.backyard_motion', 'on') }}"
+#       delay_off:
+#         seconds: 20
+#       entity_id: binary_sensor.backyard_motion
+#       device_class: motion
 
      homekit_presence_paul:
        friendly_name: "Paul"
@@ -185,12 +186,6 @@
        friendly_name: "Living Room Back Window"
        device_class: window
        entity_id: sensor.living_room_window_sensor_alarm_level
-
-     motion_sensor_frog_old:
-       value_template: "{{ is_state('sensor.motion_sensor_frog_alarm_level', '255') }}"
-       friendly_name: "Motion Sensor (Old)"
-       device_class: motion
-       entity_id: sensor.motion_sensor_frog_alarm_level
        
      motion_sensor_front_door_motion:
        value_template: "{{ is_state('sensor.motion_sensor_front_door_motion', '8') }}"

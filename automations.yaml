@@ -468,7 +468,7 @@
   - condition: numeric_state
     entity_id: sun.sun
     value_template: '{{ state.attributes.elevation }}'
-    below: 3.0
+    below: 6.5
   action:
   - service: homeassistant.turn_on
     entity_id: group.office_lights
@@ -492,7 +492,7 @@
   - condition: numeric_state
     entity_id: sun.sun
     value_template: '{{ state.attributes.elevation }}'
-    below: 3.0
+    below: 6.5
   action:
   - service: homeassistant.turn_on
     entity_id: group.kitchen_zwave_lights
@@ -601,7 +601,7 @@
   - condition: numeric_state
     entity_id: sun.sun
     value_template: '{{ state.attributes.elevation }}'
-    below: 1.0
+    below: 4.5
   - condition: state
     entity_id: light.hallway_light
     state: 'off'
@@ -780,7 +780,7 @@
   - condition: numeric_state
     entity_id: sun.sun
     value_template: '{{ state.attributes.elevation }}'
-    below: 4.0
+    below: 6.5
   - condition: state
     entity_id: input_select.house_mode
     state: 'Home' 
@@ -1399,6 +1399,10 @@
         - device_tracker.vizio_tv_bedroom_lan
         - device_tracker.vizio_tv_cast_bedroom_wireless
         - device_tracker.vizio_tv_theater_room_lan
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.ha_runtime_in_minutes
+    above: 10
   action:
   - service: notify.pushbullet_notifications
     data_template:
@@ -1722,8 +1726,8 @@
     entity_id: binary_sensor.motion_delay_driveway
     to: 'on'
   condition:
-  - condition: template
-    value_template: '{{ as_timestamp(now()) - as_timestamp(states.automation.cameras_driveway_analysis.attributes.last_triggered) | int > 30 }}'
+#  - condition: template
+#    value_template: '{{ as_timestamp(now()) - as_timestamp(states.automation.cameras_driveway_analysis.attributes.last_triggered) | int > 30 }}'
   action:
   - service: image_processing.scan
     entity_id: image_processing.front_door
@@ -1737,21 +1741,6 @@
   - service: image_processing.scan
     entity_id: image_processing.front_door
 
-#- alias: Person Detection in the Driveway Reset
-#  trigger:
-#  - platform: time_pattern
-#    minutes: '/3'
-#  condition:
-#  - condition: numeric_state
-#    entity_id: sensor.ha_runtime_in_minutes
-#    above: 3
-#  - condition: state
-#    entity_id: binary_sensor.person_in_driveway
-#    state: 'on'
-#  action:
-#  - service: image_processing.scan
-#    entity_id: image_processing.front_door
-
 - alias: 'Cameras Drive Way Line Crossing Timer'
   trigger:
   - platform: state
@@ -1760,10 +1749,10 @@
   - platform: state
     entity_id: binary_sensor.driveway_2_line_crossing
     to: 'on'
-  condition:
-  - condition: state
-    entity_id: timer.camera_action
-    state: 'idle'
+#  condition:
+#  - condition: state
+#    entity_id: timer.camera_action
+#    state: 'idle'
   action:
   - service: timer.start
     entity_id: timer.camera_action
@@ -1771,7 +1760,7 @@
 - alias: 'Cameras Back Yard Analysis'
   trigger:
   - platform: state
-    entity_id: binary_sensor.motion_delay_backyard
+    entity_id: binary_sensor.backyard_motion
     to: 'on'
   - platform: state
     entity_id: binary_sensor.backyard_line_crossing
@@ -1942,7 +1931,7 @@
       title: Driveway Crossing
       data:
         file:
-          path: /tmp/front_door_latest.jpg
+          path: /tmp/frontdoor.jpg
   - condition: or
     conditions:
     - condition: state
@@ -2854,3 +2843,122 @@
     data_template:
       entity_id: media_player.living_room
       source: Discover Weekly
+
+#############################################
+## Used with Harmony Remote               ##
+#############################################
+- alias: Fireplace Toggle
+  trigger:
+  - platform: state
+    entity_id: input_boolean.fireplace_toggle
+    to: 'on'
+  action:
+  - service: switch.toggle
+    entity_id: switch.fireplace
+  - service: input_boolean.turn_off
+    entity_id: input_boolean.fireplace_toggle
+    
+- id: tv_force_on_tivo
+  alias: TV Force On for Tivo
+  trigger:
+  - platform: event
+    event_type: roku_command
+    event_data:
+      source_name: Home Assistant
+      type: keypress
+      key: Fwd
+  action:
+  - delay:
+      seconds: 10
+  - condition: or
+    conditions:
+    - condition: template
+      value_template: '{{ (states.media_player.living_room_tv.attributes.source) == "HDMI 2" }}'
+    - condition: state
+      entity_id: media_player.living_room_tv
+      state: 'off'
+  - service: media_player.turn_on
+    entity_id: media_player.living_room_tv
+  - delay:
+      seconds: 10
+  - service: media_player.select_source
+    data:
+      entity_id: media_player.living_room_tv
+      source: 'HDMI 3/ARC'
+  - service: notify.pushbullet_notifications
+    data_template:
+      target:
+      - !secret pauls_secret_email
+      title: Sony TV lost Key
+      message: Fix Harmony
+
+- id: tv_force_on_apple_tv
+  alias: TV Force On for Apple TV
+  trigger:
+  - platform: event
+    event_type: roku_command
+    event_data:
+      source_name: Home Assistant
+      type: keypress
+      key: Rev
+  action:
+  - delay:
+      seconds: 10
+  - condition: or
+    conditions:
+    - condition: template
+      value_template: '{{ (states.media_player.living_room_tv.attributes.source) == "HDMI 3/ARC" }}'
+    - condition: state
+      entity_id: media_player.living_room_tv
+      state: 'off'
+  - service: media_player.turn_on
+    entity_id: media_player.living_room_tv
+  - delay:
+      seconds: 10
+  - service: media_player.select_source
+    data:
+      entity_id: media_player.living_room_tv
+      source: 'HDMI 2'
+  - service: notify.pushbullet_notifications
+    data_template:
+      target:
+      - !secret pauls_secret_email
+      title: Sony TV lost Key
+      message: Fix Harmony
+
+- id: tv_force_off
+  alias: TV Force Off
+  trigger:
+  - platform: event
+    event_type: roku_command
+    event_data:
+      source_name: Home Assistant
+      type: keypress
+      key: PowerOff
+  action:
+  - delay:
+      seconds: 10
+  - condition: state
+    entity_id: media_player.living_room_tv
+    state: 'on'
+  - service: media_player.turn_off
+    entity_id: media_player.living_room_tv
+##########################################################
+## Double Tap Events
+########################################################
+
+- id: double_tap_test
+  alias: Double Tap Test
+  trigger:
+     platform: event
+     event_type: zwave.node_event
+     event_data:
+       entity_id: zwave.sconce_light
+  action:
+    service_template: >
+      {% if trigger.event.data.basic_level == 255 %}
+        input_boolean.turn_on
+      {% elif trigger.event.data.basic_level == 0 %}
+        input_boolean.turn_off
+      {% endif %}
+    entity_id: input_boolean.goodnight_switch

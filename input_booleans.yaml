@@ -53,3 +53,6 @@ whats_going_on:
 vacation_mode:
   name: Vacation Mode
   icon: mdi:account
+fireplace_toggle:
+  name: fireplace toggle
+  icon: mdi:fire

@@ -115,17 +115,21 @@ sensor.open_close_sensor_garage_fridge_battery:
 sensor.water_sensor_kitchen_battery:
   icon: mdi:battery
 binary_sensor.open_close_sensor_garage_door:
-  icon: mdi:door  
+  icon: mdi:door
+  device_class: door
 binary_sensor.open_close_sensor_front_door:
   icon: mdi:door
+  device_class: door
 binary_sensor.open_close_sensor_back_door:
   icon: mdi:door
+  device_class: door
 binary_sensor.open_close_sensor_office_window:
   icon: mdi:window-closed
 binary_sensor.open_close_sensor_livingroom_window_back:
   icon: mdi:window-closed
 binary_sensor.open_close_sensor_livingroom_window_front:
   icon: mdi:window-closed
+  device_class: window
 light.bedroom_lamp_one:
   icon: mdi:lamp
 light.bedroom_lamp_two:
@@ -216,6 +220,6 @@ light.tv_backlights:
 light.right_shelf_lights:
   icon: mdi:drag-vertical
   emulated_hue_hidden: false
-script.fireplace_toggle:
+input_boolean.fireplace_toggle:
   emulated_hue_hidden: false
   icon: mdi:fire

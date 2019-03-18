@@ -1,7 +1,9 @@
   smart_home:
+    endpoint: https://api.amazonalexa.com/v3/events
+    client_id: !secret alexa_client_id
+    client_secret: !secret alexa_client_secret
     filter:
       include_entities:
-#        - cover.garage_door_opener
         - fan.frog_fan
         - fan.living_room_fan
         - light.bedroom_ceiling_light
@@ -43,10 +45,6 @@
         - automation.motion_lighting_in_the_Office
         - automation.motion_lighting_in_the_garage
         - automation.driveway_line_crossing_alerts
-#        - automation.car_lock_car_doors
-#        - automation.car_start_car
-#        - automation.tracy_travel_notice
-#        - script.ecobee_away_mode
         - script.downstairs_colorloop
         - script.reset_downstairs_lighting
         - script.garage_door_open
@@ -55,12 +53,28 @@
         - script.car_start_car
         - input_boolean.goodnight_switch
         - input_boolean.goodmorning_switch
-#        - input_boolean.wheres_tracy
-#        - input_boolean.wheres_paul
         - input_boolean.whats_going_on
         - scene.casual_lighting
         - scene.evening_lighting
         - scene.morning_lighting
         - scene.tv_lights
-#        - scene.downstairs_color_loop
         - scene.downstairs_nightlight
+        - binary_sensor.open_close_sensor_back_door
+        - binary_sensor.open_close_sensor_front_door
+        - binary_sensor.open_close_sensor_garage_door
+        - binary_sensor.open_close_sensor_livingroom_window_front
+        - binary_sensor.open_close_sensor_livingroom_window_back
+        - binary_sensor.open_close_sensor_office_window
+        - cover.garage_door_opener
+      exclude_entities:
+        - light.left_shelf_lights
+        - light.tv_backlights
+        - light.right_shelf_lights
+        - light.kitchen_cabinet_tops
+        - light.kitchen_cabinet_bottoms
+        - light.living_room_lamp_one
+        - light.living_room_lamp_two
+        - light.alcove_light
+        - light.office_lamp_two
+        - light.ashleys_room_lamp
+        - light.guest_bedroom_lamp

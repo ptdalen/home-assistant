@@ -138,11 +138,6 @@
       Accept: application/geo+json
     scan_interval: 60
 
-  - platform: command_line
-    name: Last Used Echo
-    command: "/home/homeassistant/.homeassistant/alexa_remote_control.sh -lastalexa"
-#    entity_id: switch.last_echo_used
-
   - platform: template
     sensors:
       security_system_state:
@@ -229,7 +224,6 @@
           {% else %}
             unknown
           {% endif %}
-#        entity_id: sensor.time
         
       pauls_traffic_density_to_base:
         friendly_name: Traffic to Base
@@ -243,7 +237,6 @@
           {% else %}
             unknown
           {% endif %}
-#        entity_id: sensor.time
         
       tracys_traffic_density_to_avis:
         friendly_name: Traffic to Avis
@@ -257,7 +250,6 @@
           {% else %}
             unknown
           {% endif %}
-#        entity_id: sensor.time
         
       battery_attic_water_sensor:
         friendly_name: "Attic Water Detector Battery"
@@ -281,7 +273,6 @@
               mdi:battery-alert
             {% endif %}
           {% endif %}
-#        entity_id: sensor.time
 
       battery_smoke_detector:
         friendly_name: "Attic Smoke Detector Battery"
@@ -305,7 +296,6 @@
               mdi:battery-alert
             {% endif %}
           {% endif %}      
-#        entity_id: sensor.time
 
       open_close_sensor_livingroom_window_back_battery:
         friendly_name: "Living Room Back Window Open Close Sensor Battery"
@@ -329,7 +319,6 @@
               mdi:battery-alert
             {% endif %}
           {% endif %}
-#        entity_id: sensor.time
 
       open_close_sensor_office_window_battery:
         friendly_name: "Office Window Open Close Sensor Battery"

@@ -51,7 +51,7 @@ theater_room_harmony_hub_off:
 ##########################################
 ## TTS Scripts                          ##
 ##########################################
-#TTS Script		
+#TTS Script  
 car_lock_car_doors:
   alias: 'Car Lock Car Doors'
   sequence: 
@@ -80,7 +80,7 @@ car_start_car:
           - media_player.old_dot
         data:
           type: tts
-        message: "alexa. tell Blue Link to start my Sonata and set the temperature to 72 degrees"
+        message: "alexa. tell Blue Link to start my Sonata and set the temperature to 72 degrees fahrenheit"
     - delay: 00:00:18
     - service: notify.alexa_media
       data_template:
@@ -89,6 +89,7 @@ car_start_car:
         data:
           type: tts
         message: !secret blue_link_pin
+
 
 ##########################################
 ## Garage Door Toggle                   ##

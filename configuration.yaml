@@ -1,6 +1,6 @@
 homeassistant:
   # Name of the location where Home Assistant is running
-  name: Home
+  name: Beach House
   # Location required to calculate the time the sun rises and sets
   latitude: !secret home_latitude
   longitude: !secret home_longitude
@@ -61,13 +61,11 @@ device_tracker:
     name: Paul_All
     entity_id:
       - device_tracker.paul
-#      - device_tracker.pauls_iphone
       - device_tracker.google_maps_118013912887885302155
   - platform: composite
     name: Tracy_All
     entity_id:
       - device_tracker.tracy
-#      - device_tracker.tracys_iphone
       - device_tracker.google_maps_116112519745623760034
 
 asuswrt:
@@ -79,7 +77,6 @@ asuswrt:
 hue:
   bridges:
     - host: 192.168.1.121
-#      allow_unreachable: true
       allow_hue_groups: false
 
 emulated_hue:
@@ -306,52 +303,6 @@ image_processing:
       area:
         # Exclude left 5% of image
         left: 0.05
-# - platform: tensorflow
-#   scan_interval: 20000
-#   source:
-#     - entity_id: camera.back_gate
-#       name: parking pad
-#   file_out:
-#      - "/home/homeassistant/.homeassistant/www/tmp/parking_pad_latest.jpg"
-#   model:
-#     graph: /home/homeassistant/.homeassistant/tensorflow/faster_rcnn_inception_v2_coco_2018_01_28/frozen_inference_graph.pb
-#     area:
-#       # Exclude top 34% of image
-#       top: 0.15
-#       # Exclude left 30% of image
-#       left: 0.38
-#       # Exclude right 10% of image
-#       right: 0.88
-#       bottom: 90
-# - platform: tensorflow
-#   scan_interval: 20000
-#   source:
-#     - entity_id: camera.back_gate
-#       name: back yard
-#   file_out:
-#      - "/home/homeassistant/.homeassistant/www/tmp/back_yard_latest.jpg"
-#   model:
-#     graph: /home/homeassistant/.homeassistant/tensorflow/faster_rcnn_inception_v2_coco_2018_01_28/frozen_inference_graph.pb
-#     categories:
-#     - category: person
-#       area:
-#         # Exclude top 10% of image
-#         top: 0.22
-#         # Exclude right 15% of image
-#         right: 0.90
-#         left: 0.30
-#     - car, truck, van, motorcycle
-#       area:
-#         top: 0.15
-#         right: 0.88
-#         left: 0.38
-#         bottom: 0.90
-#     - truck
-#       area:
-#         top: 0.15
-#         right: 0.88
-#         left: 0.38
-#         bottom: 0.90
 
 
 ios:
@@ -381,14 +332,7 @@ timer:
   frog_tv_reset:
     duration: '00:05:00'
   camera_action:
-    duration: '00:00:30'
-
-switch:
-  - platform: command_line
-    switches:
-      last_echo_used:
-        command_on: "/home/homeassistant/.homeassistant/alexa_remote_control.sh -lastalexa"
-        command_off: ""
+    duration: '00:00:60'
 
 logbook: !include logbook.yaml
 alexa: !include alexa.yaml
