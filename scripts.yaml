@@ -61,8 +61,16 @@ car_lock_car_doors:
           - media_player.old_dot
         data:
           type: tts
-        message: "alexa. tell Blue Link to lock my Sonata"
-    - delay: 00:00:16
+        message: "alexa"
+    - delay: 00:00:01
+    - service: notify.alexa_media
+      data_template:
+        target:
+          - media_player.old_dot
+        data:
+          type: tts
+        message: "tell Blue Link lock my vehicle"
+    - delay: 00:00:12
     - service: notify.alexa_media
       data_template:
         target:
@@ -80,7 +88,7 @@ car_start_car:
           - media_player.old_dot
         data:
           type: tts
-        message: "alexa. tell Blue Link to start my Sonata and set the temperature to 72 degrees fahrenheit"
+        message: "alexa. tell Blue Link start my vehicle and set the temperature to 72 degrees fahrenheit"
     - delay: 00:00:18
     - service: notify.alexa_media
       data_template:

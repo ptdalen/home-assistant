@@ -435,6 +435,8 @@
   - condition: state
     entity_id: binary_sensor.workday_sensor
     state: 'on'
+  - condition: time
+    after: '06:00:00'
   - delay:
       seconds: 3
   - service: notify.alexa_media
@@ -465,10 +467,12 @@
   - condition: state
     entity_id: group.office_lights
     state: 'off'
-  - condition: numeric_state
-    entity_id: sun.sun
-    value_template: '{{ state.attributes.elevation }}'
-    below: 6.5
+  - condition: template
+    value_template: "{{ states.sensor.illuminance.state | int < 1000 }}"
+#  - condition: numeric_state
+#    entity_id: sun.sun
+#    value_template: '{{ state.attributes.elevation }}'
+#    below: 6.5
   action:
   - service: homeassistant.turn_on
     entity_id: group.office_lights
@@ -489,10 +493,12 @@
   - condition: state
     entity_id: group.kitchen_zwave_lights
     state: 'off'
-  - condition: numeric_state
-    entity_id: sun.sun
-    value_template: '{{ state.attributes.elevation }}'
-    below: 6.5
+#  - condition: numeric_state
+#    entity_id: sun.sun
+#    value_template: '{{ state.attributes.elevation }}'
+#    below: 6.5
+  - condition: template
+    value_template: "{{ states.sensor.illuminance.state | int < 1000 }}"
   action:
   - service: homeassistant.turn_on
     entity_id: group.kitchen_zwave_lights
@@ -598,10 +604,12 @@
     from: 'off'
     to: 'on'
   condition:
-  - condition: numeric_state
-    entity_id: sun.sun
-    value_template: '{{ state.attributes.elevation }}'
-    below: 4.5
+#  - condition: numeric_state
+#    entity_id: sun.sun
+#    value_template: '{{ state.attributes.elevation }}'
+#    below: 4.5
+  - condition: template
+    value_template: "{{ states.sensor.illuminance.state | int < 1000 }}"
   - condition: state
     entity_id: light.hallway_light
     state: 'off'
@@ -762,8 +770,10 @@
 
 - alias: TV Lighting after sunset if TV is turned on
   trigger:
+#  - platform: template
+#    value_template: "{{ states.sun.sun.attributes.elevation < 4 }}"
   - platform: template
-    value_template: "{{ states.sun.sun.attributes.elevation < 4 }}"
+    value_template: "{{ states.sensor.illuminance.state | int < 1000 }}"
   - platform: state
     entity_id: media_player.living_room_tv
     to: 'on'
@@ -777,10 +787,12 @@
   - condition: state
     entity_id: remote.living_room_harmony_hub
     state: 'on'
-  - condition: numeric_state
-    entity_id: sun.sun
-    value_template: '{{ state.attributes.elevation }}'
-    below: 6.5
+#  - condition: numeric_state
+#    entity_id: sun.sun
+#    value_template: '{{ state.attributes.elevation }}'
+#    below: 6.5
+  - condition: template
+    value_template: "{{ states.sensor.illuminance.state | int < 1000 }}"
   - condition: state
     entity_id: input_select.house_mode
     state: 'Home' 
@@ -794,8 +806,10 @@
 
 - alias: Lighting after sunset if TV is turned off
   trigger:
+#  - platform: template
+#    value_template: "{{ states.sun.sun.attributes.elevation < 3 }}"
   - platform: template
-    value_template: "{{ states.sun.sun.attributes.elevation < 3 }}"
+    value_template: "{{ states.sensor.illuminance.state | int < 1000 }}"
   condition:
   - condition: state
     entity_id: media_player.living_room_tv
@@ -2858,8 +2872,7 @@
   - service: input_boolean.turn_off
     entity_id: input_boolean.fireplace_toggle
     
-- id: tv_force_on_tivo
-  alias: TV Force On for Tivo
+- alias: TV Force On for Tivo
   trigger:
   - platform: event
     event_type: roku_command
@@ -2892,8 +2905,7 @@
       title: Sony TV lost Key
       message: Fix Harmony
 
-- id: tv_force_on_apple_tv
-  alias: TV Force On for Apple TV
+- alias: TV Force On for Apple TV
   trigger:
   - platform: event
     event_type: roku_command
@@ -2926,8 +2938,7 @@
       title: Sony TV lost Key
       message: Fix Harmony
 
-- id: tv_force_off
-  alias: TV Force Off
+- alias: TV Force Off
   trigger:
   - platform: event
     event_type: roku_command
@@ -2946,19 +2957,38 @@
 ##########################################################
 ## Double Tap Events
 ########################################################
-
-- id: double_tap_test
-  alias: Double Tap Test
+- alias: Double Tap Test
   trigger:
-     platform: event
-     event_type: zwave.node_event
-     event_data:
-       entity_id: zwave.sconce_light
+  - platform: event
+    event_type: zwave.node_event
+    event_data:
+      entity_id: zwave.sconce_light
   action:
-    service_template: >
-      {% if trigger.event.data.basic_level == 255 %}
-        input_boolean.turn_on
-      {% elif trigger.event.data.basic_level == 0 %}
-        input_boolean.turn_off
-      {% endif %}
-    entity_id: input_boolean.goodnight_switch
+  - service: automation.trigger
+    entity_id: automation.good_morning_routine
+  - delay:
+      seconds: 20
+  - service: automation.trigger
+    entity_id: automation.welcome_back_routine
+#  - service_template: >
+#      {% if trigger.event.data.basic_level == 255 %}
+#        input_boolean.turn_on
+#      {% elif trigger.event.data.basic_level == 0 %}
+#        input_boolean.turn_off
+#      {% endif %}
+#    entity_id: input_boolean.goodnight_switch
+    
+- alias: Moving but not driving
+  trigger:
+  - platform: template
+    value_template: "{{is_state_attr('device_tracker.paul', 'moving', true)}}"
+  condition:
+  - condition: template
+    value_template: "{{is_state_attr('device_tracker.paul', 'driving', false)}}"
+  action:
+  - service: notify.pushbullet_notifications
+    data_template:
+      target:
+      - !secret pauls_secret_email
+      title: "Moving but not Driving"
+      message: "Moving but not Driving"

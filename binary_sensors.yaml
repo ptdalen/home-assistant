@@ -223,7 +223,7 @@
        friendly_name: Vehicle in Parking Pad
        value_template: >
          {% set m = state_attr('image_processing.back_yard', 'matches') %}
-         {{ m.van is defined and (m.van[0].score) | float >= 80 or m.truck is defined and (m.truck[0].score) | float >= 80 or m.car is defined and (m.car[0].score) | float >= 80  }}
+         {{ m.van is defined and (m.van[0].score) | float >= 70 or m.truck is defined and (m.truck[0].score) | float >= 70 or m.car is defined and (m.car[0].score) | float >= 70  }}
        entity_id: image_processing.back_yard
 
 #     objects_in_backyard:
