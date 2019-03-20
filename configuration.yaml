@@ -40,11 +40,11 @@ device_tracker:
 #  - platform: bluetooth_tracker
 #    request_rssi: true
 #    consider_home: 180
-#  - platform: icloud3
-#    username: !secret pauls_apple_id
-#    password: !secret pauls_apple_password
-#    account_name: Pauls iCloud
-#    include_device_type: iphone
+  - platform: icloud3
+    username: !secret pauls_apple_id
+    password: !secret pauls_apple_password
+    account_name: Pauls iCloud
+    include_device_type: iphone
   - platform: google_maps
     username: !secret notificationemail
     password: !secret gmailpassword

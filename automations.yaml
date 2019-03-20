@@ -159,10 +159,12 @@
     entity_id: sensor.ha_runtime_in_minutes
     above: 1
   action:
+  - service: cover.close_cover
+    entity_id: cover.garage_door_opener
   - service: lock.lock
     entity_id: group.all_locks
   - delay:
-      seconds: 1
+      seconds: 2
   - service: light.turn_on
     entity_id: 
       - group.color_hue_lights
@@ -171,19 +173,12 @@
     data:
       brightness: 254
       rgb_color: [255,200,118]
-  - service: cover.close_cover
-    entity_id: cover.garage_door_opener
+  - delay:
+      seconds: 10
   - service: homeassistant.turn_off
     entity_id:
       - group.goodbye_lights_and_switches
-  - service: automation.turn_on
-    entity_id:
-      - automation.cameras_back_gate_picture
-      - automation.cameras_drive_way_1_picture
-      - automation.cameras_drive_way_2_picture
-      - automation.camera_side_yard_picture
-  - service: input_boolean.turn_off
-    entity_id: input_boolean.goodmorning_switch
+      - input_boolean.goodmorning_switch
   - service: notify.pushbullet_notifications
     data_template:
       target:
@@ -216,7 +211,7 @@
     above: 2.0
   - service: homeassistant.turn_off
     entity_id:
-      - group.outdoor 
+      - group.outdoor
 
 - alias: Welcome Back Routine
   trigger:
@@ -262,24 +257,19 @@
   action:
   - service: lock.lock
     entity_id: group.all_locks
+  - service: cover.close_cover
+    entity_id: cover.garage_door_opener
   - delay:
-      seconds: 1
+      seconds: 2
+  - service: homeassistant.turn_off
+    entity_id: group.goodnight_av
+  - delay:
+      seconds: 2
   - service: light.turn_on
     entity_id: group.color_hue_lights
     data:
       brightness: 254
       rgb_color: [255,200,118]
-  - service: cover.close_cover
-    entity_id: cover.garage_door_opener
-  - delay:
-      seconds: 1
-  - service: homeassistant.turn_off
-    entity_id:
-      - group.good_night_lights
-      - input_boolean.goodnight_switch
-      - input_boolean.goodmorning_switch
-  - service: switch.turn_on
-    entity_id: switch.back_porch_light    
   - service: input_select.select_option
     data_template:
       entity_id: input_select.security_system
@@ -288,20 +278,33 @@
     data_template:
       entity_id: input_select.house_mode
       option: Night
+  - delay:
+      seconds: 30
+  - service: switch.turn_on
+    entity_id: switch.back_porch_light  
+  - delay:
+      seconds: 2
+  - service: homeassistant.turn_off
+    entity_id:
+      - group.goodnight_zwave_lights
+      - input_boolean.goodnight_switch
+      - input_boolean.goodmorning_switch
+  - delay:
+      seconds: 2
+  - service: switch.turn_off
+    entity_id: group.goodnight_switches
+  - delay:
+      seconds: 2
+  - service: light.turn_off
+    entity_id: 
+      - group.color_hue_lights
+      - group.goodnight_hue_lights
   - service: notify.pushbullet_notifications
     data_template:
       target:
       - !secret pauls_secret_email
       title: "Good Night Routine Ran"
       message: "Lights off, doors locked, garage closed"
-  - delay:
-      seconds: 60
-  - service: automation.turn_on
-    entity_id:
-      - automation.cameras_back_gate_picture
-      - automation.cameras_drive_way_1_picture
-      - automation.cameras_drive_way_2_picture
-      - automation.camera_side_yard_picture
   - condition: state
     entity_id: remote.theater_room_harmony_hub
     state: 'off'
@@ -320,8 +323,10 @@
     entity_id: group.indoor_motion_sensors
     to: 'off'
     for:
-      minutes: 60
+      minutes: 30
   condition:
+#  - condition: template
+#    template: {{ 'states.sensor.last_motion.state' == "Motion Sensor (Hallway)" }}
   - condition: state
     entity_id: input_select.house_mode
     state: Home
@@ -1025,16 +1030,16 @@
       minutes: 3
   condition:
   - condition: state
-    entity_id: group.good_night_lights
+    entity_id: group.goodnight_lights_all
     state: 'on'
   action:
   - service: homeassistant.turn_off
     entity_id:
-      - group.good_night_lights
+      - group.goodnight_lights_all
   - delay:
       seconds: 15
   - condition: state
-    entity_id: group.good_night_lights
+    entity_id: group.goodnight_lights_all
     state: 'on'
   - service: notify.pushbullet_notifications
     data_template:
@@ -1042,7 +1047,7 @@
       - !secret pauls_secret_email
       title: Lights failed to turn off
       message: >
-        {% set lights_on = states | selectattr('entity_id', 'in', state_attr('group.good_night_lights','entity_id')) | selectattr('state','eq','on') | map(attribute='name') | join(', ') %}
+        {% set lights_on = states | selectattr('entity_id', 'in', state_attr('group.goodnight_lights_all','entity_id')) | selectattr('state','eq','on') | map(attribute='name') | join(', ') %}
           The following Lights failed to turn off: {{ lights_on }}.  This was the second attempt.  Please turn off using the app.
 
 - alias: Zigbee Device Offline
@@ -1422,7 +1427,7 @@
     data_template:
       target:
       - !secret pauls_secret_email
-      title: "Device Offline" 
+      title: "Device Status" 
       message: "{{ trigger.to_state.attributes.friendly_name }} is {{ trigger.to_state.state }}"
 
 #####################################################
@@ -1828,6 +1833,9 @@
   - condition: numeric_state
     entity_id: sensor.ha_runtime_in_minutes
     above: 1
+  - condition: state
+    entity_id: timer.camera_action
+    state: 'active'
   action:
   - service: notify.pushbullet_notifications
     data_template:
@@ -1887,7 +1895,7 @@
       title: "Vehicle Detected (Parking Pad)"
       message: "{{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}"
       data:
-        file: '/home/homeassistant/.homeassistant/www/tmp/back_gate_latest.jpg'
+        file: '/home/homeassistant/.homeassistant/www/tmp/back_yard_latest.jpg'
 
 - alias: 'Cameras Notify if vehicle leaves'
   trigger:
@@ -2791,38 +2799,44 @@
 
 - alias: "Car Auto Lock Car Doors home"
   trigger:
-  - platform: state
-    entity_id: device_tracker.paul_all
-    to: 'home'
-    for:
-      minutes: 6
-  - platform: state
-    entity_id: device_tracker.paul_all
-    to: 'CACI'
-    for:
-      minutes: 6
-  - platform: state
-    entity_id: device_tracker.paul_all
-    to: 'Base'
-    for:
-      minutes: 6
-  - platform: state
-    entity_id: device_tracker.paul_all
-    to: 'Sams'
-    for:
-      minutes: 6
-  - platform: state
-    entity_id: device_tracker.paul_all
-    to: 'Costco'
-    for:
-      minutes: 6
+  - platform: template
+    value_template: '{{ (states.device_tracker.paul_all.state != "not_home" and ((as_timestamp(states.sensor.date.state + " " + states.sensor.time.state) - as_timestamp(states.device_tracker.paul_all.last_changed)) / 60 ) | int > 6 ) }}'
+#  - platform: state
+#    entity_id: device_tracker.paul_all
+#    to: 'home'
+#    for:
+#      minutes: 6
+#  - platform: state
+#    entity_id: device_tracker.paul_all
+#    to: 'CACI'
+#    for:
+#      minutes: 6
+#  - platform: state
+#    entity_id: device_tracker.paul_all
+#    to: 'Base'
+#    for:
+#      minutes: 6
+#  - platform: state
+#    entity_id: device_tracker.paul_all
+#    to: 'Sams'
+#    for:
+#      minutes: 6
+#  - platform: state
+#    entity_id: device_tracker.paul_all
+#    to: 'Costco'
+#    for:
+#      minutes: 6
+#  condition:
+#  - condition: numeric_state
+#    entity_id: sensor.ha_runtime_in_minutes
+#    above: 7
+#  - condition: state
+#    entity_id: timer.paul_just_arrived
+#    state: 'active'
   condition:
   - condition: numeric_state
     entity_id: sensor.ha_runtime_in_minutes
     above: 7
-#  - condition: state
-#    entity_id: timer.paul_just_arrived
-#    state: 'active'
   action:
   - service: script.turn_on
     entity_id: script.car_lock_car_doors

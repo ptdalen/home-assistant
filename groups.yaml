@@ -109,14 +109,10 @@ goodbye_lights_and_switches:
     - group.guest_rooms
     - group.theater_room
 
-good_night_lights:
+goodnight_lights_all:
   view: no
   icon: mdi:home-automation
   entities:
-#    - group.livingroom
-#    - group.kitchen_office
-#    - group.guest_rooms
-#    - switch.rope_lights
     - light.left_shelf_lights
     - light.living_room_lamp_one
     - light.living_room_lamp_two
@@ -136,7 +132,6 @@ good_night_lights:
     - light.guest_bedroom_light
     - light.hallway_light
     - switch.fireplace
-#    - switch.living_room_plug_one
     - switch.living_room_plug_three
     - switch.living_room_plug_two
     - switch.sconce_light
@@ -150,6 +145,50 @@ good_night_lights:
     - media_player.living_room
     - media_player.living_room_tv
     - remote.living_room_harmony_hub
+
+goodnight_zwave_lights:
+  view: no
+  icon: mdi:home-automation
+  entities:
+    - light.living_room_ceiling_light
+    - light.living_room_fan_light
+    - light.kitchen_counter_light
+    - light.kitchen_island_light
+    - light.ashleys_room_ceiling_light
+    - light.guest_bedroom_light
+    - light.hallway_light
+    - light.zigbee_zwave_repeater_1
+    - fan.living_room_fan
+
+goodnight_switches:
+  view: no
+  icon: mdi:home-automation
+  entities:
+    - switch.fireplace
+    - switch.living_room_plug_two
+    - switch.living_room_plug_three
+    - switch.sconce_light
+    - switch.stairwell_light
+    - switch.office_lamp_one
+    - switch.front_door_entry
+    - switch.rope_lights
+    - switch.zigbee_zwave_repeater_2
+
+goodnight_av:
+  view: no
+  icon: mdi:home-automation
+  entities:
+    - media_player.living_room
+    - media_player.living_room_tv
+    - remote.living_room_harmony_hub
+
+goodnight_hue_lights:
+  view: no
+  icon: mdi:home-automation
+  entities:
+    - light.office_lamp_two
+    - light.ashleys_room_lamp
+    - light.guest_bedroom_lamp
 
 kitchen_zwave_lights:
   name: Kitchen Dimmers
@@ -167,7 +206,7 @@ office_lights:
     - switch.office_lamp_one
 
 color_hue_lights:
-  name: Color Hue Lights
+  name: Downstairs Hue Color Lights
   view: no
   control: hidden
   entities:

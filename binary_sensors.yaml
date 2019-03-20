@@ -102,7 +102,7 @@
        friendly_name: Living Room Lighting motion delay
        value_template: "{{ is_state('binary_sensor.motion_sensor_living_room_motion', 'on') }}"
        delay_off:
-         seconds: 60
+         seconds: 600
        entity_id: binary_sensor.motion_sensor_living_room_motion
        device_class: motion
 

@@ -16,7 +16,7 @@
   - platform: noaa_tides
     station_id: 8639207
 
-  - platform: hue_custom
+#  - platform: hue_custom
 #    ip_address: 192.168.1.121
 #    token: fCPelyl8nOBO4kA3n9nAffH61H-NLWmWOkbHdyeD
     
@@ -153,7 +153,6 @@
             {%- else -%}
                 mdi:help
             {%- endif -%}
-#        entity_id: sensor.time
 
       house_mode:
         value_template: '{{ states.input_select.house_mode.state }}'
@@ -168,7 +167,6 @@
             {%- else -%}
                 mdi:help
             {%- endif -%}
- #       entity_id: sensor.time
 
       time_to_leave_for_caci:
         value_template: >
@@ -370,4 +368,24 @@
           - media_player.ashleysroom
         value_template: >
           {{ states.media_player | selectattr('attributes.last_called','eq',True) | map(attribute='entity_id') | first }}
+
+      last_motion:
+        friendly_name: 'Last Motion'
+        icon_template: 'mdi:walk'
+        entity_id:
+          - binary_sensor.motion_sensor_closet
+          - binary_sensor.motion_sensor_frog
+          - binary_sensor.motion_sensor_front_door_motion
+          - binary_sensor.motion_sensor_garage_motion
+          - binary_sensor.motion_sensor_hallway_motion
+          - binary_sensor.motion_sensor_kitchen_motion
+          - binary_sensor.motion_sensor_living_room_motion
+          - binary_sensor.motion_sensor_office_motion
+        value_template: >
+          {%- set sensors = [states.binary_sensor.motion_sensor_closet, states.binary_sensor.motion_sensor_frog, states.binary_sensor.motion_sensor_front_door_motion, states.binary_sensor.motion_sensor_garage_motion, states.binary_sensor.motion_sensor_hallway_motion, states.binary_sensor.motion_sensor_kitchen_motion, states.binary_sensor.motion_sensor_living_room_motion, states.binary_sensor.motion_sensor_office_motion] %}
+          {% for sensor in sensors %}
+            {% if as_timestamp(sensor.last_changed) == as_timestamp(sensors | map(attribute='last_changed') | max) %}
+              {{ sensor.name }}
+            {% endif %}
+          {% endfor %}
       
