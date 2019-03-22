@@ -1,29 +1,34 @@
 - platform: generic
   still_image_url: http://192.168.1.101/ISAPI/Streaming/channels/101/picture
+  stream_source: "rtsp://admin:Smart1234@192.168.1.100:8554/ISAPI/Streaming/channels/101"
   name: Front Door
   username: admin
   password: !secret camera_doorbell_password
   authentication: basic
 - platform: generic
-  still_image_url: http://192.168.1.100:65002/ISAPI/Streaming/channels/1/picture  
+  still_image_url: http://192.168.1.100:65002/ISAPI/Streaming/channels/1/picture
+  stream_source: "rtsp://admin:Smart1234@192.168.1.100:8554/ISAPI/Streaming/channels/201/"
   name: Driveway One
   username: hass
   password: !secret camera_nvr_password
   authentication: digest
 - platform: generic
-  still_image_url: http://192.168.1.100:65003/ISAPI/Streaming/channels/1/picture  
+  still_image_url: http://192.168.1.100:65003/ISAPI/Streaming/channels/1/picture 
+  stream_source: "rtsp://admin:Smart1234@192.168.1.100:8554/ISAPI/Streaming/channels/301"
   name: Driveway Two
   username: hass
   password: !secret camera_nvr_password
   authentication: digest
 - platform: generic
-  still_image_url: http://192.168.1.100:65004/ISAPI/Streaming/channels/1/picture  
+  still_image_url: http://192.168.1.100:65004/ISAPI/Streaming/channels/1/picture
+  stream_source: "rtsp://admin:Smart1234@192.168.1.100:8554/ISAPI/Streaming/channels/401"
   name: Back Gate
   username: hass
   password: !secret camera_nvr_password
   authentication: digest
 - platform: generic
-  still_image_url: http://192.168.1.100:65005/ISAPI/Streaming/channels/1/picture  
+  still_image_url: http://192.168.1.100:65005/ISAPI/Streaming/channels/1/picture
+  stream_source: "rtsp://admin:Smart1234@192.168.1.100:8554/ISAPI/Streaming/channels/501"
   name: Side Yard
   username: hass
   password: !secret camera_nvr_password
@@ -53,4 +58,4 @@
 #- platform: ffmpeg
 #  input: !secret camera_url_5
 #  extra_arguments: -pred 1 -q:v 2
-#  name: side yard
+#  name: side yard"

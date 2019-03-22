@@ -129,6 +129,8 @@ media_player:
     host: 192.168.1.84
     access_token: Zbo7pxfs55
     name: Bedroom TV Control
+  - platform: braviatv
+    host: 192.168.1.80
 
 alexa_media:
   accounts:
@@ -251,6 +253,8 @@ panel_custom:
     sidebar_icon: mdi:access-point-network
     url_path: zwave
 
+stream:
+zigpyhotfix:
 image_processing:
   - platform: tensorflow
     scan_interval: 20000

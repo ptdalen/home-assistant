@@ -1792,37 +1792,37 @@
   - service: image_processing.scan
     entity_id: image_processing.back_yard
 
-- alias: Person Detection in the Back Yard Reset
-  trigger:
-  - platform: time_pattern
-    minutes: '/2'
-  condition:
-  - condition: numeric_state
-    entity_id: sensor.ha_runtime_in_minutes
-    above: 3
-  - condition: state
-    entity_id: binary_sensor.person_in_backyard
-    state: 'on'
-  action:
-  - service: image_processing.scan
-    entity_id: image_processing.back_yard
-
-- alias: Vehicle Detection in the Parking Pad Reset
-  trigger:
-  - platform: time_pattern
-    minutes: '/5'
-  condition:
-  - condition: numeric_state
-    entity_id: sensor.ha_runtime_in_minutes
-    above: 3
-  - condition: template
-    value_template: "{{ state_attr('image_processing.back_yard', 'matches') | select('in', ['car','truck','van','motorcycle']) | list | length   > (states.input_number.vehicles_in_driveway.state)| int }}"
-  - condition: state
-    entity_id: binary_sensor.people_home
-    state: 'off'
-  action:
-  - service: image_processing.scan
-    entity_id: image_processing.back_yard
+#- alias: Person Detection in the Back Yard Reset
+#  trigger:
+#  - platform: time_pattern
+#    minutes: '/2'
+#  condition:
+#  - condition: numeric_state
+#    entity_id: sensor.ha_runtime_in_minutes
+#    above: 3
+#  - condition: state
+#    entity_id: binary_sensor.person_in_backyard
+#    state: 'on'
+#  action:
+#  - service: image_processing.scan
+#    entity_id: image_processing.back_yard
+#
+#- alias: Vehicle Detection in the Parking Pad Reset
+#  trigger:
+#  - platform: time_pattern
+#    minutes: '/5'
+#  condition:
+#  - condition: numeric_state
+#    entity_id: sensor.ha_runtime_in_minutes
+#    above: 3
+#  - condition: template
+#    value_template: "{{ state_attr('image_processing.back_yard', 'matches') | select('in', ['car','truck','van','motorcycle']) | list | length   > (states.input_number.vehicles_in_driveway.state)| int }}"
+#  - condition: state
+#    entity_id: binary_sensor.people_home
+#    state: 'off'
+#  action:
+#  - service: image_processing.scan
+#    entity_id: image_processing.back_yard
 
 - alias: Person Detection in the Driveway
   trigger:
