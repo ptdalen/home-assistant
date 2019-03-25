@@ -24,7 +24,7 @@
       - binary_sensor.master_bedroom_occupancy
       - binary_sensor.living_room_occupancy
       - binary_sensor.office_occupancy
-      - binary_sensor.backyard_line_crossing
+#      - binary_sensor.backyard_line_crossing
       - binary_sensor.open_close_sensor_back_door
       - binary_sensor.open_close_sensor_front_door
       - binary_sensor.open_close_sensor_garage_door
@@ -45,6 +45,7 @@
       - device_tracker.google_maps_118013912887885302155
       - device_tracker.pauls_iphone
       - device_tracker.pauls_iphone_2
+      - device_tracker.paulsiphone
       - binary_sensor.homekit_presence_paul
       - binary_sensor.paul_presence
       - device_tracker.tracy_all
@@ -52,6 +53,7 @@
       - device_tracker.google_maps_116112519745623760034
       - device_tracker.tracys_iphone
       - device_tracker.tracys_iphone_2
+      - device_tracker.tracy_siphone
       - binary_sensor.homekit_presence_tracy
       - binary_sensor.tracy_presence
       - fan.frog_fan

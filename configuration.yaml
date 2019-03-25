@@ -129,8 +129,8 @@ media_player:
     host: 192.168.1.84
     access_token: Zbo7pxfs55
     name: Bedroom TV Control
-  - platform: braviatv
-    host: 192.168.1.80
+#  - platform: braviatv
+#    host: 192.168.1.80
 
 alexa_media:
   accounts:
@@ -165,7 +165,7 @@ input_number:
     min: 0
     max: 100000000000
   vehicles_in_driveway:
-    name: vehicles in driveway
+    name: Vehicles in Parking Pad
     min: 0
     max: 6
 
@@ -187,6 +187,10 @@ light:
     name: Christmas Tree
     entity_id: switch.living_room_plug_two
 
+shell_command:
+  car_lock: python3 /home/homeassistant/.homeassistant/python_scripts/lock_car.py
+  car_start: python3 /home/homeassistant/.homeassistant/python_scripts/start_car.py
+  
 # Zigbee
 zha:
   usb_path: /dev/ttyUSB1
@@ -254,7 +258,7 @@ panel_custom:
     url_path: zwave
 
 stream:
-zigpyhotfix:
+#zigpyhotfix:
 image_processing:
   - platform: tensorflow
     scan_interval: 20000

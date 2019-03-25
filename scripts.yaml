@@ -55,49 +55,12 @@ theater_room_harmony_hub_off:
 car_lock_car_doors:
   alias: 'Car Lock Car Doors'
   sequence: 
-    - service: notify.alexa_media
-      data_template:
-        target:
-          - media_player.old_dot
-        data:
-          type: tts
-        message: "alexa"
-    - delay: 00:00:01
-    - service: notify.alexa_media
-      data_template:
-        target:
-          - media_player.old_dot
-        data:
-          type: tts
-        message: "tell Blue Link lock my vehicle"
-    - delay: 00:00:12
-    - service: notify.alexa_media
-      data_template:
-        target:
-          - media_player.old_dot
-        data:
-          type: tts
-        message: !secret blue_link_pin
+    - service: shell_command.car_lock
 
 car_start_car:
   alias: 'Car Start Car'
   sequence: 
-    - service: notify.alexa_media
-      data_template:
-        target:
-          - media_player.old_dot
-        data:
-          type: tts
-        message: "alexa. tell Blue Link start my vehicle and set the temperature to 72 degrees fahrenheit"
-    - delay: 00:00:18
-    - service: notify.alexa_media
-      data_template:
-        target:
-          - media_player.old_dot
-        data:
-          type: tts
-        message: !secret blue_link_pin
-
+    - service: shell_command.car_start
 
 ##########################################
 ## Garage Door Toggle                   ##

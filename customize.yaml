@@ -19,6 +19,8 @@ device_tracker.paul:
   friendly_name: Paul (360)
 device_tracker.google_maps_118013912887885302155:
   friendly_name: Paul (Google)
+device_tracker.paulsiphone:
+  friendly_name: Paul (iOS)
 binary_sensor.homekit_presence_Paul:
   friendly_name: Paul Presence (HomeKit)
 binary_sensor.paul_presence:
@@ -33,6 +35,8 @@ device_tracker.Tracy:
   friendly_name: Tracy (360)
 device_tracker.google_maps_116112519745623760034:
   friendly_name: Tracy (Google)
+device_tracker.tracy_siphone:
+  friendly_name: Tracy (iOS)
 binary_sensor.homekit_presence_tracy:
   friendly_name: Tracy Presence (HomeKit)
 binary_sensor.tracy_presence:
@@ -74,12 +78,6 @@ sensor.motion_sensor_attic_battery:
   friendly_name: Attic Multisensor Battery
 binary_sensor.motion_sensor_attic_tamper:
   friendly_name: Tamper
-binary_sensor.motion_sensor_attic_motion:
-  friendly_name: Motion Sensor (Attic)
-group.motion_sensor_attic:
-  group:
-    group.motion_sensors:
-      friendly_name: Attic Alarm
 sensor.dark_sky_minutely_summary:
   friendly_name: Hourly Weather
 sensor.dark_sky_hourly_summary:

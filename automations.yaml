@@ -179,10 +179,9 @@
     entity_id:
       - group.goodbye_lights_and_switches
       - input_boolean.goodmorning_switch
-  - service: notify.pushbullet_notifications
+  - service: notify.pushover
     data_template:
-      target:
-      - !secret pauls_secret_email
+      target: Paul
       title: "Goodbye Routine has ran"
       message: "All lights have been turned off. Garage door has closed and locks have been locked"
   - service: image_processing.scan
@@ -299,10 +298,9 @@
     entity_id: 
       - group.color_hue_lights
       - group.goodnight_hue_lights
-  - service: notify.pushbullet_notifications
+  - service: notify.pushover
     data_template:
-      target:
-      - !secret pauls_secret_email
+      target: Paul
       title: "Good Night Routine Ran"
       message: "Lights off, doors locked, garage closed"
   - condition: state
@@ -325,8 +323,8 @@
     for:
       minutes: 30
   condition:
-#  - condition: template
-#    template: {{ 'states.sensor.last_motion.state' == "Motion Sensor (Hallway)" }}
+  - condition: template
+    value_template: "{{ (states.sensor.last_motion.state) == 'Hallway' or (states.sensor.last_motion.state) == 'Closet'}}"
   - condition: state
     entity_id: input_select.house_mode
     state: Home
@@ -473,7 +471,7 @@
     entity_id: group.office_lights
     state: 'off'
   - condition: template
-    value_template: "{{ states.sensor.illuminance.state | int < 1000 }}"
+    value_template: "{{ states('sensor.motion_sensor_outdoor_luminance')| int < 90 }}"
 #  - condition: numeric_state
 #    entity_id: sun.sun
 #    value_template: '{{ state.attributes.elevation }}'
@@ -503,7 +501,7 @@
 #    value_template: '{{ state.attributes.elevation }}'
 #    below: 6.5
   - condition: template
-    value_template: "{{ states.sensor.illuminance.state | int < 1000 }}"
+    value_template: "{{ states('sensor.motion_sensor_outdoor_luminance')| int < 90 }}"
   action:
   - service: homeassistant.turn_on
     entity_id: group.kitchen_zwave_lights
@@ -614,7 +612,7 @@
 #    value_template: '{{ state.attributes.elevation }}'
 #    below: 4.5
   - condition: template
-    value_template: "{{ states.sensor.illuminance.state | int < 1000 }}"
+    value_template: "{{ states('sensor.motion_sensor_outdoor_luminance')| int < 90 }}"
   - condition: state
     entity_id: light.hallway_light
     state: 'off'
@@ -778,7 +776,7 @@
 #  - platform: template
 #    value_template: "{{ states.sun.sun.attributes.elevation < 4 }}"
   - platform: template
-    value_template: "{{ states.sensor.illuminance.state | int < 1000 }}"
+    value_template: "{{ states('sensor.motion_sensor_outdoor_luminance')| int < 90 }}"
   - platform: state
     entity_id: media_player.living_room_tv
     to: 'on'
@@ -797,7 +795,7 @@
 #    value_template: '{{ state.attributes.elevation }}'
 #    below: 6.5
   - condition: template
-    value_template: "{{ states.sensor.illuminance.state | int < 1000 }}"
+    value_template: "{{ states('sensor.motion_sensor_outdoor_luminance')| int < 90 }}"
   - condition: state
     entity_id: input_select.house_mode
     state: 'Home' 
@@ -814,7 +812,7 @@
 #  - platform: template
 #    value_template: "{{ states.sun.sun.attributes.elevation < 3 }}"
   - platform: template
-    value_template: "{{ states.sensor.illuminance.state | int < 1000 }}"
+    value_template: "{{ states('sensor.motion_sensor_outdoor_luminance')| int < 90 }}"
   condition:
   - condition: state
     entity_id: media_player.living_room_tv
@@ -1006,11 +1004,11 @@
   - condition: state
     entity_id: binary_sensor.doors_unlocked
     state: 'on'
-  - service: notify.pushbullet_notifications
+  - service: notify.pushover
     data_template:
       target:
-      - !secret pauls_secret_email
-      - !secret tracys_secret_email
+      - Paul
+      - Tracy
       title: Doors failed to Lock
       message: >
         {% set unlocked = states | selectattr('entity_id', 'in', state_attr('group.all_locks','entity_id')) | selectattr('state','eq','unlocked') | map(attribute='name') | join(', ') %}
@@ -1041,10 +1039,9 @@
   - condition: state
     entity_id: group.goodnight_lights_all
     state: 'on'
-  - service: notify.pushbullet_notifications
+  - service: notify.pushover
     data_template:
-      target:
-      - !secret pauls_secret_email
+      target: Paul
       title: Lights failed to turn off
       message: >
         {% set lights_on = states | selectattr('entity_id', 'in', state_attr('group.goodnight_lights_all','entity_id')) | selectattr('state','eq','on') | map(attribute='name') | join(', ') %}
@@ -1058,10 +1055,9 @@
     for:
       minutes: 15
   action:
-  - service: notify.pushbullet_notifications
+  - service: notify.pushover
     data_template:
-      target:
-      - !secret pauls_secret_email
+      target: Paul
       title: Zigbee Devices Offline
       message: >
         {% set offline = states.zha | selectattr('state','eq','offline') | map(attribute='name') | join(', ') %}
@@ -1085,11 +1081,11 @@
     entity_id: input_boolean.guests_present
   - delay:
       seconds: 5
-  - service: notify.pushbullet_notifications
+  - service: notify.pushover
     data_template:
       target:
-      - !secret pauls_secret_email
-      - !secret tracys_secret_email
+      - Paul
+      - Tracy
       title: >
         {% set mapper = { 'sensor.front_door_report' : 'sensor.frontdoor_code',
                           'sensor.back_door_report' : 'sensor.backdoor_code' } %}
@@ -1120,11 +1116,11 @@
     entity_id: group.primary_presence
     state: 'off'
   action:
-  - service: notify.pushbullet_notifications
+  - service: notify.pushover
     data_template:
       target:
-      - !secret pauls_secret_email
-      - !secret tracys_secret_email
+      - Paul
+      - Tracy
       title: >
         {{ trigger.to_state.attributes.friendly_name }} locked by {{ states('input_text.last_person_to_unlock') }}
       message: "At {{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}" 
@@ -1154,11 +1150,11 @@
     entity_id: input_select.security_system
     state: 'Armed (Away)'
   action:
-  - service: notify.pushbullet_notifications
+  - service: notify.pushover
     data_template:
       target:
-      - !secret pauls_secret_email
-      - !secret tracys_secret_email
+      - Paul
+      - Tracy
       title: "Security Alert"
       message: "The {{ trigger.to_state.attributes.friendly_name }} just opened and no one is home"
 
@@ -1178,11 +1174,11 @@
     entity_id: input_select.security_system
     state: 'Armed (Away)'
   action:
-  - service: notify.pushbullet_notifications
+  - service: notify.pushover
     data_template:
       target:
-      - !secret pauls_secret_email
-      - !secret tracys_secret_email
+      - Paul
+      - Tracy
       title: "Indoor Motion Alert"
       message: "Motion Detected by {{ trigger.to_state.attributes.friendly_name }} and no one is home"
 
@@ -1219,11 +1215,11 @@
       data:
         type: announce
       message: "The {{ trigger.to_state.attributes.friendly_name }} has been opened, and the security system is armed."
-  - service: notify.pushbullet_notifications
+  - service: notify.pushover
     data_template:
       target:
-      - !secret pauls_secret_email
-      - !secret tracys_secret_email
+      - Paul
+      - Tracy
       title: "Security Alert"
       message: "The {{ trigger.to_state.attributes.friendly_name }} just opened and security system is armed"
 
@@ -1315,11 +1311,11 @@
   action:
   - service: input_boolean.turn_off
     entity_id: input_boolean.garage_changed_with_ha
-  - service: notify.pushbullet_notifications
+  - service: notify.pushover
     data_template:
       target:
-      - !secret pauls_secret_email
-      - !secret tracys_secret_email
+      - Paul
+      - Tracy
       title: "Garage Door Status"
       message: "Garage Door has Closed"
 
@@ -1423,10 +1419,9 @@
     entity_id: sensor.ha_runtime_in_minutes
     above: 10
   action:
-  - service: notify.pushbullet_notifications
+  - service: notify.pushover
     data_template:
-      target:
-      - !secret pauls_secret_email
+      target: Paul
       title: "Device Status" 
       message: "{{ trigger.to_state.attributes.friendly_name }} is {{ trigger.to_state.state }}"
 
@@ -1552,10 +1547,9 @@
         entity_id: sensor.tracys_traffic_density_to_avis
         state: 'Heavy'
   action:
-  - service: notify.pushbullet_notifications
+  - service: notify.pushover
     data_template:
-      target:
-      - !secret tracys_secret_email
+      target: Tracy
       title: "Traffic is heavier than usual!"
       message: "Based on current traffic, you have about 10 minutes to leave if you want to be to work by 7:30am"
 
@@ -1659,10 +1653,9 @@
       value1: '{{ states("input_text.commute_start_zone") }}'
       value2: '{{ states("device_tracker.paul_all") }}'
       value3: '{{ ((as_timestamp(now()) - (states("input_number.commute_start_time")|int))/60)|round }}'
-  - service: notify.pushbullet_notifications
+  - service: notify.pushover
     data_template:
-      target:
-      - !secret pauls_secret_email
+      target: Paul
       title: "Commute Logged"
       message: "Your commute from {{ states('input_text.commute_start_zone') }} to {{ states('device_tracker.paul_all') }} took {{ ((as_timestamp(now()) - (states('input_number.commute_start_time')|int))/60)|round }} minutes"
 
@@ -1690,10 +1683,9 @@
       value: '{{ trigger.from_state.state }}'
   - condition: template
     value_template: "{{ states('sensor.time_to_get_to_soul_mate')| int > 2 }}"
-  - service: notify.pushbullet_notifications
+  - service: notify.pushover
     data_template:
-      target:
-      - !secret pauls_secret_email
+      target: Paul
       title: "Tracy left {{ states('input_text.commute_start_zone_tracy') }} at {{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }}"
       message: "Tracy left {{ states('input_text.commute_start_zone_tracy') }} at {{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }}"
 
@@ -1711,10 +1703,9 @@
   action:
   - condition: template
     value_template: "{{ states('sensor.time_to_get_to_soul_mate')| int > 2 }}"
-  - service: notify.pushbullet_notifications
+  - service: notify.pushover
     data_template:
-      target:
-      - !secret pauls_secret_email
+      target: Paul
       title: "Tracy arrived at {{ states('device_tracker.tracy_all') }} at {{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }}"
       message: "Tracy arrived at {{ states('device_tracker.tracy_all') }} at {{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }}"
 
@@ -1743,6 +1734,9 @@
   trigger:
   - platform: state
     entity_id: binary_sensor.motion_delay_driveway
+    to: 'on'
+  - platform: state
+    entity_id: binary_sensor.motion_sensor_outdoor_motion
     to: 'on'
   condition:
 #  - condition: template
@@ -1833,19 +1827,25 @@
   - condition: numeric_state
     entity_id: sensor.ha_runtime_in_minutes
     above: 1
-  - condition: state
-    entity_id: timer.camera_action
-    state: 'active'
+#  - condition: or
+#    conditions:
+#      - condition: state
+#        entity_id: timer.camera_action
+#        state: 'active'
+#      - condition: state
+#        entity_id: binary_sensor.motion_sensor_outdoor_motion
+#        state: 'on'
   action:
-  - service: notify.pushbullet_notifications
+  - service: notify.pushover
     data_template:
       target:
-      - !secret pauls_secret_email
-      - !secret tracys_secret_email
+      - Paul
+      - Tracy
       title: "Person in Driveway"
       message: "{{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}"
       data:
-        file: '/home/homeassistant/.homeassistant/www/tmp/front_door_latest.jpg'
+        file:
+          path: '/home/homeassistant/.homeassistant/www/tmp/front_door_latest.jpg'
 
 - alias: 'Cameras Notify if person in yard area while away or at night'
   trigger:
@@ -1865,15 +1865,16 @@
       entity_id: input_select.house_mode
       state: 'Away'
   action:
-  - service: notify.pushbullet_notifications
+  - service: notify.pushover
     data_template:
       target:
-      - !secret pauls_secret_email
-      - !secret tracys_secret_email
+      - Paul
+      - Tracy
       title: "Person Detected (Back Yard)"
       message: "{{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}"
       data:
-        file: '/home/homeassistant/.homeassistant/www/tmp/back_yard_latest.jpg'
+        file:
+          path: '/home/homeassistant/.homeassistant/www/tmp/back_yard_latest.jpg'
 
 - alias: 'Cameras Notify if vehicle in parking pad while away'
   trigger:
@@ -1887,15 +1888,16 @@
     entity_id: input_select.house_mode
     state: 'Away'
   action:
-  - service: notify.pushbullet_notifications
+  - service: notify.pushover
     data_template:
       target:
-      - !secret pauls_secret_email
-      - !secret tracys_secret_email
+      - Paul
+      - Tracy
       title: "Vehicle Detected (Parking Pad)"
       message: "{{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}"
       data:
-        file: '/home/homeassistant/.homeassistant/www/tmp/back_yard_latest.jpg'
+        file:
+          path: '/home/homeassistant/.homeassistant/www/tmp/back_yard_latest.jpg'
 
 - alias: 'Cameras Notify if vehicle leaves'
   trigger:
@@ -1918,15 +1920,16 @@
       filename: '/tmp/backgate.jpg'
   - delay:
       seconds: 2
-  - service: notify.pushbullet_notifications
+  - service: notify.pushover
     data_template:
       target:
-      - !secret pauls_secret_email
-      - !secret tracys_secret_email
+      - Paul
+      - Tracy
       title: Vehicle has left the Parking Pad   
       message: "{{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}"
       data:
-        file: /tmp/backgate.jpg
+        file:
+          path: '/tmp/backgate.jpg'
 
 - alias: 'Cameras Drive Way Front Door Motion Lights'
   trigger:
@@ -2020,11 +2023,11 @@
   - condition: state
     entity_id: binary_sensor.people_home
     state: 'off'
-  - service: notify.pushbullet_notifications
+  - service: notify.pushover
     data_template:
       target:
-      - !secret pauls_secret_email
-      - !secret tracys_secret_email
+      - Paul
+      - Tracy
       title: "Door or Window Left Open"
       message: "The {{ trigger.to_state.attributes.friendly_name }} is open"
 
@@ -2050,11 +2053,11 @@
           {%- else -%}
             {{ ' unknown' }}
           {%- endif %}
-  - service: notify.pushbullet_notifications
+  - service: notify.pushover
     data_template:
       target:
-      - !secret pauls_secret_email
-      - !secret tracys_secret_email
+      - Paul
+      - Tracy
       message: >-
         The {{ trigger.to_state.name }} 
           {%- if trigger.to_state.state in ['on', 'off'] -%}
@@ -2086,11 +2089,11 @@
           {%- else -%}
             {{ ' unknown' }}
           {%- endif %}
-  - service: notify.pushbullet_notifications
+  - service: notify.pushover
     data_template:
       target:
-      - !secret pauls_secret_email
-      - !secret tracys_secret_email
+      - Paul
+      - Tracy
       message: >-
         The {{ trigger.to_state.name }} 
           {%- if trigger.to_state.state in ['warning', 'emergency', 'Ok' ] -%}
@@ -2130,11 +2133,11 @@
           {%- else -%}
             {{ ' unknown' }}
           {%- endif %}
-  - service: notify.pushbullet_notifications
+  - service: notify.pushover
     data_template:
       target:
-      - !secret pauls_secret_email
-      - !secret tracys_secret_email
+      - Paul
+      - Tracy
       message: >-
         The {{ trigger.to_state.name }} 
           {%- if trigger.to_state.state in ['warning', 'emergency', 'Ok' ] -%}
@@ -2169,11 +2172,11 @@
       data:
         type: announce
       message: The Attic Smoke Detector is reporting a smoke warning.
-  - service: notify.pushbullet_notifications
+  - service: notify.pushover
     data_template:
       target:
-      - !secret pauls_secret_email
-      - !secret tracys_secret_email
+      - Paul
+      - Tracy
       message: The Attic Smoke Detector is reporting a smoke warning.
       title: "Smoke Alert"
   - service: lock.unlock
@@ -2204,11 +2207,11 @@
       data:
         type: announce
       message: The Attic Smoke Detector is reporting a C O 2 warning.
-  - service: notify.pushbullet_notifications
+  - service: notify.pushover
     data_template:
       target:
-      - !secret pauls_secret_email
-      - !secret tracys_secret_email
+      - Paul
+      - Tracy
       message: The Attic Smoke Detector is reporting a C O 2 warning.
       title: "CO2 Alert"
 
@@ -2229,11 +2232,11 @@
       data:
         type: announce
       message: Test Test Test.  The Attic Smoke Detector is reporting a smoke warning. This is only a test
-  - service: notify.pushbullet_notifications
+  - service: notify.pushover
     data_template:
       target:
-      - !secret pauls_secret_email
-      - !secret tracys_secret_email
+      - Paul
+      - Tracy
       message: Test Test Test.  The Attic Smoke Detector is reporting a smoke warning. This is only a test
       title: "Smoke Testing"
 
@@ -2287,27 +2290,17 @@
     data_template:
       entity_id: input_text.commute_start_zone
       value: '{{ trigger.from_state.state }}'
-  - service: notify.alexa_media
-    data_template:
-      target: 
-        - group.main_echos
-      data:
-        type: announce
-      message: >-
-        {% if states('input_text.commute_start_zone') == 'CACI' %}
-          "Paul left khaki at {{ as_timestamp (now()) | timestamp_custom('%-I %-M %p') }} and should be home in approximately {{ states('sensor.pauls_time_to_home') }} minutes."
-        {% else %}
-          "Paul left {{ states('input_text.commute_start_zone') }} at {{ as_timestamp (now()) | timestamp_custom('%-I %-M %p') }} and should be home in approximately {{ states('sensor.pauls_time_to_home') }} minutes."
-        {% endif %}
 
 - alias: Paul Travel Notice nearing Home
   trigger:
   - platform: template
-    value_template: "{{ states('sensor.pauls_time_to_home')| int < 11 }}"
+    value_template: "{{ states('sensor.pauls_time_to_home')| int < 15 }}"
   condition:
   - condition: numeric_state
     entity_id: sensor.ha_runtime_in_minutes
     above: 1
+  - condition: template
+    value_template: "{{ 'towards' in states.device_tracker.paulsiphone.attributes.dir_of_travel|lower }}"
   - condition: state
     entity_id: binary_sensor.tracy_presence
     state: 'on'
@@ -2330,8 +2323,10 @@
 - alias: Tracy Travel Notice nearing Home
   trigger:
   - platform: template
-    value_template: "{{ states('sensor.tracys_time_to_home')| int < 10 }}"
+    value_template: "{{ states('sensor.tracys_time_to_home')| int < 15 }}"
   condition:
+  - condition: template
+    value_template: "{{ 'towards' in states.device_tracker.tracy_siphone.attributes.dir_of_travel|lower }}"
   - condition: numeric_state
     entity_id: sensor.ha_runtime_in_minutes
     above: 1
@@ -2671,23 +2666,6 @@
       data:
         notification_id: low-battery-alert
 
-- alias: Reset doorbell motion detector
-  trigger:
-#  - platform: time_pattern
-#    hours: '/1'
-  - platform: state
-    entity_id: binary_sensor.front_door_camera_motion
-    to: 'Unavailable'
-  - platform: state
-    entity_id: binary_sensor.front_door_camera_motion
-    to: 'unavailable'
-  condition:
-  - condition: numeric_state
-    entity_id: sensor.ha_runtime_in_minutes
-    above: 1
-  action:
-  - service: ffmpeg.restart
-    entity_id: binary_sensor.front_door_camera_motion
 
 #############################################
 ## Misc Automations for future use         ##
@@ -2800,7 +2778,7 @@
 - alias: "Car Auto Lock Car Doors home"
   trigger:
   - platform: template
-    value_template: '{{ (states.device_tracker.paul_all.state != "not_home" and ((as_timestamp(states.sensor.date.state + " " + states.sensor.time.state) - as_timestamp(states.device_tracker.paul_all.last_changed)) / 60 ) | int > 6 ) }}'
+    value_template: '{{ (states.device_tracker.paul_all.state != "not_home" and ((as_timestamp(states.sensor.date.state + " " + states.sensor.time.state) - as_timestamp(states.device_tracker.paul_all.last_changed)) / 60 ) | int > 8 ) }}'
 #  - platform: state
 #    entity_id: device_tracker.paul_all
 #    to: 'home'
@@ -2826,20 +2804,12 @@
 #    to: 'Costco'
 #    for:
 #      minutes: 6
-#  condition:
-#  - condition: numeric_state
-#    entity_id: sensor.ha_runtime_in_minutes
-#    above: 7
-#  - condition: state
-#    entity_id: timer.paul_just_arrived
-#    state: 'active'
   condition:
   - condition: numeric_state
     entity_id: sensor.ha_runtime_in_minutes
-    above: 7
+    above: 10
   action:
-  - service: script.turn_on
-    entity_id: script.car_lock_car_doors
+  - service: shell_command.car_lock
 
 #############################################
 ## Play Music When I get home              ##
@@ -2912,10 +2882,9 @@
     data:
       entity_id: media_player.living_room_tv
       source: 'HDMI 3/ARC'
-  - service: notify.pushbullet_notifications
+  - service: notify.pushover
     data_template:
-      target:
-      - !secret pauls_secret_email
+      target: Paul
       title: Sony TV lost Key
       message: Fix Harmony
 
@@ -2945,10 +2914,9 @@
     data:
       entity_id: media_player.living_room_tv
       source: 'HDMI 2'
-  - service: notify.pushbullet_notifications
+  - service: notify.pushover
     data_template:
-      target:
-      - !secret pauls_secret_email
+      target: Paul
       title: Sony TV lost Key
       message: Fix Harmony
 
@@ -3000,9 +2968,8 @@
   - condition: template
     value_template: "{{is_state_attr('device_tracker.paul', 'driving', false)}}"
   action:
-  - service: notify.pushbullet_notifications
+  - service: notify.pushover
     data_template:
-      target:
-      - !secret pauls_secret_email
+      target: Paul
       title: "Moving but not Driving"
       message: "Moving but not Driving"
