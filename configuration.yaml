@@ -18,6 +18,8 @@ homeassistant:
 # Configure a default setup of Home Assistant (frontend, api, etc)
 default_config:
 
+#logger:
+
 # Text to speech
 tts:
   - platform: google
@@ -40,11 +42,11 @@ device_tracker:
 #  - platform: bluetooth_tracker
 #    request_rssi: true
 #    consider_home: 180
-  - platform: icloud3
-    username: !secret pauls_apple_id
-    password: !secret pauls_apple_password
-    account_name: Pauls iCloud
-    include_device_type: iphone
+#  - platform: icloud3
+#    username: !secret pauls_apple_id
+#    password: !secret pauls_apple_password
+#    account_name: Pauls iCloud
+#    include_device_type: iphone
   - platform: google_maps
     username: !secret notificationemail
     password: !secret gmailpassword
@@ -88,6 +90,10 @@ homekit:
     include_entities:
       - input_boolean.paul_present
       - input_boolean.tracy_present
+
+#discovery:
+#  enable:
+#    - homekit
 
 google:
   client_id: !secret google_calendar_id
@@ -168,6 +174,9 @@ input_number:
     name: Vehicles in Parking Pad
     min: 0
     max: 6
+  people_in_yard:
+    min: 0
+    max: 10
 
 light:
   - platform: template

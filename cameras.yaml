@@ -4,6 +4,7 @@
   name: Front Door
   username: admin
   password: !secret camera_doorbell_password
+  framerate: 12
   authentication: basic
 - platform: generic
   still_image_url: !secret camera2_still_image_url

@@ -6,6 +6,18 @@
     platform: pushover
     api_key: !secret pushover_api_key
     user_key: !secret pushover_user_key
+#  - name: Pushover Cameras
+#    platform: pushover
+#    api_key: !secret pushover_camera_api_key
+#    user_key: !secret pushover_user_key
+#  - name: Pushover System
+#    platform: pushover
+#    api_key: !secret pushover_system_api_key
+#    user_key: !secret pushover_user_key
+#  - name: Pushover Urgent
+#    platform: pushover
+#    api_key: !secret pushover_urgent_api_key
+#    user_key: !secret pushover_user_key
   - platform: nfandroidtv
     name: Sony TV
     host: 192.168.1.80

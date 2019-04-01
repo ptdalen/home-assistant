@@ -403,4 +403,15 @@ random_kitchen_loop:
     - condition: state
       entity_id: input_boolean.vacation_mode
       state: 'on'
+
+##########################################
+## Icloud3 Logging                      ##
+##########################################
+icloud_command_info_logging_toggle:
+  alias: 'Write Details to Log File (Toggle)'
+  sequence:
+    - service: device_tracker.icloud_update
+      data:
+        account_name: gary_icloud
+        command: info logging
     - service: script.random_kitchen
