@@ -28,8 +28,8 @@
       - 'date_time'
       - 'time_date'
 
-  - platform: illuminance
-    entity_id: sensor.dark_sky_icon
+#  - platform: illuminance
+#    entity_id: sensor.dark_sky_icon
 
 #  # Pauls commute to home
 #  - platform: google_travel_time

@@ -18,6 +18,9 @@ homeassistant:
 # Configure a default setup of Home Assistant (frontend, api, etc)
 default_config:
 
+frontend:
+  javascript_version: latest
+
 #logger:
 
 # Text to speech
@@ -151,19 +154,19 @@ alexa_media:
     - "My Dash"
     - "Living Room"
 
-person:
-  - name: Paul
-    id: Paul
-    user_id: 2d95d022b9a644298260725f09d734a0
-    device_trackers:
-      - device_tracker.paul
-      - device_tracker.google_maps_118013912887885302155
-  - name: Tracy
-    id: Tracy
-    user_id: c05370f5a00b40c580b69f01f68a6ee8
-    device_trackers:
-      - device_tracker.tracy
-      - device_tracker.google_maps_116112519745623760034
+#person:
+#  - name: Paul
+#    id: Paul
+#    user_id: 2d95d022b9a644298260725f09d734a0
+#    device_trackers:
+#      - device_tracker.paul
+#      - device_tracker.google_maps_118013912887885302155
+#  - name: Tracy
+#    id: Tracy
+#    user_id: c05370f5a00b40c580b69f01f68a6ee8
+#    device_trackers:
+#      - device_tracker.tracy
+#      - device_tracker.google_maps_116112519745623760034
 
 input_number:
   commute_start_time:
@@ -269,7 +272,7 @@ panel_custom:
 stream:
 #zigpyhotfix:
 image_processing:
-  - platform: tensorflow
+  - platform: tensorflow_custom
     scan_interval: 20000
     source:
       - entity_id: camera.back_gate
@@ -308,7 +311,7 @@ image_processing:
             right: 0.88
             left: 0.38
             bottom: 0.40
-  - platform: tensorflow
+  - platform: tensorflow_custom
     scan_interval: 20000
     source:
       - entity_id: camera.front_door
