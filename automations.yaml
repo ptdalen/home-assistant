@@ -445,7 +445,7 @@
   - condition: time
     after: '06:00:00'
   - delay:
-      seconds: 3
+      seconds: 5
   - service: notify.alexa_media
     data_template:
       target:
@@ -455,8 +455,42 @@
       message: >-
         {% if states('input_boolean.paul_in_bed') == 'on' and states('input_boolean.tracy_in_bed') == 'off' %}
           Good Morning Tracy.  Here is your morning Report.  It looks like it will take you about {{ states('sensor.time_to_avis_tracy') | int | round }} minutes to get to work today.  Now here is your weather brief. The weather will be {{ states('sensor.dark_sky_hourly_summary') }}  with a high temp of {{ states('sensor.dark_sky_daytime_high_temperature_0d') | int | round }} and a {{ states('sensor.dark_sky_precip_probability_0d') | int | round}} percent chance of rain.
-        {% elif states('input_boolean.paul_in_bed') == 'off' and states('input_boolean.tracy_in_bed') == 'on' %}
-          Good Morning Paul
+        {% elif states('input_boolean.paul_in_bed') == 'off' and states('input_boolean.tracy_in_bed') == 'off' %}
+          Good Morning Tracy.  Here is your morning Report.  It looks like it will take you about {{ states('sensor.time_to_avis_tracy') | int | round }} minutes to get to work today.  Now here is your weather brief. The weather will be {{ states('sensor.dark_sky_hourly_summary') }}  with a high temp of {{ states('sensor.dark_sky_daytime_high_temperature_0d') | int | round }} and a {{ states('sensor.dark_sky_precip_probability_0d') | int | round}} percent chance of rain.
+        {% elif states('input_boolean.paul_in_bed') == 'off' and states('input_boolean.tracy_in_bed') == 'on' and states('input_select.work_location') == 'Base' %}
+          Good Morning Paul.  Here is your morning Report.  Traffic to the base is {{ states('sensor.pauls_traffic_density_to_base') }} at the moment. It looks like it will take you about {{ states('sensor.time_to_base') | int | round }} minutes to get to work.  Here is your weather brief. The weather will be {{ states('sensor.dark_sky_hourly_summary') }}  with a high temp of {{ states('sensor.dark_sky_daytime_high_temperature_0d') | int | round }} and a {{ states('sensor.dark_sky_precip_probability_0d') | int | round}} percent chance of rain.
+        {% elif states('input_boolean.paul_in_bed') == 'off' and states('input_boolean.tracy_in_bed') == 'on' and states('input_select.work_location') == 'CACI' %}
+          Good Morning Paul.  Here is your morning Report.  Traffic to khaki is {{ states('sensor.pauls_traffic_density_to_caci') }} at the moment.  It looks like it will take you about {{ states('sensor.time_to_caci') | int | round }} minutes to get to work.  Here is your weather brief. The weather will be {{ states('sensor.dark_sky_hourly_summary') }}  with a high temp of {{ states('sensor.dark_sky_daytime_high_temperature_0d') | int | round }} and a {{ states('sensor.dark_sky_precip_probability_0d') | int | round}} percent chance of rain.
+        {% else %}
+          Good Morning.  Here is your morning Report. The weather will be {{ states('sensor.dark_sky_hourly_summary') }}  with a high temp of {{ states('sensor.dark_sky_daytime_high_temperature_0d') | int | round }} and a {{ states('sensor.dark_sky_precip_probability_0d') | int | round}} percent chance of rain.
+        {% endif %}
+
+- alias: Good Morning Paul
+  trigger:
+  - platform: state
+    entity_id: input_boolean.paul_in_bed
+    to: 'off'
+  condition:
+  - condition: time
+    after: '06:00:00'
+  - condition: state
+    entity_id: binary_sensor.workday_sensor
+    state: 'on'
+  - condition: state
+    entity_id: input_boolean.tracy_in_bed
+    state: 'off'
+  action:
+  - service: notify.alexa_media
+    data_template:
+      target:
+        - media_player.bedroom
+      data:
+        type: announce
+      message: >-
+        {% if states('input_select.work_location') == 'Base' %}
+          Good Morning Paul.  Here is your morning Report.  Traffic to the base is {{ states('sensor.pauls_traffic_density_to_base') }} at the moment. It looks like it will take you about {{ states('sensor.time_to_base') | int | round }} minutes to get to work.  Here is your weather brief. The weather will be {{ states('sensor.dark_sky_hourly_summary') }}  with a high temp of {{ states('sensor.dark_sky_daytime_high_temperature_0d') | int | round }} and a {{ states('sensor.dark_sky_precip_probability_0d') | int | round}} percent chance of rain.
+        {% elif states('input_select.work_location') == 'CACI' %}
+          Good Morning Paul.  Here is your morning Report.  Traffic to khaki is {{ states('sensor.pauls_traffic_density_to_caci') }} at the moment.  It looks like it will take you about {{ states('sensor.time_to_caci') | int | round }} minutes to get to work.  Here is your weather brief. The weather will be {{ states('sensor.dark_sky_hourly_summary') }}  with a high temp of {{ states('sensor.dark_sky_daytime_high_temperature_0d') | int | round }} and a {{ states('sensor.dark_sky_precip_probability_0d') | int | round}} percent chance of rain.
         {% else %}
           Good Morning.  Here is your morning Report. The weather will be {{ states('sensor.dark_sky_hourly_summary') }}  with a high temp of {{ states('sensor.dark_sky_daytime_high_temperature_0d') | int | round }} and a {{ states('sensor.dark_sky_precip_probability_0d') | int | round}} percent chance of rain.
         {% endif %}

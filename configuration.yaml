@@ -79,10 +79,10 @@ asuswrt:
     password: !secret router_password
     protocol: ssh
 
-hue:
-  bridges:
-    - host: 192.168.1.121
-      allow_hue_groups: false
+#hue:
+#  bridges:
+#    - host: 192.168.1.121
+#      allow_hue_groups: false
 
 emulated_hue:
   host_ip: 192.168.1.12
@@ -94,10 +94,13 @@ homekit:
       - input_boolean.paul_present
       - input_boolean.tracy_present
 
-#discovery:
-#  enable:
-#    - homekit
-
+discovery:
+  enable:
+    - homekit
+  ignore:
+    - philips_hue
+    - apple_tv
+    - plex_mediaserver
 google:
   client_id: !secret google_calendar_id
   client_secret: !secret google_calendar_secret
@@ -153,6 +156,8 @@ alexa_media:
     - "Downstairs"
     - "My Dash"
     - "Living Room"
+    - "old_dot2"
+    - "old_dot2"
 
 #person:
 #  - name: Paul

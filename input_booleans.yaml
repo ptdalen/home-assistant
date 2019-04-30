@@ -1,15 +1,14 @@
 paul_present:
-  name: Paul
+  name: Paul HomeKit Switch
   icon: mdi:account
 tracy_present:
-  name: Tracy
+  name: Tracy HomeKit Switch
   icon: mdi:account
 paul_in_bed:
-  name: Paul Sleeping
+  name: Paul in Bed
   icon: mdi:account
 tracy_in_bed:
-  name: Tracy Sleeping
-  icon: mdi:account
+  name: Tracy in Bed
 guests_present:
   name: We have guests
   icon: mdi:account-multiple  

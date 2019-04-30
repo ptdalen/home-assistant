@@ -12,9 +12,9 @@ sensor.downstairs_temperature:
 sensor.upstairs_temperature:
   friendly_name: Upstairs Hallway Thermostat Temperature
 device_tracker.pauls_iphone:
-  friendly_name: Paul Presence (App)
+  friendly_name: Paul (App)
 device_tracker.pauls_iphone_2:
-  friendly_name: Paul Presence (Router)
+  friendly_name: Paul (Router)
 device_tracker.paul:
   friendly_name: Paul (360)
 device_tracker.google_maps_118013912887885302155:
@@ -22,15 +22,15 @@ device_tracker.google_maps_118013912887885302155:
 device_tracker.paulsiphone:
   friendly_name: Paul (iOS)
 binary_sensor.homekit_presence_Paul:
-  friendly_name: Paul Presence (HomeKit)
+  friendly_name: Paul (HomeKit)
 binary_sensor.paul_presence:
-  friendly_name: Paul Presence (Bayesian)
+  friendly_name: Paul (Bayesian)
 device_tracker.paul_all:
   friendly_name: Paul
 device_tracker.tracys_iphone:
-  friendly_name: Tracy Presence (App)
+  friendly_name: Tracy (App)
 device_tracker.tracys_iphone_2:
-  friendly_name: Tracy Presence (Router)
+  friendly_name: Tracy (Router)
 device_tracker.Tracy:
   friendly_name: Tracy (360)
 device_tracker.google_maps_116112519745623760034:
@@ -38,9 +38,9 @@ device_tracker.google_maps_116112519745623760034:
 device_tracker.tracy_siphone:
   friendly_name: Tracy (iOS)
 binary_sensor.homekit_presence_tracy:
-  friendly_name: Tracy Presence (HomeKit)
+  friendly_name: Tracy (HomeKit)
 binary_sensor.tracy_presence:
-  friendly_name: Tracy Presence (Bayesian)
+  friendly_name: Tracy (Bayesian)
 device_tracker.tracy_all:
   friendly_name: Tracy
 sensor.lock_garage_door_lock_alarm_level:

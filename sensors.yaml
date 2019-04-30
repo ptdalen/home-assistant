@@ -16,6 +16,11 @@
   - platform: noaa_tides
     station_id: 8639207
 
+  - platform: zestimate
+    api_key: !secret zestimate_api
+    zpid:
+      - !secret zestimate_zpid
+
 #  - platform: hue_custom
 #    ip_address: 192.168.1.121
 #    token: fCPelyl8nOBO4kA3n9nAffH61H-NLWmWOkbHdyeD
@@ -217,12 +222,12 @@
             Heavy
           {% elif states("sensor.time_to_caci") | int < 32 and states("sensor.time_to_caci") | int >= 27 %}
             Moderate
-          {% elif states("sensor.time_to_caci") | int < 27 and states("sensor.time_to_caci") | int >= 10 %}
+          {% elif states("sensor.time_to_caci") | int < 27 and states("sensor.time_to_caci") | int >= 2 %}
             Normal
           {% else %}
-            unknown
+            You're Here
           {% endif %}
-        
+
       pauls_traffic_density_to_base:
         friendly_name: Traffic to Base
         value_template: >-
@@ -230,12 +235,12 @@
             Heavy
           {% elif states("sensor.time_to_base") | float < 36 and states("sensor.time_to_base") | float >= 30 %}
             Moderate
-          {% elif states("sensor.time_to_base") | float < 30 and states("sensor.time_to_base") | float >= 10 %}
+          {% elif states("sensor.time_to_base") | float < 30 and states("sensor.time_to_base") | float >= 2 %}
             Normal
           {% else %}
-            unknown
+            You're Here
           {% endif %}
-        
+
       tracys_traffic_density_to_avis:
         friendly_name: Traffic to Avis
         value_template: >-
@@ -243,10 +248,10 @@
             Heavy
           {% elif states("sensor.time_to_avis_tracy") | float < 20 and states("sensor.time_to_avis_tracy") | float >= 15 %}
             Moderate
-          {% elif states("sensor.time_to_avis_tracy") | float < 15 and states("sensor.time_to_avis_tracy") | float >= 8 %}
+          {% elif states("sensor.time_to_avis_tracy") | float < 15 and states("sensor.time_to_avis_tracy") | float >= 2 %}
             Normal
           {% else %}
-            unknown
+            You're Here
           {% endif %}
         
       battery_attic_water_sensor:
@@ -304,7 +309,7 @@
           {% endif %}"
         unit_of_measurement: '%'
         icon_template: >-
-          {% set battery_level = states('sensor.battery_living_room_window_open_close')|int('unknown') %}
+          {% set battery_level = states('sensor.open_close_sensor_livingroom_window_back_battery')|int('unknown') %}
           {% set battery_round = (battery_level|int / 10)|int * 10 %}
           {% if battery_level == 'unknown' %}
             mdi:battery-unknown
@@ -327,7 +332,7 @@
           {% endif %}"
         unit_of_measurement: '%'
         icon_template: >-
-          {% set battery_level = states('sensor.battery_office_window_open_close')|int('unknown') %}
+          {% set battery_level = states('sensor.open_close_sensor_office_window_battery')|int('unknown') %}
           {% set battery_round = (battery_level|int / 10)|int * 10 %}
           {% if battery_level == 'unknown' %}
             mdi:battery-unknown
