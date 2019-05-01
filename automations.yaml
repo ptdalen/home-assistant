@@ -1128,16 +1128,16 @@
       - Paul
       - Tracy
       title: >
-        {% set mapper = { 'sensor.front_door_report' : 'sensor.frontdoor_code',
-                          'sensor.back_door_report' : 'sensor.backdoor_code' } %}
+        {% set mapper = { 'sensor.front_door_report' : 'input_text.frontdoor_code',
+                          'sensor.back_door_report' : 'input_text.backdoor_code' } %}
         {{ trigger.to_state.attributes.friendly_name }} unlocked by {{ states(mapper[trigger.entity_id]) }}
       message: "At {{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}"
   - service: input_text.set_value
     data_template:
       entity_id: input_text.last_person_to_unlock
       value: >
-        {% set mapper = { 'sensor.front_door_report' : 'sensor.frontdoor_code',
-                          'sensor.back_door_report' : 'sensor.backdoor_code' } %}
+        {% set mapper = { 'sensor.front_door_report' : 'input_text.frontdoor_code',
+                          'sensor.back_door_report' : 'input_text.backdoor_code' } %}
         {{ states(mapper[trigger.entity_id]) }}
 
 - alias: Notify who locked door with timestamp

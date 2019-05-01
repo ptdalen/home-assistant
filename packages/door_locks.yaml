@@ -651,6 +651,39 @@ automation:
         data:
           entity_id: input_select.hass_status_for_garage_door_lock
           option: Unlocked with Code
+# This automation will just set a a friendly name of whoever unlocked the door to input_text.frontdoor_code,  Use for other automations if you want.
+  - alias: Set Last Person to unlock with Keypad (Front Door)
+    trigger:
+    - platform: template
+      value_template: "{{ states('sensor.lock_front_door_deadbolt_alarm_type') | int == 19 }}"
+    action:
+    - delay:
+        seconds: 1
+    - service: input_text.set_value
+      data_template:
+        entity_id: input_text.frontdoor_code
+        value: >
+          {% set number = states('sensor.lock_front_door_deadbolt_alarm_level') %}
+          {% set entity_id = 'input_text.door_keypad_' + number + '_name' %}
+          {% set user = 'Master' if number == '0' else states(entity_id) %}
+          {{ user }}
+
+# This automation will just set a a friendly name of whoever unlocked the door to input_text.backdoor_code,  Use for other automations if you want.
+  - alias: Set Last Person to unlock with Keypad (Back Door)
+    trigger:
+    - platform: template
+      value_template: "{{ states('sensor.lock_back_door_deadbolt_alarm_type') | int == 19 }}"
+    action:
+    - delay:
+        seconds: 1
+    - service: input_text.set_value
+      data_template:
+        entity_id: input_text.backdoor_code
+        value: >
+          {% set number = states('sensor.lock_back_door_deadbolt_alarm_level') %}
+          {% set entity_id = 'input_text.door_keypad_' + number + '_name' %}
+          {% set user = 'Master' if number == '0' else states(entity_id) %}
+          {{ user }}
 
   - alias: Set Front Door Lock Options
     trigger:
@@ -748,6 +781,7 @@ automation:
           value: >-
             {{ trigger.to_state.state }}
 
+
 input_text:
   door_keypad_1_name:
     name: Name
@@ -839,8 +873,10 @@ input_text:
   door_keypad_18_code:
     name: Code
     pattern: '[0-9]*'
-  last_person_to_unlock:
-    name: Name
+  frontdoor_code:
+    name: Last Person to Unlock Front Door with Keypad
+  backdoor_code:
+    name: Last Person to Unlock Back Door with Keypad
 
 input_select:
   door_keypad_1_access_schedule:
@@ -2039,13 +2075,14 @@ sensor:
             Unknown Alarm Type Value {{ states('sensor.lock_back_door_deadbolt_alarm_type') }}
           {% endif %}
 # This sensor will just be a friendly name of whoever unlocked the door,  Use for other automations if you want.
-      backdoor_code:
-        friendly_name: 'Last Person to unlock with Keypad (Back Door)'
-        value_template: >
-          {% set number = states('sensor.lock_back_door_deadbolt_alarm_level') %}
-          {% set entity_id = 'input_text.door_keypad_' + number + '_name' %}
-          {% set user = 'Master' if number == '0' else states(entity_id) %}
-          {{ user }}
+#      backdoor_code:
+#        friendly_name: 'Last Person to unlock with Keypad (Back Door)'
+#        value_template: >
+#          {% set number = states('sensor.lock_back_door_deadbolt_alarm_level') %}
+#          {% set entity_id = 'input_text.door_keypad_' + number + '_name' %}
+#          {% set user = 'Master' if number == '0' else states(entity_id) %}
+#          {{ user }}
+
       front_door_report:
         friendly_name: 'Front Door Report'
         value_template: >
@@ -2091,13 +2128,13 @@ sensor:
             Unknown Alarm Type Value {{ states('sensor.lock_front_door_deadbolt_alarm_type') }}
           {% endif %}
 
-      frontdoor_code:
-        friendly_name: 'Last Person to unlock with Keypad (Front Door)'
-        value_template: >
-          {% set number = states('sensor.lock_front_door_deadbolt_alarm_level') %}
-          {% set entity_id = 'input_text.door_keypad_' + number + '_name' %}
-          {% set user = 'Master' if number == '0' else states(entity_id) %}
-          {{ user }}
+#      frontdoor_code:
+#        friendly_name: 'Last Person to unlock with Keypad (Front Door)'
+#        value_template: >
+#          {% set number = states('sensor.lock_front_door_deadbolt_alarm_level') %}
+#          {% set entity_id = 'input_text.door_keypad_' + number + '_name' %}
+#          {% set user = 'Master' if number == '0' else states(entity_id) %}
+#          {{ user }}
 
       garage_door_code_entered:
         value_template: >-
