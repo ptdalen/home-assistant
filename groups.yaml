@@ -60,7 +60,7 @@ guest_rooms:
     - light.guest_bedroom_lamp
     - light.guest_bedroom_light
     - light.hallway_light
-    - light.zigbee_zwave_repeater_1
+#    - light.zigbee_zwave_repeater_1
 
 theater_room:
   name: Theater Room
@@ -141,7 +141,7 @@ goodnight_lights_all:
     - switch.rope_lights
     - fan.living_room_fan
     - switch.zigbee_zwave_repeater_2
-    - light.zigbee_zwave_repeater_1
+#    - light.zigbee_zwave_repeater_1
     - media_player.living_room
     - media_player.living_room_tv
     - remote.living_room_harmony_hub
@@ -157,7 +157,7 @@ goodnight_zwave_lights:
     - light.ashleys_room_ceiling_light
     - light.guest_bedroom_light
     - light.hallway_light
-    - light.zigbee_zwave_repeater_1
+#    - light.zigbee_zwave_repeater_1
     - fan.living_room_fan
 
 goodnight_switches:
@@ -339,7 +339,5 @@ downstairs_echos:
   entities: 
     - media_player.garage
     - media_player.kitchen
-    - media_player.kitchen_show
+    - media_player.office_show
     - media_player.livingroom
-    - media_player.office
-    - media_player.old_dot

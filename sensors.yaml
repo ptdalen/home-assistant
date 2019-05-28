@@ -217,6 +217,7 @@
         
       pauls_traffic_density_to_caci:
         friendly_name: Traffic to CACI
+        icon_template: 'mdi:car-multiple'
         value_template: >
           {% if states("sensor.time_to_caci") | int >= 32 %}
             Heavy
@@ -230,6 +231,7 @@
 
       pauls_traffic_density_to_base:
         friendly_name: Traffic to Base
+        icon_template: 'mdi:car-multiple'
         value_template: >-
           {% if states("sensor.time_to_base") | float >= 36 %}
             Heavy
@@ -243,6 +245,7 @@
 
       tracys_traffic_density_to_avis:
         friendly_name: Traffic to Avis
+        icon_template: 'mdi:car-multiple'
         value_template: >-
           {% if states("sensor.time_to_avis_tracy") | float >= 20 %}
             Heavy
@@ -253,7 +256,7 @@
           {% else %}
             You're Here
           {% endif %}
-        
+
       battery_attic_water_sensor:
         friendly_name: "Attic Water Detector Battery"
         value_template: "{% if states.zwave.water_sensor_attic %}
@@ -394,4 +397,47 @@
               {{ ")".join(short_name.split(")")[:-1]) }}
             {% endif %}
           {% endfor %}
-      
+
+      downstairs_thermostat_temp:
+        friendly_name: "Downstairs Thermostat Temperature"
+        unit_of_measurement: '°F'
+        value_template: "{% if states.climate.downstairs_2 %}
+            {{ states.climate.downstairs_2.attributes.current_temperature }}
+          {% else %}
+            unknown
+          {% endif %}"
+        icon_template: mdi:thermometer
+        entity_id: climate.downstairs_2
+
+      upstairs_thermostat_temp:
+        friendly_name: "Upstairs Thermostat Temperature"
+        unit_of_measurement: '°F'
+        value_template: "{% if states.climate.upstairs_2 %}
+            {{ states.climate.upstairs_2.attributes.current_temperature }}
+          {% else %}
+            unknown
+          {% endif %}"
+        icon_template: mdi:thermometer
+        entity_id: climate.upstairs_2
+
+      downstairs_thermostat_humidity:
+        friendly_name: "Downstairs Thermostat humidity"
+        unit_of_measurement: '%'
+        value_template: "{% if states.climate.downstairs_2 %}
+            {{ states.climate.downstairs_2.attributes.current_humidity }}
+          {% else %}
+            unknown
+          {% endif %}"
+        icon_template: mdi:water-percent
+        entity_id: climate.downstairs_2
+
+      upstairs_thermostat_humidity:
+        friendly_name: "Upstairs Thermostat humidity"
+        unit_of_measurement: '%'
+        value_template: "{% if states.climate.upstairs_2 %}
+            {{ states.climate.upstairs_2.attributes.current_humidity }}
+          {% else %}
+            unknown
+          {% endif %}"
+        icon_template: mdi:water-percent
+        entity_id: climate.upstairs_2

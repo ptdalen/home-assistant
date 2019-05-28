@@ -1,3 +1,5 @@
+
+
 #################################################################
 # Names in needed in entity registry:                           #
 # zwave.lock_front_door_deadbolt                                #
@@ -13,6 +15,7 @@
 #################################################################
 automation:
   - alias: Keypad switch turned on
+    initial_state: true
     trigger:
       - platform: state
         to: 'on'
@@ -105,6 +108,7 @@ automation:
             {{ states['input_text'][user_code_id].state }}
 
   - alias: Keypad switch turned off
+    initial_state: true
     trigger:
       - platform: state
         to: 'off'
@@ -209,6 +213,7 @@ automation:
 #            {{ code_slot }}
 
   - alias: Keypad temporary code start (Front)
+    initial_state: true
     trigger:
       - platform: state
         to: 'True'
@@ -254,7 +259,7 @@ automation:
             {% set code_slot = object_id[7:-18] %}
             {{ code_slot }}
 
-      - service: notify.pushbullet_notifications
+      - service: notify.pushover
         data_template:
           message: >-
             {% set object_id = trigger.to_state.object_id %}
@@ -276,10 +281,11 @@ automation:
             {% set switch_name = states['input_boolean'][switch_input].attributes.friendly_name %}
             Beach House: Temporary code enabled on {{ switch_name }}
           target:
-          - !secret pauls_secret_email
-          - !secret tracys_secret_email
+          - Paul
+          - Tracy
 
   - alias: Keypad temporary code start (Back)
+    initial_state: true
     trigger:
       - platform: state
         to: 'True'
@@ -325,7 +331,7 @@ automation:
             {% set code_slot = object_id[7:-18] %}
             {{ code_slot }}
 
-      - service: notify.pushbullet_notifications
+      - service: notify.pushover
         data_template:
           message: >-
             {% set object_id = trigger.to_state.object_id %}
@@ -348,10 +354,11 @@ automation:
             Beach House: Temporary code enabled on {{ switch_name }}
 
           target:
-          - !secret pauls_secret_email
-          - !secret tracys_secret_email
+          - Paul
+          - Tracy
 
   - alias: Keypad temporary code start (Garage)
+    initial_state: true
     trigger:
       - platform: state
         to: 'True'
@@ -397,7 +404,7 @@ automation:
             {% set code_slot = object_id[7:-18] %}
             {{ code_slot }}
 
-      - service: notify.pushbullet_notifications
+      - service: notify.pushover
         data_template:
           message: >-
             {% set object_id = trigger.to_state.object_id %}
@@ -420,10 +427,11 @@ automation:
             Beach House: Temporary code enabled on {{ switch_name }}
 
           target:
-          - !secret pauls_secret_email
-          - !secret tracys_secret_email
+          - Paul
+          - Tracy
 
   - alias: Keypad temporary code end
+    initial_state: true
     trigger:
       - platform: state
         to: 'True'
@@ -508,7 +516,7 @@ automation:
 #            {% set code_slot = object_id[7:-19] %}
 #            {{ code_slot }}   
 
-      - service: notify.pushbullet_notifications
+      - service: notify.pushover
         data_template:
           message: >-
             {% set object_id = trigger.to_state.object_id %}
@@ -520,8 +528,8 @@ automation:
             The pin code {{ usercode }} for {{ name }} has now been removed from all doors.
           title: "Beach House: Temporary code disabled on all doors"        
           target:
-          - !secret pauls_secret_email
-          - !secret tracys_secret_email
+          - Paul
+          - Tracy
 
       - condition: and
         conditions:
@@ -541,6 +549,7 @@ automation:
             {{ 'script.door_keypad_' ~ code_slot ~ '_delete' }}
 
   - alias: Keypad set random code for one time use
+    initial_state: true
     trigger:
       - platform: state
         to: 'Enabled'
@@ -561,6 +570,7 @@ automation:
           value: '{{ range(1000, 9999) | random }}'
 
   - alias: Keypad clear code after one time use code is used for 16 through 18
+    initial_state: true
 # When the code from slots 16. 17 or 18 are used, this immediately runs the delete script, removing the code from all doors
 # notice that the alarm level is used to determine which slot was used, make sure the names match your config.  Added condition
 # for keypad unlock to keep codes from being deleted when set  (Yale Locks did this)
@@ -592,14 +602,15 @@ automation:
           entity_id: >
             {% set code_slot = trigger.to_state.state %}
             {{ 'script.door_keypad_' ~ code_slot ~ '_delete' }}
-      - service: notify.pushbullet_notifications
+      - service: notify.pushover
         data:
           message: "door delete test "
           target:
-          - !secret pauls_secret_email
+          - Paul
           title: "Testing of delete script door keypad"
 
   - alias: Keypad clear code after one time use is set to disabled for 16 through 18
+    initial_state: true
 # This will also delete the code from all doors when you change the option from enabled to disabled
     trigger:
       - platform: state
@@ -618,6 +629,7 @@ automation:
                 {{ script_to_run }}
 
   - alias: "Garage Door Lock Remote Activity"
+    initial_state: true
     # Any change in lock state, lock or unlock
     trigger:
       - platform: state
@@ -641,6 +653,7 @@ automation:
             
   ## When door is locked and set to Auto Re-Lock, the lock state doesn't toggle when user codes are entered
   - alias: "Garage Lock Code Used"
+    initial_state: true
     ## leaving a value of zero indicates a user code was entered
     trigger:
       - platform: state
@@ -651,8 +664,10 @@ automation:
         data:
           entity_id: input_select.hass_status_for_garage_door_lock
           option: Unlocked with Code
-# This automation will just set a a friendly name of whoever unlocked the door to input_text.frontdoor_code,  Use for other automations if you want.
+
+# This automation will just set a a friendly name of whoever unlocked the door to input_text.front_door_code,  Use for other automations if you want.
   - alias: Set Last Person to unlock with Keypad (Front Door)
+    initial_state: true
     trigger:
     - platform: template
       value_template: "{{ states('sensor.lock_front_door_deadbolt_alarm_type') | int == 19 }}"
@@ -661,15 +676,16 @@ automation:
         seconds: 1
     - service: input_text.set_value
       data_template:
-        entity_id: input_text.frontdoor_code
+        entity_id: input_text.front_door_code
         value: >
           {% set number = states('sensor.lock_front_door_deadbolt_alarm_level') %}
           {% set entity_id = 'input_text.door_keypad_' + number + '_name' %}
           {% set user = 'Master' if number == '0' else states(entity_id) %}
           {{ user }}
 
-# This automation will just set a a friendly name of whoever unlocked the door to input_text.backdoor_code,  Use for other automations if you want.
+# This automation will just set a a friendly name of whoever unlocked the door to input_text.back_door_code,  Use for other automations if you want.
   - alias: Set Last Person to unlock with Keypad (Back Door)
+    initial_state: true
     trigger:
     - platform: template
       value_template: "{{ states('sensor.lock_back_door_deadbolt_alarm_type') | int == 19 }}"
@@ -678,12 +694,67 @@ automation:
         seconds: 1
     - service: input_text.set_value
       data_template:
-        entity_id: input_text.backdoor_code
+        entity_id: input_text.back_door_code
         value: >
           {% set number = states('sensor.lock_back_door_deadbolt_alarm_level') %}
           {% set entity_id = 'input_text.door_keypad_' + number + '_name' %}
           {% set user = 'Master' if number == '0' else states(entity_id) %}
           {{ user }}
+
+  - alias: Set Last Person to unlock with Keypad (Garage Door)
+    initial_state: true
+    trigger:
+    - platform: template
+      value_template: "{{ states('input_select.hass_status_for_garage_door_lock') == 'Unlocked with Code' }}"
+    action:
+    - delay:
+        seconds: 1
+    - service: input_text.set_value
+      data_template:
+        entity_id: input_text.garage_door_code
+        value: >
+          {% set number = states('sensor.lock_garage_door_lock_alarm_level') %}
+          {% set entity_id = 'input_text.door_keypad_' + number + '_name' %}
+          {% set user = 'Master' if number == '0' else states(entity_id) %}
+          {{ user }}
+
+  - alias: Notify on Unlock
+    initial_state: true
+    trigger:
+      - platform: state
+        entity_id: sensor.front_door_report,sensor.garage_door_report,sensor.back_door_report
+    condition:
+      condition: and
+      conditions:
+        - condition: template
+          value_template: >-
+            {{ trigger.to_state.state.lower().startswith('keypad unlock') }}
+        - condition: template
+          value_template: >-
+            {% set object_id = trigger.to_state.entity_id.split(".")[1] %}
+            {% set door_unlocked = object_id.split("_")[0] %}
+            {% set alarm_level_object_id = 'lock_' ~ door_unlocked ~ '_door_deadbolt_alarm_level' %}
+            {% set code_used = states['sensor'][alarm_level_object_id].state %}
+            {% set notify_input_object_id = 'code_' ~ code_used ~ '_notify' %}
+            {{ states['input_boolean'][notify_input_object_id].state == 'on' }}
+    action:
+    - delay:
+        seconds: 2
+    - service: notify.pushover
+      data_template:
+        title: >-
+          {% set object_id = trigger.to_state.entity_id.split(".")[1] %}
+          {% set door_unlocked = object_id.split("_")[0] %}
+          {% set title = door_unlocked + ' door unlocked by:' %}
+          {{ title | title }}
+        message: >-
+          {% set object_id = trigger.to_state.entity_id.split(".")[1] %}
+          {% set door_unlocked = object_id.split("_")[0] %}
+          {% set door = door_unlocked + '_door_code' %}
+          {{ states['input_text'][door].state }}
+        target:
+        - Paul
+        - Tracy
 
   - alias: Set Front Door Lock Options
     trigger:
@@ -873,10 +944,12 @@ input_text:
   door_keypad_18_code:
     name: Code
     pattern: '[0-9]*'
-  frontdoor_code:
+  front_door_code:
     name: Last Person to Unlock Front Door with Keypad
-  backdoor_code:
+  back_door_code:
     name: Last Person to Unlock Back Door with Keypad
+  garage_door_code:
+    name: Last Person to Unlock Garage Door with Keypad
 
 input_select:
   door_keypad_1_access_schedule:
@@ -1373,6 +1446,42 @@ input_boolean:
     name: Back Door
   door_keypad_18_garage_switch:
     name: Garage Door
+  code_1_notify:
+    name: Notify when Used
+  code_2_notify:
+    name: Notify when Used
+  code_3_notify:
+    name: Notify when Used
+  code_4_notify:
+    name: Notify when Used
+  code_5_notify:
+    name: Notify when Used
+  code_6_notify:
+    name: Notify when Used
+  code_7_notify:
+    name: Notify when Used
+  code_8_notify:
+    name: Notify when Used
+  code_9_notify:
+    name: Notify when Used
+  code_10_notify:
+    name: Notify when Used
+  code_11_notify:
+    name: Notify when Used
+  code_12_notify:
+    name: Notify when Used
+  code_13_notify:
+    name: Notify when Used
+  code_14_notify:
+    name: Notify when Used
+  code_15_notify:
+    name: Notify when Used
+  code_16_notify:
+    name: Notify when Used
+  code_17_notify:
+    name: Notify when Used
+  code_18_notify:
+    name: Notify when Used
 
 script:
   door_keypad_1_delete:
@@ -2578,6 +2687,7 @@ sensor:
 #      - entities:
 #          - input_text.door_keypad_1_name
 #          - input_text.door_keypad_1_code
+#          - input_boolean.code_1_notify
 #          - input_select.door_keypad_1_access_schedule
 #          - input_datetime.door_keypad_1_date_start
 #          - input_datetime.door_keypad_1_date_end
@@ -2590,6 +2700,7 @@ sensor:
 #      - entities:
 #          - input_text.door_keypad_2_name
 #          - input_text.door_keypad_2_code
+#          - input_boolean.code_2_notify
 #          - input_select.door_keypad_2_access_schedule
 #          - input_datetime.door_keypad_2_date_start
 #          - input_datetime.door_keypad_2_date_end
@@ -2602,6 +2713,7 @@ sensor:
 #      - entities:
 #          - input_text.door_keypad_3_name
 #          - input_text.door_keypad_3_code
+#          - input_boolean.code_3_notify
 #          - input_select.door_keypad_3_access_schedule
 #          - input_datetime.door_keypad_3_date_start
 #          - input_datetime.door_keypad_3_date_end
@@ -2614,6 +2726,7 @@ sensor:
 #      - entities:
 #          - input_text.door_keypad_4_name
 #          - input_text.door_keypad_4_code
+#          - input_boolean.code_4_notify
 #          - input_select.door_keypad_4_access_schedule
 #          - input_datetime.door_keypad_4_date_start
 #          - input_datetime.door_keypad_4_date_end
@@ -2626,6 +2739,7 @@ sensor:
 #      - entities:
 #          - input_text.door_keypad_5_name
 #          - input_text.door_keypad_5_code
+#          - input_boolean.code_5_notify
 #          - input_select.door_keypad_5_access_schedule
 #          - input_datetime.door_keypad_5_date_start
 #          - input_datetime.door_keypad_5_date_end
@@ -2638,6 +2752,7 @@ sensor:
 #      - entities:
 #          - input_text.door_keypad_6_name
 #          - input_text.door_keypad_6_code
+#          - input_boolean.code_6_notify
 #          - input_select.door_keypad_6_access_schedule
 #          - input_datetime.door_keypad_6_date_start
 #          - input_datetime.door_keypad_6_date_end
@@ -2650,6 +2765,7 @@ sensor:
 #      - entities:
 #          - input_text.door_keypad_7_name
 #          - input_text.door_keypad_7_code
+#          - input_boolean.code_7_notify
 #          - input_select.door_keypad_7_access_schedule
 #          - input_datetime.door_keypad_7_date_start
 #          - input_datetime.door_keypad_7_date_end
@@ -2662,6 +2778,7 @@ sensor:
 #      - entities:
 #          - input_text.door_keypad_8_name
 #          - input_text.door_keypad_8_code
+#          - input_boolean.code_8_notify
 #          - input_select.door_keypad_8_access_schedule
 #          - input_datetime.door_keypad_8_date_start
 #          - input_datetime.door_keypad_8_date_end
@@ -2674,6 +2791,7 @@ sensor:
 #      - entities:
 #          - input_text.door_keypad_9_name
 #          - input_text.door_keypad_9_code
+#          - input_boolean.code_9_notify
 #          - input_select.door_keypad_9_access_schedule
 #          - input_datetime.door_keypad_9_date_start
 #          - input_datetime.door_keypad_9_date_end
@@ -2686,6 +2804,7 @@ sensor:
 #      - entities:
 #          - input_text.door_keypad_10_name
 #          - input_text.door_keypad_10_code
+#          - input_boolean.code_10_notify
 #          - input_select.door_keypad_10_access_schedule
 #          - input_datetime.door_keypad_10_date_start
 #          - input_datetime.door_keypad_10_date_end
@@ -2698,6 +2817,7 @@ sensor:
 #      - entities:
 #          - input_text.door_keypad_11_name
 #          - input_text.door_keypad_11_code
+#          - input_boolean.code_11_notify
 #          - input_select.door_keypad_11_access_schedule
 #          - input_datetime.door_keypad_11_date_start
 #          - input_datetime.door_keypad_11_date_end
@@ -2710,6 +2830,7 @@ sensor:
 #      - entities:
 #          - input_text.door_keypad_12_name
 #          - input_text.door_keypad_12_code
+#          - input_boolean.code_12_notify
 #          - input_select.door_keypad_12_access_schedule
 #          - input_datetime.door_keypad_12_date_start
 #          - input_datetime.door_keypad_12_date_end
@@ -2722,6 +2843,7 @@ sensor:
 #      - entities:
 #          - input_text.door_keypad_13_name
 #          - input_text.door_keypad_13_code
+#          - input_boolean.code_13_notify
 #          - input_select.door_keypad_13_access_schedule
 #          - input_datetime.door_keypad_13_date_start
 #          - input_datetime.door_keypad_13_date_end
@@ -2734,6 +2856,7 @@ sensor:
 #      - entities:
 #          - input_text.door_keypad_14_name
 #          - input_text.door_keypad_14_code
+#          - input_boolean.code_14_notify
 #          - input_select.door_keypad_14_access_schedule
 #          - input_datetime.door_keypad_14_date_start
 #          - input_datetime.door_keypad_14_date_end
@@ -2746,6 +2869,7 @@ sensor:
 #      - entities:
 #          - input_text.door_keypad_15_name
 #          - input_text.door_keypad_15_code
+#          - input_boolean.code_15_notify
 #          - input_select.door_keypad_15_access_schedule
 #          - input_datetime.door_keypad_15_date_start
 #          - input_datetime.door_keypad_15_date_end
@@ -2759,6 +2883,7 @@ sensor:
 #          - input_select.door_keypad_16_access_schedule
 #          - input_text.door_keypad_16_name
 #          - input_text.door_keypad_16_code
+#          - input_boolean.code_16_notify
 #          - input_boolean.door_keypad_16_front_switch
 #          - input_boolean.door_keypad_16_back_switch
 #          - input_boolean.door_keypad_16_garage_switch
@@ -2769,6 +2894,7 @@ sensor:
 #          - input_select.door_keypad_17_access_schedule
 #          - input_text.door_keypad_17_name
 #          - input_text.door_keypad_17_code
+#          - input_boolean.code_17_notify
 #          - input_boolean.door_keypad_17_front_switch
 #          - input_boolean.door_keypad_17_back_switch
 #          - input_boolean.door_keypad_17_garage_switch
@@ -2779,6 +2905,7 @@ sensor:
 #          - input_select.door_keypad_18_access_schedule
 #          - input_text.door_keypad_18_name
 #          - input_text.door_keypad_18_code
+#          - input_boolean.code_18_notify
 #          - input_boolean.door_keypad_18_front_switch
 #          - input_boolean.door_keypad_18_back_switch
 #          - input_boolean.door_keypad_18_garage_switch

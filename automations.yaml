@@ -717,9 +717,11 @@
   trigger:
   - platform: state
     entity_id: media_player.theater_room_tv_control
+    from: 'on'
     to: 'off'
   - platform: state
     entity_id: remote.theater_room_harmony_hub
+    from: 'on'
     to: 'off'
   condition:
   - condition: state
@@ -874,9 +876,11 @@
   trigger:
   - platform: state
     entity_id: media_player.living_room_tv
+    from: 'on'
     to: 'off'
   - platform: state
     entity_id: remote.living_room_harmony_hub
+    from: 'on'
     to: 'off'
   condition:
   - condition: sun
@@ -2078,7 +2082,14 @@
 - alias: Water Leak Detected
   trigger:
   - platform: state
-    entity_id: binary_sensor.water_sensor_attic,binary_sensor.water_sensor_kitchen
+    entity_id:
+      - binary_sensor.water_sensor_attic
+      - binary_sensor.water_sensor_guest_bathroom_sink_left
+      - binary_sensor.water_sensor_guest_bathroom_sink_right
+      - binary_sensor.water_sensor_kitchen
+      - binary_sensor.water_sensor_master_bathroom_sink_left
+      - binary_sensor.water_sensor_master_bathroom_sink_right
+      - binary_sensor.water_sensor_washing_machine
   condition:
   - condition: numeric_state
     entity_id: sensor.ha_runtime_in_minutes
@@ -3017,3 +3028,25 @@
       target: Paul
       title: "Moving but not Driving"
       message: "Moving but not Driving"
+
+- alias: 'Washing Machine Done Notification'
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.power_washing_machine
+    below: 1.0
+  condition:
+  - condition: state
+    entity_id: input_select.house_mode
+    state: 'Home'
+  - condition: numeric_state
+    entity_id: sensor.ha_runtime_in_minutes
+    above: 3
+  action:
+  - service: notify.alexa_media
+    data_template:
+      target:
+        - media_player.livingroom
+        - media_player.office_show
+      data:
+        type: announce
+      message: "The Washing Machine is done. Laundry is ready for the Dryer"

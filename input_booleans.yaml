@@ -6,9 +6,10 @@ tracy_present:
   icon: mdi:account
 paul_in_bed:
   name: Paul in Bed
-  icon: mdi:account
+  icon: mdi:hotel
 tracy_in_bed:
   name: Tracy in Bed
+  icon: mdi:hotel
 guests_present:
   name: We have guests
   icon: mdi:account-multiple  

@@ -3,7 +3,7 @@ group.all_automations:
 group.all_scripts:
   hidden: false
 binary_sensor.water_sensor_attic:
-  friendly_name: Attic Water Leak Sensor
+  device_class: moisture
   icon: mdi:water
 binary_sensor.water_sensor_kitchen:
   icon: mdi:water
@@ -73,7 +73,7 @@ sensor.motion_sensor_attic_relative_humidity:
   icon: mdi:water-percent
 sensor.motion_sensor_attic_temperature:
   friendly_name: Attic Temperature
-  icon: mdi:temperature-fahrenheit
+  icon: mdi:thermometer
 sensor.motion_sensor_attic_battery:
   friendly_name: Attic Multisensor Battery
 binary_sensor.motion_sensor_attic_tamper:
@@ -163,9 +163,9 @@ light.office_lamp_two:
 light.office_fan_light:
   icon: mdi:wall-sconce-variant
 light.kitchen_cabinet_tops:
-  icon: mdi:led-strip
+  icon: bha:led-strip
 light.kitchen_cabinet_bottoms:
-  icon: mdi:led-strip
+  icon: bha:led-strip
 switch.office_lamp_one:
   icon: mdi:lamp 
 switch.bedroom_fan:
@@ -175,15 +175,15 @@ switch.closet_light:
 switch.garage_light_indoor:
   icon: mdi:lightbulb
 switch.garage_light_outdoor: 
-  icon: mdi:wall-sconce
+  icon: bha:outdoor-lamp
 switch.rope_lights:
-  icon: mdi:ceiling-light
+  icon: bha:light-string
 switch.back_porch_light:
-  icon: mdi:wall-sconce
+  icon: bha:outdoor-lamp
 switch.front_porch_light:
-  icon: mdi:wall-sconce
+  icon: bha:outdoor-lamp
 switch.lamp_post:
-  icon: mdi:floor-lamp
+  icon: bha:outdoor-lamp-solo
 switch.living_room_plug_one:
   icon: mdi:power-socket-us
 switch.living_room_plug_two:
@@ -191,7 +191,7 @@ switch.living_room_plug_two:
 switch.living_room_plug_three:
   icon: mdi:power-socket-us
 switch.stairwell_light:
-  icon: mdi:ceiling-light
+  icon: bha:chandelier
 switch.front_door_entry:
   icon: mdi:ceiling-light
 switch.sconce_light:
@@ -210,14 +210,56 @@ light.living_room_lamp_two:
   icon: mdi:lamp
   emulated_hue_hidden: false
 light.left_shelf_lights:
-  icon: mdi:drag-vertical
+  icon: bha:led-strip
   emulated_hue_hidden: false
 light.tv_backlights:
-  icon: mdi:crop-landscape
+  icon: bha:led-strip
   emulated_hue_hidden: false
 light.right_shelf_lights:
-  icon: mdi:drag-vertical
+  icon: bha:led-strip
   emulated_hue_hidden: false
 input_boolean.fireplace_toggle:
   emulated_hue_hidden: false
   icon: mdi:fire
+light.bedroom_tv_lights:
+  icon: bha:led-strip
+light.frog_couch_backlight:
+  icon: bha:led-strip
+light.christmas_tree:
+  icon: bha:xmas-star
+binary_sensor.ashleys_room_occupancy_2:
+  device_class: occupancy
+binary_sensor.downstairs_occupancy_2:
+  device_class: occupancy
+binary_sensor.frog_occupancy_2:
+  device_class: occupancy
+binary_sensor.guest_room_occupancy_2:
+  device_class: occupancy
+binary_sensor.living_room_occupancy_2:
+  device_class: occupancy
+binary_sensor.master_bedroom_occupancy_2:
+  device_class: occupancy
+binary_sensor.office_occupancy_2:
+  device_class: occupancy
+binary_sensor.upstairs_occupancy_2:
+  device_class: occupancy
+sensor.living_room_temperature_2:
+  device_class: temperature
+  icon: mdi:thermometer
+sensor.office_temperature_2:
+  device_class: temperature
+  icon: mdi:thermometer
+sensor.master_bedroom_temperature_2:
+  device_class: temperature
+  icon: mdi:thermometer
+sensor.ashleys_room_temperature_2:
+  device_class: temperature
+  icon: mdi:thermometer
+sensor.guest_room_temperature_2:
+  device_class: temperature
+  icon: mdi:thermometer
+sensor.frog_temperature_2:
+  device_class: temperature
+  icon: mdi:thermometer
+sensor.power_washing_machine:
+  icon: mdi:washing-machine

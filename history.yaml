@@ -23,16 +23,18 @@
 #      - sensor.front_door_report
 #      - sensor.garagedoor_code
 # Ecobee Ocupancy Sensors
-      - binary_sensor.living_room_occupancy
-      - binary_sensor.office_occupancy
-      - binary_sensor.master_bedroom_occupancy
-      - binary_sensor.ashleys_room_occupancy
-      - binary_sensor.guest_room_occupancy
-      - binary_sensor.frog_occupancy
+      - binary_sensor.ashleys_room_occupancy_2
+      - binary_sensor.downstairs_occupancy_2
+      - binary_sensor.frog_occupancy_2
+      - binary_sensor.guest_room_occupancy_2
+      - binary_sensor.living_room_occupancy_2
+      - binary_sensor.master_bedroom_occupancy_2
+      - binary_sensor.office_occupancy_2
+      - binary_sensor.upstairs_occupancy_2
 #House temps I care about
-      - sensor.downstairs_temperature
-      - sensor.upstairs_temperature
-      - sensor.master_bedroom_temperature
+      - sensor.downstairs_thermostat_temp
+      - sensor.upstairs_thermostat_temp
+      - sensor.master_bedroom_temperature_2
       - sensor.temp_garage_fridge
       - sensor.dark_sky_apparent_temperature
 #House States
