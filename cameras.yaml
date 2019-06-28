@@ -19,13 +19,13 @@
   username: hass
   password: !secret camera_nvr_password
   authentication: digest
-- platform: generic
-  still_image_url: !secret camera4_still_image_url
-  stream_source: !secret camera4_stream_source
-  name: Back Gate
-  username: hass
-  password: !secret camera_nvr_password
-  authentication: digest
+#- platform: generic
+#  still_image_url: !secret camera4_still_image_url
+#  stream_source: !secret camera4_stream_source
+#  name: Back Gate
+#  username: hass
+#  password: !secret camera_nvr_password
+#  authentication: digest
 - platform: generic
   still_image_url: !secret camera5_still_image_url
   stream_source: !secret camera5_stream_source

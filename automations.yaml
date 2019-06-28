@@ -473,6 +473,8 @@
   condition:
   - condition: time
     after: '06:00:00'
+  - condition: time
+    before: '10:00:00'
   - condition: state
     entity_id: binary_sensor.workday_sensor
     state: 'on'
@@ -1110,14 +1112,15 @@
 
 - alias: Notify who unlocked door with timestamp
   trigger:
-  - platform: template
-    value_template: "{{ states('sensor.front_door_report').lower().startswith('keypad unlock') }}"
-  - platform: template
-    value_template: "{{ states('sensor.back_door_report').lower().startswith('keypad unlock') }}"
+  - platform: state
+    entity_id: sensor.front_door_report,sensor.garage_door_report,sensor.back_door_report
   condition:
   - condition: numeric_state
     entity_id: sensor.ha_runtime_in_minutes
     above: 1
+  - condition: template
+    value_template: >-
+      {{ trigger.to_state.state.lower().startswith('keypad unlock') }}
   - condition: state
     entity_id: binary_sensor.people_home
     state: 'off'
@@ -1126,23 +1129,14 @@
     entity_id: input_boolean.guests_present
   - delay:
       seconds: 5
-  - service: notify.pushover
-    data_template:
-      target:
-      - Paul
-      - Tracy
-      title: >
-        {% set mapper = { 'sensor.front_door_report' : 'input_text.frontdoor_code',
-                          'sensor.back_door_report' : 'input_text.backdoor_code' } %}
-        {{ trigger.to_state.attributes.friendly_name }} unlocked by {{ states(mapper[trigger.entity_id]) }}
-      message: "At {{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}"
   - service: input_text.set_value
     data_template:
       entity_id: input_text.last_person_to_unlock
       value: >
-        {% set mapper = { 'sensor.front_door_report' : 'input_text.frontdoor_code',
-                          'sensor.back_door_report' : 'input_text.backdoor_code' } %}
-        {{ states(mapper[trigger.entity_id]) }}
+        {% set object_id = trigger.to_state.entity_id.split(".")[1] %}
+        {% set door_unlocked = object_id.split("_")[0] %}
+        {% set door = door_unlocked + '_door_code' %}
+        {{ states['input_text'][door].state }}
 
 - alias: Notify who locked door with timestamp
   trigger:
@@ -1757,7 +1751,7 @@
 - alias: Turn off Alerts at Barre
   trigger:
   - platform: state
-    entity_id: device_tracker.tracy
+    entity_id: device_tracker.life360_tracy
     to: 'Barre'
   action:
   - service: input_boolean.turn_off
@@ -1766,7 +1760,7 @@
 - alias: Turn on Alerts leaving Barre
   trigger:
   - platform: state
-    entity_id: device_tracker.tracy
+    entity_id: device_tracker.life360_tracy
     from: 'Barre'
   action:
   - service: input_boolean.turn_on
@@ -1846,10 +1840,37 @@
   - condition: state
     entity_id: binary_sensor.motion_sensor_outdoor_motion
     state: 'on'
+  - condition: state
+    entity_id: binary_sensor.open_close_sensor_front_door
+    state: 'off'
+    for:
+      seconds: 75
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: cover.garage_door_opener
+      state: 'closed'
+    - condition: and
+      conditions:
+      - condition: state
+        entity_id: cover.garage_door_opener
+        state: 'open'
+      - condition: template
+        value_template: "{{ states('input_select.house_mode') != 'Home' }}"
+    - condition: and
+      conditions:
+      - condition: state
+        entity_id: cover.garage_door_opener
+        state: 'open'
+      - condition: template
+        value_template: "{{ (as_timestamp(now())- as_timestamp(states.cover.garage_door_opener.last_changed)) < 1800 }}"
+      - condition: template
+        value_template: "{{ states('input_select.house_mode') == 'Home' }}"
   action:
   - service: notify.pushover
     data_template:
-      target: Paul
+      target:
+      - Tracy
       title: "Person in Driveway"
       message: "{{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}"
       data:
@@ -1857,7 +1878,8 @@
           path: '/home/homeassistant/.homeassistant/www/tmp/front_door_latest.jpg'
   - service: notify.pushover
     data_template:
-      target: Tracy
+      target:
+      - Paul
       title: "Person in Driveway"
       message: "{{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}"
       data:
@@ -2355,7 +2377,7 @@
     entity_id: sensor.ha_runtime_in_minutes
     above: 1
 #  - condition: template
-#    value_template: "{{ 'towards' in states.device_tracker.paulsiphone.attributes.dir_of_travel|lower }}"
+#    value_template: "{{ 'towards' in states.device_tracker.life360_paulsiphone.attributes.dir_of_travel|lower }}"
   - condition: state
     entity_id: binary_sensor.tracy_presence
     state: 'on'
@@ -2381,7 +2403,7 @@
     value_template: "{{ states('sensor.tracys_time_to_home')| int < 8 }}"
   condition:
 #  - condition: template
-#    value_template: "{{ 'towards' in states.device_tracker.tracy_siphone.attributes.dir_of_travel|lower }}"
+#    value_template: "{{ 'towards' in states.device_tracker.life360_tracy_siphone.attributes.dir_of_travel|lower }}"
   - condition: numeric_state
     entity_id: sensor.ha_runtime_in_minutes
     above: 1
@@ -2728,7 +2750,7 @@
 #- alias: 'Phone Charging Test'
 #  trigger:
 #    - platform: template
-#      value_template: "{{is_state_attr('device_tracker.paul', 'charging', true)}}"
+#      value_template: "{{is_state_attr('device_tracker.life360_paul', 'charging', true)}}"
 #  action:
 #  - service: script.sms_notify_with_images
 #    data_template:
@@ -2884,8 +2906,14 @@
   - condition: state
     entity_id: media_player.living_room
     state: 'paused'
+  - condition: template
+#    value_template: "{{ states('device_tracker.tracy_all') != 'home' }}"
+    value_template: '{{ (states.device_tracker.tracy_all.state) != "home" }}'
   - condition: state
-    entity_id: binary_sensor.tracy_presence
+    entity_id: timer.tracy_just_arrived
+    state: 'idle'
+  - condition: state
+    entity_id: input_boolean.guests_present
     state: 'off'
   action:
   - service: media_player.volume_set
@@ -3018,10 +3046,10 @@
 - alias: Moving but not driving
   trigger:
   - platform: template
-    value_template: "{{is_state_attr('device_tracker.paul', 'moving', true)}}"
+    value_template: "{{is_state_attr('device_tracker.life360_paul', 'moving', true)}}"
   condition:
   - condition: template
-    value_template: "{{is_state_attr('device_tracker.paul', 'driving', false)}}"
+    value_template: "{{is_state_attr('device_tracker.life360_paul', 'driving', false)}}"
   action:
   - service: notify.pushover
     data_template:

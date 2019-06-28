@@ -751,7 +751,7 @@ automation:
           {% set object_id = trigger.to_state.entity_id.split(".")[1] %}
           {% set door_unlocked = object_id.split("_")[0] %}
           {% set door = door_unlocked + '_door_code' %}
-          {{ states['input_text'][door].state }}
+          {{ states['input_text'][door].state }} at {{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}
         target:
         - Paul
         - Tracy
@@ -2245,9 +2245,17 @@ sensor:
 #          {% set user = 'Master' if number == '0' else states(entity_id) %}
 #          {{ user }}
 
+#      garage_door_code_entered:
+#        value_template: >-
+#          {% if ((as_timestamp(strptime(states.sensor.date_time.state, "%Y-%m-%d, %H:%M")) - as_timestamp(states.sensor.lock_garage_door_lock_alarm_level.last_changed)) < 1) %}
+#            {{ states.sensor.lock_garage_door_lock_alarm_level.state }}
+#          {% else %}
+#            0
+#          {% endif %}
+
       garage_door_code_entered:
         value_template: >-
-          {% if ((as_timestamp(strptime(states.sensor.date_time.state, "%Y-%m-%d, %H:%M")) - as_timestamp(states.sensor.lock_garage_door_lock_alarm_level.last_changed)) < 1) %}
+          {% if ((as_timestamp(states.lock.lock_garage_door_lock.last_changed) - as_timestamp(states.sensor.lock_garage_door_lock_alarm_level.last_changed)) < 1) %}
             {{ states.sensor.lock_garage_door_lock_alarm_level.state }}
           {% else %}
             0
