@@ -33,18 +33,18 @@
    ssl: False
    username: hass
    password: !secret camera_nvr_password
-# - platform: hikvision
-#   host: 192.168.1.100
-#   port: 65004
-#   ssl: False
-#   username: hass
-#   password: !secret camera_nvr_password
  - platform: hikvision
    host: 192.168.1.100
-   port: 65005
+   port: 65004
    ssl: False
    username: hass
    password: !secret camera_nvr_password
+# - platform: hikvision
+#   host: 192.168.1.100
+#   port: 65005
+#   ssl: False
+#   username: hass
+#   password: !secret camera_nvr_password
 # - platform: ffmpeg_motion
 #   input: !secret camera_url_1
 #   name: Front Door Camera Motion
@@ -159,6 +159,14 @@
             is_state('input_boolean.guests_present', 'on') or
             is_state('group.extra_device_trackers', 'home')  }}
        entity_id: group.primary_presence,input_boolean.guests_present,group.extra_device_trackers
+
+     people_home_not_including_guests:
+       friendly_name: People Home
+       device_class: presence
+       value_template: >
+         {{ is_state('group.primary_presence', 'on') or
+            is_state('group.extra_device_trackers', 'home')  }}
+       entity_id: group.primary_presence,group.extra_device_trackers
 
      attic_smoke_detector_smoke:
        value_template: "{{ is_state('sensor.smoke_detector_attic_alarm_type', '1') }}"
@@ -309,7 +317,7 @@
      prob_given_false: 0.3
      platform: 'state'
      to_state: 'home'
-   - entity_id: 'device_tracker.paul'
+   - entity_id: 'device_tracker.life360_paul'
      prob_given_true: 0.8
      prob_given_false: 0.3
      platform: 'state'
@@ -341,7 +349,7 @@
      prob_given_false: 0.3
      platform: 'state'
      to_state: 'home'
-   - entity_id: 'device_tracker.tracy'
+   - entity_id: 'device_tracker.life360_tracy'
      prob_given_true: 0.8
      prob_given_false: 0.3
      platform: 'state'

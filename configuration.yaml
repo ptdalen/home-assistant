@@ -341,6 +341,14 @@ ios:
             title: 'No'
           - identifier: 'OPEN_GARAGE_WHEN_I_GET_HOME'
             title: 'Yes'
+      - name: Guest Alert
+        identifier: 'guest_alert'
+        actions:
+          - identifier: 'GUESTS_GONE'
+            title: 'No'
+          - identifier: 'GUESTS_HOME'
+            title: 'Yes'
+
 timer:
   guests_just_arrived:
     duration: '00:07:00'

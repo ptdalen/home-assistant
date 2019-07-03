@@ -19,20 +19,20 @@
   username: hass
   password: !secret camera_nvr_password
   authentication: digest
-#- platform: generic
-#  still_image_url: !secret camera4_still_image_url
-#  stream_source: !secret camera4_stream_source
-#  name: Back Gate
-#  username: hass
-#  password: !secret camera_nvr_password
-#  authentication: digest
 - platform: generic
-  still_image_url: !secret camera5_still_image_url
-  stream_source: !secret camera5_stream_source
-  name: Side Yard
+  still_image_url: !secret camera4_still_image_url
+  stream_source: !secret camera4_stream_source
+  name: Back Gate
   username: hass
   password: !secret camera_nvr_password
   authentication: digest
+#- platform: generic
+#  still_image_url: !secret camera5_still_image_url
+#  stream_source: !secret camera5_stream_source
+#  name: Side Yard
+#  username: hass
+#  password: !secret camera_nvr_password
+#  authentication: digest
 - platform: local_file
   file_path: /home/homeassistant/.homeassistant/www/tmp/front_door_latest.jpg
   name: Front Door Processed

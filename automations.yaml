@@ -208,10 +208,8 @@
   - service: homeassistant.turn_off
     entity_id:
       - group.goodbye_lights_and_switches
-  - condition: numeric_state
-    entity_id: sun.sun
-    value_template: '{{ state.attributes.elevation }}'
-    above: 2.0
+  - condition: template
+    value_template: "{{ states('sensor.motion_sensor_outdoor_luminance')| int > 91 }}"
   - service: homeassistant.turn_off
     entity_id:
       - group.outdoor
@@ -363,6 +361,8 @@
   - condition: state
     entity_id: input_boolean.guests_present
     state: 'off'
+  - condition: template
+    value_template: '{{ (states.group.extra_device_trackers.state) != "home" }}'
   action:
   - service: automation.trigger
     entity_id: automation.goodnight_routine
@@ -791,10 +791,8 @@
 ##########################################
 - alias: 'Outdoor Lights at Sunset'
   trigger:
-  - platform: numeric_state
-    entity_id: sun.sun
-    value_template: '{{ state.attributes.elevation }}'
-    below: 2.0
+  - platform: template
+    value_template: "{{ states('sensor.motion_sensor_outdoor_luminance')| int < 90 }}"
   condition:
   - condition: template
     value_template: "{{ states('input_select.house_mode') != 'Night' }}"
@@ -2809,6 +2807,87 @@
       data:
         push:
           category: "shopping_alert" 
+
+- alias: Actionable are there still guests in the house
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.people_home_not_including_guests
+    to: 'off'
+    for:
+      minutes: 5
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.ha_runtime_in_minutes
+    above: 1
+  - condition: state
+    entity_id: input_boolean.guests_present
+    state: 'on'
+  action:
+  - service: notify.ios_tracys_iphone
+    data:
+      message: "Are there Still Guests in the House?"
+      data:
+        push:
+          category: "guest_alert"
+  - service: notify.ios_pauls_iphone
+    data:
+      message: "Are there Guests in the House?"
+      data:
+        push:
+          category: "guest_alert"
+
+- alias: Actionable Guests at home when security is armed
+  trigger:
+  - platform: state
+    entity_id:
+      - binary_sensor.motion_sensor_living_room_motion
+    from: 'off'
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: input_select.security_system
+    state: 'Armed (Away)'
+  action:
+  - service: notify.ios_tracys_iphone
+    data:
+      message: "Are there Guests in the House?"
+      data:
+        push:
+          category: "guest_alert"
+  - service: notify.ios_pauls_iphone
+    data:
+      message: "Are there Guests in the House?"
+      data:
+        push:
+          category: "guest_alert"
+
+- alias: iOS Actionable Notification Guests Gone
+  trigger:
+  - platform: event
+    event_type: ios.notification_action_fired
+    event_data:
+      actionName: GUESTS_GONE
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.ha_runtime_in_minutes
+    above: 1
+  action:
+  - service: input_boolean.turn_off
+    entity_id: input_boolean.guests_present
+
+- alias: iOS Actionable Notification Guests Home
+  trigger:
+  - platform: event
+    event_type: ios.notification_action_fired
+    event_data:
+      actionName: GUESTS_HOME
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.ha_runtime_in_minutes
+    above: 1
+  action:
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.guests_present
 
 - alias: iOS Actionable Notification for Garage Door
   trigger:

@@ -738,20 +738,23 @@ automation:
             {% set notify_input_object_id = 'code_' ~ code_used ~ '_notify' %}
             {{ states['input_boolean'][notify_input_object_id].state == 'on' }}
     action:
-    - delay:
-        seconds: 2
+#    - delay:
+#        seconds: 4
     - service: notify.pushover
       data_template:
         title: >-
           {% set object_id = trigger.to_state.entity_id.split(".")[1] %}
           {% set door_unlocked = object_id.split("_")[0] %}
-          {% set title = door_unlocked + ' door unlocked by:' %}
+          {% set title = door_unlocked + ' door unlocked' %}
           {{ title | title }}
         message: >-
-          {% set object_id = trigger.to_state.entity_id.split(".")[1] %}
-          {% set door_unlocked = object_id.split("_")[0] %}
-          {% set door = door_unlocked + '_door_code' %}
-          {{ states['input_text'][door].state }} at {{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}
+          {{ trigger.to_state.state }}
+#if you want just a name and a time stamp uncomment below and comment out above.  I was noticing that sometimes I would get the name of the previos person
+#so I set it to just provide state          
+#          {% set object_id = trigger.to_state.entity_id.split(".")[1] %}
+#          {% set door_unlocked = object_id.split("_")[0] %}
+#          {% set door = door_unlocked + '_door_code' %}
+#          {{ states['input_text'][door].state }} at {{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}
         target:
         - Paul
         - Tracy
