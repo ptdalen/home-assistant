@@ -222,32 +222,32 @@
          {{ unlocked | length >= 1 }}
        friendly_name: 'Are doors unlocked?'
 
-     zigbee_offline:
-       value_template: >
-         {% set offline = states.zha | selectattr('state','eq','offline') | list %}
-         {{ offline | length >= 1 }}
-       friendly_name: 'Zigbee Devices Offline?'
-       entity_id: 
-         - zha.bedroom_tv_lights
-         - zha.frog_couch_backlight
-         - zha.motion_sensor_closet
-         - zha.motion_sensor_frog
-         - zha.motion_sensor_garage
-         - zha.motion_sensor_kitchen
-         - zha.motion_sensor_office
-         - zha.open_close_sensor_back_door
-         - zha.open_close_sensor_front_door
-         - zha.open_close_sensor_garage_door
-         - zha.open_close_sensor_garage_fridge
-         - zha.open_close_sensor_livingroom_window_front
-         - zha.water_sensor_guest_bathroom_sink_left
-         - zha.water_sensor_guest_bathroom_sink_right
-         - zha.water_sensor_guest_master_sink_left
-         - zha.water_sensor_guest_master_sink_right
-         - zha.water_sensor_kitchen
-         - zha.water_sensor_washing_machine
-         - zha.zigbee_zwave_repeater_1
-         - zha.zigbee_zwave_repeater_2
+#     zigbee_offline:
+#       value_template: >
+#         {% set offline = states.zha | selectattr('state','eq','offline') | list %}
+#         {{ offline | length >= 1 }}
+#       friendly_name: 'Zigbee Devices Offline?'
+#       entity_id: 
+#         - zha.bedroom_tv_lights
+#         - zha.frog_couch_backlight
+#         - zha.motion_sensor_closet
+#         - zha.motion_sensor_frog
+#         - zha.motion_sensor_garage
+#         - zha.motion_sensor_kitchen
+#         - zha.motion_sensor_office
+#         - zha.open_close_sensor_back_door
+#         - zha.open_close_sensor_front_door
+#         - zha.open_close_sensor_garage_door
+#         - zha.open_close_sensor_garage_fridge
+#         - zha.open_close_sensor_livingroom_window_front
+#         - zha.water_sensor_guest_bathroom_sink_left
+#         - zha.water_sensor_guest_bathroom_sink_right
+#         - zha.water_sensor_guest_master_sink_left
+#         - zha.water_sensor_guest_master_sink_right
+#         - zha.water_sensor_kitchen
+#         - zha.water_sensor_washing_machine
+#         - zha.zigbee_zwave_repeater_1
+#         - zha.zigbee_zwave_repeater_2
 
      vehicle_in_parking_pad:
        friendly_name: Vehicle in Parking Pad

@@ -1,16 +1,16 @@
 homeassistant:
-  # Name of the location where Home Assistant is running
-  name: Beach House
-  # Location required to calculate the time the sun rises and sets
-  latitude: !secret home_latitude
-  longitude: !secret home_longitude
-  # Impacts weather/sunrise data (altitude above sea level in meters)
-  elevation: 0
-  # metric for Metric, imperial for Imperial
-  unit_system: imperial
-  # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
-  time_zone: America/New_York
-  # Customization file
+#  # Name of the location where Home Assistant is running
+#  name: Beach House
+#  # Location required to calculate the time the sun rises and sets
+#  latitude: !secret home_latitude
+#  longitude: !secret home_longitude
+#  # Impacts weather/sunrise data (altitude above sea level in meters)
+#  elevation: 0
+#  # metric for Metric, imperial for Imperial
+#  unit_system: imperial
+#  # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+#  time_zone: America/New_York
+#  # Customization file
   customize: !include customize.yaml
   packages: !include_dir_named packages
   whitelist_external_dirs:
@@ -19,6 +19,7 @@ homeassistant:
 default_config:
 
 frontend:
+  themes: !include_dir_merge_named themes/
   extra_html_url:
     - /local/hass-bha-icons.html
   javascript_version: latest
@@ -48,16 +49,8 @@ duckdns:
 device_tracker:
   - platform: google_maps
     username: !secret notificationemail
-    password: !secret gmailpassword
+#    password: !secret gmailpassword
     max_gps_accuracy: 150
-#  - platform: life360
-#    username: !secret life360_user
-#    password: !secret life360_password
-#    max_gps_accuracy: 150
-#    interval_seconds: 12
-#    driving_speed: 12
-#    max_update_wait:
-#      minutes: 30
   - platform: composite
     name: Paul_All
     entity_id:
@@ -69,26 +62,21 @@ device_tracker:
       - device_tracker.life360_tracy
       - device_tracker.google_maps_116112519745623760034
 
-life360:
-  accounts:
-  - username: !secret life360_user
-    password: !secret life360_password
-  max_gps_accuracy: 150
-  interval_seconds: 12
-  driving_speed: 12
-  max_update_wait:
-    minutes: 30
+#life360:
+#  accounts:
+#  - username: !secret life360_user
+#    password: !secret life360_password
+#  max_gps_accuracy: 150
+#  interval_seconds: 12
+#  driving_speed: 12
+#  max_update_wait:
+#    minutes: 30
 
 asuswrt:
     host: !secret router_ip
     username: !secret router_user
     password: !secret router_password
     protocol: ssh
-
-hue:
-  bridges:
-    - host: 192.168.1.121
-      allow_hue_groups: false
 
 emulated_hue:
   host_ip: 192.168.1.12
@@ -99,6 +87,8 @@ homekit:
     include_entities:
       - input_boolean.paul_present
       - input_boolean.tracy_present
+      - input_boolean.theater_room_tv_power
+      - input_boolean.bedroom_tv_power
 
 discovery:
   enable:
@@ -149,8 +139,8 @@ media_player:
     host: 192.168.1.84
     access_token: Zbo7pxfs55
     name: Bedroom TV Control
-#  - platform: braviatv
-#    host: 192.168.1.80
+  - platform: braviatv
+    host: 192.168.1.80
 
 alexa_media:
   accounts:
@@ -165,7 +155,10 @@ alexa_media:
     - "My Dash"
     - "Living Room"
     - "old_dot2"
-    - "old_dot2"
+    - "old_dot"
+    - "office_show"
+    - "Amazon Tap"
+    - "portable"
 
 input_number:
   commute_start_time:
@@ -179,24 +172,6 @@ input_number:
   people_in_yard:
     min: 0
     max: 10
-
-light:
-  - platform: template
-    lights:
-      alexa_virtual:
-        friendly_name: "Alexa Dummy Light"
-        turn_on:
-        turn_off:
-        set_level:
-  - platform: switch
-    name: Sconce Light
-    entity_id: switch.sconce_light
-  - platform: switch
-    name: Stairwell Light
-    entity_id: switch.stairwell_light
-  - platform: switch
-    name: Christmas Tree
-    entity_id: switch.living_room_plug_two
 
 shell_command:
   car_lock: python3 /home/homeassistant/.homeassistant/python_scripts/lock_car.py
@@ -258,6 +233,17 @@ zwave:
       polling_intensity: 1
       refresh_value: True
       delay: 3
+circadian_lighting:
+
+switch:
+  - platform: circadian_lighting
+    name: circadian_livingroom
+    lights_rgb:
+      - light.living_room_color_lights
+  - platform: circadian_lighting
+    name: circadian_downstairs
+    lights_rgb:
+      - light.all_downstairs_color_lights
 
 #ffmpeg:
 #  ffmpeg_bin: /usr/bin/avconv
@@ -323,7 +309,6 @@ image_processing:
         # Exclude left 5% of image
         left: 0.05
 
-
 ios:
   push:
     categories:
@@ -378,3 +363,4 @@ alert: !include alerts.yaml
 history: !include history.yaml
 camera: !include cameras.yaml
 scene: !include scenes.yaml
+light: !include light.yaml

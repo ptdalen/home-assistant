@@ -18,12 +18,12 @@
 #      - automation.unlock_back_door_for_paul
 #      - automation.unlock_back_door_for_tracy
 #      - automation.welcome_back_routine
-      - binary_sensor.ashleys_room_occupancy
-      - binary_sensor.frog_occupancy
-      - binary_sensor.guest_room_occupancy
-      - binary_sensor.master_bedroom_occupancy
-      - binary_sensor.living_room_occupancy
-      - binary_sensor.office_occupancy
+#     - binary_sensor.ashleys_room_occupancy
+#     - binary_sensor.frog_occupancy
+#     - binary_sensor.guest_room_occupancy
+#     - binary_sensor.master_bedroom_occupancy
+#     - binary_sensor.living_room_occupancy
+#     - binary_sensor.office_occupancy
 #      - binary_sensor.backyard_line_crossing
       - binary_sensor.open_close_sensor_back_door
       - binary_sensor.open_close_sensor_front_door
@@ -58,55 +58,55 @@
       - binary_sensor.tracy_presence
       - fan.frog_fan
       - fan.living_room_fan
-#      - light.alcove_light
-#      - light.ashleys_room_lamp
-#      - light.bedroom_ceiling_light
-#      - light.bedroom_lamp_one
-#      - light.bedroom_lamp_two
-#      - light.bedroom_tv_lights
-#      - light.frog_ceiling_light
-#      - light.frog_fan_light
-#      - light.frog_couch_backlight
-#      - light.guest_bedroom_lamp
-#      - light.guest_room
-#      - light.kitchen_cabinet_bottoms
-#      - light.kitchen_cabinet_tops
-#      - light.kitchen_counter_light
-#      - light.kitchen_island_light
-#      - light.living_room_ceiling_light
-#      - light.living_room_fan_light
-#      - light.living_room_lamp_one
-#      - light.living_room_lamp_two
-#      - light.office_lamp_two
-#      - light.right_shelf_lights
-#      - light.tv_backlights
-#      - light.hallway_light
+      - light.alcove_light
+      - light.ashleys_room_lamp
+      - light.bedroom_ceiling_light
+      - light.bedroom_lamp_one
+      - light.bedroom_lamp_two
+      - light.bedroom_tv_lights
+      - light.frog_ceiling_light
+      - light.frog_fan_light
+      - light.frog_couch_backlight
+      - light.guest_bedroom_lamp
+      - light.guest_room
+      - light.kitchen_cabinet_bottoms
+      - light.kitchen_cabinet_tops
+      - light.kitchen_counter_light
+      - light.kitchen_island_light
+      - light.living_room_ceiling_light
+      - light.living_room_fan_light
+      - light.living_room_lamp_one
+      - light.living_room_lamp_two
+      - light.office_lamp_two
+      - light.right_shelf_lights
+      - light.tv_backlights
+      - light.hallway_light
 #      - light.alexa_virtual
 #      - lock.lock_back_door_lock
 #      - lock.lock_front_door_lock
 #      - lock.lock_garage_door_lock
-      - media_player.bedroom_tv_control
-      - media_player.theater_room_tv_control
-      - remote.living_room_harmony_hub
-      - remote.theater_room_harmony_hub
+#      - media_player.bedroom_tv_control
+#      - media_player.theater_room_tv_control
+#      - remote.living_room_harmony_hub
+#      - remote.theater_room_harmony_hub
       - sensor.house_mode
       - sensor.back_door_report
       - sensor.front_door_report
       - sensor.garage_door_report
       - sensor.security_system_state
-#      - switch.back_porch_light
-#      - switch.bedroom_fan
-#      - switch.fireplace
-#      - switch.front_porch_light
-#      - switch.front_door_entry
-#      - switch.garage_light_indoor
-#      - switch.garage_light_outdoor
-#      - switch.lamp_post
-#      - switch.lava_lamp_plug
-#      - switch.lava_lamp_two
-#      - switch.living_room_plug_one
-#      - switch.living_room_plug_three
-#      - switch.living_room_plug_two
-#      - switch.office_lamp_one
-#      - switch.rope_lights
-#      - switch.stairwell_light
+      - switch.back_porch_light
+      - switch.bedroom_fan
+      - switch.fireplace
+      - switch.front_porch_light
+      - switch.front_door_entry
+      - switch.garage_light_indoor
+      - switch.garage_light_outdoor
+      - switch.lamp_post
+      - switch.lava_lamp_plug
+      - switch.lava_lamp_two
+      - switch.living_room_plug_one
+      - switch.living_room_plug_three
+      - switch.living_room_plug_two
+      - switch.office_lamp_one
+      - switch.rope_lights
+      - switch.stairwell_light

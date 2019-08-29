@@ -20,6 +20,21 @@
         - light.living_room_fan_light
         - light.office_fan_light
         - light.alexa_virtual
+        - light.living_room_lamp_one
+        - light.living_room_lamp_two
+        - light.alcove_light
+        - light.office_lamp_two
+        - light.office_lamps     #Light Group
+        - light.kitchen_ceiling_lights     #Light Group
+        - light.left_shelf_lights
+        - light.tv_backlights
+        - light.right_shelf_lights
+        - light.kitchen_cabinet_tops
+        - light.kitchen_cabinet_bottoms
+        - light.ashleys_room_lamp
+        - light.bedroom_lamp_one        
+        - light.bedroom_lamp_two
+        - light.guest_bedroom_lamp
         - lock.lock_front_door_lock
         - lock.lock_back_door_lock 
         - lock.lock_garage_door_lock
@@ -45,8 +60,6 @@
         - automation.motion_lighting_in_the_Office
         - automation.motion_lighting_in_the_garage
         - automation.driveway_line_crossing_alerts
-        - script.downstairs_colorloop
-        - script.reset_downstairs_lighting
         - script.garage_door_open
         - script.garage_door_close
         - script.car_lock_car_doors
@@ -66,15 +79,4 @@
         - binary_sensor.open_close_sensor_livingroom_window_back
         - binary_sensor.open_close_sensor_office_window
         - cover.garage_door_opener
-      exclude_entities:
-        - light.left_shelf_lights
-        - light.tv_backlights
-        - light.right_shelf_lights
-        - light.kitchen_cabinet_tops
-        - light.kitchen_cabinet_bottoms
-        - light.living_room_lamp_one
-        - light.living_room_lamp_two
-        - light.alcove_light
-        - light.office_lamp_two
-        - light.ashleys_room_lamp
-        - light.guest_bedroom_lamp
+#      exclude_entities:

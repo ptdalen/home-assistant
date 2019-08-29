@@ -4,6 +4,12 @@ paul_present:
 tracy_present:
   name: Tracy HomeKit Switch
   icon: mdi:account
+bedroom_tv_power:
+  name: Bedroom TV Power Switch
+  icon: mdi:television
+theater_room_tv_power:
+  name: Theater Room TV Power Switch
+  icon: mdi:television
 paul_in_bed:
   name: Paul in Bed
   icon: mdi:hotel
@@ -56,3 +62,5 @@ vacation_mode:
 fireplace_toggle:
   name: fireplace toggle
   icon: mdi:fire
+frontdoor_motion:
+  name: Front Door Motion Detected

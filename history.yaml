@@ -1,16 +1,16 @@
   use_include_order: True
   include:
     entities:
-# Attic Water Sensors
-      - binary_sensor.water_sensor_attic
-      - binary_sensor.water_sensor_kitchen
-#open Close Sensors
-      - binary_sensor.open_close_sensor_back_door
-      - binary_sensor.open_close_sensor_front_door
-      - binary_sensor.open_close_sensor_garage_door
-      - binary_sensor.open_close_sensor_livingroom_window_back
-      - binary_sensor.open_close_sensor_livingroom_window_front
-      - binary_sensor.open_close_sensor_office_window
+## Attic Water Sensors
+#      - binary_sensor.water_sensor_attic
+#      - binary_sensor.water_sensor_kitchen
+##open Close Sensors
+#      - binary_sensor.open_close_sensor_back_door
+#      - binary_sensor.open_close_sensor_front_door
+#      - binary_sensor.open_close_sensor_garage_door
+#      - binary_sensor.open_close_sensor_livingroom_window_back
+#      - binary_sensor.open_close_sensor_livingroom_window_front
+#      - binary_sensor.open_close_sensor_office_window
 #garage Door Opener
       - binary_sensor.garage_door_opener
 #door Locks
@@ -32,11 +32,11 @@
       - binary_sensor.office_occupancy_2
       - binary_sensor.upstairs_occupancy_2
 #House temps I care about
-      - sensor.downstairs_thermostat_temp
-      - sensor.upstairs_thermostat_temp
-      - sensor.master_bedroom_temperature_2
-      - sensor.temp_garage_fridge
-      - sensor.dark_sky_apparent_temperature
+#      - sensor.downstairs_thermostat_temp
+#      - sensor.upstairs_thermostat_temp
+#      - sensor.master_bedroom_temperature_2
+#      - sensor.temp_garage_fridge
+#      - sensor.dark_sky_apparent_temperature
 #House States
       - sensor.security_system_state
       - sensor.house_mode

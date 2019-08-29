@@ -138,7 +138,7 @@ goodnight_lights_all:
     - switch.stairwell_light
     - switch.office_lamp_one
     - switch.front_door_entry
-    - switch.rope_lights
+#    - switch.rope_lights
     - fan.living_room_fan
     - switch.zigbee_zwave_repeater_2
 #    - light.zigbee_zwave_repeater_1
@@ -182,43 +182,6 @@ goodnight_av:
     - media_player.living_room_tv
     - remote.living_room_harmony_hub
 
-goodnight_hue_lights:
-  view: no
-  icon: mdi:home-automation
-  entities:
-    - light.office_lamp_two
-    - light.ashleys_room_lamp
-    - light.guest_bedroom_lamp
-
-kitchen_zwave_lights:
-  name: Kitchen Dimmers
-  view: no
-  entities:
-    - light.kitchen_counter_light
-    - light.kitchen_island_light
-
-office_lights:
-  name: Office
-  view: no
-  control: hidden
-  entities:
-    - light.office_lamp_two
-    - switch.office_lamp_one
-
-color_hue_lights:
-  name: Downstairs Hue Color Lights
-  view: no
-  control: hidden
-  entities:
-    - light.left_shelf_lights
-    - light.tv_backlights
-    - light.right_shelf_lights
-    - light.kitchen_cabinet_tops
-    - light.kitchen_cabinet_bottoms
-    - light.living_room_lamp_one
-    - light.living_room_lamp_two
-    - light.alcove_light
-
 indoor_motion_sensors:
   name: Motion Sensors
   view: no
@@ -248,6 +211,7 @@ extra_device_trackers:
   entities:
     - device_tracker.carolsiphone
     - device_tracker.jimsiphone
+    - device_tracker.jims_iphone
 
 router_connections:
   name: Things on the Network
@@ -268,28 +232,6 @@ router_connections:
     - device_tracker.sonos_sub_living_room
     - device_tracker.sonos_playbar_living_room
     - device_tracker.sony_tv_living_room
-
-all_zigbee:
-  name: Zigbee Devices
-  view: no
-  icon: mdi:lock-outline
-  entities:
-    - zha.bedroom_tv_lights
-    - zha.frog_couch_backlight
-    - zha.motion_sensor_closet
-    - zha.motion_sensor_garage
-    - zha.motion_sensor_hallway
-    - zha.motion_sensor_kitchen
-    - zha.motion_sensor_office
-    - zha.motion_sensor_sensor_living_room
-    - zha.open_close_sensor_back_door
-    - zha.open_close_sensor_front_door
-    - zha.open_close_sensor_garage_door
-    - zha.open_close_sensor_garage_fridge
-    - zha.open_close_sensor_livingroom_window_front
-    - zha.water_sensor_kitchen
-    - zha.zigbee_zwave_repeater_1
-    - zha.zigbee_zwave_repeater_2
 
 thermostats:
   name: Thermostats

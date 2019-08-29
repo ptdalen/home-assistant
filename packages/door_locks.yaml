@@ -728,7 +728,7 @@ automation:
       conditions:
         - condition: template
           value_template: >-
-            {{ trigger.to_state.state.lower().startswith('keypad unlock') }}
+            {{ trigger.to_state.state.lower().startswith('keypad unlock with code') }}
         - condition: template
           value_template: >-
             {% set object_id = trigger.to_state.entity_id.split(".")[1] %}
@@ -2297,76 +2297,78 @@ sensor:
 
 #  Battery info, use your custom name if needed.  Also I had some issues that I thought was related to this
 #  and had this commented out for a while, but it seems to be working well now, so might not be a problem
-#  if you notice any issues, try commenting this out
-      door_lock_batteries_front_door:
-        friendly_name: Front Door Lock Battery
-        value_template: "{% if states.zwave.lock_front_door_deadbolt %}
-            {{ states.zwave.lock_front_door_deadbolt.attributes.battery_level }}
-          {% else %}
-            unknown
-          {% endif %}"
-        unit_of_measurement: '%'
-        icon_template: >-
-          {% set battery_level = states('sensor.door_lock_batteries_front_door')|int('unknown') %}
-          {% set battery_round = (battery_level|int / 10)|int * 10 %}
-          {% if battery_level == 'unknown' %}
-            mdi:battery-unknown
-          {% else %}
-            {% if battery_round >= 100 %}
-              mdi:battery
-            {% elif battery_round > 0 %}
-              mdi:battery-{{ battery_round }}
-            {% else %}
-              mdi:battery-alert
-            {% endif %}
-          {% endif %}
-
-      door_lock_batteries_back_door:
-        friendly_name: Back Door Lock Battery
-        value_template: "{% if states.zwave.lock_back_door_deadbolt %}
-            {{ states.zwave.lock_back_door_deadbolt.attributes.battery_level }}
-          {% else %}
-            unknown
-          {% endif %}"
-        unit_of_measurement: '%'
-        icon_template: >-
-          {% set battery_level = states('sensor.door_lock_batteries_back_door')|int('unknown') %}
-          {% set battery_round = (battery_level|int / 10)|int * 10 %}
-          {% if battery_level == 'unknown' %}
-            mdi:battery-unknown
-          {% else %}
-            {% if battery_round >= 100 %}
-              mdi:battery
-            {% elif battery_round > 0 %}
-              mdi:battery-{{ battery_round }}
-            {% else %}
-              mdi:battery-alert
-            {% endif %}
-          {% endif %}
-
-      door_lock_batteries_garage_door:
-        friendly_name: Garage Door Lock Battery
-        value_template: "{% if states.zwave.lock_garage_door_lock %}
-            {{ states.zwave.lock_garage_door_lock.attributes.battery_level }}
-          {% else %}
-            unknown
-          {% endif %}"
-        unit_of_measurement: '%'
-        # entity_id: zwave.lock_garage_door_lock
-        icon_template: >-
-          {% set battery_level = states('sensor.door_lock_batteries_garage_door')|int('unknown') %}
-          {% set battery_round = (battery_level|int / 10)|int * 10 %}
-          {% if battery_level == 'unknown' %}
-            mdi:battery-unknown
-          {% else %}
-            {% if battery_round >= 100 %}
-              mdi:battery
-            {% elif battery_round > 0 %}
-              mdi:battery-{{ battery_round }}
-            {% else %}
-              mdi:battery-alert
-            {% endif %}
-          {% endif %}
+#  if you notice any issues, try commenting this out 
+#  7/28/2019 - With all the lovelace cards to get battery levels, I'm not using custom sensors anymore but left
+# this here for anyone who may want to use it
+#      door_lock_batteries_front_door:
+#        friendly_name: Front Door Lock Battery
+#        value_template: "{% if states.zwave.lock_front_door_deadbolt %}
+#            {{ states.zwave.lock_front_door_deadbolt.attributes.battery_level }}
+#          {% else %}
+#            unknown
+#          {% endif %}"
+#        unit_of_measurement: '%'
+#        icon_template: >-
+#          {% set battery_level = states('sensor.door_lock_batteries_front_door')|int('unknown') %}
+#          {% set battery_round = (battery_level|int / 10)|int * 10 %}
+#          {% if battery_level == 'unknown' %}
+#            mdi:battery-unknown
+#          {% else %}
+#            {% if battery_round >= 100 %}
+#              mdi:battery
+#            {% elif battery_round > 0 %}
+#              mdi:battery-{{ battery_round }}
+#            {% else %}
+#              mdi:battery-alert
+#            {% endif %}
+#          {% endif %}
+#
+#      door_lock_batteries_back_door:
+#        friendly_name: Back Door Lock Battery
+#        value_template: "{% if states.zwave.lock_back_door_deadbolt %}
+#            {{ states.zwave.lock_back_door_deadbolt.attributes.battery_level }}
+#          {% else %}
+#            unknown
+#          {% endif %}"
+#        unit_of_measurement: '%'
+#        icon_template: >-
+#          {% set battery_level = states('sensor.door_lock_batteries_back_door')|int('unknown') %}
+#          {% set battery_round = (battery_level|int / 10)|int * 10 %}
+#          {% if battery_level == 'unknown' %}
+#            mdi:battery-unknown
+#          {% else %}
+#            {% if battery_round >= 100 %}
+#              mdi:battery
+#            {% elif battery_round > 0 %}
+#              mdi:battery-{{ battery_round }}
+#            {% else %}
+#              mdi:battery-alert
+#            {% endif %}
+#          {% endif %}
+#
+#      door_lock_batteries_garage_door:
+#        friendly_name: Garage Door Lock Battery
+#        value_template: "{% if states.zwave.lock_garage_door_lock %}
+#            {{ states.zwave.lock_garage_door_lock.attributes.battery_level }}
+#          {% else %}
+#            unknown
+#          {% endif %}"
+#        unit_of_measurement: '%'
+#        # entity_id: zwave.lock_garage_door_lock
+#        icon_template: >-
+#          {% set battery_level = states('sensor.door_lock_batteries_garage_door')|int('unknown') %}
+#          {% set battery_round = (battery_level|int / 10)|int * 10 %}
+#          {% if battery_level == 'unknown' %}
+#            mdi:battery-unknown
+#          {% else %}
+#            {% if battery_round >= 100 %}
+#              mdi:battery
+#            {% elif battery_round > 0 %}
+#              mdi:battery-{{ battery_round }}
+#            {% else %}
+#              mdi:battery-alert
+#            {% endif %}
+#          {% endif %}
 
 #group:
 #Commented out the entire group section since it is not necessary for lovelace

@@ -167,7 +167,7 @@
       seconds: 2
   - service: light.turn_on
     entity_id: 
-      - group.color_hue_lights
+      - light.all_downstairs_color_lights
       - light.bedroom_lamp_one
       - light.bedroom_lamp_two
     data:
@@ -267,7 +267,7 @@
   - delay:
       seconds: 2
   - service: light.turn_on
-    entity_id: group.color_hue_lights
+    entity_id: light.all_downstairs_color_lights
     data:
       brightness: 254
       rgb_color: [255,200,118]
@@ -298,8 +298,8 @@
       seconds: 2
   - service: light.turn_off
     entity_id: 
-      - group.color_hue_lights
-      - group.goodnight_hue_lights
+      - light.all_downstairs_color_lights
+      - light.goodnight_hue_lights
   - service: notify.pushover
     data_template:
       target: Paul
@@ -507,8 +507,11 @@
     from: 'off'
     to: 'on'
   condition:
+  - condition: numeric_state
+    entity_id: sensor.ha_runtime_in_minutes
+    above: 2
   - condition: state
-    entity_id: group.office_lights
+    entity_id: light.office_lamps
     state: 'off'
   - condition: template
     value_template: "{{ states('sensor.motion_sensor_outdoor_luminance')| int < 90 }}"
@@ -518,13 +521,13 @@
 #    below: 6.5
   action:
   - service: homeassistant.turn_on
-    entity_id: group.office_lights
+    entity_id: light.office_lamps
   - wait_template: "{{ is_state('binary_sensor.motion_delay_office', 'off') }}"
   - condition: state
-    entity_id: group.office_lights
+    entity_id: light.office_lamps
     state: 'on'
   - service: homeassistant.turn_off
-    entity_id: group.office_lights
+    entity_id: light.office_lamps
 
 - alias: Motion Lighting in the Kitchen
   trigger:
@@ -533,8 +536,11 @@
     from: 'off'
     to: 'on'
   condition:
+  - condition: numeric_state
+    entity_id: sensor.ha_runtime_in_minutes
+    above: 2
   - condition: state
-    entity_id: group.kitchen_zwave_lights
+    entity_id: light.kitchen_ceiling_lights
     state: 'off'
 #  - condition: numeric_state
 #    entity_id: sun.sun
@@ -544,13 +550,13 @@
     value_template: "{{ states('sensor.motion_sensor_outdoor_luminance')| int < 90 }}"
   action:
   - service: homeassistant.turn_on
-    entity_id: group.kitchen_zwave_lights
+    entity_id: light.kitchen_ceiling_lights
   - wait_template: "{{ is_state('binary_sensor.motion_delay_kitchen', 'off') }}"
   - condition: state
-    entity_id: group.kitchen_zwave_lights
+    entity_id: light.kitchen_ceiling_lights
     state: 'on'
   - service: homeassistant.turn_off
-    entity_id: group.kitchen_zwave_lights
+    entity_id: light.kitchen_ceiling_lights
 
 - alias: Motion Lighting in the FROG
   trigger:
@@ -697,6 +703,9 @@
   - platform: state
     entity_id: media_player.theater_room_tv_control
     to: 'on'
+  - platform: state
+    entity_id: input_boolean.theater_room_tv_power
+    to: 'on'
   condition:
   - condition: state
     entity_id: timer.frog_tv_reset
@@ -725,6 +734,10 @@
     entity_id: remote.theater_room_harmony_hub
     from: 'on'
     to: 'off'
+  - platform: state
+    entity_id: input_boolean.theater_room_tv_power
+    from: 'on'
+    to: 'off'
   condition:
   - condition: state
     entity_id: timer.frog_tv_reset
@@ -742,6 +755,9 @@
   - platform: state
     entity_id: media_player.bedroom_tv_control
     to: 'on'
+  - platform: state
+    entity_id: input_boolean.bedroom_tv_power
+    to: 'on'
   condition:
   action:
   - service: light.turn_on
@@ -754,6 +770,10 @@
   trigger:
   - platform: state
     entity_id: media_player.bedroom_tv_control
+    to: 'off'
+  - platform: state
+    entity_id: input_boolean.bedroom_tv_power
+    from: 'on'
     to: 'off'
   condition:
   action:
@@ -883,8 +903,9 @@
     from: 'on'
     to: 'off'
   condition:
-  - condition: sun
-    after: sunset
+  - condition: state
+    entity_id: sun.sun
+    state: 'below_horizon'
   - condition: state
     entity_id: input_select.house_mode
     state: 'Home'  
@@ -896,8 +917,8 @@
   - service: scene.turn_on
     entity_id: scene.casual_lighting
   - condition: time
-    after: '22:00:00'
-    before: '02:00:00'
+    after: '21:45:00'
+    before: '02:30:00'
   - condition: state
     entity_id: input_boolean.paul_in_bed
     state: 'off'
@@ -910,6 +931,31 @@
         - light.bedroom_lamp_one
         - light.bedroom_lamp_two
       brightness: 50
+
+- alias: Reset Lighting after Downstairs Colorloop
+  trigger:
+  - platform: state
+    entity_id: automation.color_loop_all_downstairs
+    from: 'on'
+    to: 'off'
+  - platform: state
+    entity_id: automation.color_loop_living_room
+    from: 'on'
+    to: 'off'
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.ha_runtime_in_minutes
+    above: 1
+  action:
+  - service: scene.turn_on
+    entity_id: scene.evening_lighting
+  - condition: state
+    entity_id: media_player.living_room_tv
+    state: 'on'
+  - delay:
+      seconds: 3
+  - service: scene.turn_on
+    entity_id: scene.tv_lights
 
 ##########################################
 ## Door Locking and Unlocking           ##
@@ -1092,21 +1138,21 @@
         {% set lights_on = states | selectattr('entity_id', 'in', state_attr('group.goodnight_lights_all','entity_id')) | selectattr('state','eq','on') | map(attribute='name') | join(', ') %}
           The following Lights failed to turn off: {{ lights_on }}.  This was the second attempt.  Please turn off using the app.
 
-- alias: Zigbee Device Offline
-  trigger:
-  - platform: state
-    entity_id: binary_sensor.zigbee_offline
-    to: 'on'
-    for:
-      minutes: 15
-  action:
-  - service: notify.pushover
-    data_template:
-      target: Paul
-      title: Zigbee Devices Offline
-      message: >
-        {% set offline = states.zha | selectattr('state','eq','unavailable') | map(attribute='name') | join(', ') %}
-        The following zigbee devices are offline: {{ offline }}
+#- alias: Zigbee Device Offline
+#  trigger:
+#  - platform: state
+#    entity_id: binary_sensor.zigbee_offline
+#    to: 'on'
+#    for:
+#      minutes: 15
+#  action:
+#  - service: notify.pushover
+#    data_template:
+#      target: Paul
+#      title: Zigbee Devices Offline
+#      message: >
+#        {% set offline = states.zha | selectattr('state','eq','unavailable') | map(attribute='name') | join(', ') %}
+#        The following zigbee devices are offline: {{ offline }}
 
 - alias: Notify who unlocked door with timestamp
   trigger:
@@ -1769,11 +1815,14 @@
 ##########################################    
 - alias: 'Cameras Driveway Analysis'
   trigger:
+#  - platform: state
+#    entity_id: binary_sensor.motion_delay_driveway
+#    to: 'on'
+#  - platform: state
+#    entity_id: binary_sensor.motion_sensor_outdoor_motion
+#    to: 'on'
   - platform: state
-    entity_id: binary_sensor.motion_delay_driveway
-    to: 'on'
-  - platform: state
-    entity_id: binary_sensor.motion_sensor_outdoor_motion
+    entity_id: input_boolean.frontdoor_motion
     to: 'on'
   condition:
 #  - condition: template
@@ -1784,31 +1833,39 @@
 
 - alias: 'Cameras Driveway Analysis part 2'
   trigger:
+#  - platform: state
+#    entity_id: binary_sensor.motion_delay_driveway
+#    to: 'off'
+#  - platform: state
+#    entity_id: binary_sensor.motion_sensor_outdoor_motion
+#    to: 'off'
   - platform: state
-    entity_id: binary_sensor.motion_delay_driveway
+    entity_id: input_boolean.frontdoor_motion
     to: 'off'
-  - platform: state
-    entity_id: binary_sensor.motion_sensor_outdoor_motion
-    to: 'off'
+    for:
+      seconds: 75
   action:
   - service: image_processing.scan
     entity_id: image_processing.front_door
 
-- alias: 'Cameras Drive Way Line Crossing Timer'
-  trigger:
-  - platform: state
-    entity_id: binary_sensor.driveway_1_line_crossing
-    to: 'on'
-  - platform: state
-    entity_id: binary_sensor.driveway_2_line_crossing
-    to: 'on'
+#- alias: 'Cameras Drive Way Line Crossing Timer'
+#  trigger:
+#  - platform: state
+#    entity_id: binary_sensor.driveway_1_line_crossing
+#    to: 'on'
+#  - platform: state
+#    entity_id: binary_sensor.driveway_2_line_crossing
+#    to: 'on'
+#  - platform: state
+#    entity_id: input_boolean.frontdoor_motion
+#    to: 'on'
 #  condition:
 #  - condition: state
 #    entity_id: timer.camera_action
 #    state: 'idle'
-  action:
-  - service: timer.start
-    entity_id: timer.camera_action
+#  action:
+#  - service: timer.start
+#    entity_id: timer.camera_action
 
 - alias: 'Cameras Back Yard Analysis'
   trigger:
@@ -1835,9 +1892,9 @@
   - condition: numeric_state
     entity_id: sensor.ha_runtime_in_minutes
     above: 1
-  - condition: state
-    entity_id: binary_sensor.motion_sensor_outdoor_motion
-    state: 'on'
+#  - condition: state
+#    entity_id: binary_sensor.motion_sensor_outdoor_motion
+#    state: 'on'
   - condition: state
     entity_id: binary_sensor.open_close_sensor_front_door
     state: 'off'
@@ -1872,8 +1929,7 @@
       title: "Person in Driveway"
       message: "{{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}"
       data:
-        file:
-          path: '/home/homeassistant/.homeassistant/www/tmp/front_door_latest.jpg'
+        attachment: '/home/homeassistant/.homeassistant/www/tmp/front_door_latest.jpg'
   - service: notify.pushover
     data_template:
       target:
@@ -1881,8 +1937,7 @@
       title: "Person in Driveway"
       message: "{{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}"
       data:
-        file:
-          path: '/home/homeassistant/.homeassistant/www/tmp/front_door_latest.jpg'
+        attachment: '/home/homeassistant/.homeassistant/www/tmp/front_door_latest.jpg'
 
 - alias: 'Cameras Notify if person in yard area while away or at night'
   trigger:
@@ -1908,16 +1963,14 @@
       title: "Person Detected (Back Yard)"
       message: "{{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}"
       data:
-        file:
-          path: '/home/homeassistant/.homeassistant/www/tmp/back_yard_latest.jpg'
+        attachment: '/home/homeassistant/.homeassistant/www/tmp/back_yard_latest.jpg'
   - service: notify.pushover
     data_template:
       target: Tracy
       title: "Person Detected (Back Yard)"
       message: "{{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}"
       data:
-        file:
-          path: '/home/homeassistant/.homeassistant/www/tmp/back_yard_latest.jpg'
+        attachment: '/home/homeassistant/.homeassistant/www/tmp/back_yard_latest.jpg'
 
 - alias: 'Cameras Notify if vehicle in parking pad while away'
   trigger:
@@ -1925,7 +1978,7 @@
     value_template: "{{ state_attr('image_processing.back_yard', 'matches') | select('in', ['car','truck','van','motorcycle']) | list | length   > (states.input_number.vehicles_in_driveway.state)| int }}"
   condition:
   - condition: template
-    value_template: '{{ as_timestamp(now()) - as_timestamp(states.automation.cameras_notify_if_vehicle_in_parking_pad_while_away.attributes.last_triggered) | int > 120 }}'
+    value_template: '{{ as_timestamp(now()) - as_timestamp(states.automation.cameras_notify_if_vehicle_in_parking_pad_while_away.attributes.last_triggered) | int > 900 }}'
   - condition: numeric_state
     entity_id: sensor.ha_runtime_in_minutes
     above: 2
@@ -1940,16 +1993,14 @@
       title: "Vehicle Detected (Parking Pad)"
       message: "{{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}"
       data:
-        file:
-          path: '/home/homeassistant/.homeassistant/www/tmp/back_yard_latest.jpg'
+        attachment: '/home/homeassistant/.homeassistant/www/tmp/back_yard_latest.jpg'
   - service: notify.pushover
     data_template:
       target: Tracy
       title: "Vehicle Detected (Parking Pad)"
       message: "{{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}"
       data:
-        file:
-          path: '/home/homeassistant/.homeassistant/www/tmp/back_yard_latest.jpg'
+        attachment: '/home/homeassistant/.homeassistant/www/tmp/back_yard_latest.jpg'
 
 - alias: 'Cameras Notify if vehicle leaves'
   trigger:
@@ -1980,37 +2031,43 @@
       title: Vehicle has left the Parking Pad   
       message: "{{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}"
       data:
-        file:
-          path: '/tmp/backgate.jpg'
+        attachment: '/tmp/backgate.jpg'
   - service: notify.pushover
     data_template:
       target: Tracy
       title: Vehicle has left the Parking Pad   
       message: "{{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}"
       data:
-        file:
-          path: '/tmp/backgate.jpg'
+        attachment: '/tmp/backgate.jpg'
 
 - alias: 'Cameras Drive Way Front Door Motion Lights'
   trigger:
+#  - platform: state
+#    entity_id: binary_sensor.driveway_1_motion
+#    to: 'on'
+#  - platform: state
+#    entity_id: binary_sensor.motion_sensor_outdoor_motion
+#    to: 'on'
   - platform: state
-    entity_id: binary_sensor.driveway_1_motion
+    entity_id: input_boolean.frontdoor_motion
     to: 'on'
-  - platform: state
-    entity_id: binary_sensor.motion_sensor_outdoor_motion
-    to: 'on'
+#    for:
+#      seconds: 1
   condition:
-  - condition: or
-    conditions:
-    - condition: state
-      entity_id: timer.camera_action
-      state: 'active'
-    - condition: state
-      entity_id: binary_sensor.motion_sensor_outdoor_motion
-      state: 'on'
+#  - condition: or
+#    conditions:
+#  - condition: state
+#    entity_id: timer.camera_action
+#    state: 'active'
+#    - condition: state
+#      entity_id: binary_sensor.motion_sensor_outdoor_motion
+#      state: 'on'
   - condition: state
     entity_id: sun.sun
     state: 'below_horizon'
+  - condition: numeric_state
+    entity_id: sensor.ha_runtime_in_minutes
+    above: 1
   action:
   - service: camera.snapshot
     data:
@@ -2589,9 +2646,9 @@
 #    entity_id: climate.downstairs, climate.upstairs
 
 #############################################
-## 4 Button Controller Buttons Settings ##
+## Remote Control Settings                 ##
 #############################################
-- alias: 'Minimote 1 Actions'
+- alias: Remote Control Master Bedroom
   trigger:
   - platform: event
     event_type: zwave.scene_activated
@@ -2611,7 +2668,7 @@
                       9: 'switch.bedroom_fan'} %}
         {{ map[trigger.event.data.scene_id|int] }}
 
-- alias: 'Minimote 2 Actions'
+- alias: Remote Control Guest Bedroom Lights
   trigger:
   - platform: event
     event_type: zwave.scene_activated
@@ -2631,6 +2688,214 @@
                       9: 'light.guest_bedroom_light'} %}
         {{ map[trigger.event.data.scene_id|int] }}
 
+- alias: Remote Control Shelf Lights On
+  trigger:
+  - platform: event
+    event_type: zha_event
+    event_data:
+      device_ieee: "00:17:88:01:02:1a:82:21"
+      command: "on"
+  action:
+  - service: scene.turn_on
+    entity_id: scene.shelf_lights_on
+
+- alias: Remote Control Shelf Lights On
+  trigger:
+  - platform: event
+    event_type: zha_event
+    event_data:
+      device_ieee: "00:17:88:01:02:1a:82:21"
+      command: "off_with_effect"
+  action:
+  - service: scene.turn_on
+    entity_id: scene.shelf_lights_off
+
+- alias: Remote Control Kitchen Cabinet Lights On
+  trigger:
+  - platform: event
+    event_type: zha_event
+    event_data:
+      device_ieee: "00:17:88:01:02:d4:35:36"
+      command: "on"
+  action:
+  - service: scene.turn_on
+    entity_id: scene.kitchen_cabinets_on
+
+- alias: Remote Control Kitchen Cabinet Lights Off
+  trigger:
+  - platform: event
+    event_type: zha_event
+    event_data:
+      device_ieee: "00:17:88:01:02:d4:35:36"
+      command: "off_with_effect"
+  action:
+  - service: scene.turn_on
+    entity_id: scene.kitchen_cabinets_off
+
+- alias: Shelf Lights Increase Brightness
+  trigger:
+  - platform: event
+    event_type: zha_event
+    event_data:
+      device_ieee: "00:17:88:01:02:1a:82:21"
+      command: "step"
+      args: [0, 30, 9]
+  action:
+  - service: light.turn_on
+    data_template:
+      entity_id: light.shelf_only_color_lights
+      brightness: >
+          {% if state_attr('light.shelf_only_color_lights' , 'brightness') < 230 %}
+            {{ state_attr('light.shelf_only_color_lights' , 'brightness') + 25 }}
+          {% else %} 255 {% endif %}
+- alias: Shelf Lights Decrease Brightness
+  trigger:
+  - platform: event
+    event_type: zha_event
+    event_data:
+      device_ieee: "00:17:88:01:02:1a:82:21"
+      command: "step"
+      args: [1, 30, 9]
+  action:
+  - service: light.turn_on
+    data_template:
+      entity_id: light.shelf_only_color_lights
+      brightness: >
+          {% if state_attr('light.shelf_only_color_lights' , 'brightness') > 25 %}
+            {{ state_attr('light.shelf_only_color_lights' , 'brightness') - 25 }}
+          {% else %} 1 {% endif %}
+
+- alias: Shelf Lights Increase Brightness
+  trigger:
+  - platform: event
+    event_type: zha_event
+    event_data:
+      device_ieee: "00:17:88:01:02:1a:82:21"
+      command: "step"
+      args: [0, 56, 9]
+  action:
+  - service: script.turn_on
+    entity_id: script.increment_light
+
+- alias: Shelf Lights Decrease Brightness
+  trigger:
+  - platform: event
+    event_type: zha_event
+    event_data:
+      device_ieee: "00:17:88:01:02:1a:82:21"
+      command: "step"
+      args: [1, 56, 9]
+  action:
+  - service: script.turn_on
+    entity_id: script.decrement_light
+
+- alias: Shelf Lights Stop scripts
+  trigger:
+  - platform: event
+    event_type: zha_event
+    event_data:
+      device_ieee: "00:17:88:01:02:1a:82:21"
+      command: "stop"
+  action:
+  - service: script.turn_off
+    entity_id: script.increment_light
+  - service: script.turn_off
+    entity_id: script.decrement_light
+
+- alias: Color Loop All Downstairs
+  initial_state: false
+  trigger:
+  - platform: time_pattern
+    seconds: '/2'
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.ha_runtime_in_minutes
+    above: 1
+  action:
+  - service: light.turn_on
+    entity_id: light.downstairs_color_lights
+    data_template:
+      hs_color:
+        - "{{ (12 + (state_attr('light.downstairs_color_lights', 'hs_color')[0] or 0)) % 360 }}"
+        - 100
+      brightness_pct: 100
+      transition: 1
+
+- alias: Color Loop Shelf Lights
+  initial_state: false
+  trigger:
+  - platform: time_pattern
+    seconds: '/2'
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.ha_runtime_in_minutes
+    above: 1
+  action:
+  - service: light.turn_on
+    entity_id: light.shelf_color_lights
+    data_template:
+      hs_color:
+        - "{{ (12 + (state_attr('light.shelf_color_lights', 'hs_color')[0] or 0)) % 360 }}"
+        - 100
+      brightness_pct: 100
+      transition: 1
+
+- alias: Color Loop Living Room
+  initial_state: false
+  trigger:
+  - platform: time_pattern
+    seconds: '/2'
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.ha_runtime_in_minutes
+    above: 1
+  action:
+  - service: light.turn_on
+    entity_id: light.living_room_color_lights
+    data_template:
+      hs_color:
+        - "{{ (12 + (state_attr('light.living_room_color_lights', 'hs_color')[0] or 0)) % 360 }}"
+        - 100
+      brightness_pct: 100
+      transition: 1
+
+- alias: Color Loop All Kitchen
+  initial_state: false
+  trigger:
+  - platform: time_pattern
+    seconds: '/2'
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.ha_runtime_in_minutes
+    above: 1
+  action:
+  - service: light.turn_on
+    entity_id: light.kitchen_color_lights
+    data_template:
+      hs_color:
+        - "{{ (12 + (state_attr('light.kitchen_color_lights', 'hs_color')[0] or 0)) % 360 }}"
+        - 100
+      brightness_pct: 100
+      transition: 1
+
+- alias: Color Loop Kitchen Cabinets
+  initial_state: false
+  trigger:
+  - platform: time_pattern
+    seconds: '/2'
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.ha_runtime_in_minutes
+    above: 1
+  action:
+  - service: light.turn_on
+    entity_id: light.kitchen_cabinet_color_lights
+    data_template:
+      hs_color:
+        - "{{ (12 + (state_attr('light.kitchen_cabinet_color_lights', 'hs_color')[0] or 0)) % 360 }}"
+        - 100
+      brightness_pct: 100
+      transition: 1
 #############################################
 ## HA Actions for health, config, etc      ##
 #############################################
@@ -2652,11 +2917,35 @@
     data_template:
       entity_id: '{{ trigger.event.data.entity_id }}'
 
+- alias: 'doorbell motion from tasker'
+  initial_state: 'on'
+  trigger:
+    platform: webhook
+    webhook_id: !secret doorbell_token
+  action:
+    service_template: '{{ trigger.json.service }}'
+    data_template:
+      entity_id: '{{ trigger.json.entity_id }}'
+      
+- alias: 'doorbell motion trigger'
+  trigger:
+  - platform: state
+    entity_id: input_boolean.frontdoor_motion
+    to: 'on'
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.ha_runtime_in_minutes
+    above: 1
+  action:
+  - delay:
+      seconds: 5
+  - service: input_boolean.turn_off
+    entity_id: input_boolean.frontdoor_motion
+
 - alias: Battery Alert
   trigger: 
     - platform: time
       at: '19:55:00'
-
   condition:
     - condition: template
       value_template: >
@@ -2674,11 +2963,10 @@
         {%- endfor %}
         {% endmacro %}
         {{ battery_level() |trim != "" }}
-
   action:
     - service: persistent_notification.create
       data_template:
-        title: "Low Battery Levels"
+        title: "Low Battery Levels:"
         notification_id: low-battery-alert
         message: >
           {%- set threshold_high = 35 -%}
@@ -2691,28 +2979,36 @@
           {{ item.name }} ({{ item.state }}){% if not loop.last %}, {% endif %}{% endif -%}
           {%- endfor -%}
           {% endmacro %}
-          {% set domains = ['light', 'switch', 'zwave', 'lock', 'sensor', 'zha'] %}}
+          {% set domains = ['light', 'switch', 'zwave', 'lock', 'sensor', 'zha'] %}
           {%- for domain in domains if battery_level(domain) |trim != ""-%}
           {{ battery_level(domain) }}{%- if not loop.last %}, {% endif -%}
           {%- endfor -%}
-    - service: notify.ios_pauls_iphone
+    - service: notify.pushover
       data_template:
-            title: "HOME devices have low battery levels:"
-            message: >
-              {%- set threshold_high = 35 -%}
-              {%- set threshold_low = 0 -%}
-              {% macro battery_level(domain) %}
-              {%- for item in states[domain] if ((item.attributes.battery_level is defined and item.attributes['battery_level'] | int < threshold_high and item.attributes['battery_level'] | int > threshold_low) or ("battery" in item.name | lower and ((item.state | int < threshold_high and item.state|int != 0) or item.state | lower == "low" or item.state | lower == "unknown"))) -%}
-              {% if (item.attributes.battery_level is defined and item.attributes['battery_level'] | int < threshold_high and item.attributes['battery_level'] | int > threshold_low) -%}
-              {{ item.name }} ({{ item.attributes['battery_level'] }}){%- if not loop.last %}, {% endif -%}{%- endif -%}
-              {%- if "battery" in item.name | lower and ((item.state | int < threshold_high and item.state | int > threshold_low and item.state|int != 0) or item.state | lower == "low" or item.state | lower == "unknown") -%}
-              {{ item.name }} ({{ item.state }}){% if not loop.last %}, {% endif %}{% endif -%}
-              {%- endfor -%}
-              {% endmacro %}
-              {% set domains = ['light', 'switch', 'zwave', 'lock', 'sensor', 'zha'] %}
-              {%- for domain in domains if battery_level(domain) |trim != ""-%}
-              {{ battery_level(domain) }}{%- if not loop.last %}, {% endif -%}
-              {%- endfor -%}
+        target: Paul
+        title: "HOME devices have low battery levels:"
+        message: >
+          {%- set threshold_high = 35 -%}
+          {%- set threshold_low = 0 -%}
+          {% macro battery_level(domain) %}
+          {%- for item in states[domain] if ((item.attributes.battery_level is defined and item.attributes['battery_level'] | int < threshold_high and item.attributes['battery_level'] | int > threshold_low) or ("battery" in item.name | lower and ((item.state | int < threshold_high and item.state|int != 0) or item.state | lower == "low" or item.state | lower == "unknown"))) -%}
+          {% if (item.attributes.battery_level is defined and item.attributes['battery_level'] | int < threshold_high and item.attributes['battery_level'] | int > threshold_low) -%}
+          {{ item.name }} ({{ item.attributes['battery_level'] }}){%- if not loop.last %}, {% endif -%}{%- endif -%}
+          {%- if "battery" in item.name | lower and ((item.state | int < threshold_high and item.state | int > threshold_low and item.state|int != 0) or item.state | lower == "low" or item.state | lower == "unknown") -%}
+          {{ item.name }} ({{ item.state }}){% if not loop.last %}, {% endif %}{% endif -%}
+          {%- endfor -%}
+          {% endmacro %}
+          {% set domains = ['light', 'switch', 'zwave', 'lock', 'sensor', 'zha'] %}
+          {%- for domain in domains if battery_level(domain) |trim != ""-%}
+          {{ battery_level(domain) }}{%- if not loop.last %}, {% endif -%}
+          {%- endfor -%}
+    - service: notify.pushover
+      data_template:
+        target: Paul
+        title: Devices Offline
+        message: >
+         {% set offline = states| selectattr('state','eq','unavailable') | map(attribute='name') | join(', ') %}
+          The following zigbee devices are offline: {{ offline }}
 
 - alias: Battery Alert Clear
   trigger:

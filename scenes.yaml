@@ -278,6 +278,49 @@
       light.alcove_light:
         state: off
 
+  - name: Shelf Lights on
+    entities:           
+      light.left_shelf_lights:
+        state: on
+        brightness: 166
+        rgb_color: [255, 240, 198]
+            
+      light.right_shelf_lights:
+        state: on
+        brightness: 166
+        rgb_color: [255, 240, 198]
+
+  - name: Shelf Lights Off
+    entities:           
+      light.left_shelf_lights:
+        state: off
+      
+      light.tv_backlights:
+        state: off
+      
+      light.right_shelf_lights:
+        state: off
+
+  - name: Kitchen Cabinets On
+    entities:
+      light.kitchen_cabinet_bottoms:
+        state: on
+        brightness: 254
+        rgb_color: [255, 240, 198]
+
+      light.kitchen_cabinet_tops:
+        state: on
+        brightness: 254
+        rgb_color: [255, 240, 198]
+
+  - name: Kitchen Cabinets Off
+    entities:
+      light.kitchen_cabinet_bottoms:
+        state: off
+
+      light.kitchen_cabinet_tops:
+        state: off
+  
   - name: Best of the Week
     entities:
       media_player.living_room:

@@ -441,3 +441,8 @@
           {% endif %}"
         icon_template: mdi:water-percent
         entity_id: climate.upstairs_2
+        
+#      offline_devices:
+#        value_template: >
+#         {% set offline = states| selectattr('state','eq','unavailable') | map(attribute='name') | join(', ') %}
+#         {{ offline }}
