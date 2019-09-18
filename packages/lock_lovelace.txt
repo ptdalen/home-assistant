@@ -1,0 +1,237 @@
+ This lovelace is set up for three locks, if you only have one or two delete the items accordingly
+# Do not uncomment this in the package, copy and paste it without the #'s into your lovelace config
+#  - badges: []
+#    cards:
+#      - entities:
+#          - input_text.door_keypad_1_name
+#          - input_text.door_keypad_1_code
+#          - input_boolean.code_1_notify
+#          - input_select.door_keypad_1_access_schedule
+#          - input_datetime.door_keypad_1_date_start
+#          - input_datetime.door_keypad_1_date_end
+#          - input_boolean.door_keypad_1_front_switch
+#          - input_boolean.door_keypad_1_back_switch
+#          - input_boolean.door_keypad_1_garage_switch
+#          - script.door_keypad_1_delete
+#        title: Entry Code 1
+#        type: entities
+#      - entities:
+#          - input_text.door_keypad_2_name
+#          - input_text.door_keypad_2_code
+#          - input_boolean.code_2_notify
+#          - input_select.door_keypad_2_access_schedule
+#          - input_datetime.door_keypad_2_date_start
+#          - input_datetime.door_keypad_2_date_end
+#          - input_boolean.door_keypad_2_front_switch
+#          - input_boolean.door_keypad_2_back_switch
+#          - input_boolean.door_keypad_2_garage_switch
+#          - script.door_keypad_2_delete
+#        title: Entry Code 2
+#        type: entities
+#      - entities:
+#          - input_text.door_keypad_3_name
+#          - input_text.door_keypad_3_code
+#          - input_boolean.code_3_notify
+#          - input_select.door_keypad_3_access_schedule
+#          - input_datetime.door_keypad_3_date_start
+#          - input_datetime.door_keypad_3_date_end
+#          - input_boolean.door_keypad_3_front_switch
+#          - input_boolean.door_keypad_3_back_switch
+#          - input_boolean.door_keypad_3_garage_switch
+#          - script.door_keypad_3_delete
+#        title: Entry Code 3
+#        type: entities
+#      - entities:
+#          - input_text.door_keypad_4_name
+#          - input_text.door_keypad_4_code
+#          - input_boolean.code_4_notify
+#          - input_select.door_keypad_4_access_schedule
+#          - input_datetime.door_keypad_4_date_start
+#          - input_datetime.door_keypad_4_date_end
+#          - input_boolean.door_keypad_4_front_switch
+#          - input_boolean.door_keypad_4_back_switch
+#          - input_boolean.door_keypad_4_garage_switch
+#          - script.door_keypad_4_delete
+#        title: Entry Code 4
+#        type: entities
+#      - entities:
+#          - input_text.door_keypad_5_name
+#          - input_text.door_keypad_5_code
+#          - input_boolean.code_5_notify
+#          - input_select.door_keypad_5_access_schedule
+#          - input_datetime.door_keypad_5_date_start
+#          - input_datetime.door_keypad_5_date_end
+#          - input_boolean.door_keypad_5_front_switch
+#          - input_boolean.door_keypad_5_back_switch
+#          - input_boolean.door_keypad_5_garage_switch
+#          - script.door_keypad_5_delete
+#        title: Entry Code 5
+#        type: entities
+#      - entities:
+#          - input_text.door_keypad_6_name
+#          - input_text.door_keypad_6_code
+#          - input_boolean.code_6_notify
+#          - input_select.door_keypad_6_access_schedule
+#          - input_datetime.door_keypad_6_date_start
+#          - input_datetime.door_keypad_6_date_end
+#          - input_boolean.door_keypad_6_front_switch
+#          - input_boolean.door_keypad_6_back_switch
+#          - input_boolean.door_keypad_6_garage_switch
+#          - script.door_keypad_6_delete
+#        title: Entry Code 6
+#        type: entities
+#      - entities:
+#          - input_text.door_keypad_7_name
+#          - input_text.door_keypad_7_code
+#          - input_boolean.code_7_notify
+#          - input_select.door_keypad_7_access_schedule
+#          - input_datetime.door_keypad_7_date_start
+#          - input_datetime.door_keypad_7_date_end
+#          - input_boolean.door_keypad_7_front_switch
+#          - input_boolean.door_keypad_7_back_switch
+#          - input_boolean.door_keypad_7_garage_switch
+#          - script.door_keypad_7_delete
+#        title: Entry Code 7
+#        type: entities
+#      - entities:
+#          - input_text.door_keypad_8_name
+#          - input_text.door_keypad_8_code
+#          - input_boolean.code_8_notify
+#          - input_select.door_keypad_8_access_schedule
+#          - input_datetime.door_keypad_8_date_start
+#          - input_datetime.door_keypad_8_date_end
+#          - input_boolean.door_keypad_8_front_switch
+#          - input_boolean.door_keypad_8_back_switch
+#          - input_boolean.door_keypad_8_garage_switch
+#          - script.door_keypad_8_delete
+#        title: Entry Code 8
+#        type: entities
+#      - entities:
+#          - input_text.door_keypad_9_name
+#          - input_text.door_keypad_9_code
+#          - input_boolean.code_9_notify
+#          - input_select.door_keypad_9_access_schedule
+#          - input_datetime.door_keypad_9_date_start
+#          - input_datetime.door_keypad_9_date_end
+#          - input_boolean.door_keypad_9_front_switch
+#          - input_boolean.door_keypad_9_back_switch
+#          - input_boolean.door_keypad_9_garage_switch
+#          - script.door_keypad_9_delete
+#        title: Entry Code 9
+#        type: entities
+#      - entities:
+#          - input_text.door_keypad_10_name
+#          - input_text.door_keypad_10_code
+#          - input_boolean.code_10_notify
+#          - input_select.door_keypad_10_access_schedule
+#          - input_datetime.door_keypad_10_date_start
+#          - input_datetime.door_keypad_10_date_end
+#          - input_boolean.door_keypad_10_front_switch
+#          - input_boolean.door_keypad_10_back_switch
+#          - input_boolean.door_keypad_10_garage_switch
+#          - script.door_keypad_10_delete
+#        title: Entry Code 10
+#        type: entities
+#      - entities:
+#          - input_text.door_keypad_11_name
+#          - input_text.door_keypad_11_code
+#          - input_boolean.code_11_notify
+#          - input_select.door_keypad_11_access_schedule
+#          - input_datetime.door_keypad_11_date_start
+#          - input_datetime.door_keypad_11_date_end
+#          - input_boolean.door_keypad_11_front_switch
+#          - input_boolean.door_keypad_11_back_switch
+#          - input_boolean.door_keypad_11_garage_switch
+#          - script.door_keypad_11_delete
+#        title: Entry Code 11
+#        type: entities
+#      - entities:
+#          - input_text.door_keypad_12_name
+#          - input_text.door_keypad_12_code
+#          - input_boolean.code_12_notify
+#          - input_select.door_keypad_12_access_schedule
+#          - input_datetime.door_keypad_12_date_start
+#          - input_datetime.door_keypad_12_date_end
+#          - input_boolean.door_keypad_12_front_switch
+#          - input_boolean.door_keypad_12_back_switch
+#          - input_boolean.door_keypad_12_garage_switch
+#          - script.door_keypad_12_delete
+#        title: Entry Code 12
+#        type: entities
+#      - entities:
+#          - input_text.door_keypad_13_name
+#          - input_text.door_keypad_13_code
+#          - input_boolean.code_13_notify
+#          - input_select.door_keypad_13_access_schedule
+#          - input_datetime.door_keypad_13_date_start
+#          - input_datetime.door_keypad_13_date_end
+#          - input_boolean.door_keypad_13_front_switch
+#          - input_boolean.door_keypad_13_back_switch
+#          - input_boolean.door_keypad_13_garage_switch
+#          - script.door_keypad_13_delete
+#        title: Entry Code 13
+#        type: entities
+#      - entities:
+#          - input_text.door_keypad_14_name
+#          - input_text.door_keypad_14_code
+#          - input_boolean.code_14_notify
+#          - input_select.door_keypad_14_access_schedule
+#          - input_datetime.door_keypad_14_date_start
+#          - input_datetime.door_keypad_14_date_end
+#          - input_boolean.door_keypad_14_front_switch
+#          - input_boolean.door_keypad_14_back_switch
+#          - input_boolean.door_keypad_14_garage_switch
+#          - script.door_keypad_14_delete
+#        title: Entry Code 14
+#        type: entities
+#      - entities:
+#          - input_text.door_keypad_15_name
+#          - input_text.door_keypad_15_code
+#          - input_boolean.code_15_notify
+#          - input_select.door_keypad_15_access_schedule
+#          - input_datetime.door_keypad_15_date_start
+#          - input_datetime.door_keypad_15_date_end
+#          - input_boolean.door_keypad_15_front_switch
+#          - input_boolean.door_keypad_15_back_switch
+#          - input_boolean.door_keypad_15_garage_switch
+#          - script.door_keypad_15_delete
+#        title: Entry Code 15
+#        type: entities
+#      - entities:
+#          - input_select.door_keypad_16_access_schedule
+#          - input_text.door_keypad_16_name
+#          - input_text.door_keypad_16_code
+#          - input_boolean.code_16_notify
+#          - input_boolean.door_keypad_16_front_switch
+#          - input_boolean.door_keypad_16_back_switch
+#          - input_boolean.door_keypad_16_garage_switch
+#          - script.door_keypad_16_delete
+#        title: One Time Use Code 1
+#        type: entities
+#      - entities:
+#          - input_select.door_keypad_17_access_schedule
+#          - input_text.door_keypad_17_name
+#          - input_text.door_keypad_17_code
+#          - input_boolean.code_17_notify
+#          - input_boolean.door_keypad_17_front_switch
+#          - input_boolean.door_keypad_17_back_switch
+#          - input_boolean.door_keypad_17_garage_switch
+#          - script.door_keypad_17_delete
+#        title: One Time Use Code 2
+#        type: entities
+#      - entities:
+#          - input_select.door_keypad_18_access_schedule
+#          - input_text.door_keypad_18_name
+#          - input_text.door_keypad_18_code
+#          - input_boolean.code_18_notify
+#          - input_boolean.door_keypad_18_front_switch
+#          - input_boolean.door_keypad_18_back_switch
+#          - input_boolean.door_keypad_18_garage_switch
+#          - script.door_keypad_18_delete
+#        title: One Time Use Code 3
+#        type: entities
+#
+#    icon: 'mdi:lock-smart'
+#    path: keypads
+#    title: 'Door Lock Information, Codes and Configuration'
+

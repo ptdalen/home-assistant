@@ -1,0 +1,324 @@
+#################################################################
+# Names in needed in entity registry:                           #
+# THIS IS FOR A SCHLAGE FE599, it behaves differently than      #
+# most schlage locks                                            #
+# zwave.lock_garage_door_lock                                   #
+# lock.lock_garage_door_lock                                    #
+# sensor.lock_garage_door_lock_alarm_type,                      #
+# sensor.lock_garage_door_lock_alarm_level                      #
+# also recommend you use the recorder component in your         #
+# configuration.yaml, as well as the uptime sensor component    #
+# and for notifications I use pushbullet, but replace with      #
+# notifyier of your choice.                                     #
+#################################################################
+automation:
+  - alias: Keypad switch turned on (Garage Door)
+    initial_state: true
+    trigger:
+      - platform: state
+        to: 'on'
+        entity_id:
+# Entities need to be named to match your lock name.  In this case garage
+          - input_boolean.door_keypad_1_garage_switch
+          - input_boolean.door_keypad_2_garage_switch
+          - input_boolean.door_keypad_3_garage_switch
+          - input_boolean.door_keypad_4_garage_switch
+          - input_boolean.door_keypad_5_garage_switch
+          - input_boolean.door_keypad_6_garage_switch
+          - input_boolean.door_keypad_7_garage_switch
+          - input_boolean.door_keypad_8_garage_switch
+          - input_boolean.door_keypad_9_garage_switch
+          - input_boolean.door_keypad_10_garage_switch
+          - input_boolean.door_keypad_11_garage_switch
+          - input_boolean.door_keypad_12_garage_switch
+          - input_boolean.door_keypad_13_garage_switch
+          - input_boolean.door_keypad_14_garage_switch
+          - input_boolean.door_keypad_15_garage_switch
+          - input_boolean.door_keypad_16_garage_switch
+          - input_boolean.door_keypad_17_garage_switch
+          - input_boolean.door_keypad_18_garage_switch
+
+    condition:
+      - condition: template
+        value_template:  >-
+          {% set object_id = trigger.to_state.object_id %}
+          {% set code_slot = "_".join(object_id.split("_")[2:-2]) %}
+          {% set select_id = 'door_keypad_' ~ code_slot ~ '_access_schedule' %}
+          {{ states['input_select'][select_id].state in ['Always', 'Enabled'] }}
+
+    action:
+      - service: lock.set_usercode
+        data_template:
+          node_id: >-
+            {{ states.lock.lock_garage_door_lock.attributes.node_id }}
+            
+          code_slot: >-
+            {% set object_id = trigger.to_state.object_id %}
+            {% set code_slot = "_".join(object_id.split("_")[2:-2]) %}
+            {{ code_slot }}
+
+          usercode: >-
+            {% set object_id = trigger.to_state.object_id %}
+            {% set code_slot = "_".join(object_id.split("_")[2:-2]) %}
+            {% set user_code_id = 'door_keypad_' ~ code_slot ~ '_code' %}
+            {{ states['input_text'][user_code_id].state }}
+
+  - alias: Keypad switch turned off (Garage Door)
+    initial_state: true
+    trigger:
+      - platform: state
+        to: 'off'
+        entity_id:
+          - input_boolean.door_keypad_1_garage_switch
+          - input_boolean.door_keypad_2_garage_switch
+          - input_boolean.door_keypad_3_garage_switch
+          - input_boolean.door_keypad_4_garage_switch
+          - input_boolean.door_keypad_5_garage_switch
+          - input_boolean.door_keypad_6_garage_switch
+          - input_boolean.door_keypad_7_garage_switch
+          - input_boolean.door_keypad_8_garage_switch
+          - input_boolean.door_keypad_9_garage_switch
+          - input_boolean.door_keypad_10_garage_switch
+          - input_boolean.door_keypad_11_garage_switch
+          - input_boolean.door_keypad_12_garage_switch
+          - input_boolean.door_keypad_13_garage_switch
+          - input_boolean.door_keypad_14_garage_switch
+          - input_boolean.door_keypad_15_garage_switch
+          - input_boolean.door_keypad_16_garage_switch
+          - input_boolean.door_keypad_17_garage_switch
+          - input_boolean.door_keypad_18_garage_switch
+    
+    condition:
+      - condition: template
+        value_template:  >-
+          {% set object_id = trigger.to_state.object_id %}
+          {% set code_slot = "_".join(object_id.split("_")[2:-2]) %}
+          {% set select_id = 'door_keypad_' ~ code_slot ~ '_access_schedule' %}
+          {{ states['input_select'][select_id].state in ['Always', 'Disabled'] }}
+
+    action:
+# this is where usercodes get deleted, for the many locks there seems to be an issue with 
+# clear usercode, so this sets a random code, of course that means there is an unknown code in the cleared
+# slots.  If you dont like that set a specific code that only you know
+      - service: lock.set_usercode
+        data_template:
+          usercode: >-
+            {{ range(1000, 9999) | random }}
+
+          node_id: >-
+            {{ states.lock.lock_garage_door_lock.attributes.node_id }}
+
+          code_slot: >-
+            {% set object_id = trigger.to_state.object_id %}
+            {% set code_slot = "_".join(object_id.split("_")[2:-2]) %}
+            {{ code_slot }}
+
+  - alias: Keypad temporary code start (Garage Door)
+    initial_state: true
+    trigger:
+      - platform: state
+        to: 'True'
+        entity_id:
+          - sensor.keypad_1_temp_lock_turn_on
+          - sensor.keypad_2_temp_lock_turn_on
+          - sensor.keypad_3_temp_lock_turn_on
+          - sensor.keypad_4_temp_lock_turn_on
+          - sensor.keypad_5_temp_lock_turn_on
+          - sensor.keypad_6_temp_lock_turn_on
+          - sensor.keypad_7_temp_lock_turn_on
+          - sensor.keypad_8_temp_lock_turn_on
+          - sensor.keypad_9_temp_lock_turn_on
+          - sensor.keypad_10_temp_lock_turn_on
+          - sensor.keypad_11_temp_lock_turn_on
+          - sensor.keypad_12_temp_lock_turn_on
+          - sensor.keypad_13_temp_lock_turn_on
+          - sensor.keypad_14_temp_lock_turn_on
+          - sensor.keypad_15_temp_lock_turn_on
+# if you changed the name of your switch from "garage" change below to match
+    condition:
+      - condition: template
+        value_template: >-
+          {% set object_id = trigger.to_state.object_id %}
+          {% set code_slot = object_id[7:-18] %}
+          {% set input = 'door_keypad_' ~ code_slot ~ '_garage_switch' %}
+          {{ states['input_boolean'][input].state == 'on' }}
+  
+    action:
+      - service: lock.set_usercode
+        data_template:
+          usercode: >-
+            {% set object_id = trigger.to_state.object_id %}
+            {% set code_slot = object_id[7:-18] %}
+            {% set input = 'door_keypad_' ~ code_slot ~ '_code' %}
+            {{ states['input_text'][input].state }}
+
+          node_id: >-
+            {{ states.lock.lock_garage_door_lock.attributes.node_id }}
+
+          code_slot: >-
+            {% set object_id = trigger.to_state.object_id %}
+            {% set code_slot = object_id[7:-18] %}
+            {{ code_slot }}
+
+      - service: notify.pushover
+        data_template:
+          message: >-
+            {% set object_id = trigger.to_state.object_id %}
+            {% set code_slot = object_id[7:-18] %}
+            {% set usercode_input = 'door_keypad_' ~ code_slot ~ '_code' %}
+            {% set usercode = states['input_text'][usercode_input].state %}
+            {% set name_input = 'door_keypad_' ~ code_slot ~ '_name' %}
+            {% set name = states['input_text'][name_input].state %}
+            {% set start_input = 'door_keypad_' ~ code_slot ~ '_date_start' %}
+            {% set start = states['input_datetime'][start_input].state %}
+            {% set end_input = 'door_keypad_' ~ code_slot ~ '_date_end' %}
+            {% set end = states['input_datetime'][end_input].state %}
+            The pin code {{ usercode }} is now temporarily enabled for {{ name }} from {{ start }} to {{ end }}.
+
+          title: >-
+            Beach House: Temporary code enabled on Garage Door
+          target:
+          - Paul
+          - Tracy
+
+  - alias: "Garage Door Lock Remote Activity"
+    initial_state: true
+    # Any change in lock state, lock or unlock
+    trigger:
+      - platform: state
+        entity_id: lock.lock_garage_door_lock
+    # Ensure user code has not been entered
+    condition:
+      condition: state
+      entity_id: sensor.garage_door_code_entered
+      state: '0'
+    # input_select is used for tracking
+    action:
+      - service: input_select.select_option
+        data_template:
+          entity_id: input_select.hass_status_for_garage_door_lock
+          option: >
+            {% if is_state("lock.lock_garage_door_lock", "locked") %}
+              HA Lock
+            {% else %}
+              HA Unlock
+            {% endif %}
+
+  - alias: Notify on Unlock (Garage Door)
+    initial_state: true
+    trigger:
+      - platform: state
+        entity_id: sensor.garage_door_code_entered
+        from: '0'
+    condition:
+
+    action:
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.hass_status_for_garage_door_lock
+        option: Unlocked with Code
+## This  will just set a a friendly name of whoever unlocked the door to input_text.garage_door_code,  Use for other automations if you want.
+    - service: input_text.set_value
+      data_template:
+        entity_id: input_text.garage_door_code
+        value: >
+          {% set number = states('sensor.lock_garage_door_lock_alarm_level') %}
+          {% set entity_id = 'input_text.door_keypad_' + number + '_name' %}
+          {% set user = 'Master' if number == '0' else states(entity_id) %}
+          {{ user }}
+    - delay:
+        seconds: 1
+    - condition: template
+      value_template: >-
+        {% set object_id = trigger.to_state.entity_id.split(".")[1] %}
+        {% set door_unlocked = object_id.split("_")[0] %}
+        {% set alarm_level_object_id = 'lock_' ~ door_unlocked ~ '_door_lock_alarm_level' %}
+        {% set code_used = states['sensor'][alarm_level_object_id].state %}
+        {% set notify_input_object_id = 'code_' ~ code_used ~ '_notify' %}
+        {{ states['input_boolean'][notify_input_object_id].state == 'on' }}
+    - service: notify.pushover
+      data_template:
+        title: "Garage Door Unlocked"
+        message: >-
+           by {{ states.input_text.garage_door_code.state }} at {{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} 
+        target:
+        - Paul
+        - Tracy
+
+input_text:
+  garage_door_code:
+    name: Last Person to Unlock Garage Door with Keypad
+
+input_boolean:
+  door_keypad_1_garage_switch:
+  door_keypad_2_garage_switch:
+  door_keypad_3_garage_switch:
+  door_keypad_4_garage_switch:
+  door_keypad_5_garage_switch:
+  door_keypad_6_garage_switch:
+  door_keypad_7_garage_switch:
+  door_keypad_8_garage_switch:
+  door_keypad_9_garage_switch:
+  door_keypad_10_garage_switch:
+  door_keypad_11_garage_switch:
+  door_keypad_12_garage_switch:
+  door_keypad_13_garage_switch:
+  door_keypad_14_garage_switch:
+  door_keypad_15_garage_switch:
+  door_keypad_16_garage_switch:
+  door_keypad_17_garage_switch:
+  door_keypad_18_garage_switch:
+
+input_select:
+  hass_status_for_garage_door_lock:
+    name: Garage Door Lock HASS Status
+    icon: mdi:lock
+    options:
+      - HA Lock
+      - HA Unlock
+      - Unlocked with Code
+      - Other
+
+sensor:
+  - platform: template
+    sensors:
+
+      garage_door_code_entered:
+        value_template: >-
+          {% if ((as_timestamp(states.lock.lock_garage_door_lock.last_changed) - as_timestamp(states.sensor.lock_garage_door_lock_alarm_level.last_changed)) < 1) %}
+            {{ states.sensor.lock_garage_door_lock_alarm_level.state }}
+          {% else %}
+            0
+          {% endif %}
+
+# These settings are for a Schlage FE599 which is a bit different.
+      garage_door_report:
+        friendly_name: 'Garage Door Report'
+        value_template: >
+            {% set number = states('sensor.lock_garage_door_lock_alarm_level') %}
+            {% set alarm_type_value = states('sensor.lock_garage_door_lock_alarm_type') %}
+            {% set entity_id = 'input_text.door_keypad_' + number + '_name' %}
+            {% set user = 'Master' if number == '0' else states(entity_id) %}
+            {% if is_state('input_select.hass_status_for_garage_door_lock', 'HA Unlock') %}
+              HA Unlock
+            {% elif is_state('input_select.hass_status_for_garage_door_lock', 'HA Lock') %}
+              HA Lock
+            {% elif is_state('sensor.garage_door_code_entered', '0') %}
+              {% if is_state('lock.lock_garage_door_lock', 'locked') %}
+                Auto Re-Locked. Last unlocked with Code {{ number }} ({{ user }})
+              {% else %}
+                Keypad Unlock with Code {{ number }} ({{ user }})
+              {% endif %}
+            {% elif is_state('sensor.lock_garage_door_lock_alarm_type', '16') %}
+                Unlocked with Code {{ number }} ({{ user }})
+            {% else %}
+              {{ states.lock_garage_door_lock.attributes.lock_status }}
+            {% endif %}
+
+      garagedoor_code:
+        friendly_name: 'Last Person to unlock with Keypad (Garage Door)'
+        value_template: >
+          {% set number = states('sensor.lock_garage_door_lock_alarm_level') %}
+          {% set entity_id = 'input_text.door_keypad_' + number + '_name' %}
+          {% set user = 'Master' if number == '0' else states(entity_id) %}
+          {{ user }}

@@ -8,6 +8,7 @@
         - fan.living_room_fan
         - light.bedroom_ceiling_light
         - light.bedroom_tv_lights
+        - light.bedroom_vanity_light
         - light.frog_ceiling_light 
         - light.frog_fan_light
         - light.frog_couch_backlight

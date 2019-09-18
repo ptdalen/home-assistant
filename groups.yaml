@@ -46,6 +46,7 @@ master_bedroom:
     - light.bedroom_lamp_one
     - light.bedroom_lamp_two
     - light.bedroom_tv_lights
+    - light.bedroom_vanity_light
     - switch.bedroom_fan
     - switch.closet_light
     - media_player.bedroom_tv_control

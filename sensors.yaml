@@ -374,6 +374,7 @@
           - media_player.garage
           - media_player.guestroom
           - media_player.ashleysroom
+          - media_player.car_echo
         value_template: >
           {{ states.media_player | selectattr('attributes.last_called','eq',True) | map(attribute='entity_id') | first }}
 
@@ -442,7 +443,7 @@
         icon_template: mdi:water-percent
         entity_id: climate.upstairs_2
         
-#      offline_devices:
-#        value_template: >
-#         {% set offline = states| selectattr('state','eq','unavailable') | map(attribute='name') | join(', ') %}
-#         {{ offline }}
+      offline_devices:
+        value_template: >
+         {% set offline = states| selectattr('state','eq','unavailable') | map(attribute='name') | join(', ') %}
+         {{ offline }}

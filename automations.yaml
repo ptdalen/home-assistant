@@ -349,12 +349,10 @@
   - condition: state
     entity_id: input_select.house_mode
     state: Home
-  - condition: state  
-    entity_id: input_boolean.paul_in_bed
-    state: 'on'
-  - condition: state
-    entity_id: input_boolean.tracy_in_bed
-    state: 'on'
+  - condition: template
+    value_template: '{{ (states.input_boolean.paul_in_bed.state) == "on" or ((states.input_boolean.paul_in_bed.state) == "off" and (states.device_tracker.paul_all.state) != "home")}}'
+  - condition: template
+    value_template: '{{ (states.input_boolean.tracy_in_bed.state) == "on" or ((states.input_boolean.tracy_in_bed.state) == "off" and (states.device_tracker.tracy_all.state) != "home")}}'
   - condition: time
     after: '22:00:00'
     before: '03:00:00'
@@ -564,6 +562,9 @@
     entity_id: binary_sensor.motion_sensor_frog
     to: 'on'
   condition:
+  - condition: state
+    entity_id: input_boolean.guests_present
+    state: 'off'
   - condition: state
     entity_id: group.theater_room
     state: 'off'
@@ -798,12 +799,16 @@
   - service: light.turn_off
     data_template:
       entity_id: >-
-        {% if trigger.entity_id == 'input_boolean.paul_in_bed' %}
+        {% if trigger.entity_id == 'input_boolean.paul_in_bed' and (states.device_tracker.tracy_all.state) != 'home' and (states.device_tracker.paul_all.state) == 'home' %}
+          light.bedroom_lamp_one, light.bedroom_lamp_two
+        {% elif trigger.entity_id == 'input_boolean.tracy_in_bed' and (states.device_tracker.paul_all.state) != 'home' and (states.device_tracker.tracy_all.state) == 'home' %}
+          light.bedroom_lamp_one, light.bedroom_lamp_two
+        {% elif trigger.entity_id == 'input_boolean.paul_in_bed' and (states.device_tracker.paul_all.state) == 'home' and (states.device_tracker.tracy_all.state) == 'home' %}
           light.bedroom_lamp_two
-        {% elif trigger.entity_id == 'input_boolean.tracy_in_bed'%}
+        {% elif trigger.entity_id == 'input_boolean.tracy_in_bed' and (states.device_tracker.paul_all.state) == 'home' and (states.device_tracker.tracy_all.state) == 'home' %}
           light.bedroom_lamp_one
         {% else %}
-          light.bedroom_lamp_one
+          light.bedroom_lamp_one, light.bedroom_lamp_two
         {% endif %}
 
 ##########################################
@@ -1394,13 +1399,13 @@
   action:
   - service: input_boolean.turn_off
     entity_id: input_boolean.garage_changed_with_ha
-  - service: notify.pushover
-    data_template:
-      target:
-      - Paul
-      - Tracy
-      title: "Garage Door Status"
-      message: "Garage Door has Closed"
+#  - service: notify.pushover
+#    data_template:
+#      target:
+#      - Paul
+#      - Tracy
+#      title: "Garage Door Status"
+#      message: "Garage Door has Closed"
 
 ##########################################
 ## Media Automations                    ##
@@ -1918,7 +1923,7 @@
         entity_id: cover.garage_door_opener
         state: 'open'
       - condition: template
-        value_template: "{{ (as_timestamp(now())- as_timestamp(states.cover.garage_door_opener.last_changed)) < 1800 }}"
+        value_template: "{{ (as_timestamp(now())- as_timestamp(states.cover.garage_door_opener.last_changed)) > 1800 }}"
       - condition: template
         value_template: "{{ states('input_select.house_mode') == 'Home' }}"
   action:
@@ -2119,6 +2124,13 @@
       data:
         type: announce
       message: "The {{ trigger.to_state.attributes.friendly_name }} is {{ trigger.to_state.state }}"
+  - service: notify.pushover
+    data_template:
+      target:
+      - Paul
+      - Tracy
+      title: "Garage Door Status"
+      message: "The {{ trigger.to_state.attributes.friendly_name }} is {{ trigger.to_state.state }}"
 
 - alias: Doors or windows left opened
   trigger:
@@ -2172,19 +2184,6 @@
     entity_id: sensor.ha_runtime_in_minutes
     above: 2
   action:
-  - service: notify.alexa_media
-    data_template:
-      target:
-        - group.all_echos
-      data:
-        type: announce
-      message: >-
-        The {{ trigger.to_state.name }} 
-          {%- if trigger.to_state.state in ['on', 'off'] -%}
-            {{ {'on': ' Detected a leak.', 'off': ' leak has cleared.'}[trigger.to_state.state] }}
-          {%- else -%}
-            {{ ' is having issues and unable to report status at the moment.' }}
-          {%- endif %}
   - service: notify.pushover
     data_template:
       target:
@@ -2198,6 +2197,66 @@
             {{ ' is having issues and unable to report status at the moment.' }}
           {%- endif %}    
       title: "Leak Alert"
+  - condition: template
+    value_template: "{{ states('input_select.house_mode') != 'Night' }}"
+  - service: notify.alexa_media
+    data_template:
+      target:
+        - group.all_echos
+      data:
+        type: announce
+      message: >-
+        The {{ trigger.to_state.name }} 
+          {%- if trigger.to_state.state in ['on', 'off'] -%}
+            {{ {'on': ' Detected a leak.', 'off': ' leak has cleared.'}[trigger.to_state.state] }}
+          {%- else -%}
+            {{ ' is having issues and unable to report status at the moment.' }}
+          {%- endif %}
+
+- alias: Water Leak Detected
+  trigger:
+  - platform: state
+    entity_id:
+      - binary_sensor.water_sensor_attic
+      - binary_sensor.water_sensor_guest_bathroom_sink_left
+      - binary_sensor.water_sensor_guest_bathroom_sink_right
+      - binary_sensor.water_sensor_kitchen
+      - binary_sensor.water_sensor_master_bathroom_sink_left
+      - binary_sensor.water_sensor_master_bathroom_sink_right
+      - binary_sensor.water_sensor_washing_machine
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.ha_runtime_in_minutes
+    above: 2
+  action:
+  - service: notify.pushover
+    data_template:
+      target:
+      - Paul
+      - Tracy
+      message: >-
+        The {{ trigger.to_state.name }} 
+          {%- if trigger.to_state.state in ['on', 'off'] -%}
+            {{ {'on': ' Detected a leak.', 'off': ' leak has cleared.'}[trigger.to_state.state] }}
+          {%- else -%}
+            {{ ' is having issues and unable to report status at the moment.' }}
+          {%- endif %}    
+      title: "Leak Alert"
+  - condition: template
+    value_template: "{{ states('input_select.house_mode') != 'Night' }}"
+  - service: notify.alexa_media
+    data_template:
+      target:
+        - group.all_echos
+      data:
+        type: announce
+      message: >-
+        The {{ trigger.to_state.name }} 
+          {%- if trigger.to_state.state in ['on', 'off'] -%}
+            {{ {'on': ' Detected a leak.', 'off': ' leak has cleared.'}[trigger.to_state.state] }}
+          {%- else -%}
+            {{ ' is having issues and unable to report status at the moment.' }}
+          {%- endif %}
 
 - alias: Smoke Detected Downstairs
   trigger:
@@ -2217,7 +2276,7 @@
       message: >-
         The {{ trigger.to_state.name }} 
           {%- if trigger.to_state.state in ['warning', 'emergency', 'Ok' ] -%}
-            {{ {'Ok': ' Alarm has Cleared.', 'warning': ' is reporting a smoke warning.', 'emergency': ' is reporting a fire. '} }}
+            {{ {'Ok': ' Alarm has Cleared.', 'warning': ' is reporting a smoke warning.', 'emergency': ' is reporting a fire. '}[trigger.to_state.state]}}
           {%- else -%}
             {{ ' unknown' }}
           {%- endif %}
@@ -2229,7 +2288,7 @@
       message: >-
         The {{ trigger.to_state.name }} 
           {%- if trigger.to_state.state in ['warning', 'emergency', 'Ok' ] -%}
-            {{ {'Ok': ' Alarm has Cleared.', 'warning': ' is reporting a smoke warning.', 'emergency': ' is reporting a fire. '} }}
+            {{ {'Ok': ' Alarm has Cleared.', 'warning': ' is reporting a smoke warning.', 'emergency': ' is reporting a fire. '}[trigger.to_state.state] }}
           {%- else -%}
             {{ ' unknown' }}
           {%- endif %}
@@ -2261,7 +2320,7 @@
       message: >-
         The {{ trigger.to_state.name }} 
           {%- if trigger.to_state.state in ['warning', 'emergency', 'Ok' ] -%}
-            {{ {'Ok': ' alert has Cleared.', 'warning': ' is reporting a C O 2 warning.', 'emergency': ' is reporting C O 2 emergency '} }}
+            {{ {'Ok': ' alert has Cleared.', 'warning': ' is reporting a C O 2 warning.', 'emergency': ' is reporting C O 2 emergency '}[trigger.to_state.state] }}
           {%- else -%}
             {{ ' unknown' }}
           {%- endif %}
@@ -2273,7 +2332,7 @@
       message: >-
         The {{ trigger.to_state.name }} 
           {%- if trigger.to_state.state in ['warning', 'emergency', 'Ok' ] -%}
-            {{ {'Ok': ' alert has Cleared.', 'warning': ' is reporting a C O 2 warning.', 'emergency': ' is reporting C O 2 emergency '} }}
+            {{ {'Ok': ' alert has Cleared.', 'warning': ' is reporting a C O 2 warning.', 'emergency': ' is reporting C O 2 emergency '}[trigger.to_state.state] }}
           {%- else -%}
             {{ ' unknown' }}
           {%- endif %}
@@ -2499,7 +2558,7 @@
   - service: notify.alexa_media
     data_template:
       target: 
-        -  '{{ states.sensor.last_alexa.state }}' 
+        -  "{{ states.media_player | selectattr('attributes.last_called','eq',True) | map(attribute='entity_id') | first }}"
       data:
         type: tts
       message: >-
@@ -2813,10 +2872,10 @@
     above: 1
   action:
   - service: light.turn_on
-    entity_id: light.downstairs_color_lights
+    entity_id: light.all_downstairs_color_lights
     data_template:
       hs_color:
-        - "{{ (12 + (state_attr('light.downstairs_color_lights', 'hs_color')[0] or 0)) % 360 }}"
+        - "{{ (12 + (state_attr('light.all_downstairs_color_lights', 'hs_color')[0] or 0)) % 360 }}"
         - 100
       brightness_pct: 100
       transition: 1
@@ -3397,26 +3456,41 @@
 ##########################################################
 ## Double Tap Events
 ########################################################
-- alias: Double Tap Test
+- alias: Sconce Switch Double Tap Color Loop
   trigger:
   - platform: event
     event_type: zwave.node_event
     event_data:
       entity_id: zwave.sconce_light
   action:
-  - service: automation.trigger
-    entity_id: automation.good_morning_routine
-  - delay:
-      seconds: 20
-  - service: automation.trigger
-    entity_id: automation.welcome_back_routine
-#  - service_template: >
-#      {% if trigger.event.data.basic_level == 255 %}
-#        input_boolean.turn_on
-#      {% elif trigger.event.data.basic_level == 0 %}
-#        input_boolean.turn_off
-#      {% endif %}
-#    entity_id: input_boolean.goodnight_switch
+#  - service: automation.trigger
+#    entity_id: automation.good_morning_routine
+#  - delay:
+#      seconds: 20
+#  - service: automation.trigger
+#    entity_id: automation.welcome_back_routine
+  - service_template: >
+      {% if trigger.event.data.basic_level == 255 %}
+        automation.turn_on
+      {% elif trigger.event.data.basic_level == 0 %}
+        automation.turn_off
+      {% endif %}
+    entity_id: automation.color_loop_all_downstairs
+
+- alias: Turn off TV Backlights in Bedroom from vanity switch
+  trigger:
+  - platform: event
+    event_type: zwave.node_event
+    event_data:
+      entity_id: zwave.master_bedroom_vanity_light
+  action:
+  - service_template: >
+      {% if trigger.event.data.basic_level == 255 %}
+        light.turn_on
+      {% elif trigger.event.data.basic_level == 0 %}
+        light.turn_off
+      {% endif %}
+    entity_id: light.bedroom_tv_lights
     
 - alias: Moving but not driving
   trigger:
@@ -3449,7 +3523,7 @@
     data_template:
       target:
         - media_player.livingroom
-        - media_player.office_show
+#        - media_player.office_show
       data:
         type: announce
       message: "The Washing Machine is done. Laundry is ready for the Dryer"

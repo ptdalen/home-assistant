@@ -149,8 +149,8 @@ alexa_media:
     url: amazon.com
     exclude_devices:
     - "This Device"
-    - "Paul's Alexa Apps"
-    - "Tracy's Alexa Apps"
+#    - "Paul's Alexa Apps"
+#    - "Tracy's Alexa Apps"
     - "Downstairs"
     - "My Dash"
     - "Living Room"
