@@ -87,14 +87,14 @@ automation:
           - input_boolean.door_keypad_16_garage_switch
           - input_boolean.door_keypad_17_garage_switch
           - input_boolean.door_keypad_18_garage_switch
-    
-    condition:
+    condition:    
       - condition: template
-        value_template:  >-
+        value_template: >-
           {% set object_id = trigger.to_state.object_id %}
-          {% set code_slot = "_".join(object_id.split("_")[2:-2]) %}
-          {% set select_id = 'door_keypad_' ~ code_slot ~ '_access_schedule' %}
-          {{ states['input_select'][select_id].state in ['Always', 'Disabled'] }}
+          {% set code_slot = object_id[7:-19] %}
+          {% set input = 'door_keypad_' ~ code_slot ~ '_access_schedule' %}
+          {% set input_value = states['input_select'][input].state %}
+          {{ input_value == 'Temporary' }}
 
     action:
 # this is where usercodes get deleted, for the many locks there seems to be an issue with 
@@ -169,11 +169,11 @@ automation:
             {% set usercode = states['input_text'][usercode_input].state %}
             {% set name_input = 'door_keypad_' ~ code_slot ~ '_name' %}
             {% set name = states['input_text'][name_input].state %}
-            {% set start_input = 'door_keypad_' ~ code_slot ~ '_date_start' %}
-            {% set start = states['input_datetime'][start_input].state %}
-            {% set end_input = 'door_keypad_' ~ code_slot ~ '_date_end' %}
-            {% set end = states['input_datetime'][end_input].state %}
-            The pin code {{ usercode }} is now temporarily enabled for {{ name }} from {{ start }} to {{ end }}.
+            {% set start_input = 'lock_code_' ~ code_slot ~ '_schedule' %}
+            {% set start = as_timestamp(states['calendar'][start_input].attributes.start_time) | timestamp_custom('%A %x at %I:%M %p' ) %}
+            {% set end_input = 'lock_code_' ~ code_slot ~ '_schedule' %}
+            {% set end = as_timestamp(states['calendar'][end_input].attributes.end_time) | timestamp_custom('%A %x at %I:%M %p' ) %}
+            The pin code {{ usercode }} is now temporarily enabled for {{ name }} starting on {{ start }} and ending on {{ end }}.
 
           title: >-
             Beach House: Temporary code enabled on Garage Door
@@ -293,7 +293,7 @@ sensor:
 
 # These settings are for a Schlage FE599 which is a bit different.
       garage_door_report:
-        friendly_name: 'Garage Door Report'
+        friendly_name: 'Garage Door'
         value_template: >
             {% set number = states('sensor.lock_garage_door_lock_alarm_level') %}
             {% set alarm_type_value = states('sensor.lock_garage_door_lock_alarm_type') %}

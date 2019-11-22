@@ -208,6 +208,16 @@
   - service: homeassistant.turn_off
     entity_id:
       - group.goodbye_lights_and_switches
+  - service: alarm_control_panel.alarm_arm_away
+    entity_id: alarm_control_panel.alexa_guard
+  - service: input_select.select_option
+    entity_id: input_select.lock_zwave_option_7_back
+    data:
+      option: 'Forced Entry'
+  - service: input_select.select_option
+    entity_id: input_select.lock_zwave_option_7_front
+    data:
+      option: 'Forced Entry'
   - condition: template
     value_template: "{{ states('sensor.motion_sensor_outdoor_luminance')| int > 91 }}"
   - service: homeassistant.turn_off
@@ -246,6 +256,16 @@
         {%- else -%}
           scene.morning_lighting
         {% endif %}
+  - service: input_select.select_option
+    entity_id: input_select.lock_zwave_option_7_back
+    data:
+      option: 'Alarm Off'
+  - service: input_select.select_option
+    entity_id: input_select.lock_zwave_option_7_front
+    data:
+      option: 'Alarm Off'
+  - service: alarm_control_panel.alarm_disarm
+    entity_id: alarm_control_panel.alexa_guard
 
 - alias: 'Goodnight Routine'
   trigger:
@@ -269,8 +289,8 @@
   - service: light.turn_on
     entity_id: light.all_downstairs_color_lights
     data:
-      brightness: 254
-      rgb_color: [255,200,118]
+      brightness: 71
+      rgb_color: [246, 255, 254]
   - service: input_select.select_option
     data_template:
       entity_id: input_select.security_system
@@ -300,6 +320,16 @@
     entity_id: 
       - light.all_downstairs_color_lights
       - light.goodnight_hue_lights
+  - service: input_select.select_option
+    entity_id: input_select.lock_zwave_option_7_back
+    data:
+      option: 'Forced Entry'
+  - service: input_select.select_option
+    entity_id: input_select.lock_zwave_option_7_front
+    data:
+      option: 'Forced Entry'
+  - service: alarm_control_panel.alarm_arm_away
+    entity_id: alarm_control_panel.alexa_guard
   - service: notify.pushover
     data_template:
       target: Paul
@@ -430,6 +460,16 @@
   - service: input_boolean.turn_off
     entity_id:
       - input_boolean.goodmorning_switch
+  - service: input_select.select_option
+    entity_id: input_select.lock_zwave_option_7_back
+    data:
+      option: 'Alarm Off'
+  - service: input_select.select_option
+    entity_id: input_select.lock_zwave_option_7_front
+    data:
+      option: 'Alarm Off'
+  - service: alarm_control_panel.alarm_disarm
+    entity_id: alarm_control_panel.alexa_guard
   - condition: state
     entity_id: input_boolean.vacation_mode
     state: 'off'
@@ -488,9 +528,9 @@
         type: announce
       message: >-
         {% if states('input_select.work_location') == 'Base' %}
-          Good Morning Paul.  Here is your morning Report.  Traffic to the base is {{ states('sensor.pauls_traffic_density_to_base') }} at the moment. It looks like it will take you about {{ states('sensor.time_to_base') | int | round }} minutes to get to work.  Here is your weather brief. The weather will be {{ states('sensor.dark_sky_hourly_summary') }}  with a high temp of {{ states('sensor.dark_sky_daytime_high_temperature_0d') | int | round }} and a {{ states('sensor.dark_sky_precip_probability_0d') | int | round}} percent chance of rain.
+          Good Morning Paul.  Traffic to the base is {{ states('sensor.pauls_traffic_density_to_base') }} at the moment. It will take you about {{ states('sensor.time_to_base') | int | round }} minutes to get to work.  The weather will be {{ states('sensor.dark_sky_hourly_summary') }}  with a high of {{ states('sensor.dark_sky_daytime_high_temperature_0d') | int | round }} and a {{ states('sensor.dark_sky_precip_probability_0d') | int | round}} percent chance of rain.
         {% elif states('input_select.work_location') == 'CACI' %}
-          Good Morning Paul.  Here is your morning Report.  Traffic to khaki is {{ states('sensor.pauls_traffic_density_to_caci') }} at the moment.  It looks like it will take you about {{ states('sensor.time_to_caci') | int | round }} minutes to get to work.  Here is your weather brief. The weather will be {{ states('sensor.dark_sky_hourly_summary') }}  with a high temp of {{ states('sensor.dark_sky_daytime_high_temperature_0d') | int | round }} and a {{ states('sensor.dark_sky_precip_probability_0d') | int | round}} percent chance of rain.
+          Good Morning Paul.  Traffic to khaki is {{ states('sensor.pauls_traffic_density_to_caci') }} at the moment.  It will take you about {{ states('sensor.time_to_caci') | int | round }} minutes to get to work. The weather will be {{ states('sensor.dark_sky_hourly_summary') }}  with a high of {{ states('sensor.dark_sky_daytime_high_temperature_0d') | int | round }} and a {{ states('sensor.dark_sky_precip_probability_0d') | int | round}} percent chance of rain.
         {% else %}
           Good Morning.  Here is your morning Report. The weather will be {{ states('sensor.dark_sky_hourly_summary') }}  with a high temp of {{ states('sensor.dark_sky_daytime_high_temperature_0d') | int | round }} and a {{ states('sensor.dark_sky_precip_probability_0d') | int | round}} percent chance of rain.
         {% endif %}
@@ -711,12 +751,19 @@
   - condition: state
     entity_id: timer.frog_tv_reset
     state: 'idle'
+  - condition: template
+    value_template: "{{ (as_timestamp(now())- as_timestamp(states.binary_sensor.motion_sensor_frog.last_changed)) < 300 }}"
   action:
   - service: switch.turn_on
     data:
       entity_id:
         - switch.lava_lamp_plug
         - switch.lava_lamp_two
+  - service: light.turn_on
+    entity_id: light.frog_couch_backligh
+    data:
+      brightness: 71
+      rgb_color: [246, 255, 254]
   - condition: numeric_state
     entity_id: sensor.frog_temperature
     above: 73.0
@@ -961,6 +1008,38 @@
       seconds: 3
   - service: scene.turn_on
     entity_id: scene.tv_lights
+
+- alias: Zigbee Light Reset After Power Outage
+  trigger:
+  - platform: state
+    entity_id:
+      - light.canary_hue_bulb
+    to: 'on'
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.ha_runtime_in_minutes
+    above: 2
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: input_select.house_mode
+      state: 'Night'
+    - condition: state
+      entity_id: input_select.house_mode
+      state: 'Away'
+  action:
+  - service: light.turn_off
+    entity_id:
+      - light.bedroom_lamp_one
+      - light.bedroom_lamp_two
+      - light.bedroom_tv_lights
+      - light.ashleys_room_lamp
+      - light.guest_bedroom_lamp
+      - light.frog_couch_backlight
+      - light.all_downstairs_color_lights
+      - light.office_lamp_two
+      - light.office_lamp_one
+      - light.canary_hue_bulb
 
 ##########################################
 ## Door Locking and Unlocking           ##
@@ -2182,7 +2261,7 @@
   condition:
   - condition: numeric_state
     entity_id: sensor.ha_runtime_in_minutes
-    above: 2
+    above: 10
   action:
   - service: notify.pushover
     data_template:
@@ -2227,7 +2306,7 @@
   condition:
   - condition: numeric_state
     entity_id: sensor.ha_runtime_in_minutes
-    above: 2
+    above: 10
   action:
   - service: notify.pushover
     data_template:
@@ -3066,8 +3145,16 @@
         target: Paul
         title: Devices Offline
         message: >
-         {% set offline = states| selectattr('state','eq','unavailable') | map(attribute='name') | join(', ') %}
-          The following zigbee devices are offline: {{ offline }}
+          {%- macro wildcard(entity_ids, reject) %}
+          {%- for entity_id in entity_ids %}
+          {%- if reject not in entity_id %}
+          {{- entity_id }}{{ '' if loop.last else ',' }}
+          {%- endif %}
+          {%- endfor %}
+          {%- endmacro %}
+          {% set entity_ids = states | selectattr('state','eq','unavailable') | map(attribute='name') | list %}
+          {% set entity_ids = wildcard(entity_ids, 'shuffle').split(',') | reject('eq','') %}
+          The following devices are offline: {{ wildcard(entity_ids, 'repeat').split(',') | reject('eq','') | join(', ') }}
 
 - alias: Battery Alert Clear
   trigger:
@@ -3161,6 +3248,34 @@
       message: "Looks like you're Shopping.  Do you want the garage to open when you get home?"
       data:
         push:
+          category: "shopping_alert"
+
+#testing
+- alias: Actionable Open Garage Door When Tracy gets Home Test
+  trigger:
+  - platform: state
+    entity_id:
+      - switch.stairwell_light
+    to: 'on'
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.ha_runtime_in_minutes
+    above: 1
+  - condition: state
+    entity_id: input_boolean.open_garage_for_tracy
+    state: 'off'
+  action:
+  - service: notify.ios_tracys_iphone
+    data:
+      message: "Looks like you're Shopping.  Do you want the garage to open when you get home?"
+      data:
+        push:
+          category: "shopping_alert"
+  - service: notify.ios_pauls_iphone
+    data:
+      message: "Looks like you're Shopping.  Do you want the garage to open when you get home?"
+      data:
+        push:
           category: "shopping_alert" 
 
 - alias: Actionable are there still guests in the house
@@ -3203,12 +3318,12 @@
     entity_id: input_select.security_system
     state: 'Armed (Away)'
   action:
-  - service: notify.ios_tracys_iphone
-    data:
-      message: "Are there Guests in the House?"
-      data:
-        push:
-          category: "guest_alert"
+#  - service: notify.ios_tracys_iphone
+#    data:
+#      message: "Are there Guests in the House?"
+#      data:
+#        push:
+#          category: "guest_alert"
   - service: notify.ios_pauls_iphone
     data:
       message: "Are there Guests in the House?"
@@ -3387,7 +3502,7 @@
   - condition: or
     conditions:
     - condition: template
-      value_template: '{{ (states.media_player.living_room_tv.attributes.source) == "HDMI 2" }}'
+      value_template: '{{ (states.media_player.living_room_tv.attributes.source) == "HDMI 3/ARC" }}'
     - condition: state
       entity_id: media_player.living_room_tv
       state: 'off'
@@ -3398,7 +3513,7 @@
   - service: media_player.select_source
     data:
       entity_id: media_player.living_room_tv
-      source: 'HDMI 3/ARC'
+      source: 'HDMI 1'
   - service: notify.pushover
     data_template:
       target: Paul
@@ -3419,7 +3534,7 @@
   - condition: or
     conditions:
     - condition: template
-      value_template: '{{ (states.media_player.living_room_tv.attributes.source) == "HDMI 3/ARC" }}'
+      value_template: '{{ (states.media_player.living_room_tv.attributes.source) == "HDMI 1" }}'
     - condition: state
       entity_id: media_player.living_room_tv
       state: 'off'
@@ -3430,7 +3545,7 @@
   - service: media_player.select_source
     data:
       entity_id: media_player.living_room_tv
-      source: 'HDMI 2'
+      source: 'HDMI 3/ARC'
   - service: notify.pushover
     data_template:
       target: Paul

@@ -44,7 +44,7 @@
   name: Back Yard Processed
 #- platform: ffmpeg
 #  input: !secret camera_url_1
-#  name: Front Door
+#  name: Front Door ffmpg
 #  extra_arguments: -pred 1 -q:v 2
 #- platform: ffmpeg
 #  input: !secret camera_url_2

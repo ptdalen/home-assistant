@@ -42,13 +42,14 @@ automation:
           {% set object_id = trigger.to_state.object_id %}
           {% set code_slot = "_".join(object_id.split("_")[2:-2]) %}
           {% set select_id = 'door_keypad_' ~ code_slot ~ '_access_schedule' %}
-          {{ states['input_select'][select_id].state in ['Always', 'Enabled'] }}
+          {% set calendar_id = 'lock_code_' ~ code_slot ~ '_schedule' %}
+          {{ (states['input_select'][select_id].state in ['Always', 'Enabled']) or (states['input_select'][select_id].state in ['Temporary', 'Recurring'] and states['calendar'][calendar_id].state == 'on') }}
 
     action:
       - service: lock.set_usercode
         data_template:
           node_id: >-
-            {{ states.lock.lock_front_door_lock.attributes.node_id }}
+            {{ sta11tes.lock.lock_front_door_lock.attributes.node_id }}
             
           code_slot: >-
             {% set object_id = trigger.to_state.object_id %}
@@ -166,23 +167,23 @@ automation:
             {% set usercode = states['input_text'][usercode_input].state %}
             {% set name_input = 'door_keypad_' ~ code_slot ~ '_name' %}
             {% set name = states['input_text'][name_input].state %}
-            {% set start_input = 'door_keypad_' ~ code_slot ~ '_date_start' %}
-            {% set start = states['input_datetime'][start_input].state %}
-            {% set end_input = 'door_keypad_' ~ code_slot ~ '_date_end' %}
-            {% set end = states['input_datetime'][end_input].state %}
-            The pin code {{ usercode }} is now temporarily enabled for {{ name }} from {{ start }} to {{ end }}.
+            {% set start_input = 'lock_code_' ~ code_slot ~ '_schedule' %}
+            {% set start = as_timestamp(states['calendar'][start_input].attributes.start_time) | timestamp_custom('%A %x at %I:%M %p' ) %}
+            {% set end_input = 'lock_code_' ~ code_slot ~ '_schedule' %}
+            {% set end = as_timestamp(states['calendar'][end_input].attributes.end_time) | timestamp_custom('%A %x at %I:%M %p' ) %}
+            The pin code {{ usercode }} is now temporarily enabled for {{ name }} starting on {{ start }} and ending on {{ end }}.
 
           title: >-
             Beach House: Temporary code enabled on Front Door
           target:
           - Paul
-          - Tracy
+#          - Tracy
 
   - alias: Notify on Unlock (Front Door)
     initial_state: true
     trigger:
     - platform: template
-      value_template: "{{ states.lock.lock_front_door_lock.attributes.notification.lower().startswith('keypad unlock') }}"
+      value_template: "{{ states.sensor.front_door_report.state.lower().startswith('keypad unlock') }}"
     condition:
     - condition: numeric_state
       entity_id: sensor.ha_runtime_in_minutes
@@ -364,7 +365,47 @@ sensor:
   - platform: template
     sensors:
       front_door_report:
-        friendly_name: 'Front Door Report'
+        friendly_name: 'Front Door'
         value_template: >
-          {{ states.lock.lock_front_door_lock.attributes.lock_status }}
+          {% set number = states('sensor.lock_front_door_deadbolt_alarm_level') %}
+          {% set alarm_type_value = states('sensor.lock_front_door_deadbolt_alarm_type') %}
+          {% set entity_id = 'input_text.door_keypad_' + number + '_name' %}
+          {% set user = 'Master' if number == '0' else states(entity_id) %}
+          {% set alarm_type_value = '24' if (as_timestamp(now())-as_timestamp(states.lock.lock_front_door_lock.last_changed)) < 15 and (as_timestamp(now())-as_timestamp(states.sensor.lock_front_door_deadbolt_alarm_type.last_changed)) > 15  and (states.lock.lock_front_door_lock.state) == 'locked' else alarm_type_value %}
+          {% set alarm_type_value = '25' if (as_timestamp(now())-as_timestamp(states.lock.lock_front_door_lock.last_changed)) < 15 and (as_timestamp(now())-as_timestamp(states.sensor.lock_front_door_deadbolt_alarm_type.last_changed)) > 15  and (states.lock.lock_front_door_lock.state) == 'unlocked' else alarm_type_value %}
+          {% set alarm_type_general_actions = {
+            '0':'No Status Reported',          
+            '9':'Lock Jammed',
+            '17':'Keypad Lock Jammed',
+            '21':'Manual Lock',
+            '22':'Manual Unlock',
+            '23':'HA Lock Jammed',
+            '24':'HA Lock',
+            '25':'HA Unlock',
+            '26':'Auto Lock Jammed',
+            '27':'Auto Lock',
+            '32':'All Codes Deleted',
+            '161':'Bad Code Entered',
+            '167':'Battery Low',
+            '168':'Battery Critical',
+            '169':'Battery Too Low To Operate Lock' } %}
+          {% set alarm_type_lock_actions = {
+            '18':'Keypad Lock',
+            '19':'Keypad Unlock',
+            '162':'Lock Code Attempt Outside of Schedule' } %}
+          {% set alarm_type_code_actions = {
+            '33':'Code Deleted',
+            '112':'Code Changed',
+            '113':'Duplicate Code' } %}
+          {% if alarm_type_value in alarm_type_code_actions %}
+            {{ alarm_type_code_actions[alarm_type_value] }} (Code {{ number}})
+          {% elif alarm_type_value in alarm_type_lock_actions and number == '0' %}
+            {{ alarm_type_lock_actions[alarm_type_value] }} with Schlage Button
+          {% elif alarm_type_value in alarm_type_lock_actions  %}
+            {{ alarm_type_lock_actions[alarm_type_value] }} with Code {{ number }} ({{ user }})
+          {% elif alarm_type_value in alarm_type_general_actions %}
+            {{ alarm_type_general_actions[alarm_type_value] }}
+          {% else %}
+            Unknown Alarm Type Value {{ states('sensor.lock_front_door_deadbolt_alarm_type') }}
+          {% endif %}
 

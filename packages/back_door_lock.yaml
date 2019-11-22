@@ -167,23 +167,23 @@ automation:
             {% set usercode = states['input_text'][usercode_input].state %}
             {% set name_input = 'door_keypad_' ~ code_slot ~ '_name' %}
             {% set name = states['input_text'][name_input].state %}
-            {% set start_input = 'door_keypad_' ~ code_slot ~ '_date_start' %}
-            {% set start = states['input_datetime'][start_input].state %}
-            {% set end_input = 'door_keypad_' ~ code_slot ~ '_date_end' %}
-            {% set end = states['input_datetime'][end_input].state %}
-            The pin code {{ usercode }} is now temporarily enabled for {{ name }} from {{ start }} to {{ end }}.
+            {% set start_input = 'lock_code_' ~ code_slot ~ '_schedule' %}
+            {% set start = as_timestamp(states['calendar'][start_input].attributes.start_time) | timestamp_custom('%A %x at %I:%M %p' ) %}
+            {% set end_input = 'lock_code_' ~ code_slot ~ '_schedule' %}
+            {% set end = as_timestamp(states['calendar'][end_input].attributes.end_time) | timestamp_custom('%A %x at %I:%M %p' ) %}
+            The pin code {{ usercode }} is now temporarily enabled for {{ name }} starting on {{ start }} and ending on {{ end }}.
 
           title: >-
             Beach House: Temporary code enabled on Back Door.
           target:
           - Paul
-          - Tracy
+#          - Tracy
 
   - alias: Notify on Unlock (Back Door)
     initial_state: true
     trigger:
     - platform: template
-      value_template: "{{ states.lock.lock_back_door_lock.attributes.notification.lower().startswith('keypad unlock') }}"
+      value_template: "{{ states.sensor.back_door_report.state.lower().startswith('keypad unlock') }}"
     condition:
     - condition: numeric_state
       entity_id: sensor.ha_runtime_in_minutes
@@ -212,7 +212,7 @@ automation:
            by {{ states.input_text.back_door_code.state }} at {{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} 
         target:
         - Paul
-        - Tracy
+#        - Tracy
 
   - alias: Set Lock Options (Back Door)
     trigger:
@@ -365,6 +365,46 @@ sensor:
   - platform: template
     sensors:
       back_door_report:
-        friendly_name: 'Back Door Report'
+        friendly_name: 'Back Door'
         value_template: >
-          {{ states.lock.lock_back_door_lock.attributes.lock_status }}
+          {% set number = states('sensor.lock_back_door_deadbolt_alarm_level') %}
+          {% set alarm_type_value = states('sensor.lock_back_door_deadbolt_alarm_type') %}
+          {% set entity_id = 'input_text.door_keypad_' + number + '_name' %}
+          {% set user = 'Master' if number == '0' else states(entity_id) %}
+          {% set alarm_type_value = '24' if (as_timestamp(now())-as_timestamp(states.lock.lock_back_door_lock.last_changed)) < 15 and (as_timestamp(now())-as_timestamp(states.sensor.lock_back_door_deadbolt_alarm_type.last_changed)) > 15  and (states.lock.lock_back_door_lock.state) == 'locked' else alarm_type_value %}
+          {% set alarm_type_value = '25' if (as_timestamp(now())-as_timestamp(states.lock.lock_back_door_lock.last_changed)) < 15 and (as_timestamp(now())-as_timestamp(states.sensor.lock_back_door_deadbolt_alarm_type.last_changed)) > 15  and (states.lock.lock_back_door_lock.state) == 'unlocked' else alarm_type_value %}
+          {% set alarm_type_general_actions = {
+            '0':'No Status Reported',                     
+            '9':'Lock Jammed',
+            '17':'Keypad Lock Jammed',
+            '21':'Manual Lock',
+            '22':'Manual Unlock',
+            '23':'HA Lock Jammed',
+            '24':'HA Lock',
+            '25':'HA Unlock',
+            '26':'Auto Lock Jammed',
+            '27':'Auto Lock',
+            '32':'All Codes Deleted',
+            '161':'Bad Code Entered',
+            '167':'Battery Low',
+            '168':'Battery Critical',
+            '169':'Battery Too Low To Operate Lock' } %}
+          {% set alarm_type_lock_actions = {
+            '18':'Keypad Lock',
+            '19':'Keypad Unlock',
+            '162':'Lock Code Attempt Outside of Schedule' } %}
+          {% set alarm_type_code_actions = {
+            '33':'Code Deleted',
+            '112':'Code Changed',
+            '113':'Duplicate Code' } %}
+          {% if alarm_type_value in alarm_type_code_actions %}
+            {{ alarm_type_code_actions[alarm_type_value] }} (Code {{ number}})
+          {% elif alarm_type_value in alarm_type_lock_actions and number == '0' %}
+            {{ alarm_type_lock_actions[alarm_type_value] }} with Schlage Button
+          {% elif alarm_type_value in alarm_type_lock_actions  %}
+            {{ alarm_type_lock_actions[alarm_type_value] }} with Code {{ number }} ({{ user }})
+          {% elif alarm_type_value in alarm_type_general_actions %}
+            {{ alarm_type_general_actions[alarm_type_value] }}
+          {% else %}
+            Unknown Alarm Type Value {{ states('sensor.lock_back_door_deadbolt_alarm_type') }}
+          {% endif %}

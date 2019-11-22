@@ -11,6 +11,10 @@ homeassistant:
 #  # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 #  time_zone: America/New_York
 #  # Customization file
+  auth_providers:
+    - type: homeassistant
+    - type: legacy_api_password
+      api_password: !secret http_password
   customize: !include customize.yaml
   packages: !include_dir_named packages
   whitelist_external_dirs:
@@ -24,20 +28,7 @@ frontend:
     - /local/hass-bha-icons.html
   javascript_version: latest
 
-#logger:
-
-# Text to speech
-tts:
-  - platform: google_translate
-    service_name: google_say
-
-recorder:
-  purge_interval: 1
-  purge_keep_days: 8
-  db_url: !secret maria_db_info
-
 http:
-#  api_password: !secret http_password
   ssl_certificate: !secret ssl_certificate_path
   ssl_key: !secret ssl_certificate_key_path
   base_url: !secret base_ha_url
@@ -46,10 +37,29 @@ duckdns:
   domain: !secret ha_domain_name
   access_token: !secret duckdns_access_token
 
+#logger:
+#  default: critical
+  
+# Text to speech
+tts:
+  - platform: google_translate
+    service_name: google_say
+    
+#withings:
+#  client_id: !secret withings_id
+#  client_secret: !secret withings_secret
+#  profiles:
+#    - paul
+#    - tracy
+    
+recorder:
+  purge_interval: 1
+  purge_keep_days: 8
+  db_url: !secret maria_db_info
+
 device_tracker:
   - platform: google_maps
     username: !secret notificationemail
-#    password: !secret gmailpassword
     max_gps_accuracy: 150
   - platform: composite
     name: Paul_All
@@ -61,16 +71,6 @@ device_tracker:
     entity_id:
       - device_tracker.life360_tracy
       - device_tracker.google_maps_116112519745623760034
-
-#life360:
-#  accounts:
-#  - username: !secret life360_user
-#    password: !secret life360_password
-#  max_gps_accuracy: 150
-#  interval_seconds: 12
-#  driving_speed: 12
-#  max_update_wait:
-#    minutes: 30
 
 asuswrt:
     host: !secret router_ip
@@ -142,23 +142,23 @@ media_player:
   - platform: braviatv
     host: 192.168.1.80
 
-alexa_media:
-  accounts:
-    email: !secret amazon_user
-    password: !secret amazon_password
-    url: amazon.com
-    exclude_devices:
-    - "This Device"
+#alexa_media:
+#  accounts:
+#    email: !secret amazon_user
+#    password: !secret amazon_password
+#    url: amazon.com
+#    exclude_devices:
+#    - "This Device"
 #    - "Paul's Alexa Apps"
 #    - "Tracy's Alexa Apps"
-    - "Downstairs"
-    - "My Dash"
-    - "Living Room"
-    - "old_dot2"
-    - "old_dot"
-    - "office_show"
-    - "Amazon Tap"
-    - "portable"
+#    - "Downstairs"
+#    - "My Dash"
+#    - "Living Room"
+#    - "old_dot2"
+#    - "old_dot"
+#    - "office_show"
+#    - "Amazon Tap"
+#    - "portable"
 
 input_number:
   commute_start_time:

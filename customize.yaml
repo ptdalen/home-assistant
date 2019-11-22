@@ -13,6 +13,7 @@ sensor.upstairs_temperature:
   friendly_name: Upstairs Hallway Thermostat Temperature
 device_tracker.pauls_iphone:
   friendly_name: Paul (App)
+  entity_picture: https://www.life360.com/img/user_images/9e4458b8-ef28-4a1b-9910-8866be207524/8784bd31-1cd7-497a-8efe-61673e31d6cc.jpg?fd=2
 device_tracker.pauls_iphone_2:
   friendly_name: Paul (Router)
 device_tracker.paul:
@@ -29,6 +30,7 @@ device_tracker.paul_all:
   friendly_name: Paul
 device_tracker.tracys_iphone:
   friendly_name: Tracy (App)
+  entity_picture: https://www.life360.com/img/user_images/dcd05069-021b-4c55-b401-7d94b9a14634/993e6b70-543e-4c47-a19c-fa0c23334dd6.jpg?fd=2
 device_tracker.tracys_iphone_2:
   friendly_name: Tracy (Router)
 device_tracker.Tracy:
