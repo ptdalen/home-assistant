@@ -2,10 +2,9 @@
 # Names in needed in entity registry:                           #
 # THIS IS FOR A SCHLAGE FE599, it behaves differently than      #
 # most schlage locks                                            #
-# zwave.lock_garage_door_lock                                   #
-# lock.lock_garage_door_lock                                    #
-# sensor.lock_garage_door_lock_alarm_type,                      #
-# sensor.lock_garage_door_lock_alarm_level                      #
+# lock.garage_door                                              #
+# sensor.garage_door_lock_alarm_type,                           #
+# sensor.garage_door_lock_alarm_level                           #
 # also recommend you use the recorder component in your         #
 # configuration.yaml, as well as the uptime sensor component    #
 # and for notifications I use pushbullet, but replace with      #
@@ -50,7 +49,7 @@ automation:
       - service: lock.set_usercode
         data_template:
           node_id: >-
-            {{ states.lock.lock_garage_door_lock.attributes.node_id }}
+            {{ states.lock.garage_door.attributes.node_id }}
             
           code_slot: >-
             {% set object_id = trigger.to_state.object_id %}
@@ -106,7 +105,7 @@ automation:
             {{ range(1000, 9999) | random }}
 
           node_id: >-
-            {{ states.lock.lock_garage_door_lock.attributes.node_id }}
+            {{ states.lock.garage_door.attributes.node_id }}
 
           code_slot: >-
             {% set object_id = trigger.to_state.object_id %}
@@ -153,7 +152,7 @@ automation:
             {{ states['input_text'][input].state }}
 
           node_id: >-
-            {{ states.lock.lock_garage_door_lock.attributes.node_id }}
+            {{ states.lock.garage_door.attributes.node_id }}
 
           code_slot: >-
             {% set object_id = trigger.to_state.object_id %}
@@ -186,7 +185,7 @@ automation:
     # Any change in lock state, lock or unlock
     trigger:
       - platform: state
-        entity_id: lock.lock_garage_door_lock
+        entity_id: lock.garage_door
     # Ensure user code has not been entered
     condition:
       condition: state
@@ -198,7 +197,7 @@ automation:
         data_template:
           entity_id: input_select.hass_status_for_garage_door_lock
           option: >
-            {% if is_state("lock.lock_garage_door_lock", "locked") %}
+            {% if is_state("lock.garage_door", "locked") %}
               HA Lock
             {% else %}
               HA Unlock
@@ -222,7 +221,7 @@ automation:
       data_template:
         entity_id: input_text.garage_door_code
         value: >
-          {% set number = states('sensor.lock_garage_door_lock_alarm_level') %}
+          {% set number = states('sensor.garage_door_lock_alarm_level') %}
           {% set entity_id = 'input_text.door_keypad_' + number + '_name' %}
           {% set user = 'Master' if number == '0' else states(entity_id) %}
           {{ user }}
@@ -285,8 +284,8 @@ sensor:
 
       garage_door_code_entered:
         value_template: >-
-          {% if ((as_timestamp(states.lock.lock_garage_door_lock.last_changed) - as_timestamp(states.sensor.lock_garage_door_lock_alarm_level.last_changed)) < 1) %}
-            {{ states.sensor.lock_garage_door_lock_alarm_level.state }}
+          {% if ((as_timestamp(states.lock.garage_door.last_changed) - as_timestamp(states.sensor.garage_door_lock_alarm_level.last_changed)) < 1) %}
+            {{ states.sensor.garage_door_lock_alarm_level.state }}
           {% else %}
             0
           {% endif %}
@@ -295,8 +294,8 @@ sensor:
       garage_door_report:
         friendly_name: 'Garage Door'
         value_template: >
-            {% set number = states('sensor.lock_garage_door_lock_alarm_level') %}
-            {% set alarm_type_value = states('sensor.lock_garage_door_lock_alarm_type') %}
+            {% set number = states('sensor.garage_door_lock_alarm_level') %}
+            {% set alarm_type_value = states('sensor.garage_door_lock_alarm_type') %}
             {% set entity_id = 'input_text.door_keypad_' + number + '_name' %}
             {% set user = 'Master' if number == '0' else states(entity_id) %}
             {% if is_state('input_select.hass_status_for_garage_door_lock', 'HA Unlock') %}
@@ -304,12 +303,12 @@ sensor:
             {% elif is_state('input_select.hass_status_for_garage_door_lock', 'HA Lock') %}
               HA Lock
             {% elif is_state('sensor.garage_door_code_entered', '0') %}
-              {% if is_state('lock.lock_garage_door_lock', 'locked') %}
+              {% if is_state('lock.garage_door', 'locked') %}
                 Auto Re-Locked. Last unlocked with Code {{ number }} ({{ user }})
               {% else %}
                 Keypad Unlock with Code {{ number }} ({{ user }})
               {% endif %}
-            {% elif is_state('sensor.lock_garage_door_lock_alarm_type', '16') %}
+            {% elif is_state('sensor.garage_door_lock_alarm_type', '16') %}
                 Unlocked with Code {{ number }} ({{ user }})
             {% else %}
               {{ states.lock_garage_door_lock.attributes.lock_status }}
@@ -318,7 +317,7 @@ sensor:
       garagedoor_code:
         friendly_name: 'Last Person to unlock with Keypad (Garage Door)'
         value_template: >
-          {% set number = states('sensor.lock_garage_door_lock_alarm_level') %}
+          {% set number = states('sensor.garage_door_lock_alarm_level') %}
           {% set entity_id = 'input_text.door_keypad_' + number + '_name' %}
           {% set user = 'Master' if number == '0' else states(entity_id) %}
           {{ user }}

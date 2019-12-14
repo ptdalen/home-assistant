@@ -1060,7 +1060,7 @@
   - service: input_boolean.turn_on
     entity_id: input_boolean.back_door_opened_for_paul
   - service: lock.unlock
-    entity_id: lock.lock_back_door_lock
+    entity_id: lock.back_door
 
 - alias: 'Unlock Back Door for Tracy'
   trigger:
@@ -1078,7 +1078,7 @@
   - service: input_boolean.turn_on
     entity_id: input_boolean.back_door_opened_for_tracy
   - service: lock.unlock
-    entity_id: lock.lock_back_door_lock
+    entity_id: lock.back_door
 
 - alias: 'Unlock Back Door for Guests'
   trigger:
@@ -1096,12 +1096,12 @@
   - service: input_boolean.turn_on
     entity_id: input_boolean.back_door_opened_for_guests
   - service: lock.unlock
-    entity_id: lock.lock_back_door_lock
+    entity_id: lock.back_door
 
 - alias: 'Auto Lock Front Door'
   trigger:
   - platform: state
-    entity_id: lock.lock_front_door_lock
+    entity_id: lock.front_door
     from: 'locked'
     to: 'unlocked'
     for:
@@ -1123,12 +1123,12 @@
       minutes: 4
   action:
   - service: lock.lock
-    entity_id: lock.lock_front_door_lock
+    entity_id: lock.front_door
 
 - alias: 'Auto unlock Front Door if door is open'
   trigger:
   - platform: state
-    entity_id: lock.lock_front_door_lock
+    entity_id: lock.front_door
     to: 'locked'
   condition:
   - condition: state
@@ -1138,12 +1138,12 @@
       seconds: 10
   action:
   - service: lock.unlock
-    entity_id: lock.lock_front_door_lock
+    entity_id: lock.front_door
 
 - alias: 'Auto unlock Back Door if door is open'
   trigger:
   - platform: state
-    entity_id: lock.lock_back_door_lock
+    entity_id: lock.back_door
     to: 'locked'
   condition:
   - condition: state
@@ -1153,7 +1153,7 @@
       seconds: 10
   action:
   - service: lock.unlock
-    entity_id: lock.lock_back_door_lock
+    entity_id: lock.back_door
 
 - alias: Door alert
   trigger:
@@ -1416,6 +1416,8 @@
     entity_id: input_boolean.garage_changed_with_ha
   - service: cover.open_cover
     entity_id: cover.garage_door_opener
+  - service: lock.unlock
+    entity_id: lock.front_door
 
 - alias: 'Garage Door For Paul when he gets home'
   trigger:
@@ -3214,7 +3216,7 @@
     entity_id: sensor.ha_runtime_in_minutes
     above: 1
   action:
-  - service: notify.ios_pauls_iphone
+  - service: notify.mobile_app_pauls_iphone
     data:
       message: "Garage Door is Open"
       data:
@@ -3243,7 +3245,7 @@
     entity_id: input_boolean.open_garage_for_tracy
     state: 'off'
   action:
-  - service: notify.ios_tracys_iphone
+  - service: notify.mobile_app_tracys_iphone
     data:
       message: "Looks like you're Shopping.  Do you want the garage to open when you get home?"
       data:
@@ -3265,13 +3267,13 @@
     entity_id: input_boolean.open_garage_for_tracy
     state: 'off'
   action:
-  - service: notify.ios_tracys_iphone
+  - service: notify.mobile_app_tracys_iphone
     data:
       message: "Looks like you're Shopping.  Do you want the garage to open when you get home?"
       data:
         push:
           category: "shopping_alert"
-  - service: notify.ios_pauls_iphone
+  - service: notify.mobile_app_pauls_iphone
     data:
       message: "Looks like you're Shopping.  Do you want the garage to open when you get home?"
       data:
@@ -3293,13 +3295,13 @@
     entity_id: input_boolean.guests_present
     state: 'on'
   action:
-  - service: notify.ios_tracys_iphone
+  - service: notify.mobile_app_tracys_iphone
     data:
       message: "Are there Still Guests in the House?"
       data:
         push:
           category: "guest_alert"
-  - service: notify.ios_pauls_iphone
+  - service: notify.mobile_app_pauls_iphone
     data:
       message: "Are there Guests in the House?"
       data:
@@ -3318,13 +3320,13 @@
     entity_id: input_select.security_system
     state: 'Armed (Away)'
   action:
-#  - service: notify.ios_tracys_iphone
+#  - service: notify.mobile_app_tracys_iphone
 #    data:
 #      message: "Are there Guests in the House?"
 #      data:
 #        push:
 #          category: "guest_alert"
-  - service: notify.ios_pauls_iphone
+  - service: notify.mobile_app_pauls_iphone
     data:
       message: "Are there Guests in the House?"
       data:

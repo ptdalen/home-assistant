@@ -172,8 +172,10 @@ switch.office_lamp_one:
   icon: mdi:lamp 
 switch.bedroom_fan:
   icon: mdi:fan
+light.bedroom_vanity_light:
+  icon: bha:mirror-lamp
 switch.closet_light:
-  icon: mdi:wall-sconce-flat
+  icon: bha:ceiling-lamp-round
 switch.garage_light_indoor:
   icon: mdi:lightbulb
 switch.garage_light_outdoor: 

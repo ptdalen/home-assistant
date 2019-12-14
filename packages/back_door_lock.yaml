@@ -1,9 +1,8 @@
 #################################################################
 # Names in needed in entity registry:                           #
-# zwave.lock_back_door_deadbolt                                #
-# lock.lock_back_door_lock                                     #
-# sensor.lock_back_door_deadbolt_alarm_type,                   #
-# sensor.lock_back_door_deadbolt_alarm_level                   #
+# lock.back_door                                                #
+# sensor.back_door_deadbolt_alarm_type,                         #
+# sensor.back_door_deadbolt_alarm_level                         #
 # also recommend you use the recorder component in your         #
 # configuration.yaml, as well as the uptime sensor component    #
 # and for notifications I use pushbullet, but replace with      #
@@ -50,7 +49,7 @@ automation:
       - service: lock.set_usercode
         data_template:
           node_id: >-
-            {{ states.lock.lock_back_door_lock.attributes.node_id }}
+            {{ states.lock.back_door.attributes.node_id }}
             
           code_slot: >-
             {% set object_id = trigger.to_state.object_id %}
@@ -105,7 +104,7 @@ automation:
           usercode: >-
             {{ range(1000, 9999) | random }}
           node_id: >-
-            {{ states.lock.lock_back_door_lock.attributes.node_id }}
+            {{ states.lock.back_door.attributes.node_id }}
 
           code_slot: >-
             {% set object_id = trigger.to_state.object_id %}
@@ -151,7 +150,7 @@ automation:
             {{ states['input_text'][input].state }}
 
           node_id: >-
-            {{ states.lock.lock_back_door_lock.attributes.node_id }}
+            {{ states.lock.back_door.attributes.node_id }}
 
           code_slot: >-
             {% set object_id = trigger.to_state.object_id %}
@@ -196,13 +195,13 @@ automation:
       data_template:
         entity_id: input_text.back_door_code
         value: >
-          {% set number = states('sensor.lock_back_door_deadbolt_alarm_level') %}
+          {% set number = states('sensor.back_door_deadbolt_alarm_level') %}
           {% set entity_id = 'input_text.door_keypad_' + number + '_name' %}
           {% set user = 'Master' if number == '0' else states(entity_id) %}
           {{ user }}
     - condition: template
       value_template: >-
-        {% set code_used = states('sensor.lock_back_door_deadbolt_alarm_level') %}
+        {% set code_used = states('sensor.back_door_deadbolt_alarm_level') %}
         {% set notify_input_object_id = 'code_' ~ code_used ~ '_notify' %}
         {{ states['input_boolean'][notify_input_object_id].state == 'on' }}
     - service: notify.pushover
@@ -232,7 +231,7 @@ automation:
       - service: zwave.set_config_parameter
         data_template:
           node_id: >-
-            {{ states.lock.lock_back_door_lock.attributes.node_id }}
+            {{ states.lock.back_door.attributes.node_id }}
             
           parameter: >-
             {% if trigger.entity_id == 'input_select.lock_zwave_option_3_back' %}
@@ -367,12 +366,12 @@ sensor:
       back_door_report:
         friendly_name: 'Back Door'
         value_template: >
-          {% set number = states('sensor.lock_back_door_deadbolt_alarm_level') %}
-          {% set alarm_type_value = states('sensor.lock_back_door_deadbolt_alarm_type') %}
+          {% set number = states('sensor.back_door_deadbolt_alarm_level') %}
+          {% set alarm_type_value = states('sensor.back_door_deadbolt_alarm_type') %}
           {% set entity_id = 'input_text.door_keypad_' + number + '_name' %}
           {% set user = 'Master' if number == '0' else states(entity_id) %}
-          {% set alarm_type_value = '24' if (as_timestamp(now())-as_timestamp(states.lock.lock_back_door_lock.last_changed)) < 15 and (as_timestamp(now())-as_timestamp(states.sensor.lock_back_door_deadbolt_alarm_type.last_changed)) > 15  and (states.lock.lock_back_door_lock.state) == 'locked' else alarm_type_value %}
-          {% set alarm_type_value = '25' if (as_timestamp(now())-as_timestamp(states.lock.lock_back_door_lock.last_changed)) < 15 and (as_timestamp(now())-as_timestamp(states.sensor.lock_back_door_deadbolt_alarm_type.last_changed)) > 15  and (states.lock.lock_back_door_lock.state) == 'unlocked' else alarm_type_value %}
+          {% set alarm_type_value = '24' if (as_timestamp(now())-as_timestamp(states.lock.back_door.last_changed)) < 15 and (as_timestamp(now())-as_timestamp(states.sensor.back_door_deadbolt_alarm_type.last_changed)) > 15  and (states.lock.back_door.state) == 'locked' else alarm_type_value %}
+          {% set alarm_type_value = '25' if (as_timestamp(now())-as_timestamp(states.lock.back_door.last_changed)) < 15 and (as_timestamp(now())-as_timestamp(states.sensor.back_door_deadbolt_alarm_type.last_changed)) > 15  and (states.lock.back_door.state) == 'unlocked' else alarm_type_value %}
           {% set alarm_type_general_actions = {
             '0':'No Status Reported',                     
             '9':'Lock Jammed',
@@ -406,5 +405,5 @@ sensor:
           {% elif alarm_type_value in alarm_type_general_actions %}
             {{ alarm_type_general_actions[alarm_type_value] }}
           {% else %}
-            Unknown Alarm Type Value {{ states('sensor.lock_back_door_deadbolt_alarm_type') }}
+            Unknown Alarm Type Value {{ states('sensor.back_door_deadbolt_alarm_type') }}
           {% endif %}

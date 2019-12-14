@@ -41,8 +41,8 @@
       light.sconce_light:
         state: on
 
-#      light.christmas_tree:
-#        state: on
+      light.christmas_tree:
+        state: on
 
   - name: Evening Lighting
     entities:
@@ -87,8 +87,8 @@
       light.sconce_light:
         state: on
 
-#      light.christmas_tree:
-#        state: on
+      light.christmas_tree:
+        state: on
 
   - name: Morning Lighting
     entities:
@@ -167,8 +167,8 @@
       light.sconce_light:
         state: on
 
-#      light.christmas_tree:
-#        state: on
+      light.christmas_tree:
+        state: on
 
   - name: Downstairs Color Loop
     entities:

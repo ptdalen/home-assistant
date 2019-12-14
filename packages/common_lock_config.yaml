@@ -34,7 +34,7 @@ automation:
           usercode: >-
             {{ range(1000, 9999) | random }}
           node_id: >-
-            {{ states.lock.lock_front_door_lock.attributes.node_id }}
+            {{ states.lock.front_door.attributes.node_id }}
           code_slot: >-
             {% set object_id = trigger.to_state.object_id %}
             {% set code_slot = object_id[7:-19] %}
@@ -45,7 +45,7 @@ automation:
           usercode: >-
             {{ range(1000, 9999) | random }}
           node_id: >-
-            {{ states.lock.lock_back_door_lock.attributes.node_id }}
+            {{ states.lock.back_door.attributes.node_id }}
           code_slot: >-
             {% set object_id = trigger.to_state.object_id %}
             {% set code_slot = object_id[7:-19] %}
@@ -56,7 +56,7 @@ automation:
           usercode: >-
             {{ range(1000, 9999) | random }}
           node_id: >-
-            {{ states.lock.lock_garage_door_lock.attributes.node_id }}
+            {{ states.lock.garage_door.attributes.node_id }}
           code_slot: >-
             {% set object_id = trigger.to_state.object_id %}
             {% set code_slot = object_id[7:-19] %}
@@ -86,9 +86,9 @@ automation:
     trigger:
       - platform: numeric_state
         entity_id:
-          - sensor.lock_front_door_deadbolt_alarm_level
-          - sensor.lock_back_door_deadbolt_alarm_level
-          - sensor.lock_garage_door_lock_alarm_level
+          - sensor.front_door_deadbolt_alarm_level
+          - sensor.back_door_deadbolt_alarm_level
+          - sensor.garage_door_lock_alarm_level
         above: 15
         below: 19
     condition:

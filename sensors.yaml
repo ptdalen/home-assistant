@@ -2,12 +2,12 @@
 #  - platform: yweather
 #    woeid: 12767389
 
-  - platform: anniversaries
-    name: Tracy and Paul Anniversary
-    date: '2009-05-09'
-  - platform: anniversaries
-    name: Tracys Birthday
-    date: '1970-12-26'
+#  - platform: anniversaries
+#    name: Tracy and Paul Anniversary
+#    date: '2009-05-09'
+#  - platform: anniversaries
+#    name: Tracys Birthday
+#    date: '1970-12-26'
 
   - platform: uptime
     name: "HA runtime in minutes"
@@ -450,19 +450,19 @@
         icon_template: mdi:water-percent
         entity_id: climate.upstairs_2
         
-      offline_devices:
-        value_template: >
-          {%- macro wildcard(entity_ids, reject) %}
-          {%- for entity_id in entity_ids %}
-          {%- if reject not in entity_id %}
-          {{- entity_id }}{{ '' if loop.last else ',' }}
-          {%- endif %}
-          {%- endfor %}
-          {%- endmacro %}
-          {% set entity_ids = states | selectattr('state','eq','unavailable') | map(attribute='name') | list %}
-          {% set entity_ids = wildcard(entity_ids, 'shuffle').split(',') | reject('eq','') %}
-          {{ wildcard(entity_ids, 'repeat').split(',') | reject('eq','') | join(', ') }}
-        entity_id: sensor.time
+#      offline_devices:
+#        value_template: >
+#          {%- macro wildcard(entity_ids, reject) %}
+#          {%- for entity_id in entity_ids %}
+#          {%- if reject not in entity_id %}
+#          {{- entity_id }}{{ '' if loop.last else ',' }}
+#          {%- endif %}
+#          {%- endfor %}
+#          {%- endmacro %}
+#          {% set entity_ids = states | selectattr('state','eq','unavailable') | map(attribute='name') | list %}
+#          {% set entity_ids = wildcard(entity_ids, 'shuffle').split(',') | reject('eq','') %}
+#          {{ wildcard(entity_ids, 'repeat').split(',') | reject('eq','') | join(', ') }}
+#        entity_id: sensor.time
 
       weather_icon:
         entity_id: sensor.dark_sky_icon

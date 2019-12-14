@@ -11,10 +11,10 @@ homeassistant:
 #  # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 #  time_zone: America/New_York
 #  # Customization file
-  auth_providers:
-    - type: homeassistant
-    - type: legacy_api_password
-      api_password: !secret http_password
+#  auth_providers:
+#    - type: homeassistant
+#    - type: legacy_api_password
+#      api_password: !secret http_password
   customize: !include customize.yaml
   packages: !include_dir_named packages
   whitelist_external_dirs:
@@ -116,8 +116,8 @@ remote:
 ifttt:
   key: !secret ifttt_key
   
-ecobee:
-  api_key: !secret ecobee_api_key
+#ecobee:
+#  api_key: !secret ecobee_api_key
   
 nest:
   client_id: !secret nest_client_id
@@ -187,7 +187,7 @@ zwave:
   usb_path: /dev/ttyUSB0
   network_key: !secret zwave_network_key
   autoheal: false
-  polling_interval: 30000
+  polling_interval: 10000
   device_config:
     light.bedroom_ceiling_light:
       polling_intensity: 1
@@ -232,7 +232,7 @@ zwave:
     switch.fireplace:
       polling_intensity: 1
       refresh_value: True
-      delay: 3
+      delay: 4
 circadian_lighting:
 
 switch:
