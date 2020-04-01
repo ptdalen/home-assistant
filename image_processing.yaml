@@ -1,0 +1,51 @@
+  - platform: tensorflow
+    scan_interval: 20000
+    source:
+      - entity_id: camera.back_gate
+        name: back yard
+    file_out:
+      - "/home/homeassistant/.homeassistant/www/tmp/back_yard_latest.jpg"
+    model:
+      graph: /home/homeassistant/.homeassistant/tensorflow/ssd_mobilenet_v2_coco_2018_03_29/frozen_inference_graph.pb
+      categories:
+        - category: person
+          area:
+            top: 0.20
+            right: 0.90
+            left: 0.30
+        - category: car
+          area:
+            top: 0.15
+            right: 0.88
+            left: 0.38
+            bottom: 0.40
+        - category: truck
+          area:
+            top: 0.15
+            right: 0.88
+            left: 0.38
+            bottom: 0.40
+        - category: van
+          area:
+            top: 0.15
+            right: 0.88
+            left: 0.38
+            bottom: 0.40
+        - category: motorcycle
+          area:
+            top: 0.15
+            right: 0.88
+            left: 0.38
+            bottom: 0.40
+  - platform: tensorflow
+    scan_interval: 20000
+    source:
+      - entity_id: camera.front_door
+        name: front door
+    file_out:
+       - "/home/homeassistant/.homeassistant/www/tmp/front_door_latest.jpg"
+    model:
+      graph: /home/homeassistant/.homeassistant/tensorflow/ssd_mobilenet_v2_coco_2018_03_29/frozen_inference_graph.pb
+      area:
+        # Exclude left 5% of image
+        left: 0.05

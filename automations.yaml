@@ -1,29 +1,29 @@
 ##########################################
 ## Setting House Mode based on Presence ##
 ##########################################
-- alias: Home Mode Leaving
-  trigger:
-  - platform: state
-    entity_id: binary_sensor.people_home
-    to: 'off'
-    for:
-      seconds: 15
-  condition:
-  - condition: numeric_state
-    entity_id: sensor.ha_runtime_in_minutes
-    above: 1
-  - condition: state
-    entity_id: input_select.house_mode
-    state: 'Home'
-  action:
-  - service: input_select.select_option
-    entity_id: input_select.house_mode
-    data:
-      option: 'Away'
-  - service: input_select.select_option
-    entity_id: input_select.security_system
-    data:
-      option: 'Armed (Away)'
+#- alias: Home Mode Leaving
+#  trigger:
+#  - platform: state
+#    entity_id: binary_sensor.people_home
+#    to: 'off'
+#    for:
+#      seconds: 15
+#  condition:
+#  - condition: numeric_state
+#    entity_id: sensor.ha_runtime_in_minutes
+#    above: 1
+#  - condition: state
+#    entity_id: input_select.house_mode
+#    state: 'Home'
+#  action:
+#  - service: input_select.select_option
+#    entity_id: input_select.house_mode
+#    data:
+#      option: 'Away'
+#  - service: input_select.select_option
+#    entity_id: input_select.security_system
+#    data:
+#      option: 'Armed (Away)'
 
 - alias: Home Mode Arriving
   trigger:
@@ -87,6 +87,7 @@
       - device_tracker.pauls_iphone_2
       - device_tracker.tracy_all
       - device_tracker.tracys_iphone_2
+      - group.extra_device_trackers
     to: 'home'
   action:
   - service: timer.start
@@ -97,7 +98,7 @@
         {% elif trigger.entity_id == 'input_boolean.tracy_present' or trigger.entity_id == 'device_tracker.tracy_all' or trigger.entity_id == 'device_tracker.tracys_iphone_2' %}
           timer.tracy_just_arrived
         {% else %}
-          timer.guests_just_arrived
+          none
         {% endif %}
 
 - alias: Guests Just Arrived Timer
@@ -128,6 +129,7 @@
       - device_tracker.paul_all
       - device_tracker.tracy_all
     to: 'not_home'
+    from: 'home'
     for:
       minutes: 1
   condition:
@@ -151,18 +153,21 @@
 ##########################################
 - alias: Goodbye Routine
   trigger:
+#  - platform: state
+#    entity_id: input_select.house_mode
+#    to: 'Away'
   - platform: state
-    entity_id: input_select.house_mode
-    to: 'Away'
+    entity_id: binary_sensor.people_home
+    to: 'off'
   condition:
   - condition: numeric_state
     entity_id: sensor.ha_runtime_in_minutes
-    above: 1
+    above: 2
   action:
   - service: cover.close_cover
     entity_id: cover.garage_door_opener
   - service: lock.lock
-    entity_id: group.all_locks
+    entity_id: all
   - delay:
       seconds: 2
   - service: light.turn_on
@@ -218,8 +223,18 @@
     entity_id: input_select.lock_zwave_option_7_front
     data:
       option: 'Forced Entry'
+  - service: input_select.select_option
+    entity_id: input_select.house_mode
+    data:
+      option: 'Away'
+  - service: input_select.select_option
+    entity_id: input_select.security_system
+    data:
+      option: 'Armed (Away)'
+#  - condition: template
+#    value_template: "{{ states('sensor.motion_sensor_outdoor_luminance')| int > 91 }}"
   - condition: template
-    value_template: "{{ states('sensor.motion_sensor_outdoor_luminance')| int > 91 }}"
+    value_template: "{{ states('sensor.hue_outdoor_motion_sensor_light_level')| int > 100 }}"
   - service: homeassistant.turn_off
     entity_id:
       - group.outdoor
@@ -229,13 +244,18 @@
   - platform: state
     entity_id: input_select.house_mode
     from: 'Away'
+  - platform: state
+    entity_id: binary_sensor.people_home
+    to: 'on'
   condition:
   - condition: numeric_state
     entity_id: sensor.ha_runtime_in_minutes
-    above: 1  
+    above: 1
+  - condition: template
+    value_template: '{{ as_timestamp(now()) - as_timestamp(states.automation.welcome_back_routine.attributes.last_triggered) | int > 30 }}'
   action:
   - service: lock.unlock
-    entity_id: lock.lock_garage_door_lock
+    entity_id: lock.garage_door
   - service: switch.turn_on
     entity_id: switch.bedroom_fan
   - service: scene.turn_on
@@ -266,6 +286,16 @@
       option: 'Alarm Off'
   - service: alarm_control_panel.alarm_disarm
     entity_id: alarm_control_panel.alexa_guard
+  - service: input_select.select_option
+    entity_id: input_select.house_mode
+    data:
+      option: 'Home'
+  - service: input_select.select_option
+    entity_id: input_select.security_system
+    data:
+      option: 'Disarmed'
+  - service: input_boolean.turn_off
+    entity_id: input_boolean.vacation_mode
 
 - alias: 'Goodnight Routine'
   trigger:
@@ -277,7 +307,7 @@
       minutes: 1
   action:
   - service: lock.lock
-    entity_id: group.all_locks
+    entity_id: all
   - service: cover.close_cover
     entity_id: cover.garage_door_opener
   - delay:
@@ -330,6 +360,12 @@
       option: 'Forced Entry'
   - service: alarm_control_panel.alarm_arm_away
     entity_id: alarm_control_panel.alexa_guard
+  - delay:
+      seconds: 4
+  - service: light.turn_off
+    entity_id: 
+      - light.all_downstairs_color_lights
+      - light.goodnight_hue_lights
   - service: notify.pushover
     data_template:
       target: Paul
@@ -344,8 +380,12 @@
   - condition: state
     entity_id: input_boolean.vacation_mode
     state: 'off'
-  - service: script.turn_on
-    entity_id: script.ecobee_sleep_mode
+  - condition: template
+    value_template: "{{ states.climate.downstairs.attributes.climate_mode != 'Sleep' }}"
+  - service: climate.set_hold_mode
+    entity_id: climate.downstairs, climate.upstairs
+    data:
+      hold_mode: 'sleep'
 
 - alias: 'Automatic Goodnight'
   trigger:
@@ -443,12 +483,6 @@
     entity_id: input_boolean.goodmorning_switch
     to: 'on'
   action:
-  - service: scene.turn_on
-    entity_id: scene.morning_lighting
-  - delay:
-      seconds: 3
-  - service: scene.turn_on
-    entity_id: scene.morning_lighting
   - service: input_select.select_option
     data_template:
       entity_id: input_select.security_system
@@ -457,6 +491,12 @@
     data_template:
       entity_id: input_select.house_mode
       option: Home
+  - service: scene.turn_on
+    entity_id: scene.morning_lighting
+  - delay:
+      seconds: 3
+  - service: scene.turn_on
+    entity_id: scene.morning_lighting
   - service: input_boolean.turn_off
     entity_id:
       - input_boolean.goodmorning_switch
@@ -473,10 +513,10 @@
   - condition: state
     entity_id: input_boolean.vacation_mode
     state: 'off'
-  - service: script.turn_on
-    entity_id: script.ecobee_resume_mode
+#  - service: script.turn_on
+#    entity_id: script.ecobee_resume_mode
   - service: lock.unlock
-    entity_id: lock.lock_garage_door_lock
+    entity_id: lock.garage_door
   - condition: state
     entity_id: binary_sensor.workday_sensor
     state: 'on'
@@ -491,16 +531,16 @@
       data:
         type: announce
       message: >-
-        {% if states('input_boolean.paul_in_bed') == 'on' and states('input_boolean.tracy_in_bed') == 'off' %}
-          Good Morning Tracy.  Here is your morning Report.  It looks like it will take you about {{ states('sensor.time_to_avis_tracy') | int | round }} minutes to get to work today.  Now here is your weather brief. The weather will be {{ states('sensor.dark_sky_hourly_summary') }}  with a high temp of {{ states('sensor.dark_sky_daytime_high_temperature_0d') | int | round }} and a {{ states('sensor.dark_sky_precip_probability_0d') | int | round}} percent chance of rain.
-        {% elif states('input_boolean.paul_in_bed') == 'off' and states('input_boolean.tracy_in_bed') == 'off' %}
-          Good Morning Tracy.  Here is your morning Report.  It looks like it will take you about {{ states('sensor.time_to_avis_tracy') | int | round }} minutes to get to work today.  Now here is your weather brief. The weather will be {{ states('sensor.dark_sky_hourly_summary') }}  with a high temp of {{ states('sensor.dark_sky_daytime_high_temperature_0d') | int | round }} and a {{ states('sensor.dark_sky_precip_probability_0d') | int | round}} percent chance of rain.
-        {% elif states('input_boolean.paul_in_bed') == 'off' and states('input_boolean.tracy_in_bed') == 'on' and states('input_select.work_location') == 'Base' %}
-          Good Morning Paul.  Here is your morning Report.  Traffic to the base is {{ states('sensor.pauls_traffic_density_to_base') }} at the moment. It looks like it will take you about {{ states('sensor.time_to_base') | int | round }} minutes to get to work.  Here is your weather brief. The weather will be {{ states('sensor.dark_sky_hourly_summary') }}  with a high temp of {{ states('sensor.dark_sky_daytime_high_temperature_0d') | int | round }} and a {{ states('sensor.dark_sky_precip_probability_0d') | int | round}} percent chance of rain.
-        {% elif states('input_boolean.paul_in_bed') == 'off' and states('input_boolean.tracy_in_bed') == 'on' and states('input_select.work_location') == 'CACI' %}
-          Good Morning Paul.  Here is your morning Report.  Traffic to khaki is {{ states('sensor.pauls_traffic_density_to_caci') }} at the moment.  It looks like it will take you about {{ states('sensor.time_to_caci') | int | round }} minutes to get to work.  Here is your weather brief. The weather will be {{ states('sensor.dark_sky_hourly_summary') }}  with a high temp of {{ states('sensor.dark_sky_daytime_high_temperature_0d') | int | round }} and a {{ states('sensor.dark_sky_precip_probability_0d') | int | round}} percent chance of rain.
+        {% if states('input_boolean.paul_in_bed') == 'on' and states('input_boolean.tracy_in_bed') == 'off' and states('input_boolean.working_from_home') == 'off' %}
+          Good Morning Tracy.  Here is your morning Report.  It looks like it will take you about {{ states('sensor.time_to_avis_tracy') | int | round }} minutes to get to work today.  Now here is your weather brief. The weather will be {{ states('sensor.dark_sky_summary_0d') }}  with a high temp of {{ states('sensor.dark_sky_daytime_high_temperature_0d') | int | round }} and a {{ states('sensor.dark_sky_precip_probability_0d') | int | round}} percent chance of rain.
+        {% elif states('input_boolean.paul_in_bed') == 'off' and states('input_boolean.tracy_in_bed') == 'off' and states('input_boolean.working_from_home') == 'off' %}
+          Good Morning Tracy.  Here is your morning Report.  It looks like it will take you about {{ states('sensor.time_to_avis_tracy') | int | round }} minutes to get to work today.  Now here is your weather brief. The weather will be {{ states('sensor.dark_sky_summary_0d') }}  with a high temp of {{ states('sensor.dark_sky_daytime_high_temperature_0d') | int | round }} and a {{ states('sensor.dark_sky_precip_probability_0d') | int | round}} percent chance of rain.
+        {% elif states('input_boolean.paul_in_bed') == 'off' and states('input_boolean.tracy_in_bed') == 'on' and states('input_select.work_location') == 'Base' and states('input_boolean.working_from_home') == 'off' %}
+          Good Morning Paul.  Here is your morning Report.  Traffic to the base is {{ states('sensor.pauls_traffic_density_to_base') }} at the moment. It looks like it will take you about {{ states('sensor.time_to_base') | int | round }} minutes to get to work.  Here is your weather brief. The weather will be {{ states('sensor.dark_sky_summary_0d') }}  with a high temp of {{ states('sensor.dark_sky_daytime_high_temperature_0d') | int | round }} and a {{ states('sensor.dark_sky_precip_probability_0d') | int | round}} percent chance of rain.
+        {% elif states('input_boolean.paul_in_bed') == 'off' and states('input_boolean.tracy_in_bed') == 'on' and states('input_select.work_location') == 'CACI' and states('input_boolean.working_from_home') == 'off' %}
+          Good Morning Paul.  Here is your morning Report.  Traffic to khaki is {{ states('sensor.pauls_traffic_density_to_caci') }} at the moment.  It looks like it will take you about {{ states('sensor.time_to_caci') | int | round }} minutes to get to work.  Here is your weather brief. The weather will be {{ states('sensor.dark_sky_summary_0d') }}  with a high temp of {{ states('sensor.dark_sky_daytime_high_temperature_0d') | int | round }} and a {{ states('sensor.dark_sky_precip_probability_0d') | int | round}} percent chance of rain.
         {% else %}
-          Good Morning.  Here is your morning Report. The weather will be {{ states('sensor.dark_sky_hourly_summary') }}  with a high temp of {{ states('sensor.dark_sky_daytime_high_temperature_0d') | int | round }} and a {{ states('sensor.dark_sky_precip_probability_0d') | int | round}} percent chance of rain.
+          Good Morning, looks like you are working from home today.  Here is your morning Report. The weather will be {{ states('sensor.dark_sky_summary_0d') }}  with a high temp of {{ states('sensor.dark_sky_daytime_high_temperature_0d') | int | round }} and a {{ states('sensor.dark_sky_precip_probability_0d') | int | round}} percent chance of rain.
         {% endif %}
 
 - alias: Good Morning Paul
@@ -528,11 +568,11 @@
         type: announce
       message: >-
         {% if states('input_select.work_location') == 'Base' %}
-          Good Morning Paul.  Traffic to the base is {{ states('sensor.pauls_traffic_density_to_base') }} at the moment. It will take you about {{ states('sensor.time_to_base') | int | round }} minutes to get to work.  The weather will be {{ states('sensor.dark_sky_hourly_summary') }}  with a high of {{ states('sensor.dark_sky_daytime_high_temperature_0d') | int | round }} and a {{ states('sensor.dark_sky_precip_probability_0d') | int | round}} percent chance of rain.
+          Good Morning Paul.  Traffic to the base is {{ states('sensor.pauls_traffic_density_to_base') }} at the moment. It will take you about {{ states('sensor.time_to_base') | int | round }} minutes to get to work.  The weather will be {{ states('sensor.dark_sky_summary_0d') }}  with a high of {{ states('sensor.dark_sky_daytime_high_temperature_0d') | int | round }} and a {{ states('sensor.dark_sky_precip_probability_0d') | int | round}} percent chance of rain.
         {% elif states('input_select.work_location') == 'CACI' %}
-          Good Morning Paul.  Traffic to khaki is {{ states('sensor.pauls_traffic_density_to_caci') }} at the moment.  It will take you about {{ states('sensor.time_to_caci') | int | round }} minutes to get to work. The weather will be {{ states('sensor.dark_sky_hourly_summary') }}  with a high of {{ states('sensor.dark_sky_daytime_high_temperature_0d') | int | round }} and a {{ states('sensor.dark_sky_precip_probability_0d') | int | round}} percent chance of rain.
+          Good Morning Paul.  Traffic to khaki is {{ states('sensor.pauls_traffic_density_to_caci') }} at the moment.  It will take you about {{ states('sensor.time_to_caci') | int | round }} minutes to get to work. The weather will be {{ states('sensor.dark_sky_summary_0d') }}  with a high of {{ states('sensor.dark_sky_daytime_high_temperature_0d') | int | round }} and a {{ states('sensor.dark_sky_precip_probability_0d') | int | round}} percent chance of rain.
         {% else %}
-          Good Morning.  Here is your morning Report. The weather will be {{ states('sensor.dark_sky_hourly_summary') }}  with a high temp of {{ states('sensor.dark_sky_daytime_high_temperature_0d') | int | round }} and a {{ states('sensor.dark_sky_precip_probability_0d') | int | round}} percent chance of rain.
+          Good Morning.  Here is your morning Report. The weather will be {{ states('sensor.dark_sky_summary_0d') }}  with a high temp of {{ states('sensor.dark_sky_daytime_high_temperature_0d') | int | round }} and a {{ states('sensor.dark_sky_precip_probability_0d') | int | round}} percent chance of rain.
         {% endif %}
 
 ##########################################
@@ -551,8 +591,10 @@
   - condition: state
     entity_id: light.office_lamps
     state: 'off'
+#  - condition: template
+#    value_template: "{{ states('sensor.motion_sensor_outdoor_luminance')| int < 90 }}"
   - condition: template
-    value_template: "{{ states('sensor.motion_sensor_outdoor_luminance')| int < 90 }}"
+    value_template: "{{ states('sensor.hue_outdoor_motion_sensor_light_level')| int < 250 }}"
 #  - condition: numeric_state
 #    entity_id: sun.sun
 #    value_template: '{{ state.attributes.elevation }}'
@@ -584,8 +626,10 @@
 #    entity_id: sun.sun
 #    value_template: '{{ state.attributes.elevation }}'
 #    below: 6.5
+#  - condition: template
+#    value_template: "{{ states('sensor.motion_sensor_outdoor_luminance')| int < 90 }}"
   - condition: template
-    value_template: "{{ states('sensor.motion_sensor_outdoor_luminance')| int < 90 }}"
+    value_template: "{{ states('sensor.hue_outdoor_motion_sensor_light_level')| int < 250 }}"
   action:
   - service: homeassistant.turn_on
     entity_id: light.kitchen_ceiling_lights
@@ -698,8 +742,10 @@
 #    entity_id: sun.sun
 #    value_template: '{{ state.attributes.elevation }}'
 #    below: 4.5
+#  - condition: template
+#    value_template: "{{ states('sensor.motion_sensor_outdoor_luminance')| int < 90 }}"
   - condition: template
-    value_template: "{{ states('sensor.motion_sensor_outdoor_luminance')| int < 90 }}"
+    value_template: "{{ states('sensor.hue_outdoor_motion_sensor_light_level')| int < 250 }}"
   - condition: state
     entity_id: light.hallway_light
     state: 'off'
@@ -760,7 +806,7 @@
         - switch.lava_lamp_plug
         - switch.lava_lamp_two
   - service: light.turn_on
-    entity_id: light.frog_couch_backligh
+    entity_id: light.frog_couch_backlight
     data:
       brightness: 71
       rgb_color: [246, 255, 254]
@@ -863,9 +909,14 @@
 ##########################################
 - alias: 'Outdoor Lights at Sunset'
   trigger:
+#  - platform: template
+#    value_template: "{{ states('sensor.motion_sensor_outdoor_luminance')| int < 90 }}"
   - platform: template
-    value_template: "{{ states('sensor.motion_sensor_outdoor_luminance')| int < 90 }}"
+    value_template: "{{ states('sensor.hue_outdoor_motion_sensor_light_level')| int < 100 }}"
   condition:
+  - condition: numeric_state
+    entity_id: sensor.ha_runtime_in_minutes
+    above: 4
   - condition: template
     value_template: "{{ states('input_select.house_mode') != 'Night' }}"
   action:
@@ -883,12 +934,26 @@
   - service: homeassistant.turn_off
     entity_id: switch.back_porch_light
 
+- alias: 'Outdoor Lights off when luminance increases'
+  trigger:
+#  - platform: template
+#    value_template: "{{ states('sensor.motion_sensor_outdoor_luminance')| int > 20 }}"
+  - platform: template
+    value_template: "{{ states('sensor.hue_outdoor_motion_sensor_light_level')| int > 500 }}"
+  action:
+  - service: homeassistant.turn_off
+    entity_id: group.outdoor_lights_sunset
+  - service: homeassistant.turn_off
+    entity_id: switch.back_porch_light
+
 - alias: TV Lighting after sunset if TV is turned on
   trigger:
 #  - platform: template
 #    value_template: "{{ states.sun.sun.attributes.elevation < 4 }}"
+#  - platform: template
+#    value_template: "{{ states('sensor.motion_sensor_outdoor_luminance')| int < 90 }}"
   - platform: template
-    value_template: "{{ states('sensor.motion_sensor_outdoor_luminance')| int < 90 }}"
+    value_template: "{{ states('sensor.hue_outdoor_motion_sensor_light_level')| int < 250 }}"
   - platform: state
     entity_id: media_player.living_room_tv
     to: 'on'
@@ -906,8 +971,10 @@
 #    entity_id: sun.sun
 #    value_template: '{{ state.attributes.elevation }}'
 #    below: 6.5
+#  - condition: template
+#    value_template: "{{ states('sensor.motion_sensor_outdoor_luminance')| int < 90 }}"
   - condition: template
-    value_template: "{{ states('sensor.motion_sensor_outdoor_luminance')| int < 90 }}"
+    value_template: "{{ states('sensor.hue_outdoor_motion_sensor_light_level')| int < 250 }}"
   - condition: state
     entity_id: input_select.house_mode
     state: 'Home' 
@@ -923,8 +990,10 @@
   trigger:
 #  - platform: template
 #    value_template: "{{ states.sun.sun.attributes.elevation < 3 }}"
+#  - platform: template
+#    value_template: "{{ states('sensor.motion_sensor_outdoor_luminance')| int < 90 }}"
   - platform: template
-    value_template: "{{ states('sensor.motion_sensor_outdoor_luminance')| int < 90 }}"
+    value_template: "{{ states('sensor.hue_outdoor_motion_sensor_light_level')| int < 250 }}"
   condition:
   - condition: state
     entity_id: media_player.living_room_tv
@@ -1040,6 +1109,20 @@
       - light.office_lamp_two
       - light.office_lamp_one
       - light.canary_hue_bulb
+  - delay:
+      seconds: 7
+  - service: light.turn_off
+    entity_id:
+      - light.bedroom_lamp_one
+      - light.bedroom_lamp_two
+      - light.bedroom_tv_lights
+      - light.ashleys_room_lamp
+      - light.guest_bedroom_lamp
+      - light.frog_couch_backlight
+      - light.all_downstairs_color_lights
+      - light.office_lamp_two
+      - light.office_lamp_one
+      - light.canary_hue_bulb
 
 ##########################################
 ## Door Locking and Unlocking           ##
@@ -1048,7 +1131,10 @@
   trigger:
   - platform: state
     entity_id: binary_sensor.backyard_line_crossing
-    to: 'on'    
+    to: 'on'
+  - platform: state
+    entity_id: binary_sensor.hue_outdoor_motion_sensor_motion
+    to: 'on' 
   condition:
   - condition: state
     entity_id: timer.paul_just_arrived
@@ -1066,7 +1152,10 @@
   trigger:
   - platform: state
     entity_id: binary_sensor.backyard_line_crossing
-    to: 'on'    
+    to: 'on'
+  - platform: state
+    entity_id: binary_sensor.hue_outdoor_motion_sensor_motion
+    to: 'on' 
   condition:
   - condition: state
     entity_id: timer.tracy_just_arrived
@@ -1084,7 +1173,10 @@
   trigger:
   - platform: state
     entity_id: binary_sensor.backyard_line_crossing
-    to: 'on'    
+    to: 'on'
+  - platform: state
+    entity_id: binary_sensor.hue_outdoor_motion_sensor_motion
+    to: 'on' 
   condition:
   - condition: state
     entity_id: timer.guests_just_arrived
@@ -1173,7 +1265,7 @@
     state: 'on'
   action:
   - service: lock.lock
-    entity_id: group.all_locks
+    entity_id: all
   - delay:
       seconds: 15
   - condition: state
@@ -1186,7 +1278,7 @@
       - Tracy
       title: Doors failed to Lock
       message: >
-        {% set unlocked = states | selectattr('entity_id', 'in', state_attr('group.all_locks','entity_id')) | selectattr('state','eq','unlocked') | map(attribute='name') | join(', ') %}
+        {% set unlocked = states.lock | selectattr('state','eq','unlocked') | map(attribute='name') | join(', ') %}
           The following locks failed to lock: {{ unlocked }}.  This was the second attempt.  Please lock using the app.
 
 - alias: Light alert
@@ -1601,10 +1693,7 @@
   trigger:
   - platform: template
     value_template: >
-      {{ is_state('sensor.time_to_leave_for_base_15', 'True') and
-         is_state('input_select.work_location', 'Base')  or
-         is_state('sensor.time_to_leave_for_caci_15', 'True') and
-         is_state('input_select.work_location', 'CACI')  }}
+      {{ is_state('sensor.time_to_leave_for_work_15', 'True')  }}
   condition:
   - condition: numeric_state
     entity_id: sensor.ha_runtime_in_minutes
@@ -1618,6 +1707,9 @@
   - condition: state
     entity_id: binary_sensor.paul_presence
     state: 'on'
+  - condition: state
+    entity_id: input_boolean.working_from_home
+    state: 'off'
   action:
   - service: notify.alexa_media
     data_template:
@@ -1638,10 +1730,7 @@
   trigger:
   - platform: template
     value_template: >
-      {{ is_state('sensor.time_to_leave_for_base_10', 'True') and
-         is_state('input_select.work_location', 'Base')  or
-         is_state('sensor.time_to_leave_for_caci_10', 'True') and
-         is_state('input_select.work_location', 'CACI')  }}
+      {{ is_state('sensor.time_to_leave_for_work_10', 'True') }}
   condition:
   - condition: numeric_state
     entity_id: sensor.ha_runtime_in_minutes
@@ -1655,6 +1744,9 @@
   - condition: state
     entity_id: binary_sensor.paul_presence
     state: 'on'
+  - condition: state
+    entity_id: input_boolean.working_from_home
+    state: 'off'
   action:
   - service: notify.alexa_media
     data_template:
@@ -1668,10 +1760,7 @@
   trigger:
   - platform: template
     value_template: >
-      {{ is_state('sensor.time_to_leave_for_base', 'True') and
-         is_state('input_select.work_location', 'Base')  or
-         is_state('sensor.time_to_leave_for_caci', 'True') and
-         is_state('input_select.work_location', 'CACI')  }}
+      {{ is_state('sensor.time_to_leave_for_work', 'True') }}
   condition:
   - condition: numeric_state
     entity_id: sensor.ha_runtime_in_minutes
@@ -1685,6 +1774,9 @@
   - condition: state
     entity_id: binary_sensor.paul_presence
     state: 'on'
+  - condition: state
+    entity_id: input_boolean.working_from_home
+    state: 'off'
   action:
   - service: notify.alexa_media
     data_template:
@@ -1736,6 +1828,9 @@
   - platform: state
     entity_id: input_select.work_location
   condition:
+  - condition: numeric_state
+    entity_id: sensor.ha_runtime_in_minutes
+    above: 6
   - condition: state
     entity_id: binary_sensor.paul_presence
     state: 'on'
@@ -1748,6 +1843,9 @@
   - condition: time
     after: '07:00:00'
     before: '10:00:00'
+  - condition: state
+    entity_id: input_boolean.working_from_home
+    state: 'off'
   action:
   - service: light.turn_on
     data_template:
@@ -1902,17 +2000,12 @@
 - alias: 'Cameras Driveway Analysis'
   trigger:
 #  - platform: state
-#    entity_id: binary_sensor.motion_delay_driveway
-#    to: 'on'
-#  - platform: state
 #    entity_id: binary_sensor.motion_sensor_outdoor_motion
 #    to: 'on'
   - platform: state
-    entity_id: input_boolean.frontdoor_motion
+    entity_id: binary_sensor.doorbell_motion
     to: 'on'
   condition:
-#  - condition: template
-#    value_template: '{{ as_timestamp(now()) - as_timestamp(states.automation.cameras_driveway_analysis.attributes.last_triggered) | int > 30 }}'
   action:
   - service: image_processing.scan
     entity_id: image_processing.front_door
@@ -1920,38 +2013,16 @@
 - alias: 'Cameras Driveway Analysis part 2'
   trigger:
 #  - platform: state
-#    entity_id: binary_sensor.motion_delay_driveway
-#    to: 'off'
-#  - platform: state
 #    entity_id: binary_sensor.motion_sensor_outdoor_motion
 #    to: 'off'
   - platform: state
-    entity_id: input_boolean.frontdoor_motion
+    entity_id: binary_sensor.doorbell_motion
     to: 'off'
     for:
-      seconds: 75
+      seconds: 30
   action:
   - service: image_processing.scan
     entity_id: image_processing.front_door
-
-#- alias: 'Cameras Drive Way Line Crossing Timer'
-#  trigger:
-#  - platform: state
-#    entity_id: binary_sensor.driveway_1_line_crossing
-#    to: 'on'
-#  - platform: state
-#    entity_id: binary_sensor.driveway_2_line_crossing
-#    to: 'on'
-#  - platform: state
-#    entity_id: input_boolean.frontdoor_motion
-#    to: 'on'
-#  condition:
-#  - condition: state
-#    entity_id: timer.camera_action
-#    state: 'idle'
-#  action:
-#  - service: timer.start
-#    entity_id: timer.camera_action
 
 - alias: 'Cameras Back Yard Analysis'
   trigger:
@@ -2129,25 +2200,12 @@
 - alias: 'Cameras Drive Way Front Door Motion Lights'
   trigger:
 #  - platform: state
-#    entity_id: binary_sensor.driveway_1_motion
-#    to: 'on'
-#  - platform: state
 #    entity_id: binary_sensor.motion_sensor_outdoor_motion
 #    to: 'on'
   - platform: state
-    entity_id: input_boolean.frontdoor_motion
+    entity_id: binary_sensor.doorbell_motion
     to: 'on'
-#    for:
-#      seconds: 1
   condition:
-#  - condition: or
-#    conditions:
-#  - condition: state
-#    entity_id: timer.camera_action
-#    state: 'active'
-#    - condition: state
-#      entity_id: binary_sensor.motion_sensor_outdoor_motion
-#      state: 'on'
   - condition: state
     entity_id: sun.sun
     state: 'below_horizon'
@@ -2378,7 +2436,7 @@
     entity_id: sensor.downstairs_nest_protect_smoke_status
     state: 'emergency'
   - service: lock.unlock
-    entity_id: group.all_locks
+    entity_id: all
   - service: homeassistant.turn_on
     entity_id:
       - group.all_lights
@@ -2422,7 +2480,7 @@
     entity_id: sensor.downstairs_nest_protect_co_status
     state: 'emergency'
   - service: lock.unlock
-    entity_id: group.all_locks
+    entity_id: all
   - service: homeassistant.turn_on
     entity_id:
       - group.all_lights
@@ -2452,7 +2510,7 @@
       message: The Attic Smoke Detector is reporting a smoke warning.
       title: "Smoke Alert"
   - service: lock.unlock
-    entity_id: group.all_locks
+    entity_id: all
   - service: homeassistant.turn_on
     entity_id:
       - group.all_lights
@@ -2765,6 +2823,21 @@
   - service: climate.ecobee_resume_program
     entity_id: climate.downstairs, climate.upstairs
 
+#- alias: Set Ecobee to Sleep
+#  trigger:
+#  - platform: state
+#    entity_id: input_select.house_mode
+#    to: 'Night'
+#  condition:
+#  - condition: numeric_state
+#    entity_id: sensor.ha_runtime_in_minutes
+#    above: 1
+#  action:
+#  - service: climate.set_hold_mode
+#    entity_id: climate.downstairs, climate.upstairs
+#    data:
+#      hold_mode: 'sleep'
+#
 #- alias: "Resume ecobee Program from Home"
 #  trigger:
 #    - platform: time
@@ -2883,10 +2956,10 @@
   action:
   - service: light.turn_on
     data_template:
-      entity_id: light.shelf_only_color_lights
+      entity_id: light.shelf_lights
       brightness: >
-          {% if state_attr('light.shelf_only_color_lights' , 'brightness') < 230 %}
-            {{ state_attr('light.shelf_only_color_lights' , 'brightness') + 25 }}
+          {% if state_attr('light.shelf_lights' , 'brightness') < 230 %}
+            {{ state_attr('light.shelf_lights' , 'brightness') + 25 }}
           {% else %} 255 {% endif %}
 - alias: Shelf Lights Decrease Brightness
   trigger:
@@ -2899,10 +2972,10 @@
   action:
   - service: light.turn_on
     data_template:
-      entity_id: light.shelf_only_color_lights
+      entity_id: light.shelf_lights
       brightness: >
-          {% if state_attr('light.shelf_only_color_lights' , 'brightness') > 25 %}
-            {{ state_attr('light.shelf_only_color_lights' , 'brightness') - 25 }}
+          {% if state_attr('light.shelf_lights' , 'brightness') > 25 %}
+            {{ state_attr('light.shelf_lights' , 'brightness') - 25 }}
           {% else %} 1 {% endif %}
 
 - alias: Shelf Lights Increase Brightness
@@ -2961,81 +3034,97 @@
       brightness_pct: 100
       transition: 1
 
-- alias: Color Loop Shelf Lights
-  initial_state: false
+- alias: doorbell press
   trigger:
-  - platform: time_pattern
-    seconds: '/2'
-  condition:
-  - condition: numeric_state
-    entity_id: sensor.ha_runtime_in_minutes
-    above: 1
+  - platform: event
+    event_type: zha_event
+    event_data:
+      device_ieee: "00:08:89:00:01:d9:e1:80"
+      command: "on"
   action:
-  - service: light.turn_on
-    entity_id: light.shelf_color_lights
+  - service: notify.alexa_media
     data_template:
-      hs_color:
-        - "{{ (12 + (state_attr('light.shelf_color_lights', 'hs_color')[0] or 0)) % 360 }}"
-        - 100
-      brightness_pct: 100
-      transition: 1
+      target:
+        - media_player.livingroom
+      data:
+        type: announce
+      message: "The doorbell has been pushed"
 
-- alias: Color Loop Living Room
-  initial_state: false
-  trigger:
-  - platform: time_pattern
-    seconds: '/2'
-  condition:
-  - condition: numeric_state
-    entity_id: sensor.ha_runtime_in_minutes
-    above: 1
-  action:
-  - service: light.turn_on
-    entity_id: light.living_room_color_lights
-    data_template:
-      hs_color:
-        - "{{ (12 + (state_attr('light.living_room_color_lights', 'hs_color')[0] or 0)) % 360 }}"
-        - 100
-      brightness_pct: 100
-      transition: 1
+#- alias: Color Loop Shelf Lights
+#  initial_state: false
+#  trigger:
+#  - platform: time_pattern
+#    seconds: '/2'
+#  condition:
+#  - condition: numeric_state
+#    entity_id: sensor.ha_runtime_in_minutes
+#    above: 1
+#  action:
+#  - service: light.turn_on
+#    entity_id: light.shelf_color_lights
+#    data_template:
+#      hs_color:
+#        - "{{ (12 + (state_attr('light.shelf_color_lights', 'hs_color')[0] or 0)) % 360 }}"
+#        - 100
+#      brightness_pct: 100
+#      transition: 1
 
-- alias: Color Loop All Kitchen
-  initial_state: false
-  trigger:
-  - platform: time_pattern
-    seconds: '/2'
-  condition:
-  - condition: numeric_state
-    entity_id: sensor.ha_runtime_in_minutes
-    above: 1
-  action:
-  - service: light.turn_on
-    entity_id: light.kitchen_color_lights
-    data_template:
-      hs_color:
-        - "{{ (12 + (state_attr('light.kitchen_color_lights', 'hs_color')[0] or 0)) % 360 }}"
-        - 100
-      brightness_pct: 100
-      transition: 1
+#- alias: Color Loop Living Room
+#  initial_state: false
+#  trigger:
+#  - platform: time_pattern
+#    seconds: '/2'
+#  condition:
+#  - condition: numeric_state
+#    entity_id: sensor.ha_runtime_in_minutes
+#    above: 1
+#  action:
+#  - service: light.turn_on
+#    entity_id: light.living_room_color_lights
+#    data_template:
+#      hs_color:
+#        - "{{ (12 + (state_attr('light.living_room_color_lights', 'hs_color')[0] or 0)) % 360 }}"
+#        - 100
+#      brightness_pct: 100
+#      transition: 1
 
-- alias: Color Loop Kitchen Cabinets
-  initial_state: false
-  trigger:
-  - platform: time_pattern
-    seconds: '/2'
-  condition:
-  - condition: numeric_state
-    entity_id: sensor.ha_runtime_in_minutes
-    above: 1
-  action:
-  - service: light.turn_on
-    entity_id: light.kitchen_cabinet_color_lights
-    data_template:
-      hs_color:
-        - "{{ (12 + (state_attr('light.kitchen_cabinet_color_lights', 'hs_color')[0] or 0)) % 360 }}"
-        - 100
-      brightness_pct: 100
-      transition: 1
+#- alias: Color Loop All Kitchen
+#  initial_state: false
+#  trigger:
+#  - platform: time_pattern
+#    seconds: '/2'
+#  condition:
+#  - condition: numeric_state
+#    entity_id: sensor.ha_runtime_in_minutes
+#    above: 1
+#  action:
+#  - service: light.turn_on
+#    entity_id: light.kitchen_color_lights
+#    data_template:
+#      hs_color:
+#        - "{{ (12 + (state_attr('light.kitchen_color_lights', 'hs_color')[0] or 0)) % 360 }}"
+#        - 100
+#      brightness_pct: 100
+#      transition: 1
+
+#- alias: Color Loop Kitchen Cabinets
+#  initial_state: false
+#  trigger:
+#  - platform: time_pattern
+#    seconds: '/2'
+#  condition:
+#  - condition: numeric_state
+#    entity_id: sensor.ha_runtime_in_minutes
+#    above: 1
+#  action:
+#  - service: light.turn_on
+#    entity_id: light.kitchen_cabinet_color_lights
+#    data_template:
+#      hs_color:
+#        - "{{ (12 + (state_attr('light.kitchen_cabinet_color_lights', 'hs_color')[0] or 0)) % 360 }}"
+#        - 100
+#      brightness_pct: 100
+#      transition: 1
 #############################################
 ## HA Actions for health, config, etc      ##
 #############################################
@@ -3066,21 +3155,6 @@
     service_template: '{{ trigger.json.service }}'
     data_template:
       entity_id: '{{ trigger.json.entity_id }}'
-      
-- alias: 'doorbell motion trigger'
-  trigger:
-  - platform: state
-    entity_id: input_boolean.frontdoor_motion
-    to: 'on'
-  condition:
-  - condition: numeric_state
-    entity_id: sensor.ha_runtime_in_minutes
-    above: 1
-  action:
-  - delay:
-      seconds: 5
-  - service: input_boolean.turn_off
-    entity_id: input_boolean.frontdoor_motion
 
 - alias: Battery Alert
   trigger: 
@@ -3407,6 +3481,9 @@
   trigger:
   - platform: template
     value_template: '{{ (states.device_tracker.paul_all.state != "not_home" and ((as_timestamp(states.sensor.date.state + " " + states.sensor.time.state) - as_timestamp(states.device_tracker.paul_all.last_changed)) / 60 ) | int > 8 ) }}'
+  - platform: state
+    entity_id: sensor.activity_paul
+    from: 'Automotive'
 #  - platform: state
 #    entity_id: device_tracker.paul_all
 #    to: 'home'
@@ -3436,6 +3513,9 @@
   - condition: numeric_state
     entity_id: sensor.ha_runtime_in_minutes
     above: 10
+  - condition: state
+    entity_id: input_boolean.vacation_mode
+    state: 'off'
   action:
   - service: shell_command.car_lock
 
@@ -3500,7 +3580,7 @@
       key: Fwd
   action:
   - delay:
-      seconds: 10
+      seconds: 5
   - condition: or
     conditions:
     - condition: template
@@ -3511,7 +3591,7 @@
   - service: media_player.turn_on
     entity_id: media_player.living_room_tv
   - delay:
-      seconds: 10
+      seconds: 5
   - service: media_player.select_source
     data:
       entity_id: media_player.living_room_tv
@@ -3532,7 +3612,7 @@
       key: Rev
   action:
   - delay:
-      seconds: 10
+      seconds: 5
   - condition: or
     conditions:
     - condition: template
@@ -3543,7 +3623,7 @@
   - service: media_player.turn_on
     entity_id: media_player.living_room_tv
   - delay:
-      seconds: 10
+      seconds: 5
   - service: media_player.select_source
     data:
       entity_id: media_player.living_room_tv
@@ -3564,7 +3644,7 @@
       key: PowerOff
   action:
   - delay:
-      seconds: 10
+      seconds: 5
   - condition: state
     entity_id: media_player.living_room_tv
     state: 'on'
@@ -3625,9 +3705,8 @@
 
 - alias: 'Washing Machine Done Notification'
   trigger:
-  - platform: numeric_state
+  - platform: state
     entity_id: sensor.power_washing_machine
-    below: 1.0
   condition:
   - condition: state
     entity_id: input_select.house_mode
@@ -3635,12 +3714,20 @@
   - condition: numeric_state
     entity_id: sensor.ha_runtime_in_minutes
     above: 3
+  - condition: template
+    value_template: >
+      {{ trigger.from_state is not none and
+         trigger.to_state is not none and
+         trigger.from_state.state| float >= 2.8 and
+         trigger.to_state.state| float < 2.8 }}
+  - condition: template
+    value_template: '{{ as_timestamp(now()) - as_timestamp(states.automation.washing_machine_done_notification.attributes.last_triggered) | int > 300 }}'
   action:
   - service: notify.alexa_media
     data_template:
       target:
         - media_player.livingroom
-#        - media_player.office_show
       data:
         type: announce
       message: "The Washing Machine is done. Laundry is ready for the Dryer"
+      

@@ -18,166 +18,166 @@ increment_light:
   alias: Shelf Lights Dim
   sequence:
     - service: light.turn_on
-      entity_id: light.shelf_only_color_lights
+      entity_id: light.shelf_lights
       data_template:
         brightness: >
-         {% if state_attr('light.shelf_only_color_lights' , 'brightness') < 230 %}
-           {{ state_attr('light.shelf_only_color_lights' , 'brightness') + 25 }}
+         {% if state_attr('light.shelf_lights' , 'brightness') < 230 %}
+           {{ state_attr('light.shelf_lights' , 'brightness') + 25 }}
          {% else %} 255 {% endif %}
     - delay: 00:00:01
     - service: light.turn_on
-      entity_id: light.shelf_only_color_lights
+      entity_id: light.shelf_lights
       data_template:
         brightness: >
-         {% if state_attr('light.shelf_only_color_lights' , 'brightness') < 230 %}
-           {{ state_attr('light.shelf_only_color_lights' , 'brightness') + 25 }}
+         {% if state_attr('light.shelf_lights' , 'brightness') < 230 %}
+           {{ state_attr('light.shelf_lights' , 'brightness') + 25 }}
          {% else %} 255 {% endif %}
     - delay: 00:00:01
     - service: light.turn_on
-      entity_id: light.shelf_only_color_lights
+      entity_id: light.shelf_lights
       data_template:
         brightness: >
-         {% if state_attr('light.shelf_only_color_lights' , 'brightness') < 230 %}
-           {{ state_attr('light.shelf_only_color_lights' , 'brightness') + 25 }}
+         {% if state_attr('light.shelf_lights' , 'brightness') < 230 %}
+           {{ state_attr('light.shelf_lights' , 'brightness') + 25 }}
          {% else %} 255 {% endif %}
     - delay: 00:00:01
     - service: light.turn_on
-      entity_id: light.shelf_only_color_lights
+      entity_id: light.shelf_lights
       data_template:
         brightness: >
-         {% if state_attr('light.shelf_only_color_lights' , 'brightness') < 230 %}
-           {{ state_attr('light.shelf_only_color_lights' , 'brightness') + 25 }}
+         {% if state_attr('light.shelf_lights' , 'brightness') < 230 %}
+           {{ state_attr('light.shelf_lights' , 'brightness') + 25 }}
          {% else %} 255 {% endif %}
     - delay: 00:00:01
     - service: light.turn_on
-      entity_id: light.shelf_only_color_lights
+      entity_id: light.shelf_lights
       data_template:
         brightness: >
-         {% if state_attr('light.shelf_only_color_lights' , 'brightness') < 230 %}
-           {{ state_attr('light.shelf_only_color_lights' , 'brightness') + 25 }}
+         {% if state_attr('light.shelf_lights' , 'brightness') < 230 %}
+           {{ state_attr('light.shelf_lights' , 'brightness') + 25 }}
          {% else %} 255 {% endif %}
     - delay: 00:00:01
     - service: light.turn_on
-      entity_id: light.shelf_only_color_lights
+      entity_id: light.shelf_lights
       data_template:
         brightness: >
-         {% if state_attr('light.shelf_only_color_lights' , 'brightness') < 230 %}
-           {{ state_attr('light.shelf_only_color_lights' , 'brightness') + 25 }}
+         {% if state_attr('light.shelf_lights' , 'brightness') < 230 %}
+           {{ state_attr('light.shelf_lights' , 'brightness') + 25 }}
          {% else %} 255 {% endif %}
     - delay: 00:00:01
     - service: light.turn_on
-      entity_id: light.shelf_only_color_lights
+      entity_id: light.shelf_lights
       data_template:
         brightness: >
-         {% if state_attr('light.shelf_only_color_lights' , 'brightness') < 230 %}
-           {{ state_attr('light.shelf_only_color_lights' , 'brightness') + 25 }}
+         {% if state_attr('light.shelf_lights' , 'brightness') < 230 %}
+           {{ state_attr('light.shelf_lights' , 'brightness') + 25 }}
          {% else %} 255 {% endif %}
     - delay: 00:00:01
     - service: light.turn_on
-      entity_id: light.shelf_only_color_lights
+      entity_id: light.shelf_lights
       data_template:
         brightness: >
-         {% if state_attr('light.shelf_only_color_lights' , 'brightness') < 230 %}
-           {{ state_attr('light.shelf_only_color_lights' , 'brightness') + 25 }}
+         {% if state_attr('light.shelf_lights' , 'brightness') < 230 %}
+           {{ state_attr('light.shelf_lights' , 'brightness') + 25 }}
          {% else %} 255 {% endif %}
     - delay: 00:00:01
     - service: light.turn_on
-      entity_id: light.shelf_only_color_lights
+      entity_id: light.shelf_lights
       data_template:
         brightness: >
-         {% if state_attr('light.shelf_only_color_lights' , 'brightness') < 230 %}
-           {{ state_attr('light.shelf_only_color_lights' , 'brightness') + 25 }}
+         {% if state_attr('light.shelf_lights' , 'brightness') < 230 %}
+           {{ state_attr('light.shelf_lights' , 'brightness') + 25 }}
          {% else %} 255 {% endif %}
     - delay: 00:00:01
     - service: light.turn_on
-      entity_id: light.shelf_only_color_lights
+      entity_id: light.shelf_lights
       data_template:
         brightness: >
-         {% if state_attr('light.shelf_only_color_lights' , 'brightness') < 230 %}
-           {{ state_attr('light.shelf_only_color_lights' , 'brightness') + 25 }}
+         {% if state_attr('light.shelf_lights' , 'brightness') < 230 %}
+           {{ state_attr('light.shelf_lights' , 'brightness') + 25 }}
          {% else %} 255 {% endif %}
 
 decrement_light:
   alias: Shelf Lights Brighten
   sequence:
     - service: light.turn_on
-      entity_id: light.shelf_only_color_lights
+      entity_id: light.shelf_lights
       data_template:
         brightness: >
-         {% if state_attr('light.shelf_only_color_lights' , 'brightness') > 25 %}
-           {{ state_attr('light.shelf_only_color_lights' , 'brightness') - 25 }}
+         {% if state_attr('light.shelf_lights' , 'brightness') > 25 %}
+           {{ state_attr('light.shelf_lights' , 'brightness') - 25 }}
          {% else %} 1 {% endif %}
     - delay: 00:00:01
     - service: light.turn_on
-      entity_id: light.shelf_only_color_lights
+      entity_id: light.shelf_lights
       data_template:
         brightness: >
-         {% if state_attr('light.shelf_only_color_lights' , 'brightness') > 25 %}
-           {{ state_attr('light.shelf_only_color_lights' , 'brightness') - 25 }}
+         {% if state_attr('light.shelf_lights' , 'brightness') > 25 %}
+           {{ state_attr('light.shelf_lights' , 'brightness') - 25 }}
          {% else %} 1 {% endif %}
     - delay: 00:00:01
     - service: light.turn_on
-      entity_id: light.shelf_only_color_lights
+      entity_id: light.shelf_lights
       data_template:
         brightness: >
-         {% if state_attr('light.shelf_only_color_lights' , 'brightness') > 25 %}
-           {{ state_attr('light.shelf_only_color_lights' , 'brightness') - 25 }}
+         {% if state_attr('light.shelf_lights' , 'brightness') > 25 %}
+           {{ state_attr('light.shelf_lights' , 'brightness') - 25 }}
          {% else %} 1 {% endif %}
     - delay: 00:00:01
     - service: light.turn_on
-      entity_id: light.shelf_only_color_lights
+      entity_id: light.shelf_lights
       data_template:
         brightness: >
-         {% if state_attr('light.shelf_only_color_lights' , 'brightness') > 25 %}
-           {{ state_attr('light.shelf_only_color_lights' , 'brightness') - 25 }}
+         {% if state_attr('light.shelf_lights' , 'brightness') > 25 %}
+           {{ state_attr('light.shelf_lights' , 'brightness') - 25 }}
          {% else %} 1 {% endif %}
     - delay: 00:00:01
     - service: light.turn_on
-      entity_id: light.shelf_only_color_lights
+      entity_id: light.shelf_lights
       data_template:
         brightness: >
-         {% if state_attr('light.shelf_only_color_lights' , 'brightness') > 25 %}
-           {{ state_attr('light.shelf_only_color_lights' , 'brightness') - 25 }}
+         {% if state_attr('light.shelf_lights' , 'brightness') > 25 %}
+           {{ state_attr('light.shelf_lights' , 'brightness') - 25 }}
          {% else %} 1 {% endif %}
     - delay: 00:00:01
     - service: light.turn_on
-      entity_id: light.shelf_only_color_lights
+      entity_id: light.shelf_lights
       data_template:
         brightness: >
-         {% if state_attr('light.shelf_only_color_lights' , 'brightness') > 25 %}
-           {{ state_attr('light.shelf_only_color_lights' , 'brightness') - 25 }}
+         {% if state_attr('light.shelf_lights' , 'brightness') > 25 %}
+           {{ state_attr('light.shelf_lights' , 'brightness') - 25 }}
          {% else %} 1 {% endif %}
     - delay: 00:00:01
     - service: light.turn_on
-      entity_id: light.shelf_only_color_lights
+      entity_id: light.shelf_lights
       data_template:
         brightness: >
-         {% if state_attr('light.shelf_only_color_lights' , 'brightness') > 25 %}
-           {{ state_attr('light.shelf_only_color_lights' , 'brightness') - 25 }}
+         {% if state_attr('light.shelf_lights' , 'brightness') > 25 %}
+           {{ state_attr('light.shelf_lights' , 'brightness') - 25 }}
          {% else %} 1 {% endif %}
     - delay: 00:00:01
     - service: light.turn_on
-      entity_id: light.shelf_only_color_lights
+      entity_id: light.shelf_lights
       data_template:
         brightness: >
-         {% if state_attr('light.shelf_only_color_lights' , 'brightness') > 25 %}
-           {{ state_attr('light.shelf_only_color_lights' , 'brightness') - 25 }}
+         {% if state_attr('light.shelf_lights' , 'brightness') > 25 %}
+           {{ state_attr('light.shelf_lights' , 'brightness') - 25 }}
          {% else %} 1 {% endif %}
     - delay: 00:00:01
     - service: light.turn_on
-      entity_id: light.shelf_only_color_lights
+      entity_id: light.shelf_lights
       data_template:
         brightness: >
-         {% if state_attr('light.shelf_only_color_lights' , 'brightness') > 25 %}
-           {{ state_attr('light.shelf_only_color_lights' , 'brightness') - 25 }}
+         {% if state_attr('light.shelf_lights' , 'brightness') > 25 %}
+           {{ state_attr('light.shelf_lights' , 'brightness') - 25 }}
          {% else %} 1 {% endif %}
     - delay: 00:00:01
     - service: light.turn_on
-      entity_id: light.shelf_only_color_lights
+      entity_id: light.shelf_lights
       data_template:
         brightness: >
-         {% if state_attr('light.shelf_only_color_lights' , 'brightness') > 25 %}
-           {{ state_attr('light.shelf_only_color_lights' , 'brightness') - 25 }}
+         {% if state_attr('light.shelf_lights' , 'brightness') > 25 %}
+           {{ state_attr('light.shelf_lights' , 'brightness') - 25 }}
          {% else %} 1 {% endif %}
          
 ##########################################
@@ -310,8 +310,8 @@ fireplace_toggle:
 ## For Sending Emails                   ##
 ##########################################
 
-sms_notify_with_images:
-  alias: SMS Notify with Images
+notify_with_images:
+  alias: Notify with Images
   sequence:
   - condition: template
     value_template: "{{ condition }}"

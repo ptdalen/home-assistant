@@ -207,10 +207,10 @@ switch.lava_lamp_plug:
 switch.fireplace:
   emulated_hue_hidden: false
   icon: mdi:fire
-light.living_room_lamp_one:
+light.dining_room_lamp:
   icon: mdi:lamp
   emulated_hue_hidden: false
-light.living_room_lamp_two:
+light.living_room_lamp:
   icon: mdi:lamp
   emulated_hue_hidden: false
 light.left_shelf_lights:
@@ -225,6 +225,8 @@ light.right_shelf_lights:
 input_boolean.fireplace_toggle:
   emulated_hue_hidden: false
   icon: mdi:fire
+light.shelf_only_color_lights:
+  emulated_hue_hidden: false
 light.bedroom_tv_lights:
   icon: bha:led-strip
 light.frog_couch_backlight:

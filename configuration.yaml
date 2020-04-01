@@ -37,6 +37,10 @@ duckdns:
   domain: !secret ha_domain_name
   access_token: !secret duckdns_access_token
 
+spotify:
+  client_id: 0fc021fc3f3f4efea3dbbc23a483bb39
+  client_secret: 21947ba4f17c420eb68c18128f85adce
+
 #logger:
 #  default: critical
   
@@ -45,12 +49,12 @@ tts:
   - platform: google_translate
     service_name: google_say
     
-#withings:
-#  client_id: !secret withings_id
-#  client_secret: !secret withings_secret
-#  profiles:
-#    - paul
-#    - tracy
+withings:
+  client_id: !secret withings_id
+  client_secret: !secret withings_secret
+  profiles:
+    - paul
+    - tracy
     
 recorder:
   purge_interval: 1
@@ -58,6 +62,11 @@ recorder:
   db_url: !secret maria_db_info
 
 device_tracker:
+  - platform: asuswrt
+    consider_home: 180
+    new_device_defaults:
+      track_new_devices: false
+#      hide_if_away: false
   - platform: google_maps
     username: !secret notificationemail
     max_gps_accuracy: 150
@@ -65,13 +74,15 @@ device_tracker:
     name: Paul_All
     entity_id:
       - device_tracker.life360_paul
+#      - device_tracker.pauls_iphone
       - device_tracker.google_maps_118013912887885302155
   - platform: composite
     name: Tracy_All
     entity_id:
       - device_tracker.life360_tracy
+#      - device_tracker.tracys_iphone
       - device_tracker.google_maps_116112519745623760034
-
+     
 asuswrt:
     host: !secret router_ip
     username: !secret router_user
@@ -82,6 +93,12 @@ emulated_hue:
   host_ip: 192.168.1.12
   expose_by_default: false
 
+hue:
+  bridges:
+    - host: 192.168.1.52
+      allow_unreachable: true
+      allow_hue_groups: true
+
 homekit:
   filter:
     include_entities:
@@ -89,14 +106,17 @@ homekit:
       - input_boolean.tracy_present
       - input_boolean.theater_room_tv_power
       - input_boolean.bedroom_tv_power
+      - cover.garage_door_opener
+
+mobile_app:
 
 discovery:
   enable:
 #    - homekit
   ignore:
-    - philips_hue
+#    - philips_hue
     - apple_tv
-    - plex_mediaserver
+    #- plex_mediaserver
     - igd
     
 google:
@@ -115,7 +135,11 @@ remote:
 
 ifttt:
   key: !secret ifttt_key
-  
+
+mqtt:
+  broker: 192.168.1.12
+  username: !secret mqtt_username
+  password: !secret mqtt_password
 #ecobee:
 #  api_key: !secret ecobee_api_key
   
@@ -131,14 +155,14 @@ media_player:
     mac: 04:5D:4B:AA:70:89
     amp: True
     android: True
-  - platform: vizio
-    host: 192.168.1.82
-    access_token: Z6xoq7pviz
-    name: Theater Room TV Control
-  - platform: vizio
-    host: 192.168.1.84
-    access_token: Zbo7pxfs55
-    name: Bedroom TV Control
+#  - platform: vizio
+#    host: 192.168.1.82
+#    access_token: Z6xoq7pviz
+#    name: Theater Room TV Control
+#  - platform: vizio
+#    host: 192.168.1.84
+#    access_token: Zbo7pxfs55
+#    name: Bedroom TV Control
   - platform: braviatv
     host: 192.168.1.80
 
@@ -174,8 +198,8 @@ input_number:
     max: 10
 
 shell_command:
-  car_lock: python3 /home/homeassistant/.homeassistant/python_scripts/lock_car.py
-  car_start: python3 /home/homeassistant/.homeassistant/python_scripts/start_car.py
+  car_lock: python3.7 /home/homeassistant/.homeassistant/python_scripts/lock_car.py
+  car_start: python3.7 /home/homeassistant/.homeassistant/python_scripts/start_car.py
   
 # Zigbee
 zha:
@@ -183,56 +207,8 @@ zha:
   database_path: /home/homeassistant/.homeassistant/zigbee.db
 
 # Zwave
-zwave:
-  usb_path: /dev/ttyUSB0
-  network_key: !secret zwave_network_key
-  autoheal: false
-  polling_interval: 10000
-  device_config:
-    light.bedroom_ceiling_light:
-      polling_intensity: 1
-      refresh_value: True
-      delay: 3
-    light.frog_ceiling_light:
-      polling_intensity: 1
-      refresh_value: True
-      delay: 3
-    light.hallway_light:
-      polling_intensity: 1
-      refresh_value: True
-      delay: 3
-    light.frog_fan_light:
-      polling_intensity: 1
-      refresh_value: True
-      delay: 3
-    light.kitchen_counter_light:
-      polling_intensity: 1
-      refresh_value: True
-      delay: 3
-    light.kitchen_island_light:
-      polling_intensity: 1
-      refresh_value: True
-      delay: 3
-    light.living_room_ceiling_light:
-      polling_intensity: 1
-      refresh_value: True
-      delay: 3
-    light.living_room_fan_light:
-      polling_intensity: 1
-      refresh_value: True
-      delay: 3
-    light.guest_bedroom_light:
-      polling_intensity: 1
-      refresh_value: True
-      delay: 3
-    light.ashleys_room_ceiling_light:
-      polling_intensity: 1
-      refresh_value: True
-      delay: 3
-    switch.fireplace:
-      polling_intensity: 1
-      refresh_value: True
-      delay: 4
+zwave: !include zwave.yaml
+
 circadian_lighting:
 
 switch:
@@ -256,58 +232,7 @@ panel_custom:
 
 stream:
 
-image_processing:
-  - platform: tensorflow
-    scan_interval: 20000
-    source:
-      - entity_id: camera.back_gate
-        name: back yard
-    file_out:
-      - "/home/homeassistant/.homeassistant/www/tmp/back_yard_latest.jpg"
-    model:
-      graph: /home/homeassistant/.homeassistant/tensorflow/faster_rcnn_inception_v2_coco_2018_01_28/frozen_inference_graph.pb
-      categories:
-        - category: person
-          area:
-            top: 0.20
-            right: 0.90
-            left: 0.30
-        - category: car
-          area:
-            top: 0.15
-            right: 0.88
-            left: 0.38
-            bottom: 0.40
-        - category: truck
-          area:
-            top: 0.15
-            right: 0.88
-            left: 0.38
-            bottom: 0.40
-        - category: van
-          area:
-            top: 0.15
-            right: 0.88
-            left: 0.38
-            bottom: 0.40
-        - category: motorcycle
-          area:
-            top: 0.15
-            right: 0.88
-            left: 0.38
-            bottom: 0.40
-  - platform: tensorflow
-    scan_interval: 20000
-    source:
-      - entity_id: camera.front_door
-        name: front door
-    file_out:
-       - "/home/homeassistant/.homeassistant/www/tmp/front_door_latest.jpg"
-    model:
-      graph: /home/homeassistant/.homeassistant/tensorflow/faster_rcnn_inception_v2_coco_2018_01_28/frozen_inference_graph.pb
-      area:
-        # Exclude left 5% of image
-        left: 0.05
+image_processing: !include image_processing.yaml
 
 ios:
   push:
@@ -349,7 +274,7 @@ timer:
 logbook: !include logbook.yaml
 alexa: !include alexa.yaml
 notify: !include notify.yaml
-zone: !include zones.yaml
+#zone: !include zones.yaml
 binary_sensor: !include binary_sensors.yaml
 sensor: !include sensors.yaml
 input_select: !include input_selects.yaml

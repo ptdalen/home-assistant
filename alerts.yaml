@@ -8,8 +8,8 @@
     can_acknowledge: True
     skip_first: True
     notifiers:
-      - ios_pauls_iphone
-      - ios_tracys_iphone
+      - mobile_app_pauls_iphone
+      - mobile_app_tracys_iphone
 
   garage_fridge_temp:
     name: Garage Fridge temp above 40 degreees
@@ -23,7 +23,7 @@
     can_acknowledge: True
     skip_first: True
     notifiers:
-      - ios_pauls_iphone
+      - mobile_app_pauls_iphone
 
   water_leak_attic:
     name: Water Sensor in Attic reporting leak
@@ -33,9 +33,9 @@
     repeat: 5
     can_acknowledge: True
     notifiers:
-      - ios_pauls_iphone
+      - mobile_app_pauls_iphone
       - sony_tv
-      - ios_tracys_iphone
+      - mobile_app_tracys_iphone
 
   water_leak_kitchen:
     name: Water Sensor under the Kitchen Sing Reporting a leak
@@ -45,9 +45,9 @@
     repeat: 5
     can_acknowledge: True
     notifiers:
-      - ios_pauls_iphone
+      - mobile_app_pauls_iphone
       - sony_tv
-      - ios_tracys_iphone
+      - mobile_app_tracys_iphone
       
   smoke_detector_smoke_attic:
     name: Attic Smoke Alarm - Smoke Detected
@@ -57,8 +57,8 @@
     repeat: 5
     can_acknowledge: True
     notifiers:
-      - ios_pauls_iphone
-      - ios_tracys_iphone
+      - mobile_app_pauls_iphone
+      - mobile_app_tracys_iphone
       - sony_tv
 
   smoke_detector_co2_attic:
@@ -69,8 +69,8 @@
     repeat: 5
     can_acknowledge: True
     notifiers:
-      - ios_pauls_iphone
-      - ios_tracys_iphone
+      - mobile_app_pauls_iphone
+      - mobile_app_tracys_iphone
       - sony_tv
       
   smoke_detector_test_attic:
@@ -81,8 +81,8 @@
     repeat: 5
     can_acknowledge: True
     notifiers:
-      - ios_pauls_iphone
-      - ios_tracys_iphone
+      - mobile_app_pauls_iphone
+      - mobile_app_tracys_iphone
       - sony_tv
 
   front_door:
@@ -96,8 +96,8 @@
     can_acknowledge: True
     skip_first: True
     notifiers:
-      - ios_pauls_iphone
-      - ios_tracys_iphone
+      - mobile_app_pauls_iphone
+      - mobile_app_tracys_iphone
 
   back_door:
     name: Back Door is open
@@ -110,8 +110,8 @@
     can_acknowledge: True
     skip_first: True
     notifiers:
-      - ios_pauls_iphone
-      - ios_tracys_iphone
+      - mobile_app_pauls_iphone
+      - mobile_app_tracys_iphone
 
   garage_door_door:
     name: Door to the Garage is open
@@ -124,5 +124,5 @@
     can_acknowledge: True
     skip_first: True
     notifiers:
-      - ios_pauls_iphone
-      - ios_tracys_iphone
+      - mobile_app_pauls_iphone
+      - mobile_app_tracys_iphone

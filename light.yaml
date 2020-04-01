@@ -1,44 +1,44 @@
-- platform: group
-  name: All Downstairs Color Lights
-  entities:
-    - light.left_shelf_lights
-    - light.tv_backlights
-    - light.right_shelf_lights
-    - light.kitchen_cabinet_tops
-    - light.kitchen_cabinet_bottoms
-    - light.living_room_lamp_one
-    - light.living_room_lamp_two
-    - light.alcove_light
-- platform: group
-  name: Living Room Color Lights
-  entities:
-    - light.left_shelf_lights
-    - light.tv_backlights
-    - light.right_shelf_lights
-    - light.living_room_lamp_one
-    - light.living_room_lamp_two
-- platform: group
-  name: Kitchen Color Lights
-  entities:
-    - light.kitchen_cabinet_tops
-    - light.kitchen_cabinet_bottoms
-    - light.alcove_light
-- platform: group
-  name: Shelf Color Lights
-  entities:
-    - light.left_shelf_lights
-    - light.tv_backlights
-    - light.right_shelf_lights
-- platform: group
-  name: Shelf Only Color Lights
-  entities:
-    - light.left_shelf_lights
-    - light.right_shelf_lights
-- platform: group
-  name: Kitchen Cabinet Color Lights
-  entities:
-    - light.kitchen_cabinet_tops
-    - light.kitchen_cabinet_bottoms
+#- platform: group
+#  name: All Downstairs Color Lights
+#  entities:
+#    - light.left_shelf_lights
+#    - light.tv_backlights
+#    - light.right_shelf_lights
+#    - light.kitchen_cabinet_tops
+#    - light.kitchen_cabinet_bottoms
+#    - light.living_room_lamp_one
+#    - light.living_room_lamp_two
+#    - light.alcove_light
+#- platform: group
+#  name: Living Room Color Lights
+#  entities:
+#    - light.left_shelf_lights
+#    - light.tv_backlights
+#    - light.right_shelf_lights
+#    - light.living_room_lamp_one
+#    - light.living_room_lamp_two
+#- platform: group
+#  name: Kitchen Color Lights
+#  entities:
+#    - light.kitchen_cabinet_tops
+#    - light.kitchen_cabinet_bottoms
+#    - light.alcove_light
+#- platform: group
+#  name: Shelf Color Lights
+#  entities:
+#    - light.left_shelf_lights
+#    - light.tv_backlights
+#    - light.right_shelf_lights
+#- platform: group
+#  name: Shelf Only Color Lights
+#  entities:
+#    - light.left_shelf_lights
+#    - light.right_shelf_lights
+#- platform: group
+#  name: Kitchen Cabinet Color Lights
+#  entities:
+#    - light.kitchen_cabinet_tops
+#    - light.kitchen_cabinet_bottoms
 - platform: group
   name: goodnight hue lights
   entities:

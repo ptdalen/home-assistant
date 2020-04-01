@@ -62,5 +62,6 @@ vacation_mode:
 fireplace_toggle:
   name: fireplace toggle
   icon: mdi:fire
-frontdoor_motion:
-  name: Front Door Motion Detected
+working_from_home:
+  name: Working From Home
+  icon: mdi:home

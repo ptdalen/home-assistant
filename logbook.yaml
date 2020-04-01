@@ -31,16 +31,18 @@
       - binary_sensor.open_close_sensor_livingroom_window_back
       - binary_sensor.open_close_sensor_livingroom_window_front
       - binary_sensor.open_close_sensor_office_window
+      - binary_sensor.hue_outdoor_motion_sensor_motion
 #      - binary_sensor.motion_sensor_hallway_motion
 #      - binary_sensor.driveway_1_line_crossing
 #      - binary_sensor.driveway_2_line_crossing
 #      - binary_sensor.garage_fridge_cold
 #      - binary_sensor.motion_sensor_front_door
 #      - binary_sensor.sideyard_line_crossing
+      - input_boolean.guests_present
       - binary_sensor.water_sensor_attic
       - binary_sensor.water_sensor_kitchen
       - cover.garage_door_opener
-      - device_tracker.paul_all
+      - person.paul
       - device_tracker.life360_paul
       - device_tracker.google_maps_118013912887885302155
       - device_tracker.pauls_iphone
@@ -48,7 +50,7 @@
       - device_tracker.paulsiphone
       - binary_sensor.homekit_presence_paul
       - binary_sensor.paul_presence
-      - device_tracker.tracy_all
+      - person.tracy
       - device_tracker.life360_tracy
       - device_tracker.google_maps_116112519745623760034
       - device_tracker.tracys_iphone

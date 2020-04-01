@@ -35,12 +35,12 @@ sensor:
       - apparent_temperature_high
       - apparent_temperature_low
       - precip_type
-      - precip_accumulation
+#      - precip_accumulation
       - precip_intensity
-      - precip_intensity_max
-      - uv_index
-      - nearest_storm_distance
-      - nearest_storm_bearing
+#      - precip_intensity_max
+#      - uv_index
+#      - nearest_storm_distance
+#      - nearest_storm_bearing
 
     scan_interval:
       minutes: 5

@@ -10,28 +10,33 @@
         brightness: 191
         rgb_color: [164, 234, 255]
 
-      light.living_room_lamp_two:
+      light.living_room_lamp:
         state: off
       
-      light.living_room_lamp_one:
+      light.dining_room_lamp:
         state: on
         brightness: 190
         rgb_color: [255, 207, 120]
-      
-      light.left_shelf_lights:
+
+      light.tv_lights:
         state: on
         brightness: 71
         rgb_color: [246, 255, 254]
-      
-      light.tv_backlights:
-        state: on
-        brightness: 71
-        rgb_color: [246, 255, 254]
-        
-      light.right_shelf_lights:
-        state: on
-        brightness: 71
-        rgb_color: [246, 255, 254]
+
+#      light.left_shelf_lights:
+#        state: on
+#        brightness: 71
+#        rgb_color: [246, 255, 254]
+#      
+#      light.tv_backlights:
+#        state: on
+#        brightness: 71
+#        rgb_color: [246, 255, 254]
+#        
+#      light.right_shelf_lights:
+#        state: on
+#        brightness: 71
+#        rgb_color: [246, 255, 254]
            
       light.alcove_light:
         state: on
@@ -46,38 +51,38 @@
 
   - name: Evening Lighting
     entities:
-      light.kitchen_cabinet_bottoms:
+      light.kitchen_cabinets:
+        state: on
+        brightness: 254
+        rgb_color: [255, 240, 198]
+            
+      light.living_room_lamp:
         state: on
         brightness: 254
         rgb_color: [255, 240, 198]
       
-      light.kitchen_cabinet_tops:
+      light.dining_room_lamp:
         state: on
         brightness: 254
         rgb_color: [255, 240, 198]
       
-      light.living_room_lamp_one:
-        state: on
-        brightness: 254
-        rgb_color: [255, 240, 198]
-      
-      light.living_room_lamp_two:
-        state: on
-        brightness: 254
-        rgb_color: [255, 240, 198]
-      
-      light.left_shelf_lights:
+      light.shelf_lights:
         state: on
         brightness: 166
         rgb_color: [255, 240, 198]
+
+#      light.left_shelf_lights:
+#        state: on
+#        brightness: 166
+#        rgb_color: [255, 240, 198]
       
       light.tv_backlights:
         state: off
       
-      light.right_shelf_lights:
-        state: on
-        brightness: 166
-        rgb_color: [255, 240, 198]
+#      light.right_shelf_lights:
+#        state: on
+#        brightness: 166
+#        rgb_color: [255, 240, 198]
       
       light.alcove_light:
         state: on
@@ -92,37 +97,37 @@
 
   - name: Morning Lighting
     entities:
-      light.kitchen_cabinet_bottoms:
+      light.kitchen_cabinets:
         state: on
         brightness: 254
         rgb_color: [255, 240, 198]
 
-      light.kitchen_cabinet_tops:
-        state: on
-        brightness: 254
-        rgb_color: [255, 240, 198]
-
-      light.left_shelf_lights:
+      light.shelf_lights:
         state: on
         brightness: 166
         rgb_color: [255, 240, 198]
 
-      light.right_shelf_lights:
-        state: on
-        brightness: 166
-        rgb_color: [255, 240, 198]
+#      light.left_shelf_lights:
+#        state: on
+#        brightness: 166
+#        rgb_color: [255, 240, 198]
+#
+#      light.right_shelf_lights:
+#        state: on
+#        brightness: 166
+#        rgb_color: [255, 240, 198]
 
       light.tv_backlights:
         state: off
 
-      light.living_room_lamp_one:
+      light.living_room_lamp:
         state: off
       
-      light.living_room_lamp_two:
+      light.dining_room_lamp:
         state: off
 
-      light.alcove_light:
-        state: off
+#      light.alcove_light:
+#        state: off
 
   - name: Casual Lighting
     entities:
@@ -136,33 +141,38 @@
         brightness: 191
         rgb_color: [164, 234, 255]
       
-      light.living_room_lamp_one:
+      light.living_room_lamp:
         state: on
         brightness: 190
         rgb_color: [255, 207, 120]
       
-      light.living_room_lamp_two:
+      light.dining_room_lamp:
         state: on
         brightness: 190
         rgb_color: [255, 207, 120]
-      
-      light.left_shelf_lights:
+
+      light.shelf_lights:
         state: on
         brightness: 166
         rgb_color: [255, 240, 198]
+
+#      light.left_shelf_lights:
+#        state: on
+#        brightness: 166
+#        rgb_color: [255, 240, 198]
       
       light.tv_backlights:
         state: off
       
-      light.right_shelf_lights:
-        state: on
-        brightness: 166
-        rgb_color: [255, 240, 198]
+#      light.right_shelf_lights:
+#        state: on
+#        brightness: 166
+#        rgb_color: [255, 240, 198]
       
       light.alcove_light:
         state: on
-        brightness: 150
-        color_temp: 444
+        brightness: 116
+        rgb_color: [255, 239, 87]
 
       light.sconce_light:
         state: on
@@ -182,12 +192,12 @@
         transition: 15
         effect: colorloop
       
-      light.living_room_lamp_one:
+      light.living_room_lamp:
         state: on
         transition: 15
         effect: colorloop
       
-      light.living_room_lamp_two:
+      light.dining_room_lamp:
         state: on
         transition: 15
         effect: colorloop
@@ -224,33 +234,42 @@
         brightness: 25
         rgb_color: [164, 234, 255]
       
-      light.living_room_lamp_one:
+      light.living_room_lamp:
         state: on
         brightness: 25
         rgb_color: [255, 207, 120]
       
-      light.living_room_lamp_two:
+      light.dining_room_lamp:
         state: on
         brightness: 25
         rgb_color: [255, 207, 120]
       
-      light.left_shelf_lights:
+      light.shelf_lights:
         state: on
         brightness: 25
         rgb_color: [255, 240, 198]
+        
+#      light.left_shelf_lights:
+#        state: on
+#        brightness: 25
+#        rgb_color: [255, 240, 198]
       
       light.tv_backlights:
         state: off
       
-      light.right_shelf_lights:
-        state: on
-        brightness: 25
-        rgb_color: [255, 240, 198]
+#      light.right_shelf_lights:
+#        state: on
+#        brightness: 25
+#        rgb_color: [255, 240, 198]
       
       light.alcove_light:
         state: on
         brightness: 25
-        color_temp: 444
+        rgb_color: [255, 240, 198]
+        
+      light.office_lamp_two:
+        state: on
+        brightness: 25
 
   - name: Downstairs All Off
     entities:
@@ -260,65 +279,71 @@
       light.kitchen_cabinet_tops:
         state: off
       
-      light.living_room_lamp_one:
+      light.living_room_lamp:
         state: off
       
-      light.living_room_lamp_two:
+      light.dining_room_lamp:
         state: off
-      
-      light.left_shelf_lights:
+
+      light.tv_lights:
         state: off
-      
-      light.tv_backlights:
-        state: off
-      
-      light.right_shelf_lights:
-        state: off
+        
+#      light.left_shelf_lights:
+#        state: off
+#      
+#      light.tv_backlights:
+#        state: off
+#      
+#      light.right_shelf_lights:
+#        state: off
       
       light.alcove_light:
         state: off
+        
+      light.office_lamp_two:
+        state: off
 
   - name: Shelf Lights on
-    entities:           
-      light.left_shelf_lights:
+    entities:
+      light.shelf_lights:
         state: on
         brightness: 166
         rgb_color: [255, 240, 198]
-            
-      light.right_shelf_lights:
-        state: on
-        brightness: 166
-        rgb_color: [255, 240, 198]
+        
+#      light.left_shelf_lights:
+#        state: on
+#        brightness: 166
+#        rgb_color: [255, 240, 198]
+#            
+#      light.right_shelf_lights:
+#        state: on
+#        brightness: 166
+#        rgb_color: [255, 240, 198]
 
   - name: Shelf Lights Off
-    entities:           
-      light.left_shelf_lights:
+    entities:
+      light.tv_lights:
         state: off
-      
-      light.tv_backlights:
-        state: off
-      
-      light.right_shelf_lights:
-        state: off
+
+#      light.left_shelf_lights:
+#        state: off
+#      
+#      light.tv_backlights:
+#        state: off
+#      
+#      light.right_shelf_lights:
+#        state: off
 
   - name: Kitchen Cabinets On
     entities:
-      light.kitchen_cabinet_bottoms:
-        state: on
-        brightness: 254
-        rgb_color: [255, 240, 198]
-
-      light.kitchen_cabinet_tops:
+      light.kitchen_cabinets:
         state: on
         brightness: 254
         rgb_color: [255, 240, 198]
 
   - name: Kitchen Cabinets Off
     entities:
-      light.kitchen_cabinet_bottoms:
-        state: off
-
-      light.kitchen_cabinet_tops:
+      light.kitchen_cabinets:
         state: off
   
   - name: Best of the Week

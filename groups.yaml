@@ -1,13 +1,13 @@
 livingroom:
   name: Living Room
-  view: no
-  control: hidden
+#  view: no
+#  control: hidden
   entities:
     - light.left_shelf_lights
     - light.living_room_ceiling_light
     - light.living_room_fan_light
-    - light.living_room_lamp_one
-    - light.living_room_lamp_two
+    - light.living_room_lamp
+    - light.dining_room_lamp
     - light.right_shelf_lights
     - light.tv_backlights
     - fan.living_room_fan
@@ -24,8 +24,8 @@ livingroom:
 
 kitchen_office:
   name: Kitchen and Office
-  view: no
-  control: hidden
+#  view: no
+#  control: hidden
   entities:
     - light.alcove_light
     - light.kitchen_cabinet_bottoms
@@ -39,8 +39,8 @@ kitchen_office:
 
 master_bedroom:
   name: Master Bedroom
-  view: no
-  control: hidden
+#  view: no
+#  control: hidden
   entities:
     - light.bedroom_ceiling_light
     - light.bedroom_lamp_one
@@ -53,8 +53,8 @@ master_bedroom:
 
 guest_rooms:
   name: Master Bedroom
-  view: no
-  control: hidden
+#  view: no
+#  control: hidden
   entities:
     - light.ashleys_room_ceiling_light
     - light.ashleys_room_lamp
@@ -65,8 +65,8 @@ guest_rooms:
 
 theater_room:
   name: Theater Room
-  view: no
-  control: hidden
+#  view: no
+#  control: hidden
   entities:
     - light.frog_ceiling_light
     - light.frog_couch_backlight
@@ -80,8 +80,8 @@ theater_room:
 
 outdoor:
   name: Outdoors
-  view: no
-  control: hidden
+#  view: no
+#  control: hidden
   entities:
     - switch.back_porch_light
     - switch.front_porch_light
@@ -92,7 +92,7 @@ outdoor:
 
 outdoor_lights_sunset:
   name: Outdoor Lights for sunset
-  view: no
+#  view: no
   entities:
     - switch.rope_lights
     - switch.front_porch_light
@@ -101,7 +101,7 @@ outdoor_lights_sunset:
 
 goodbye_lights_and_switches:
   name: Turn off everything except outdoor lights
-  view: no
+#  view: no
   icon: mdi:lightbulb-outline
   entities:
     - group.livingroom
@@ -111,12 +111,12 @@ goodbye_lights_and_switches:
     - group.theater_room
 
 goodnight_lights_all:
-  view: no
+#  view: no
   icon: mdi:home-automation
   entities:
     - light.left_shelf_lights
-    - light.living_room_lamp_one
-    - light.living_room_lamp_two
+    - light.living_room_lamp
+    - light.dining_room_lamp
     - light.right_shelf_lights
     - light.tv_backlights
     - light.alcove_light
@@ -148,7 +148,7 @@ goodnight_lights_all:
     - remote.living_room_harmony_hub
 
 goodnight_zwave_lights:
-  view: no
+#  view: no
   icon: mdi:home-automation
   entities:
     - light.living_room_ceiling_light
@@ -162,7 +162,7 @@ goodnight_zwave_lights:
     - fan.living_room_fan
 
 goodnight_switches:
-  view: no
+#  view: no
   icon: mdi:home-automation
   entities:
     - switch.fireplace
@@ -176,7 +176,7 @@ goodnight_switches:
     - switch.zigbee_zwave_repeater_2
 
 goodnight_av:
-  view: no
+#  view: no
   icon: mdi:home-automation
   entities:
     - media_player.living_room
@@ -185,8 +185,8 @@ goodnight_av:
 
 indoor_motion_sensors:
   name: Motion Sensors
-  view: no
-  control: hidden
+#  view: no
+#  control: hidden
   entities:
     - binary_sensor.motion_sensor_frog
     - binary_sensor.motion_sensor_front_door_motion
@@ -199,7 +199,7 @@ indoor_motion_sensors:
 primary_presence:
   name: Primary Presence for Routines
   icon: mdi:account-multiple
-  view: no
+#  view: no
   entities:
     - binary_sensor.paul_presence
     - binary_sensor.tracy_presence
@@ -208,7 +208,7 @@ primary_presence:
 extra_device_trackers:
   name: Guest Presence Sensors
   icon: mdi:account-multiple
-  view: no
+#  view: no
   entities:
     - device_tracker.carolsiphone
     - device_tracker.jimsiphone
@@ -216,7 +216,7 @@ extra_device_trackers:
 
 router_connections:
   name: Things on the Network
-  view: no
+#  view: no
   icon: mdi:router-wireless
   entities:
     - device_tracker.pauls_iphone
@@ -236,7 +236,7 @@ router_connections:
 
 thermostats:
   name: Thermostats
-  view: No
+#  view: no
   icon: mdi:garage
   entities:
     - device_tracker.ecobee_downstairs
@@ -244,7 +244,7 @@ thermostats:
  
 all_echos:
   name: All Echos
-  view: No
+#  view: no
   entities: 
     - media_player.ashleysroom
     - media_player.bedroom
@@ -260,7 +260,7 @@ all_echos:
 
 main_echos:
   name: Main Echos
-  view: No
+#  view: no
   entities: 
     - media_player.bedroom
     - media_player.kitchen
@@ -269,7 +269,7 @@ main_echos:
 
 upstairs_echos:
   name: Upstairs Echos
-  view: No
+#  view: no
   entities: 
     - media_player.ashleysroom
     - media_player.bedroom
@@ -278,7 +278,7 @@ upstairs_echos:
 
 downstairs_echos:
   name: Downstairs Echos
-  view: No
+#  view: no
   entities: 
     - media_player.garage
     - media_player.kitchen

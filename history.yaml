@@ -41,8 +41,8 @@
       - sensor.security_system_state
       - sensor.house_mode
 #presense Sensor States
-      - device_tracker.paul_all
-      - device_tracker.tracy_all
+      - person.paul
+      - person.tracy
 #      - binary_sensor.paul_presence
 #      - binary_sensor.tracy_presence
 

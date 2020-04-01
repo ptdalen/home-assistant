@@ -1,0 +1,131 @@
+  usb_path: /dev/ttyUSB0
+  network_key: !secret zwave_network_key
+  autoheal: false
+  polling_interval: 10000
+  device_config:
+    light.bedroom_ceiling_light:
+      polling_intensity: 1
+      refresh_value: True
+      delay: 3
+    light.frog_ceiling_light:
+      polling_intensity: 1
+      refresh_value: True
+      delay: 3
+    light.hallway_light:
+      polling_intensity: 1
+      refresh_value: True
+      delay: 3
+    light.frog_fan_light:
+      polling_intensity: 1
+      refresh_value: True
+      delay: 3
+    light.kitchen_counter_light:
+      polling_intensity: 1
+      refresh_value: True
+      delay: 3
+    light.kitchen_island_light:
+      polling_intensity: 1
+      refresh_value: True
+      delay: 3
+    light.living_room_ceiling_light:
+      polling_intensity: 1
+      refresh_value: True
+      delay: 3
+    light.living_room_fan_light:
+      polling_intensity: 1
+      refresh_value: True
+      delay: 3
+    light.guest_bedroom_light:
+      polling_intensity: 1
+      refresh_value: True
+      delay: 3
+    light.ashleys_room_ceiling_light:
+      polling_intensity: 1
+      refresh_value: True
+      delay: 3
+    switch.fireplace:
+      polling_intensity: 1
+      refresh_value: True
+      delay: 4
+    sensor.office_lamp_two_previous_reading:
+      ignored: true
+    sensor.aeotec_dsc06106_smart_energy_switch_interval:
+      ignored: true
+    sensor.aeotec_dsc06106_smart_energy_switch_previous_reading:
+      ignored: true
+    sensor.office_lamp_two_interval:
+      ignored: true
+    sensor.office_lamp_two_exporting:
+      ignored: true
+    sensor.lava_lamp_two_previous_reading_2:
+      ignored: true
+    sensor.aeotec_dsc06106_smart_energy_switch_interval_2:
+      ignored: true
+    sensor.lava_lamp_two_previous_reading:
+      ignored: true
+    sensor.lava_lamp_two_interval:
+      ignored: true
+    sensor.lava_lamp_two_exporting_2:
+      ignored: true
+    sensor.garage_door_opener_remote_controller_sourcenodeid:
+      ignored: true
+    sensor.lock_front_door_deadbolt_sourcenodeid:
+      ignored: true
+    sensor.lock_front_door_deadbolt_access_control:
+      ignored: true
+    sensor.lock_front_door_deadbolt_system:
+      ignored: true
+    sensor.lock_back_door_deadbolt_sourcenodeid:
+      ignored: true
+    sensor.lock_back_door_deadbolt_access_control:
+      ignored: true
+    sensor.lock_back_door_deadbolt_system:
+      ignored: true
+    light.ge_26933_smart_motion_dimmer_level:
+      ignored: true
+    sensor.ge_26933_smart_motion_dimmer_alarm_type_2:
+      ignored: true
+    sensor.ge_26933_smart_motion_dimmer_alarm_level_2:
+      ignored: true
+    sensor.ge_26933_smart_motion_dimmer_sourcenodeid:
+      ignored: true
+    sensor.ge_26933_smart_motion_dimmer_alarm_type:
+      ignored: true
+    sensor.ge_26933_smart_motion_dimmer_alarm_level:
+      ignored: true
+    sensor.ge_26933_smart_motion_dimmer_sourcenodeid_2:
+      ignored: true
+    sensor.ge_26933_smart_motion_dimmer_burglar_2:
+      ignored: true
+    switch.ge_26931_smart_motion_switch_switch:
+      ignored: true
+    sensor.ge_26931_smart_motion_switch_alarm_type_2:
+      ignored: true
+    sensor.ge_26931_smart_motion_switch_alarm_level_2:
+      ignored: true
+    sensor.ge_26931_smart_motion_switch_sourcenodeid:
+      ignored: true
+    sensor.ge_26931_smart_motion_switch_alarm_type:
+      ignored: true
+    sensor.ge_26931_smart_motion_switch_alarm_level:
+      ignored: true
+    sensor.ge_26931_smart_motion_switch_sourcenodeid_2:
+      ignored: true
+    sensor.ge_26931_smart_motion_switch_burglar_2:
+      ignored: true
+    light.ge_26933_smart_motion_dimmer_level_2:
+      ignored: true
+    sensor.ge_26933_smart_motion_dimmer_alarm_type_4:
+      ignored: true
+    sensor.ge_26933_smart_motion_dimmer_alarm_level_4:
+      ignored: true
+    sensor.ge_26933_smart_motion_dimmer_sourcenodeid_3:
+      ignored: true
+    sensor.ge_26933_smart_motion_dimmer_alarm_type_3:
+      ignored: true
+    sensor.ge_26933_smart_motion_dimmer_alarm_level_3:
+      ignored: true
+    sensor.ge_26933_smart_motion_dimmer_sourcenodeid_4:
+      ignored: true
+    sensor.ge_26933_smart_motion_dimmer_burglar_3:
+      ignored: true

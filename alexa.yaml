@@ -80,4 +80,13 @@
         - binary_sensor.open_close_sensor_livingroom_window_back
         - binary_sensor.open_close_sensor_office_window
         - cover.garage_door_opener
+        - input_boolean.working_from_home
+        - climate.downstairs_2
+        - climate.upstairs_2
+        - sensor.living_room_temperature_2
+        - sensor.office_temperature_2
+        - sensor.master_bedroom_temperature_2
+        - sensor.ashleys_room_temperature_2
+        - sensor.guest_room_temperature_2
+        - sensor.frog_temperature_2
 #      exclude_entities:

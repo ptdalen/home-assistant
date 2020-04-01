@@ -222,7 +222,7 @@
        
      doors_unlocked:
        value_template: >
-         {% set locks = [ states.lock.lock_back_door_lock, states.lock.lock_front_door_lock, states.lock.lock_garage_door_lock ] %}
+         {% set locks = [ states.lock.back_door, states.lock.front_door, states.lock.garage_door ] %}
          {% set unlocked = locks | selectattr('state','eq','unlocked') | list %}
          {{ unlocked | length >= 1 }}
        friendly_name: 'Are doors unlocked?'
@@ -359,3 +359,9 @@
      prob_given_false: 0.3
      platform: 'state'
      to_state: 'home'
+
+# MQTT Sensors
+ - platform: mqtt
+   name: doorbell_motion
+   state_topic: "onvif2mqtt/Front Doorbell/motion"
+   device_class: motion

@@ -41,14 +41,3 @@ binary_sensor:
         device_class: safety
         entity_id:  sensor.motion_sensor_outdoor_burglar
       
-group:
-  motion_sensor_attic:
-    name: Outdoor MultiSensor
-    control: hidden
-    entities:
-      - binary_sensor.motion_sensor_outdoor_motion
-      - binary_sensor.motion_sensor_outdoor_tamper
-      - sensor.motion_sensor_outdoor_luminance
-      - sensor.motion_sensor_outdoor_relative_humidity
-      - sensor.motion_sensor_outdoor_temperature
-      - sensor.motion_sensor_outdoor_battery
