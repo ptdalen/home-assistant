@@ -1,375 +1,496 @@
-  - name: TV Lights
-    entities:
-      light.kitchen_cabinet_bottoms:
-        state: on
-        brightness: 152
-        rgb_color: [255, 240, 198]
-       
-      light.kitchen_cabinet_tops:
-        state: on
-        brightness: 191
-        rgb_color: [164, 234, 255]
-
-      light.living_room_lamp:
-        state: off
-      
-      light.dining_room_lamp:
-        state: on
-        brightness: 190
-        rgb_color: [255, 207, 120]
-
-      light.tv_lights:
-        state: on
-        brightness: 71
-        rgb_color: [246, 255, 254]
-
-#      light.left_shelf_lights:
-#        state: on
-#        brightness: 71
-#        rgb_color: [246, 255, 254]
-#      
-#      light.tv_backlights:
-#        state: on
-#        brightness: 71
-#        rgb_color: [246, 255, 254]
-#        
-#      light.right_shelf_lights:
-#        state: on
-#        brightness: 71
-#        rgb_color: [246, 255, 254]
-           
-      light.alcove_light:
-        state: on
-        brightness: 150
-        color_temp: 444
-
-      light.sconce_light:
-        state: on
-
-      light.christmas_tree:
-        state: on
-
-  - name: Evening Lighting
-    entities:
-      light.kitchen_cabinets:
-        state: on
-        brightness: 254
-        rgb_color: [255, 240, 198]
-            
-      light.living_room_lamp:
-        state: on
-        brightness: 254
-        rgb_color: [255, 240, 198]
-      
-      light.dining_room_lamp:
-        state: on
-        brightness: 254
-        rgb_color: [255, 240, 198]
-      
-      light.shelf_lights:
-        state: on
-        brightness: 166
-        rgb_color: [255, 240, 198]
-
-#      light.left_shelf_lights:
-#        state: on
-#        brightness: 166
-#        rgb_color: [255, 240, 198]
-      
-      light.tv_backlights:
-        state: off
-      
-#      light.right_shelf_lights:
-#        state: on
-#        brightness: 166
-#        rgb_color: [255, 240, 198]
-      
-      light.alcove_light:
-        state: on
-        brightness: 150
-        color_temp: 444
-
-      light.sconce_light:
-        state: on
-
-      light.christmas_tree:
-        state: on
-
-  - name: Morning Lighting
-    entities:
-      light.kitchen_cabinets:
-        state: on
-        brightness: 254
-        rgb_color: [255, 240, 198]
-
-      light.shelf_lights:
-        state: on
-        brightness: 166
-        rgb_color: [255, 240, 198]
-
-#      light.left_shelf_lights:
-#        state: on
-#        brightness: 166
-#        rgb_color: [255, 240, 198]
-#
-#      light.right_shelf_lights:
-#        state: on
-#        brightness: 166
-#        rgb_color: [255, 240, 198]
-
-      light.tv_backlights:
-        state: off
-
-      light.living_room_lamp:
-        state: off
-      
-      light.dining_room_lamp:
-        state: off
-
-#      light.alcove_light:
-#        state: off
-
-  - name: Casual Lighting
-    entities:
-      light.kitchen_cabinet_bottoms:
-        state: on
-        brightness: 152
-        rgb_color: [255, 240, 198]
-       
-      light.kitchen_cabinet_tops:
-        state: on
-        brightness: 191
-        rgb_color: [164, 234, 255]
-      
-      light.living_room_lamp:
-        state: on
-        brightness: 190
-        rgb_color: [255, 207, 120]
-      
-      light.dining_room_lamp:
-        state: on
-        brightness: 190
-        rgb_color: [255, 207, 120]
-
-      light.shelf_lights:
-        state: on
-        brightness: 166
-        rgb_color: [255, 240, 198]
-
-#      light.left_shelf_lights:
-#        state: on
-#        brightness: 166
-#        rgb_color: [255, 240, 198]
-      
-      light.tv_backlights:
-        state: off
-      
-#      light.right_shelf_lights:
-#        state: on
-#        brightness: 166
-#        rgb_color: [255, 240, 198]
-      
-      light.alcove_light:
-        state: on
-        brightness: 116
-        rgb_color: [255, 239, 87]
-
-      light.sconce_light:
-        state: on
-
-      light.christmas_tree:
-        state: on
-
-  - name: Downstairs Color Loop
-    entities:
-      light.kitchen_cabinet_bottoms:
-        state: on
-        transition: 15
-        effect: colorloop
-      
-      light.kitchen_cabinet_tops:
-        state: on
-        transition: 15
-        effect: colorloop
-      
-      light.living_room_lamp:
-        state: on
-        transition: 15
-        effect: colorloop
-      
-      light.dining_room_lamp:
-        state: on
-        transition: 15
-        effect: colorloop
-      
-      light.left_shelf_lights:
-        state: on
-        transition: 15
-        effect: colorloop
-      
-      light.tv_backlights:
-        state: on
-        transition: 15
-        effect: colorloop
-      
-      light.right_shelf_lights:
-        state: on
-        transition: 15
-        effect: colorloop
-      
-      light.alcove_light:
-        state: on
-        transition: 15
-        effect: colorloop
-
-  - name: Downstairs Nightlight
-    entities:
-      light.kitchen_cabinet_bottoms:
-        state: on
-        brightness: 25
-        rgb_color: [255, 240, 198]
-       
-      light.kitchen_cabinet_tops:
-        state: on
-        brightness: 25
-        rgb_color: [164, 234, 255]
-      
-      light.living_room_lamp:
-        state: on
-        brightness: 25
-        rgb_color: [255, 207, 120]
-      
-      light.dining_room_lamp:
-        state: on
-        brightness: 25
-        rgb_color: [255, 207, 120]
-      
-      light.shelf_lights:
-        state: on
-        brightness: 25
-        rgb_color: [255, 240, 198]
-        
-#      light.left_shelf_lights:
-#        state: on
-#        brightness: 25
-#        rgb_color: [255, 240, 198]
-      
-      light.tv_backlights:
-        state: off
-      
-#      light.right_shelf_lights:
-#        state: on
-#        brightness: 25
-#        rgb_color: [255, 240, 198]
-      
-      light.alcove_light:
-        state: on
-        brightness: 25
-        rgb_color: [255, 240, 198]
-        
-      light.office_lamp_two:
-        state: on
-        brightness: 25
-
-  - name: Downstairs All Off
-    entities:
-      light.kitchen_cabinet_bottoms:
-        state: off
-       
-      light.kitchen_cabinet_tops:
-        state: off
-      
-      light.living_room_lamp:
-        state: off
-      
-      light.dining_room_lamp:
-        state: off
-
-      light.tv_lights:
-        state: off
-        
-#      light.left_shelf_lights:
-#        state: off
-#      
-#      light.tv_backlights:
-#        state: off
-#      
-#      light.right_shelf_lights:
-#        state: off
-      
-      light.alcove_light:
-        state: off
-        
-      light.office_lamp_two:
-        state: off
-
-  - name: Shelf Lights on
-    entities:
-      light.shelf_lights:
-        state: on
-        brightness: 166
-        rgb_color: [255, 240, 198]
-        
-#      light.left_shelf_lights:
-#        state: on
-#        brightness: 166
-#        rgb_color: [255, 240, 198]
-#            
-#      light.right_shelf_lights:
-#        state: on
-#        brightness: 166
-#        rgb_color: [255, 240, 198]
-
-  - name: Shelf Lights Off
-    entities:
-      light.tv_lights:
-        state: off
-
-#      light.left_shelf_lights:
-#        state: off
-#      
-#      light.tv_backlights:
-#        state: off
-#      
-#      light.right_shelf_lights:
-#        state: off
-
-  - name: Kitchen Cabinets On
-    entities:
-      light.kitchen_cabinets:
-        state: on
-        brightness: 254
-        rgb_color: [255, 240, 198]
-
-  - name: Kitchen Cabinets Off
-    entities:
-      light.kitchen_cabinets:
-        state: off
-  
-  - name: Best of the Week
-    entities:
-      media_player.living_room:
-        state: playing
-        volume_level: 0.15
-        source: "Best of the Week"
-
-  - name: Beats 1
-    entities:
-      media_player.living_room:
-        state: playing
-        volume_level: 0.15
-        source: "Beats 1"
-
-  - name: Fleetwood Mac Radio
-    entities:
-      media_player.living_room:
-        state: playing
-        volume_level: 0.15
-        source: "Fleetwood Mac Radio"
-
-  - name: Reggae Classics
-    entities:
-      media_player.living_room:
-        state: playing
-        volume_level: 0.15
-        source: "Reggae Classics"
+- name: TV Lights
+  entities:
+    light.kitchen_cabinet_bottoms:
+      state: true
+      brightness: 152
+      rgb_color:
+      - 255
+      - 240
+      - 198
+    light.kitchen_cabinet_tops:
+      state: true
+      brightness: 191
+      rgb_color:
+      - 164
+      - 234
+      - 255
+    light.living_room_lamp:
+      state: false
+    light.dining_room_lamp:
+      state: true
+      brightness: 190
+      rgb_color:
+      - 255
+      - 207
+      - 120
+    light.tv_lights:
+      state: true
+      brightness: 71
+      rgb_color:
+      - 246
+      - 255
+      - 254
+    light.alcove_light:
+      state: true
+      brightness: 150
+      color_temp: 444
+    light.sconce_light:
+      state: true
+    light.christmas_tree:
+      state: true
+  id: f53fae06b0cd431eb0797245508251f2
+- name: Evening Lighting
+  entities:
+    light.kitchen_cabinets:
+      state: true
+      brightness: 254
+      rgb_color:
+      - 255
+      - 240
+      - 198
+    light.living_room_lamp:
+      state: true
+      brightness: 254
+      rgb_color:
+      - 255
+      - 240
+      - 198
+    light.dining_room_lamp:
+      state: true
+      brightness: 254
+      rgb_color:
+      - 255
+      - 240
+      - 198
+    light.shelf_lights:
+      state: true
+      brightness: 166
+      rgb_color:
+      - 255
+      - 240
+      - 198
+    light.tv_backlights:
+      state: false
+    light.alcove_light:
+      state: true
+      brightness: 150
+      color_temp: 444
+    light.sconce_light:
+      state: true
+    light.christmas_tree:
+      state: true
+  id: 204f457ca39e4bc09cea44f4e293a33f
+- name: Morning Lighting
+  entities:
+    light.kitchen_cabinets:
+      state: true
+      brightness: 254
+      rgb_color:
+      - 255
+      - 240
+      - 198
+    light.shelf_lights:
+      state: true
+      brightness: 166
+      rgb_color:
+      - 255
+      - 240
+      - 198
+    light.tv_backlights:
+      state: false
+    light.living_room_lamp:
+      state: false
+    light.dining_room_lamp:
+      state: false
+  id: 6ea1b0e60f6645239bd51833f843a5f6
+- name: Casual Lighting
+  entities:
+    light.kitchen_cabinet_bottoms:
+      state: true
+      brightness: 152
+      rgb_color:
+      - 255
+      - 240
+      - 198
+    light.kitchen_cabinet_tops:
+      state: true
+      brightness: 191
+      rgb_color:
+      - 164
+      - 234
+      - 255
+    light.living_room_lamp:
+      state: true
+      brightness: 190
+      rgb_color:
+      - 255
+      - 207
+      - 120
+    light.dining_room_lamp:
+      state: true
+      brightness: 190
+      rgb_color:
+      - 255
+      - 207
+      - 120
+    light.shelf_lights:
+      state: true
+      brightness: 166
+      rgb_color:
+      - 255
+      - 240
+      - 198
+    light.tv_backlights:
+      state: false
+    light.alcove_light:
+      state: true
+      brightness: 116
+      rgb_color:
+      - 255
+      - 239
+      - 87
+    light.sconce_light:
+      state: true
+    light.christmas_tree:
+      state: true
+  id: a901ff400c79461bbde0a9bf9922f36f
+- id: cb130031bb674b1b933c0a53fb26bb1b
+  name: Downstairs Color Loop
+  entities:
+    light.alcove_light:
+      brightness: 175
+      effect: colorloop
+      effect_list:
+      - colorloop
+      - random
+      friendly_name: Alcove Light
+      hs_color:
+      - 3.529
+      - 26.667
+      icon: mdi:wall-sconce-flat
+      max_mireds: 500
+      min_mireds: 153
+      rgb_color:
+      - 255
+      - 190
+      - 186
+      state: 'on'
+      supported_features: 63
+      xy_color:
+      - 0.412
+      - 0.326
+    light.dining_room_lamp:
+      brightness: 175
+      effect: colorloop
+      effect_list:
+      - colorloop
+      - random
+      friendly_name: Dining Room Lamp
+      hidden: false
+      hs_color:
+      - 95.644
+      - 39.608
+      icon: mdi:lamp
+      max_mireds: 500
+      min_mireds: 153
+      rgb_color:
+      - 194
+      - 255
+      - 153
+      state: 'on'
+      supported_features: 63
+      xy_color:
+      - 0.316
+      - 0.468
+    light.kitchen_cabinet_bottoms:
+      brightness: 175
+      effect: colorloop
+      effect_list:
+      - colorloop
+      - random
+      friendly_name: Kitchen Cabinet Bottoms
+      hs_color:
+      - 49.412
+      - 26.667
+      icon: bha:led-strip
+      max_mireds: 500
+      min_mireds: 153
+      rgb_color:
+      - 255
+      - 243
+      - 186
+      state: 'on'
+      supported_features: 63
+      xy_color:
+      - 0.377
+      - 0.388
+    light.kitchen_cabinet_tops:
+      brightness: 175
+      effect: colorloop
+      effect_list:
+      - colorloop
+      - random
+      friendly_name: Kitchen Cabinet Tops
+      hs_color:
+      - 45.429
+      - 27.451
+      icon: bha:led-strip
+      max_mireds: 500
+      min_mireds: 153
+      rgb_color:
+      - 255
+      - 238
+      - 184
+      state: 'on'
+      supported_features: 63
+      xy_color:
+      - 0.382
+      - 0.384
+    light.left_shelf_lights:
+      brightness: 175
+      effect: colorloop
+      effect_list:
+      - colorloop
+      - random
+      friendly_name: Left Shelf Lights
+      hidden: false
+      hs_color:
+      - 38.919
+      - 29.02
+      icon: bha:led-strip
+      max_mireds: 500
+      min_mireds: 153
+      rgb_color:
+      - 255
+      - 228
+      - 180
+      state: 'on'
+      supported_features: 63
+      xy_color:
+      - 0.392
+      - 0.377
+    light.living_room_lamp:
+      brightness: 175
+      effect: colorloop
+      effect_list:
+      - colorloop
+      - random
+      friendly_name: Living Room Lamp
+      hidden: false
+      hs_color:
+      - 255
+      - 9.412
+      icon: mdi:lamp
+      max_mireds: 500
+      min_mireds: 153
+      rgb_color:
+      - 236
+      - 230
+      - 255
+      state: 'on'
+      supported_features: 63
+      xy_color:
+      - 0.312
+      - 0.302
+    light.right_shelf_lights:
+      brightness: 175
+      effect: colorloop
+      effect_list:
+      - colorloop
+      - random
+      friendly_name: Right Shelf Lights
+      hidden: false
+      hs_color:
+      - 46.286
+      - 27.451
+      icon: bha:led-strip
+      max_mireds: 500
+      min_mireds: 153
+      rgb_color:
+      - 255
+      - 239
+      - 184
+      state: 'on'
+      supported_features: 63
+      xy_color:
+      - 0.382
+      - 0.385
+    light.tv_backlights:
+      brightness: 175
+      effect: colorloop
+      effect_list:
+      - colorloop
+      - random
+      friendly_name: TV Backlights
+      hidden: false
+      hs_color:
+      - 99.452
+      - 28.627
+      icon: bha:led-strip
+      max_mireds: 500
+      min_mireds: 153
+      rgb_color:
+      - 207
+      - 255
+      - 182
+      state: 'on'
+      supported_features: 63
+      xy_color:
+      - 0.315
+      - 0.424
+- name: Downstairs Nightlight
+  entities:
+    light.kitchen_cabinet_bottoms:
+      state: true
+      brightness: 25
+      rgb_color:
+      - 255
+      - 240
+      - 198
+    light.kitchen_cabinet_tops:
+      state: true
+      brightness: 25
+      rgb_color:
+      - 164
+      - 234
+      - 255
+    light.living_room_lamp:
+      state: true
+      brightness: 25
+      rgb_color:
+      - 255
+      - 207
+      - 120
+    light.dining_room_lamp:
+      state: true
+      brightness: 25
+      rgb_color:
+      - 255
+      - 207
+      - 120
+    light.shelf_lights:
+      state: true
+      brightness: 25
+      rgb_color:
+      - 255
+      - 240
+      - 198
+    light.tv_backlights:
+      state: false
+    light.alcove_light:
+      state: true
+      brightness: 25
+      rgb_color:
+      - 255
+      - 240
+      - 198
+    light.office_lamp_two:
+      state: true
+      brightness: 25
+  id: 7bad4562e0564ca889f5ef124ef121f2
+- name: Downstairs All Off
+  entities:
+    light.kitchen_cabinet_bottoms:
+      state: false
+    light.kitchen_cabinet_tops:
+      state: false
+    light.living_room_lamp:
+      state: false
+    light.dining_room_lamp:
+      state: false
+    light.tv_lights:
+      state: false
+    light.alcove_light:
+      state: false
+    light.office_lamp_two:
+      state: false
+  id: 95df491512d849d693aa67331c688e1c
+- name: Shelf Lights on
+  entities:
+    light.shelf_lights:
+      state: true
+      brightness: 166
+      rgb_color:
+      - 255
+      - 240
+      - 198
+  id: 8f64335a6a3c43ab9820c42efab0e86e
+- name: Shelf Lights Off
+  entities:
+    light.tv_lights:
+      state: false
+  id: 207d757127054b17862f44597a9f27b7
+- name: Kitchen Cabinets On
+  entities:
+    light.kitchen_cabinets:
+      state: true
+      brightness: 254
+      rgb_color:
+      - 255
+      - 240
+      - 198
+  id: 9ad88a3c3ff54a6cbfcc2b826e88bfa9
+- name: Kitchen Cabinets Off
+  entities:
+    light.kitchen_cabinets:
+      state: false
+  id: 264efedf66c741b3898654c146ee7ee5
+- name: Best of the Week
+  entities:
+    media_player.living_room:
+      state: playing
+      volume_level: 0.15
+      source: Best of the Week
+  id: a90c2ce45a574a2ab97d7507d7fbeff1
+- name: Beats 1
+  entities:
+    media_player.living_room:
+      state: playing
+      volume_level: 0.15
+      source: Beats 1
+  id: 93e5f68b4d2045a6ad7eca15c68fce8d
+- name: Fleetwood Mac Radio
+  entities:
+    media_player.living_room:
+      state: playing
+      volume_level: 0.15
+      source: Fleetwood Mac Radio
+  id: 357541cbd02f490a866a1566c0f2ceac
+- name: Reggae Classics
+  entities:
+    media_player.living_room:
+      state: playing
+      volume_level: 0.15
+      source: Reggae Classics
+  id: b081687b6da947a0ae6d711e0f696804
+- id: '1587051200146'
+  name: 94.9 Radio
+  entities:
+    media_player.living_room:
+      entity_picture: /api/media_player_proxy/media_player.living_room?token=c9a046e90f8489a80034e8dc7864c59b9e80027e7698ea6a1d689fc5155d0713&cache=11603641fe38ea20
+      friendly_name: Living Room
+      is_volume_muted: false
+      media_content_id: aac://https://18133.live.streamtheworld.com:443/WPTEFMAAC.aac?DIST=CBS&TGT=radiocomSonos&SRS=CBS
+      media_content_type: music
+      media_title: 94.9 The Point
+      night_sound: false
+      shuffle: false
+      sonos_group:
+      - media_player.living_room
+      source_list:
+      - 90s--2000s Nostalgia
+      - 94.9 The Point
+      - Beats 1
+      - Best of the Week
+      - Classic Rock Essentials
+      - Discover Weekly
+      - Fleetwood Mac Radio
+      - New Music Friday
+      - Reggae Classics
+      - The Long View
+      - Line-in
+      - TV
+      speech_enhance: true
+      state: paused
+      supported_features: 64063
+      volume_level: 0.08

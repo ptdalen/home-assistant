@@ -913,12 +913,17 @@
 #    value_template: "{{ states('sensor.motion_sensor_outdoor_luminance')| int < 90 }}"
   - platform: template
     value_template: "{{ states('sensor.hue_outdoor_motion_sensor_light_level')| int < 100 }}"
+    for:
+      seconds: 15
   condition:
   - condition: numeric_state
     entity_id: sensor.ha_runtime_in_minutes
     above: 4
   - condition: template
     value_template: "{{ states('input_select.house_mode') != 'Night' }}"
+  - condition: template
+    value_template: >
+      {{ states('sensor.hue_outdoor_motion_sensor_light_level') != 'unavailable' }}
   action:
   - service: homeassistant.turn_on
     entity_id: group.outdoor_lights_sunset
@@ -940,6 +945,12 @@
 #    value_template: "{{ states('sensor.motion_sensor_outdoor_luminance')| int > 20 }}"
   - platform: template
     value_template: "{{ states('sensor.hue_outdoor_motion_sensor_light_level')| int > 500 }}"
+    for:
+      seconds: 15
+  condition:
+  - condition: template
+    value_template: >
+      {{ states('sensor.hue_outdoor_motion_sensor_light_level') != 'unavailable' }}
   action:
   - service: homeassistant.turn_off
     entity_id: group.outdoor_lights_sunset
@@ -977,7 +988,10 @@
     value_template: "{{ states('sensor.hue_outdoor_motion_sensor_light_level')| int < 250 }}"
   - condition: state
     entity_id: input_select.house_mode
-    state: 'Home' 
+    state: 'Home'
+  - condition: template
+    value_template: >
+      {{ states('sensor.hue_outdoor_motion_sensor_light_level') != 'unavailable' }}
   action:
   - service: scene.turn_on
     entity_id: scene.tv_lights
@@ -994,10 +1008,15 @@
 #    value_template: "{{ states('sensor.motion_sensor_outdoor_luminance')| int < 90 }}"
   - platform: template
     value_template: "{{ states('sensor.hue_outdoor_motion_sensor_light_level')| int < 250 }}"
+    for:
+      seconds: 15
   condition:
   - condition: state
     entity_id: media_player.living_room_tv
     state: 'off'
+  - condition: template
+    value_template: >
+      {{ states('sensor.hue_outdoor_motion_sensor_light_level') != 'unavailable' }}
 #add an or for sonos on
   - condition: state
     entity_id: input_select.house_mode
@@ -3049,6 +3068,22 @@
       data:
         type: announce
       message: "The doorbell has been pushed"
+      
+#- alias: hue remote press
+#  trigger:
+#  - platform: device
+#    device_id: 079384d34b57458baef8012f1f677838
+#    domain: hue
+#    type: remote_button_short_release
+#    subtype: turn_on
+#  action:
+#  - service: notify.alexa_media
+#    data_template:
+#      target:
+#        - media_player.livingroom
+#      data:
+#        type: announce
+#      message: "The doorbell has been pushed"
 
 #- alias: Color Loop Shelf Lights
 #  initial_state: false
@@ -3482,7 +3517,7 @@
   - platform: template
     value_template: '{{ (states.device_tracker.paul_all.state != "not_home" and ((as_timestamp(states.sensor.date.state + " " + states.sensor.time.state) - as_timestamp(states.device_tracker.paul_all.last_changed)) / 60 ) | int > 8 ) }}'
   - platform: state
-    entity_id: sensor.activity_paul
+    entity_id: sensor.pauls_iphone_activity
     from: 'Automotive'
 #  - platform: state
 #    entity_id: device_tracker.paul_all

@@ -2,13 +2,6 @@
 #  - platform: yweather
 #    woeid: 12767389
 
-#  - platform: anniversaries
-#    name: Tracy and Paul Anniversary
-#    date: '2009-05-09'
-#  - platform: anniversaries
-#    name: Tracys Birthday
-#    date: '1970-12-26'
-
   - platform: uptime
     name: "HA runtime in minutes"
     unit_of_measurement: minutes
@@ -329,7 +322,9 @@
         friendly_name: Traffic to Work
         icon_template: 'mdi:car-multiple'
         value_template: >
-          {% if (state_attr('sensor.time_to_work','duration_in_traffic') | replace(" mins","") | replace(" min","") | int / state_attr('sensor.time_to_work','duration') | replace(" mins","") | replace(" min","") | int) >= 1.2 %}
+          {% if (state_attr('sensor.time_to_work','duration_in_traffic') | replace(" mins","") | replace(" min","") | int == state_attr('sensor.time_to_work','duration') | replace(" mins","") | replace(" min","") | int) %}
+            At Work
+          {% elif (state_attr('sensor.time_to_work','duration_in_traffic') | replace(" mins","") | replace(" min","") | int / state_attr('sensor.time_to_work','duration') | replace(" mins","") | replace(" min","") | int) >= 1.2 %}
             Heavy
           {% elif (state_attr('sensor.time_to_work','duration_in_traffic') | replace(" mins","") | replace(" min","") | int / state_attr('sensor.time_to_work','duration') | replace(" mins","") | replace(" min","") | int) >= 1.2 and (state_attr('sensor.time_to_work','duration_in_traffic') | replace(" mins","") | replace(" min","") | int / state_attr('sensor.time_to_work','duration') | replace(" mins","") | replace(" min","") | int) <= 1.1 %}
             Moderate
@@ -530,46 +525,46 @@
       downstairs_thermostat_temp:
         friendly_name: "Downstairs Thermostat Temperature"
         unit_of_measurement: '°F'
-        value_template: "{% if states.climate.downstairs_2 %}
-            {{ states.climate.downstairs_2.attributes.current_temperature }}
+        value_template: "{% if states.climate.downstairs %}
+            {{ states.climate.downstairs.attributes.current_temperature }}
           {% else %}
             unknown
           {% endif %}"
         icon_template: mdi:thermometer
-        entity_id: climate.downstairs_2
+        entity_id: climate.downstairs
 
       upstairs_thermostat_temp:
         friendly_name: "Upstairs Thermostat Temperature"
         unit_of_measurement: '°F'
-        value_template: "{% if states.climate.upstairs_2 %}
-            {{ states.climate.upstairs_2.attributes.current_temperature }}
+        value_template: "{% if states.climate.upstairs %}
+            {{ states.climate.upstairs.attributes.current_temperature }}
           {% else %}
             unknown
           {% endif %}"
         icon_template: mdi:thermometer
-        entity_id: climate.upstairs_2
+        entity_id: climate.upstairs
 
       downstairs_thermostat_humidity:
         friendly_name: "Downstairs Thermostat humidity"
         unit_of_measurement: '%'
-        value_template: "{% if states.climate.downstairs_2 %}
-            {{ states.climate.downstairs_2.attributes.current_humidity }}
+        value_template: "{% if states.climate.downstairs %}
+            {{ states.climate.downstairs.attributes.current_humidity }}
           {% else %}
             unknown
           {% endif %}"
         icon_template: mdi:water-percent
-        entity_id: climate.downstairs_2
+        entity_id: climate.downstairs
 
       upstairs_thermostat_humidity:
         friendly_name: "Upstairs Thermostat humidity"
         unit_of_measurement: '%'
-        value_template: "{% if states.climate.upstairs_2 %}
-            {{ states.climate.upstairs_2.attributes.current_humidity }}
+        value_template: "{% if states.climate.upstairs %}
+            {{ states.climate.upstairs.attributes.current_humidity }}
           {% else %}
             unknown
           {% endif %}"
         icon_template: mdi:water-percent
-        entity_id: climate.upstairs_2
+        entity_id: climate.upstairs
         
 #      offline_devices:
 #        value_template: >

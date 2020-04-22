@@ -1,237 +1,1281 @@
- This lovelace is set up for three locks, if you only have one or two delete the items accordingly
-# Do not uncomment this in the package, copy and paste it without the #'s into your lovelace config
-#  - badges: []
-#    cards:
-#      - entities:
-#          - input_text.door_keypad_1_name
-#          - input_text.door_keypad_1_code
-#          - input_boolean.code_1_notify
-#          - input_select.door_keypad_1_access_schedule
-#          - input_datetime.door_keypad_1_date_start
-#          - input_datetime.door_keypad_1_date_end
-#          - input_boolean.door_keypad_1_front_switch
-#          - input_boolean.door_keypad_1_back_switch
-#          - input_boolean.door_keypad_1_garage_switch
-#          - script.door_keypad_1_delete
-#        title: Entry Code 1
-#        type: entities
-#      - entities:
-#          - input_text.door_keypad_2_name
-#          - input_text.door_keypad_2_code
-#          - input_boolean.code_2_notify
-#          - input_select.door_keypad_2_access_schedule
-#          - input_datetime.door_keypad_2_date_start
-#          - input_datetime.door_keypad_2_date_end
-#          - input_boolean.door_keypad_2_front_switch
-#          - input_boolean.door_keypad_2_back_switch
-#          - input_boolean.door_keypad_2_garage_switch
-#          - script.door_keypad_2_delete
-#        title: Entry Code 2
-#        type: entities
-#      - entities:
-#          - input_text.door_keypad_3_name
-#          - input_text.door_keypad_3_code
-#          - input_boolean.code_3_notify
-#          - input_select.door_keypad_3_access_schedule
-#          - input_datetime.door_keypad_3_date_start
-#          - input_datetime.door_keypad_3_date_end
-#          - input_boolean.door_keypad_3_front_switch
-#          - input_boolean.door_keypad_3_back_switch
-#          - input_boolean.door_keypad_3_garage_switch
-#          - script.door_keypad_3_delete
-#        title: Entry Code 3
-#        type: entities
-#      - entities:
-#          - input_text.door_keypad_4_name
-#          - input_text.door_keypad_4_code
-#          - input_boolean.code_4_notify
-#          - input_select.door_keypad_4_access_schedule
-#          - input_datetime.door_keypad_4_date_start
-#          - input_datetime.door_keypad_4_date_end
-#          - input_boolean.door_keypad_4_front_switch
-#          - input_boolean.door_keypad_4_back_switch
-#          - input_boolean.door_keypad_4_garage_switch
-#          - script.door_keypad_4_delete
-#        title: Entry Code 4
-#        type: entities
-#      - entities:
-#          - input_text.door_keypad_5_name
-#          - input_text.door_keypad_5_code
-#          - input_boolean.code_5_notify
-#          - input_select.door_keypad_5_access_schedule
-#          - input_datetime.door_keypad_5_date_start
-#          - input_datetime.door_keypad_5_date_end
-#          - input_boolean.door_keypad_5_front_switch
-#          - input_boolean.door_keypad_5_back_switch
-#          - input_boolean.door_keypad_5_garage_switch
-#          - script.door_keypad_5_delete
-#        title: Entry Code 5
-#        type: entities
-#      - entities:
-#          - input_text.door_keypad_6_name
-#          - input_text.door_keypad_6_code
-#          - input_boolean.code_6_notify
-#          - input_select.door_keypad_6_access_schedule
-#          - input_datetime.door_keypad_6_date_start
-#          - input_datetime.door_keypad_6_date_end
-#          - input_boolean.door_keypad_6_front_switch
-#          - input_boolean.door_keypad_6_back_switch
-#          - input_boolean.door_keypad_6_garage_switch
-#          - script.door_keypad_6_delete
-#        title: Entry Code 6
-#        type: entities
-#      - entities:
-#          - input_text.door_keypad_7_name
-#          - input_text.door_keypad_7_code
-#          - input_boolean.code_7_notify
-#          - input_select.door_keypad_7_access_schedule
-#          - input_datetime.door_keypad_7_date_start
-#          - input_datetime.door_keypad_7_date_end
-#          - input_boolean.door_keypad_7_front_switch
-#          - input_boolean.door_keypad_7_back_switch
-#          - input_boolean.door_keypad_7_garage_switch
-#          - script.door_keypad_7_delete
-#        title: Entry Code 7
-#        type: entities
-#      - entities:
-#          - input_text.door_keypad_8_name
-#          - input_text.door_keypad_8_code
-#          - input_boolean.code_8_notify
-#          - input_select.door_keypad_8_access_schedule
-#          - input_datetime.door_keypad_8_date_start
-#          - input_datetime.door_keypad_8_date_end
-#          - input_boolean.door_keypad_8_front_switch
-#          - input_boolean.door_keypad_8_back_switch
-#          - input_boolean.door_keypad_8_garage_switch
-#          - script.door_keypad_8_delete
-#        title: Entry Code 8
-#        type: entities
-#      - entities:
-#          - input_text.door_keypad_9_name
-#          - input_text.door_keypad_9_code
-#          - input_boolean.code_9_notify
-#          - input_select.door_keypad_9_access_schedule
-#          - input_datetime.door_keypad_9_date_start
-#          - input_datetime.door_keypad_9_date_end
-#          - input_boolean.door_keypad_9_front_switch
-#          - input_boolean.door_keypad_9_back_switch
-#          - input_boolean.door_keypad_9_garage_switch
-#          - script.door_keypad_9_delete
-#        title: Entry Code 9
-#        type: entities
-#      - entities:
-#          - input_text.door_keypad_10_name
-#          - input_text.door_keypad_10_code
-#          - input_boolean.code_10_notify
-#          - input_select.door_keypad_10_access_schedule
-#          - input_datetime.door_keypad_10_date_start
-#          - input_datetime.door_keypad_10_date_end
-#          - input_boolean.door_keypad_10_front_switch
-#          - input_boolean.door_keypad_10_back_switch
-#          - input_boolean.door_keypad_10_garage_switch
-#          - script.door_keypad_10_delete
-#        title: Entry Code 10
-#        type: entities
-#      - entities:
-#          - input_text.door_keypad_11_name
-#          - input_text.door_keypad_11_code
-#          - input_boolean.code_11_notify
-#          - input_select.door_keypad_11_access_schedule
-#          - input_datetime.door_keypad_11_date_start
-#          - input_datetime.door_keypad_11_date_end
-#          - input_boolean.door_keypad_11_front_switch
-#          - input_boolean.door_keypad_11_back_switch
-#          - input_boolean.door_keypad_11_garage_switch
-#          - script.door_keypad_11_delete
-#        title: Entry Code 11
-#        type: entities
-#      - entities:
-#          - input_text.door_keypad_12_name
-#          - input_text.door_keypad_12_code
-#          - input_boolean.code_12_notify
-#          - input_select.door_keypad_12_access_schedule
-#          - input_datetime.door_keypad_12_date_start
-#          - input_datetime.door_keypad_12_date_end
-#          - input_boolean.door_keypad_12_front_switch
-#          - input_boolean.door_keypad_12_back_switch
-#          - input_boolean.door_keypad_12_garage_switch
-#          - script.door_keypad_12_delete
-#        title: Entry Code 12
-#        type: entities
-#      - entities:
-#          - input_text.door_keypad_13_name
-#          - input_text.door_keypad_13_code
-#          - input_boolean.code_13_notify
-#          - input_select.door_keypad_13_access_schedule
-#          - input_datetime.door_keypad_13_date_start
-#          - input_datetime.door_keypad_13_date_end
-#          - input_boolean.door_keypad_13_front_switch
-#          - input_boolean.door_keypad_13_back_switch
-#          - input_boolean.door_keypad_13_garage_switch
-#          - script.door_keypad_13_delete
-#        title: Entry Code 13
-#        type: entities
-#      - entities:
-#          - input_text.door_keypad_14_name
-#          - input_text.door_keypad_14_code
-#          - input_boolean.code_14_notify
-#          - input_select.door_keypad_14_access_schedule
-#          - input_datetime.door_keypad_14_date_start
-#          - input_datetime.door_keypad_14_date_end
-#          - input_boolean.door_keypad_14_front_switch
-#          - input_boolean.door_keypad_14_back_switch
-#          - input_boolean.door_keypad_14_garage_switch
-#          - script.door_keypad_14_delete
-#        title: Entry Code 14
-#        type: entities
-#      - entities:
-#          - input_text.door_keypad_15_name
-#          - input_text.door_keypad_15_code
-#          - input_boolean.code_15_notify
-#          - input_select.door_keypad_15_access_schedule
-#          - input_datetime.door_keypad_15_date_start
-#          - input_datetime.door_keypad_15_date_end
-#          - input_boolean.door_keypad_15_front_switch
-#          - input_boolean.door_keypad_15_back_switch
-#          - input_boolean.door_keypad_15_garage_switch
-#          - script.door_keypad_15_delete
-#        title: Entry Code 15
-#        type: entities
-#      - entities:
-#          - input_select.door_keypad_16_access_schedule
-#          - input_text.door_keypad_16_name
-#          - input_text.door_keypad_16_code
-#          - input_boolean.code_16_notify
-#          - input_boolean.door_keypad_16_front_switch
-#          - input_boolean.door_keypad_16_back_switch
-#          - input_boolean.door_keypad_16_garage_switch
-#          - script.door_keypad_16_delete
-#        title: One Time Use Code 1
-#        type: entities
-#      - entities:
-#          - input_select.door_keypad_17_access_schedule
-#          - input_text.door_keypad_17_name
-#          - input_text.door_keypad_17_code
-#          - input_boolean.code_17_notify
-#          - input_boolean.door_keypad_17_front_switch
-#          - input_boolean.door_keypad_17_back_switch
-#          - input_boolean.door_keypad_17_garage_switch
-#          - script.door_keypad_17_delete
-#        title: One Time Use Code 2
-#        type: entities
-#      - entities:
-#          - input_select.door_keypad_18_access_schedule
-#          - input_text.door_keypad_18_name
-#          - input_text.door_keypad_18_code
-#          - input_boolean.code_18_notify
-#          - input_boolean.door_keypad_18_front_switch
-#          - input_boolean.door_keypad_18_back_switch
-#          - input_boolean.door_keypad_18_garage_switch
-#          - script.door_keypad_18_delete
-#        title: One Time Use Code 3
-#        type: entities
-#
-#    icon: 'mdi:lock-smart'
-#    path: keypads
-#    title: 'Door Lock Information, Codes and Configuration'
-
+  - badges: []
+    cards:
+      - cards:
+          - cards: null
+            color: 'rgb(0, 0, 0)'
+            color_type: label-card
+            name: Entry Code 1
+            styles:
+              card:
+                - height: 20px
+              name:
+                - justify-self: center
+                - padding-left: 10px
+                - font-size: 16px
+            type: 'custom:button-card'
+          - cards: null
+            entities:
+              - entity: input_text.door_keypad_1_name
+              - entity: input_text.door_keypad_1_code
+            type: entities
+          - card:
+              entities:
+                - entity: input_boolean.code_1_notify
+                - entity: input_select.door_keypad_1_access_schedule
+              type: entities
+            cards: null
+            conditions:
+              - entity: input_text.door_keypad_1_code
+                state_not: Code Here
+            type: conditional
+          - card:
+              color: 'rgb(44, 109, 214)'
+              color_type: label-card
+              name: Lock Schedule (Only Shows when on)
+              styles:
+                card:
+                  - height: 20px
+                name:
+                  - justify-self: center
+                  - padding-left: 10px
+                  - font-size: 16px
+              type: 'custom:button-card'
+            cards: null
+            conditions:
+              - entity: input_select.door_keypad_1_access_schedule
+                state_not: Always
+            type: conditional
+          - card:
+              columns: 3
+              entities:
+                - entity: calendar.lock_code_1_schedule
+                  name: Start Time
+                  secondary_info: '[[ {entity}.attributes.start_time ]]'
+                  type: 'custom:secondaryinfo-entity-row'
+                - entity: calendar.lock_code_1_schedule
+                  name: End Time
+                  secondary_info: '[[ {entity}.attributes.end_time ]]'
+                  type: 'custom:secondaryinfo-entity-row'
+              show_icon: false
+              show_state: true
+              state_filter:
+                - 'on'
+              type: entity-filter
+            cards: null
+            conditions:
+              - entity: input_select.door_keypad_1_access_schedule
+                state_not: Always
+            type: conditional
+          - card:
+              entities:
+                - entity: input_boolean.door_keypad_1_front_switch
+                - entity: input_boolean.door_keypad_1_back_switch
+                - entity: input_boolean.door_keypad_1_garage_switch
+                - entity: script.door_keypad_1_delete
+              type: entities
+            cards: null
+            conditions:
+              - entity: input_text.door_keypad_1_code
+                state_not: Code Here
+            type: conditional
+        type: vertical-stack
+      - cards:
+          - cards: null
+            color: 'rgb(0, 0, 0)'
+            color_type: label-card
+            name: Entry Code 2
+            styles:
+              card:
+                - height: 20px
+              name:
+                - justify-self: center
+                - padding-left: 10px
+                - font-size: 16px
+            type: 'custom:button-card'
+          - cards: null
+            entities:
+              - entity: input_text.door_keypad_2_name
+              - entity: input_text.door_keypad_2_code
+            type: entities
+          - card:
+              entities:
+                - entity: input_boolean.code_2_notify
+                - entity: input_select.door_keypad_2_access_schedule
+              type: entities
+            cards: null
+            conditions:
+              - entity: input_text.door_keypad_2_code
+                state_not: Code Here
+            type: conditional
+          - card:
+              color: 'rgb(44, 109, 214)'
+              color_type: label-card
+              name: Lock Schedule (Only Shows when on)
+              styles:
+                card:
+                  - height: 20px
+                name:
+                  - justify-self: center
+                  - padding-left: 10px
+                  - font-size: 16px
+              type: 'custom:button-card'
+            cards: null
+            conditions:
+              - entity: input_select.door_keypad_2_access_schedule
+                state_not: Always
+            type: conditional
+          - card:
+              columns: 3
+              entities:
+                - entity: calendar.lock_code_2_schedule
+                  name: Start Time
+                  secondary_info: '[[ {entity}.attributes.start_time ]]'
+                  type: 'custom:secondaryinfo-entity-row'
+                - entity: calendar.lock_code_2_schedule
+                  name: End Time
+                  secondary_info: '[[ {entity}.attributes.end_time ]]'
+                  type: 'custom:secondaryinfo-entity-row'
+              show_icon: false
+              show_state: true
+              state_filter:
+                - 'on'
+              type: entity-filter
+            cards: null
+            conditions:
+              - entity: input_select.door_keypad_2_access_schedule
+                state_not: Always
+            type: conditional
+          - card:
+              entities:
+                - entity: input_boolean.door_keypad_2_front_switch
+                - entity: input_boolean.door_keypad_2_back_switch
+                - entity: input_boolean.door_keypad_2_garage_switch
+                - entity: script.door_keypad_2_delete
+              type: entities
+            cards: null
+            conditions:
+              - entity: input_text.door_keypad_2_code
+                state_not: Code Here
+            type: conditional
+        type: vertical-stack
+      - cards:
+          - cards: null
+            color: 'rgb(0, 0, 0)'
+            color_type: label-card
+            name: Entry Code 3
+            styles:
+              card:
+                - height: 20px
+              name:
+                - justify-self: center
+                - padding-left: 10px
+                - font-size: 16px
+            type: 'custom:button-card'
+          - cards: null
+            entities:
+              - entity: input_text.door_keypad_3_name
+              - entity: input_text.door_keypad_3_code
+            type: entities
+          - card:
+              entities:
+                - entity: input_boolean.code_3_notify
+                - entity: input_select.door_keypad_3_access_schedule
+              type: entities
+            cards: null
+            conditions:
+              - entity: input_text.door_keypad_3_code
+                state_not: Code Here
+            type: conditional
+          - card:
+              color: 'rgb(44, 109, 214)'
+              color_type: label-card
+              name: Lock Schedule (Only Shows when on)
+              styles:
+                card:
+                  - height: 20px
+                name:
+                  - justify-self: center
+                  - padding-left: 10px
+                  - font-size: 16px
+              type: 'custom:button-card'
+            cards: null
+            conditions:
+              - entity: input_select.door_keypad_3_access_schedule
+                state_not: Always
+            type: conditional
+          - card:
+              columns: 3
+              entities:
+                - entity: calendar.lock_code_3_schedule
+                  name: Start Time
+                  secondary_info: '[[ {entity}.attributes.start_time ]]'
+                  type: 'custom:secondaryinfo-entity-row'
+                - entity: calendar.lock_code_3_schedule
+                  name: End Time
+                  secondary_info: '[[ {entity}.attributes.end_time ]]'
+                  type: 'custom:secondaryinfo-entity-row'
+              show_icon: false
+              show_state: true
+              state_filter:
+                - 'on'
+              type: entity-filter
+            cards: null
+            conditions:
+              - entity: input_select.door_keypad_3_access_schedule
+                state_not: Always
+            type: conditional
+          - card:
+              entities:
+                - entity: input_boolean.door_keypad_3_front_switch
+                - entity: input_boolean.door_keypad_3_back_switch
+                - entity: input_boolean.door_keypad_3_garage_switch
+                - entity: script.door_keypad_3_delete
+              type: entities
+            cards: null
+            conditions:
+              - entity: input_text.door_keypad_3_code
+                state_not: Code Here
+            type: conditional
+        type: vertical-stack
+      - cards:
+          - cards: null
+            color: 'rgb(0, 0, 0)'
+            color_type: label-card
+            name: Entry Code 4
+            styles:
+              card:
+                - height: 20px
+              name:
+                - justify-self: center
+                - padding-left: 10px
+                - font-size: 16px
+            type: 'custom:button-card'
+          - cards: null
+            entities:
+              - entity: input_text.door_keypad_4_name
+              - entity: input_text.door_keypad_4_code
+            type: entities
+          - card:
+              entities:
+                - entity: input_boolean.code_4_notify
+                - entity: input_select.door_keypad_4_access_schedule
+              type: entities
+            cards: null
+            conditions:
+              - entity: input_text.door_keypad_4_code
+                state_not: Code Here
+            type: conditional
+          - card:
+              color: 'rgb(44, 109, 214)'
+              color_type: label-card
+              name: Lock Schedule (Only Shows when on)
+              styles:
+                card:
+                  - height: 20px
+                name:
+                  - justify-self: center
+                  - padding-left: 10px
+                  - font-size: 16px
+              type: 'custom:button-card'
+            cards: null
+            conditions:
+              - entity: input_select.door_keypad_4_access_schedule
+                state_not: Always
+            type: conditional
+          - card:
+              columns: 3
+              entities:
+                - entity: calendar.lock_code_4_schedule
+                  name: Start Time
+                  secondary_info: '[[ {entity}.attributes.start_time ]]'
+                  type: 'custom:secondaryinfo-entity-row'
+                - entity: calendar.lock_code_4_schedule
+                  name: End Time
+                  secondary_info: '[[ {entity}.attributes.end_time ]]'
+                  type: 'custom:secondaryinfo-entity-row'
+              show_icon: false
+              show_state: true
+              state_filter:
+                - 'on'
+              type: entity-filter
+            cards: null
+            conditions:
+              - entity: input_select.door_keypad_4_access_schedule
+                state_not: Always
+            type: conditional
+          - card:
+              entities:
+                - entity: input_boolean.door_keypad_4_front_switch
+                - entity: input_boolean.door_keypad_4_back_switch
+                - entity: input_boolean.door_keypad_4_garage_switch
+                - entity: script.door_keypad_4_delete
+              type: entities
+            cards: null
+            conditions:
+              - entity: input_text.door_keypad_4_code
+                state_not: Code Here
+            type: conditional
+        type: vertical-stack
+      - cards:
+          - cards: null
+            color: 'rgb(0, 0, 0)'
+            color_type: label-card
+            name: Entry Code 5
+            styles:
+              card:
+                - height: 20px
+              name:
+                - justify-self: center
+                - padding-left: 10px
+                - font-size: 16px
+            type: 'custom:button-card'
+          - cards: null
+            entities:
+              - entity: input_text.door_keypad_5_name
+              - entity: input_text.door_keypad_5_code
+            type: entities
+          - card:
+              entities:
+                - entity: input_boolean.code_5_notify
+                - entity: input_select.door_keypad_5_access_schedule
+              type: entities
+            cards: null
+            conditions:
+              - entity: input_text.door_keypad_5_code
+                state_not: Code Here
+            type: conditional
+          - card:
+              color: 'rgb(44, 109, 214)'
+              color_type: label-card
+              name: Lock Schedule (Only Shows when on)
+              styles:
+                card:
+                  - height: 20px
+                name:
+                  - justify-self: center
+                  - padding-left: 10px
+                  - font-size: 16px
+              type: 'custom:button-card'
+            cards: null
+            conditions:
+              - entity: input_select.door_keypad_5_access_schedule
+                state_not: Always
+            type: conditional
+          - card:
+              columns: 3
+              entities:
+                - entity: calendar.lock_code_5_schedule
+                  name: Start Time
+                  secondary_info: '[[ {entity}.attributes.start_time ]]'
+                  type: 'custom:secondaryinfo-entity-row'
+                - entity: calendar.lock_code_5_schedule
+                  name: End Time
+                  secondary_info: '[[ {entity}.attributes.end_time ]]'
+                  type: 'custom:secondaryinfo-entity-row'
+              show_icon: false
+              show_state: true
+              state_filter:
+                - 'on'
+              type: entity-filter
+            cards: null
+            conditions:
+              - entity: input_select.door_keypad_5_access_schedule
+                state_not: Always
+            type: conditional
+          - card:
+              entities:
+                - entity: input_boolean.door_keypad_5_front_switch
+                - entity: input_boolean.door_keypad_5_back_switch
+                - entity: input_boolean.door_keypad_5_garage_switch
+                - entity: script.door_keypad_5_delete
+              type: entities
+            cards: null
+            conditions:
+              - entity: input_text.door_keypad_5_code
+                state_not: Code Here
+            type: conditional
+        type: vertical-stack
+      - cards:
+          - cards: null
+            color: 'rgb(0, 0, 0)'
+            color_type: label-card
+            name: Entry Code 6
+            styles:
+              card:
+                - height: 20px
+              name:
+                - justify-self: center
+                - padding-left: 10px
+                - font-size: 16px
+            type: 'custom:button-card'
+          - cards: null
+            entities:
+              - entity: input_text.door_keypad_6_name
+              - entity: input_text.door_keypad_6_code
+            type: entities
+          - card:
+              entities:
+                - entity: input_boolean.code_6_notify
+                - entity: input_select.door_keypad_6_access_schedule
+              type: entities
+            cards: null
+            conditions:
+              - entity: input_text.door_keypad_6_code
+                state_not: Code Here
+            type: conditional
+          - card:
+              color: 'rgb(44, 109, 214)'
+              color_type: label-card
+              name: Lock Schedule (Only Shows when on)
+              styles:
+                card:
+                  - height: 20px
+                name:
+                  - justify-self: center
+                  - padding-left: 10px
+                  - font-size: 16px
+              type: 'custom:button-card'
+            cards: null
+            conditions:
+              - entity: input_select.door_keypad_6_access_schedule
+                state_not: Always
+            type: conditional
+          - card:
+              columns: 3
+              entities:
+                - entity: calendar.lock_code_6_schedule
+                  name: Start Time
+                  secondary_info: '[[ {entity}.attributes.start_time ]]'
+                  type: 'custom:secondaryinfo-entity-row'
+                - entity: calendar.lock_code_6_schedule
+                  name: End Time
+                  secondary_info: '[[ {entity}.attributes.end_time ]]'
+                  type: 'custom:secondaryinfo-entity-row'
+              show_icon: false
+              show_state: true
+              state_filter:
+                - 'on'
+              type: entity-filter
+            cards: null
+            conditions:
+              - entity: input_select.door_keypad_6_access_schedule
+                state_not: Always
+            type: conditional
+          - card:
+              entities:
+                - entity: input_boolean.door_keypad_6_front_switch
+                - entity: input_boolean.door_keypad_6_back_switch
+                - entity: input_boolean.door_keypad_6_garage_switch
+                - entity: script.door_keypad_6_delete
+              type: entities
+            cards: null
+            conditions:
+              - entity: input_text.door_keypad_6_code
+                state_not: Code Here
+            type: conditional
+        type: vertical-stack
+      - cards:
+          - cards: null
+            color: 'rgb(0, 0, 0)'
+            color_type: label-card
+            name: Entry Code 7
+            styles:
+              card:
+                - height: 20px
+              name:
+                - justify-self: center
+                - padding-left: 10px
+                - font-size: 16px
+            type: 'custom:button-card'
+          - cards: null
+            entities:
+              - entity: input_text.door_keypad_7_name
+              - entity: input_text.door_keypad_7_code
+            type: entities
+          - card:
+              entities:
+                - entity: input_boolean.code_7_notify
+                - entity: input_select.door_keypad_7_access_schedule
+              type: entities
+            cards: null
+            conditions:
+              - entity: input_text.door_keypad_7_code
+                state_not: Code Here
+            type: conditional
+          - card:
+              color: 'rgb(44, 109, 214)'
+              color_type: label-card
+              name: Lock Schedule
+              styles:
+                card:
+                  - height: 20px
+                name:
+                  - justify-self: center
+                  - padding-left: 10px
+                  - font-size: 16px
+              type: 'custom:button-card'
+            cards: null
+            conditions:
+              - entity: input_select.door_keypad_7_access_schedule
+                state_not: Always
+            type: conditional
+          - card:
+              columns: 3
+              entities:
+                - entity: calendar.lock_code_7_schedule
+                  name: Start Time
+                  secondary_info: '[[ {entity}.attributes.start_time ]]'
+                  show_state: false
+                  type: 'custom:secondaryinfo-entity-row'
+                - entity: calendar.lock_code_7_schedule
+                  name: End Time
+                  secondary_info: '[[ {entity}.attributes.end_time ]]'
+                  show_state: false
+                  type: 'custom:secondaryinfo-entity-row'
+              show_icon: false
+              show_state: true
+              type: entities
+            cards: null
+            conditions:
+              - entity: input_select.door_keypad_7_access_schedule
+                state_not: Always
+            type: conditional
+          - card:
+              entities:
+                - entity: input_boolean.door_keypad_7_front_switch
+                - entity: input_boolean.door_keypad_7_back_switch
+                - entity: input_boolean.door_keypad_7_garage_switch
+                - entity: script.door_keypad_7_delete
+              type: entities
+            cards: null
+            conditions:
+              - entity: input_text.door_keypad_7_code
+                state_not: Code Here
+            type: conditional
+        type: vertical-stack
+      - cards:
+          - cards: null
+            color: 'rgb(0, 0, 0)'
+            color_type: label-card
+            name: Entry Code 8
+            styles:
+              card:
+                - height: 20px
+              name:
+                - justify-self: center
+                - padding-left: 10px
+                - font-size: 16px
+            type: 'custom:button-card'
+          - cards: null
+            entities:
+              - entity: input_text.door_keypad_8_name
+              - entity: input_text.door_keypad_8_code
+            type: entities
+          - card:
+              entities:
+                - entity: input_boolean.code_8_notify
+                - entity: input_select.door_keypad_8_access_schedule
+              type: entities
+            cards: null
+            conditions:
+              - entity: input_text.door_keypad_8_code
+                state_not: Code Here
+            type: conditional
+          - card:
+              color: 'rgb(44, 109, 214)'
+              color_type: label-card
+              name: Lock Schedule (Only Shows when on)
+              styles:
+                card:
+                  - height: 20px
+                name:
+                  - justify-self: center
+                  - padding-left: 10px
+                  - font-size: 16px
+              type: 'custom:button-card'
+            cards: null
+            conditions:
+              - entity: input_select.door_keypad_8_access_schedule
+                state_not: Always
+            type: conditional
+          - card:
+              columns: 3
+              entities:
+                - entity: calendar.lock_code_8_schedule
+                  name: Start Time
+                  secondary_info: '[[ {entity}.attributes.start_time ]]'
+                  type: 'custom:secondaryinfo-entity-row'
+                - entity: calendar.lock_code_8_schedule
+                  name: End Time
+                  secondary_info: '[[ {entity}.attributes.end_time ]]'
+                  type: 'custom:secondaryinfo-entity-row'
+              show_icon: false
+              show_state: true
+              state_filter:
+                - 'on'
+              type: entity-filter
+            cards: null
+            conditions:
+              - entity: input_select.door_keypad_8_access_schedule
+                state_not: Always
+            type: conditional
+          - card:
+              entities:
+                - entity: input_boolean.door_keypad_8_front_switch
+                - entity: input_boolean.door_keypad_8_back_switch
+                - entity: input_boolean.door_keypad_8_garage_switch
+                - entity: script.door_keypad_8_delete
+              type: entities
+            cards: null
+            conditions:
+              - entity: input_text.door_keypad_8_code
+                state_not: Code Here
+            type: conditional
+        type: vertical-stack
+      - cards:
+          - cards: null
+            color: 'rgb(0, 0, 0)'
+            color_type: label-card
+            name: Entry Code 9
+            styles:
+              card:
+                - height: 20px
+              name:
+                - justify-self: center
+                - padding-left: 10px
+                - font-size: 16px
+            type: 'custom:button-card'
+          - cards: null
+            entities:
+              - entity: input_text.door_keypad_9_name
+              - entity: input_text.door_keypad_9_code
+            type: entities
+          - card:
+              entities:
+                - entity: input_boolean.code_9_notify
+                - entity: input_select.door_keypad_9_access_schedule
+              type: entities
+            cards: null
+            conditions:
+              - entity: input_text.door_keypad_9_code
+                state_not: Code Here
+            type: conditional
+          - card:
+              color: 'rgb(44, 109, 214)'
+              color_type: label-card
+              name: Lock Schedule (Only Shows when on)
+              styles:
+                card:
+                  - height: 20px
+                name:
+                  - justify-self: center
+                  - padding-left: 10px
+                  - font-size: 16px
+              type: 'custom:button-card'
+            cards: null
+            conditions:
+              - entity: input_select.door_keypad_9_access_schedule
+                state_not: Always
+            type: conditional
+          - card:
+              columns: 3
+              entities:
+                - entity: calendar.lock_code_9_schedule
+                  name: Start Time
+                  secondary_info: '[[ {entity}.attributes.start_time ]]'
+                  type: 'custom:secondaryinfo-entity-row'
+                - entity: calendar.lock_code_9_schedule
+                  name: End Time
+                  secondary_info: '[[ {entity}.attributes.end_time ]]'
+                  type: 'custom:secondaryinfo-entity-row'
+              show_icon: false
+              show_state: true
+              state_filter:
+                - 'on'
+              type: entity-filter
+            cards: null
+            conditions:
+              - entity: input_select.door_keypad_9_access_schedule
+                state_not: Always
+            type: conditional
+          - card:
+              entities:
+                - entity: input_boolean.door_keypad_9_front_switch
+                - entity: input_boolean.door_keypad_9_back_switch
+                - entity: input_boolean.door_keypad_9_garage_switch
+                - entity: script.door_keypad_9_delete
+              type: entities
+            cards: null
+            conditions:
+              - entity: input_text.door_keypad_9_code
+                state_not: Code Here
+            type: conditional
+        type: vertical-stack
+      - cards:
+          - cards: null
+            color: 'rgb(0, 0, 0)'
+            color_type: label-card
+            name: Entry Code 10
+            styles:
+              card:
+                - height: 20px
+              name:
+                - justify-self: center
+                - padding-left: 10px
+                - font-size: 16px
+            type: 'custom:button-card'
+          - cards: null
+            entities:
+              - entity: input_text.door_keypad_10_name
+              - entity: input_text.door_keypad_10_code
+            type: entities
+          - card:
+              entities:
+                - entity: input_boolean.code_10_notify
+                - entity: input_select.door_keypad_10_access_schedule
+              type: entities
+            cards: null
+            conditions:
+              - entity: input_text.door_keypad_10_code
+                state_not: Code Here
+            type: conditional
+          - card:
+              color: 'rgb(44, 109, 214)'
+              color_type: label-card
+              name: Lock Schedule (Only Shows when on)
+              styles:
+                card:
+                  - height: 20px
+                name:
+                  - justify-self: center
+                  - padding-left: 10px
+                  - font-size: 16px
+              type: 'custom:button-card'
+            cards: null
+            conditions:
+              - entity: input_select.door_keypad_10_access_schedule
+                state_not: Always
+            type: conditional
+          - card:
+              columns: 3
+              entities:
+                - entity: calendar.lock_code_10_schedule
+                  name: Start Time
+                  secondary_info: '[[ {entity}.attributes.start_time ]]'
+                  type: 'custom:secondaryinfo-entity-row'
+                - entity: calendar.lock_code_10_schedule
+                  name: End Time
+                  secondary_info: '[[ {entity}.attributes.end_time ]]'
+                  type: 'custom:secondaryinfo-entity-row'
+              show_icon: false
+              show_state: true
+              state_filter:
+                - 'on'
+              type: entity-filter
+            cards: null
+            conditions:
+              - entity: input_select.door_keypad_10_access_schedule
+                state_not: Always
+            type: conditional
+          - card:
+              entities:
+                - entity: input_boolean.door_keypad_10_front_switch
+                - entity: input_boolean.door_keypad_10_back_switch
+                - entity: input_boolean.door_keypad_10_garage_switch
+                - entity: script.door_keypad_10_delete
+              type: entities
+            cards: null
+            conditions:
+              - entity: input_text.door_keypad_10_code
+                state_not: Code Here
+            type: conditional
+        type: vertical-stack
+      - cards:
+          - cards: null
+            color: 'rgb(0, 0, 0)'
+            color_type: label-card
+            name: Entry Code 11
+            styles:
+              card:
+                - height: 20px
+              name:
+                - justify-self: center
+                - padding-left: 10px
+                - font-size: 16px
+            type: 'custom:button-card'
+          - cards: null
+            entities:
+              - entity: input_text.door_keypad_11_name
+              - entity: input_text.door_keypad_11_code
+            type: entities
+          - card:
+              entities:
+                - entity: input_boolean.code_11_notify
+                - entity: input_select.door_keypad_11_access_schedule
+              type: entities
+            cards: null
+            conditions:
+              - entity: input_text.door_keypad_11_code
+                state_not: Code Here
+            type: conditional
+          - card:
+              color: 'rgb(44, 109, 214)'
+              color_type: label-card
+              name: Lock Schedule (Only Shows when on)
+              styles:
+                card:
+                  - height: 20px
+                name:
+                  - justify-self: center
+                  - padding-left: 10px
+                  - font-size: 16px
+              type: 'custom:button-card'
+            cards: null
+            conditions:
+              - entity: input_select.door_keypad_11_access_schedule
+                state_not: Always
+            type: conditional
+          - card:
+              columns: 3
+              entities:
+                - entity: calendar.lock_code_11_schedule
+                  name: Start Time
+                  secondary_info: '[[ {entity}.attributes.start_time ]]'
+                  type: 'custom:secondaryinfo-entity-row'
+                - entity: calendar.lock_code_11_schedule
+                  name: End Time
+                  secondary_info: '[[ {entity}.attributes.end_time ]]'
+                  type: 'custom:secondaryinfo-entity-row'
+              show_icon: false
+              show_state: true
+              state_filter:
+                - 'on'
+              type: entity-filter
+            cards: null
+            conditions:
+              - entity: input_select.door_keypad_11_access_schedule
+                state_not: Always
+            type: conditional
+          - card:
+              entities:
+                - entity: input_boolean.door_keypad_11_front_switch
+                - entity: input_boolean.door_keypad_11_back_switch
+                - entity: input_boolean.door_keypad_11_garage_switch
+                - entity: script.door_keypad_11_delete
+              type: entities
+            cards: null
+            conditions:
+              - entity: input_text.door_keypad_11_code
+                state_not: Code Here
+            type: conditional
+        type: vertical-stack
+      - cards:
+          - cards: null
+            color: 'rgb(0, 0, 0)'
+            color_type: label-card
+            name: Entry Code 12
+            styles:
+              card:
+                - height: 20px
+              name:
+                - justify-self: center
+                - padding-left: 10px
+                - font-size: 16px
+            type: 'custom:button-card'
+          - cards: null
+            entities:
+              - entity: input_text.door_keypad_12_name
+              - entity: input_text.door_keypad_12_code
+            type: entities
+          - card:
+              entities:
+                - entity: input_boolean.code_12_notify
+                - entity: input_select.door_keypad_12_access_schedule
+              type: entities
+            cards: null
+            conditions:
+              - entity: input_text.door_keypad_12_code
+                state_not: Code Here
+            type: conditional
+          - card:
+              color: 'rgb(44, 109, 214)'
+              color_type: label-card
+              name: Lock Schedule (Only Shows when on)
+              styles:
+                card:
+                  - height: 20px
+                name:
+                  - justify-self: center
+                  - padding-left: 10px
+                  - font-size: 16px
+              type: 'custom:button-card'
+            cards: null
+            conditions:
+              - entity: input_select.door_keypad_12_access_schedule
+                state_not: Always
+            type: conditional
+          - card:
+              columns: 3
+              entities:
+                - entity: calendar.lock_code_12_schedule
+                  name: Start Time
+                  secondary_info: '[[ {entity}.attributes.start_time ]]'
+                  type: 'custom:secondaryinfo-entity-row'
+                - entity: calendar.lock_code_12_schedule
+                  name: End Time
+                  secondary_info: '[[ {entity}.attributes.end_time ]]'
+                  type: 'custom:secondaryinfo-entity-row'
+              show_icon: false
+              show_state: true
+              state_filter:
+                - 'on'
+              type: entity-filter
+            cards: null
+            conditions:
+              - entity: input_select.door_keypad_12_access_schedule
+                state_not: Always
+            type: conditional
+          - card:
+              entities:
+                - entity: input_boolean.door_keypad_12_front_switch
+                - entity: input_boolean.door_keypad_12_back_switch
+                - entity: input_boolean.door_keypad_12_garage_switch
+                - entity: script.door_keypad_12_delete
+              type: entities
+            cards: null
+            conditions:
+              - entity: input_text.door_keypad_12_code
+                state_not: Code Here
+            type: conditional
+        type: vertical-stack
+      - cards:
+          - cards: null
+            color: 'rgb(0, 0, 0)'
+            color_type: label-card
+            name: Entry Code 13
+            styles:
+              card:
+                - height: 20px
+              name:
+                - justify-self: center
+                - padding-left: 10px
+                - font-size: 16px
+            type: 'custom:button-card'
+          - cards: null
+            entities:
+              - entity: input_text.door_keypad_13_name
+              - entity: input_text.door_keypad_13_code
+            type: entities
+          - card:
+              entities:
+                - entity: input_boolean.code_13_notify
+                - entity: input_select.door_keypad_13_access_schedule
+              type: entities
+            cards: null
+            conditions:
+              - entity: input_text.door_keypad_13_code
+                state_not: Code Here
+            type: conditional
+          - card:
+              color: 'rgb(44, 109, 214)'
+              color_type: label-card
+              name: Lock Schedule (Only Shows when on)
+              styles:
+                card:
+                  - height: 20px
+                name:
+                  - justify-self: center
+                  - padding-left: 10px
+                  - font-size: 16px
+              type: 'custom:button-card'
+            cards: null
+            conditions:
+              - entity: input_select.door_keypad_13_access_schedule
+                state_not: Always
+            type: conditional
+          - card:
+              columns: 3
+              entities:
+                - entity: calendar.lock_code_13_schedule
+                  name: Start Time
+                  secondary_info: '[[ {entity}.attributes.start_time ]]'
+                  type: 'custom:secondaryinfo-entity-row'
+                - entity: calendar.lock_code_13_schedule
+                  name: End Time
+                  secondary_info: '[[ {entity}.attributes.end_time ]]'
+                  type: 'custom:secondaryinfo-entity-row'
+              show_icon: false
+              show_state: true
+              state_filter:
+                - 'on'
+              type: entity-filter
+            cards: null
+            conditions:
+              - entity: input_select.door_keypad_13_access_schedule
+                state_not: Always
+            type: conditional
+          - card:
+              entities:
+                - entity: input_boolean.door_keypad_13_front_switch
+                - entity: input_boolean.door_keypad_13_back_switch
+                - entity: input_boolean.door_keypad_13_garage_switch
+                - entity: script.door_keypad_13_delete
+              type: entities
+            cards: null
+            conditions:
+              - entity: input_text.door_keypad_13_code
+                state_not: Code Here
+            type: conditional
+        type: vertical-stack
+      - cards:
+          - cards: null
+            color: 'rgb(0, 0, 0)'
+            color_type: label-card
+            name: Entry Code 14
+            styles:
+              card:
+                - height: 20px
+              name:
+                - justify-self: center
+                - padding-left: 10px
+                - font-size: 16px
+            type: 'custom:button-card'
+          - cards: null
+            entities:
+              - entity: input_text.door_keypad_14_name
+              - entity: input_text.door_keypad_14_code
+            type: entities
+          - card:
+              entities:
+                - entity: input_boolean.code_14_notify
+                - entity: input_select.door_keypad_14_access_schedule
+              type: entities
+            cards: null
+            conditions:
+              - entity: input_text.door_keypad_14_code
+                state_not: Code Here
+            type: conditional
+          - card:
+              color: 'rgb(44, 109, 214)'
+              color_type: label-card
+              name: Lock Schedule (Only Shows when on)
+              styles:
+                card:
+                  - height: 20px
+                name:
+                  - justify-self: center
+                  - padding-left: 10px
+                  - font-size: 16px
+              type: 'custom:button-card'
+            cards: null
+            conditions:
+              - entity: input_select.door_keypad_14_access_schedule
+                state_not: Always
+            type: conditional
+          - card:
+              columns: 3
+              entities:
+                - entity: calendar.lock_code_14_schedule
+                  name: Start Time
+                  secondary_info: '[[ {entity}.attributes.start_time ]]'
+                  type: 'custom:secondaryinfo-entity-row'
+                - entity: calendar.lock_code_14_schedule
+                  name: End Time
+                  secondary_info: '[[ {entity}.attributes.end_time ]]'
+                  type: 'custom:secondaryinfo-entity-row'
+              show_icon: false
+              show_state: true
+              state_filter:
+                - 'on'
+              type: entity-filter
+            cards: null
+            conditions:
+              - entity: input_select.door_keypad_14_access_schedule
+                state_not: Always
+            type: conditional
+          - card:
+              entities:
+                - entity: input_boolean.door_keypad_14_front_switch
+                - entity: input_boolean.door_keypad_14_back_switch
+                - entity: input_boolean.door_keypad_14_garage_switch
+                - entity: script.door_keypad_14_delete
+              type: entities
+            cards: null
+            conditions:
+              - entity: input_text.door_keypad_14_code
+                state_not: Code Here
+            type: conditional
+        type: vertical-stack
+      - cards:
+          - cards: null
+            color: 'rgb(0, 0, 0)'
+            color_type: label-card
+            name: Entry Code 15
+            styles:
+              card:
+                - height: 20px
+              name:
+                - justify-self: center
+                - padding-left: 10px
+                - font-size: 16px
+            type: 'custom:button-card'
+          - cards: null
+            entities:
+              - entity: input_text.door_keypad_15_name
+              - entity: input_text.door_keypad_15_code
+            type: entities
+          - card:
+              entities:
+                - entity: input_boolean.code_15_notify
+                - entity: input_select.door_keypad_15_access_schedule
+              type: entities
+            cards: null
+            conditions:
+              - entity: input_text.door_keypad_15_code
+                state_not: Code Here
+            type: conditional
+          - card:
+              color: 'rgb(44, 109, 214)'
+              color_type: label-card
+              name: Lock Schedule (Only Shows when on)
+              styles:
+                card:
+                  - height: 20px
+                name:
+                  - justify-self: center
+                  - padding-left: 10px
+                  - font-size: 16px
+              type: 'custom:button-card'
+            cards: null
+            conditions:
+              - entity: input_select.door_keypad_15_access_schedule
+                state_not: Always
+            type: conditional
+          - card:
+              columns: 3
+              entities:
+                - entity: calendar.lock_code_15_schedule
+                  name: Start Time
+                  secondary_info: '[[ {entity}.attributes.start_time ]]'
+                  type: 'custom:secondaryinfo-entity-row'
+                - entity: calendar.lock_code_15_schedule
+                  name: End Time
+                  secondary_info: '[[ {entity}.attributes.end_time ]]'
+                  type: 'custom:secondaryinfo-entity-row'
+              show_icon: false
+              show_state: true
+              state_filter:
+                - 'on'
+              type: entity-filter
+            cards: null
+            conditions:
+              - entity: input_select.door_keypad_15_access_schedule
+                state_not: Always
+            type: conditional
+          - card:
+              entities:
+                - entity: input_boolean.door_keypad_15_front_switch
+                - entity: input_boolean.door_keypad_15_back_switch
+                - entity: input_boolean.door_keypad_15_garage_switch
+                - entity: script.door_keypad_15_delete
+              type: entities
+            cards: null
+            conditions:
+              - entity: input_text.door_keypad_15_code
+                state_not: Code Here
+            type: conditional
+        type: vertical-stack
+      - entities:
+          - input_select.door_keypad_16_access_schedule
+          - input_text.door_keypad_16_name
+          - input_text.door_keypad_16_code
+          - input_boolean.code_16_notify
+          - input_boolean.door_keypad_16_front_switch
+          - input_boolean.door_keypad_16_back_switch
+          - input_boolean.door_keypad_16_garage_switch
+          - script.door_keypad_16_delete
+        show_header_toggle: false
+        title: One Time Use Code 1
+        type: entities
+      - entities:
+          - input_select.door_keypad_17_access_schedule
+          - input_text.door_keypad_17_name
+          - input_text.door_keypad_17_code
+          - input_boolean.code_17_notify
+          - input_boolean.door_keypad_17_front_switch
+          - input_boolean.door_keypad_17_back_switch
+          - input_boolean.door_keypad_17_garage_switch
+          - script.door_keypad_17_delete
+        show_header_toggle: false
+        title: One Time Use Code 2
+        type: entities
+      - entities:
+          - input_select.door_keypad_18_access_schedule
+          - input_text.door_keypad_18_name
+          - input_text.door_keypad_18_code
+          - input_boolean.code_18_notify
+          - input_boolean.door_keypad_18_front_switch
+          - input_boolean.door_keypad_18_back_switch
+          - input_boolean.door_keypad_18_garage_switch
+          - script.door_keypad_18_delete
+        show_header_toggle: false
+        title: One Time Use Code 3
+        type: entities
+      - entities:
+          - input_select.lock_zwave_option_3_back
+          - input_select.lock_zwave_option_4_back
+          - input_select.lock_zwave_option_5_back
+          - input_select.lock_zwave_option_7_back
+          - input_select.lock_zwave_option_8_back
+          - input_select.lock_zwave_option_9_back
+          - input_select.lock_zwave_option_10_back
+          - input_select.lock_zwave_option_11_back
+          - input_select.lock_zwave_option_15_back
+          - input_select.lock_zwave_option_16_back
+        show_header_toggle: false
+        title: Back Dooor Zwave Config Options
+        type: entities
+      - dateColor: black
+        dateSize: 90
+        dayWrapperLineColor: black
+        dimFinishedEvents: true
+        entities:
+          - entity: calendar.door_lock_schedule
+        eventBarColor: blue
+        finishedEventFilter: grayscale(100%)
+        finishedEventOpacity: 0.6
+        fullDayEventText: All day
+        locationIconColor: 'rgb(230, 124, 115)'
+        locationLinkColor: black
+        locationTextSize: 90
+        maxDaysToShow: 7
+        progressBarColor: blue
+        showColors: true
+        showCurrentEventLine: false
+        showLocation: true
+        showMonth: false
+        showProgressBar: true
+        timeColor: blue
+        timeSize: 90
+        title: Lock Schedule
+        titleColor: black
+        titleSize: 100
+        type: 'custom:atomic-calendar'
+        untilText: Until
+      - entities:
+          - input_select.lock_zwave_option_3_front
+          - input_select.lock_zwave_option_4_front
+          - input_select.lock_zwave_option_5_front
+          - input_select.lock_zwave_option_7_front
+          - input_select.lock_zwave_option_8_front
+          - input_select.lock_zwave_option_9_front
+          - input_select.lock_zwave_option_10_front
+          - input_select.lock_zwave_option_11_front
+          - input_select.lock_zwave_option_15_front
+          - input_select.lock_zwave_option_16_front
+        show_header_toggle: false
+        title: Front Door Zwave Config Options
+        type: entities
+    icon: 'mdi:lock-smart'
+    path: keypads
+    title: 'Door Lock Information, Codes and Configuration'

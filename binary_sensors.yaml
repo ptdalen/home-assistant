@@ -39,12 +39,12 @@
    ssl: False
    username: hass
    password: !secret camera_nvr_password
-# - platform: hikvision
-#   host: 192.168.1.100
-#   port: 65005
-#   ssl: False
-#   username: hass
-#   password: !secret camera_nvr_password
+ - platform: hikvision
+   host: 192.168.1.100
+   port: 65005
+   ssl: False
+   username: hass
+   password: !secret camera_nvr_password
 # - platform: ffmpeg_motion
 #   input: !secret camera_url_1
 #   name: Front Door Camera Motion

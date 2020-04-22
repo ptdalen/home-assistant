@@ -205,28 +205,28 @@ switch.lava_lamp_two:
 switch.lava_lamp_plug:
   icon: mdi:lava-lamp
 switch.fireplace:
-  emulated_hue_hidden: false
+  hidden: false
   icon: mdi:fire
 light.dining_room_lamp:
   icon: mdi:lamp
-  emulated_hue_hidden: false
+  hidden: false
 light.living_room_lamp:
   icon: mdi:lamp
-  emulated_hue_hidden: false
+  hidden: false
 light.left_shelf_lights:
   icon: bha:led-strip
-  emulated_hue_hidden: false
+  hidden: false
 light.tv_backlights:
   icon: bha:led-strip
-  emulated_hue_hidden: false
+  hidden: false
 light.right_shelf_lights:
   icon: bha:led-strip
-  emulated_hue_hidden: false
+  hidden: false
 input_boolean.fireplace_toggle:
-  emulated_hue_hidden: false
+  hidden: false
   icon: mdi:fire
-light.shelf_only_color_lights:
-  emulated_hue_hidden: false
+light.shelf_lights:
+  hidden: false
 light.bedroom_tv_lights:
   icon: bha:led-strip
 light.frog_couch_backlight:

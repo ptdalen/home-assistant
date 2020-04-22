@@ -1,10 +1,23 @@
-- platform: generic
-  still_image_url: !secret camera1_still_image_url
-  stream_source: !secret camera1_stream_source
+- platform: onvif
+  host: 192.168.1.101
   name: Front Door
   username: admin
   password: !secret camera_doorbell_password
-  authentication: basic
+  profile: 1
+  port: 80
+#- platform: onvif
+#  host: 192.168.1.100
+#  name: Driveway One
+#  username: hass
+#  password: !secret camera_nvr_password
+#  port: 65002
+#- platform: generic
+#  still_image_url: !secret camera1_still_image_url
+#  stream_source: !secret camera1_stream_source
+#  name: Front Door
+#  username: admin
+#  password: !secret camera_doorbell_password
+#  authentication: basic
 - platform: generic
   still_image_url: !secret camera2_still_image_url
   stream_source: !secret camera2_stream_source
@@ -29,13 +42,13 @@
 - platform: generic
   still_image_url: https://radblast.wunderground.com/cgi-bin/radar/WUNIDS_map?num=6&type=N0R&mapx=400&mapy=240&brand=wui&delay=100&frame=0&scale=0.2217391304347826&transx=-311.17647058823513&transy=63.13725490196066&severe=1&smooth=1&centerx=88.82352941176487&centery=303.13725490196066&station=AKQ&rainsnow=1&lightning=1&noclutter=0&showlabels=1&showstorms=0&rand=26114316
   name: VB Radar
-#- platform: generic
-#  still_image_url: !secret camera5_still_image_url
-#  stream_source: !secret camera5_stream_source
-#  name: Side Yard
-#  username: hass
-#  password: !secret camera_nvr_password
-#  authentication: digest
+- platform: generic
+  still_image_url: !secret camera5_still_image_url
+  stream_source: !secret camera5_stream_source
+  name: Side Yard
+  username: hass
+  password: !secret camera_nvr_password
+  authentication: digest
 - platform: local_file
   file_path: /home/homeassistant/.homeassistant/www/tmp/front_door_latest.jpg
   name: Front Door Processed

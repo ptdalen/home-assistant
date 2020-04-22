@@ -1,22 +1,22 @@
-#- platform: group
-#  name: All Downstairs Color Lights
-#  entities:
-#    - light.left_shelf_lights
-#    - light.tv_backlights
-#    - light.right_shelf_lights
-#    - light.kitchen_cabinet_tops
-#    - light.kitchen_cabinet_bottoms
-#    - light.living_room_lamp_one
-#    - light.living_room_lamp_two
-#    - light.alcove_light
+- platform: group
+  name: All Downstairs Color Lights HA
+  entities:
+    - light.left_shelf_lights
+    - light.tv_backlights
+    - light.right_shelf_lights
+    - light.kitchen_cabinet_tops
+    - light.kitchen_cabinet_bottoms
+    - light.living_room_lamp
+    - light.dining_room_lamp
+    - light.alcove_light
 #- platform: group
 #  name: Living Room Color Lights
 #  entities:
 #    - light.left_shelf_lights
 #    - light.tv_backlights
 #    - light.right_shelf_lights
-#    - light.living_room_lamp_one
-#    - light.living_room_lamp_two
+#    - light.living_room_lamp
+#    - light.dining_room_lamp
 #- platform: group
 #  name: Kitchen Color Lights
 #  entities:

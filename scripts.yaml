@@ -5,14 +5,47 @@
 reset_downstairs_lighting:
   alias: Reset Downstairs Lighting
   sequence:
-    - service: light.turn_on
-      entity_id: group.color_hue_lights
-      data:
-        brightness: 150
-        rgb_color: [255,200,118]
+    - service: light.turn_off
+      entity_id: light.all_downstairs_color_lights
+#      data:
+#        brightness: 150
+#        rgb_color: [255,200,118]
+#    - delay: '00:00:01'
+    - service: scene.turn_on
+      data_template:
+        entity_id: >-
+          {% if states('media_player.living_room_tv') == 'on' and states('sensor.hue_outdoor_motion_sensor_light_level')| int < 250  %}
+            scene.tv_lights
+          {% else %}
+            scene.casual_lighting
+          {% endif %}
     - delay: '00:00:01'
     - service: scene.turn_on
-      entity_id: scene.casual_lighting
+      data_template:
+        entity_id: >-
+          {% if states('media_player.living_room_tv') == 'on' and states('sensor.hue_outdoor_motion_sensor_light_level')| int < 250  %}
+            scene.tv_lights
+          {% else %}
+            scene.casual_lighting
+          {% endif %}
+
+downstairs_colorloop:
+  alias: Downstairs Color Loop
+  sequence:
+    - service: light.turn_on
+      entity_id: light.all_downstairs_color_lights
+      data_template:
+        hs_color:
+          - "{{ range(360)|random }}"
+          - "{{ range(80,101)|random }}"
+        brightness: 190
+    - delay: '00:00:04'
+    - service: light.turn_on
+      entity_id: light.all_downstairs_color_lights
+      data_template:
+        effect: colorloop
+        brightness: 190
+        transition: 10
 
 increment_light:
   alias: Shelf Lights Dim

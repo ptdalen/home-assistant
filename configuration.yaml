@@ -38,11 +38,13 @@ duckdns:
   access_token: !secret duckdns_access_token
 
 spotify:
-  client_id: 0fc021fc3f3f4efea3dbbc23a483bb39
-  client_secret: 21947ba4f17c420eb68c18128f85adce
+  client_id: !secret spotify_client_id
+  client_secret: !secret spotify_client_secret
 
-#logger:
-#  default: critical
+logger:
+  default: error
+#  logs:
+#    homeassistant.components.waze_travel_time.sensor: error
   
 # Text to speech
 tts:
@@ -92,6 +94,26 @@ asuswrt:
 emulated_hue:
   host_ip: 192.168.1.12
   expose_by_default: false
+  listen_port: 80
+#  advertise_ip: 10.0.0.10
+#  advertise_port: 8080
+  entities:
+#    switch.fireplace:
+#      hidden: false
+    light.dining_room_lamp:
+      hidden: false
+    light.living_room_lamp:
+      hidden: false
+#    light.left_shelf_lights:
+#      hidden: false
+    light.tv_backlights:
+      hidden: false
+#    light.right_shelf_lights:
+#      hidden: false
+    input_boolean.fireplace_toggle:
+      hidden: false
+    light.shelf_lights:
+      hidden: false
 
 hue:
   bridges:
@@ -148,13 +170,13 @@ nest:
   client_secret: !secret nest_secret
 
 media_player:
-  - platform: braviatv_psk
-    name: Living Room TV
-    host: 192.168.1.80
-    psk: 1234
-    mac: 04:5D:4B:AA:70:89
-    amp: True
-    android: True
+#  - platform: braviatv_psk
+#    name: Living Room TV PSK
+#    host: 192.168.1.80
+#    psk: 1234
+#    mac: 04:5D:4B:AA:70:89
+#    amp: True
+#    android: True
 #  - platform: vizio
 #    host: 192.168.1.82
 #    access_token: Z6xoq7pviz
@@ -165,6 +187,7 @@ media_player:
 #    name: Bedroom TV Control
   - platform: braviatv
     host: 192.168.1.80
+    name: Living Room TV
 
 #alexa_media:
 #  accounts:
@@ -221,7 +244,7 @@ switch:
     lights_rgb:
       - light.all_downstairs_color_lights
 
-#ffmpeg:
+ffmpeg:
 #  ffmpeg_bin: /usr/bin/avconv
 
 panel_custom:
