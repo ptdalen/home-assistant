@@ -342,23 +342,59 @@ input_select:
       
 input_boolean:
   door_keypad_1_back_switch:
+    name: Back Door Lock
+    icon: mdi:lock-smart
   door_keypad_2_back_switch:
+    name: Back Door Lock
+    icon: mdi:lock-smart
   door_keypad_3_back_switch:
+    name: Back Door Lock
+    icon: mdi:lock-smart
   door_keypad_4_back_switch:
+    name: Back Door Lock
+    icon: mdi:lock-smart
   door_keypad_5_back_switch:
+    name: Back Door Lock
+    icon: mdi:lock-smart
   door_keypad_6_back_switch:
+    name: Back Door Lock
+    icon: mdi:lock-smart
   door_keypad_7_back_switch:
+    name: Back Door Lock
+    icon: mdi:lock-smart
   door_keypad_8_back_switch:
+    name: Back Door Lock
+    icon: mdi:lock-smart
   door_keypad_9_back_switch:
+    name: Back Door Lock
+    icon: mdi:lock-smart
   door_keypad_10_back_switch:
+    name: Back Door Lock
+    icon: mdi:lock-smart  
   door_keypad_11_back_switch:
+    name: Back Door Lock
+    icon: mdi:lock-smart
   door_keypad_12_back_switch:
+    name: Back Door Lock
+    icon: mdi:lock-smart
   door_keypad_13_back_switch:
+    name: Back Door Lock
+    icon: mdi:lock-smart
   door_keypad_14_back_switch:
+    name: Back Door Lock
+    icon: mdi:lock-smart
   door_keypad_15_back_switch:
+    name: Back Door Lock
+    icon: mdi:lock-smart
   door_keypad_16_back_switch:
+    name: Back Door Lock
+    icon: mdi:lock-smart
   door_keypad_17_back_switch:
+    name: Back Door Lock
+    icon: mdi:lock-smart
   door_keypad_18_back_switch:
+    name: Back Door Lock
+    icon: mdi:lock-smart
 
 sensor:
   - platform: template

@@ -250,23 +250,59 @@ input_text:
 
 input_boolean:
   door_keypad_1_garage_switch:
+    name: Garage Door Lock
+    icon: mdi:lock-smart
   door_keypad_2_garage_switch:
+    name: Garage Door Lock
+    icon: mdi:lock-smart
   door_keypad_3_garage_switch:
+    name: Garage Door Lock
+    icon: mdi:lock-smart
   door_keypad_4_garage_switch:
+    name: Garage Door Lock
+    icon: mdi:lock-smart
   door_keypad_5_garage_switch:
+    name: Garage Door Lock
+    icon: mdi:lock-smart
   door_keypad_6_garage_switch:
+    name: Garage Door Lock
+    icon: mdi:lock-smart
   door_keypad_7_garage_switch:
+    name: Garage Door Lock
+    icon: mdi:lock-smart
   door_keypad_8_garage_switch:
+    name: Garage Door Lock
+    icon: mdi:lock-smart
   door_keypad_9_garage_switch:
+    name: Garage Door Lock
+    icon: mdi:lock-smart
   door_keypad_10_garage_switch:
+    name: Garage Door Lock
+    icon: mdi:lock-smart  
   door_keypad_11_garage_switch:
+    name: Garage Door Lock
+    icon: mdi:lock-smart
   door_keypad_12_garage_switch:
+    name: Garage Door Lock
+    icon: mdi:lock-smart
   door_keypad_13_garage_switch:
+    name: Garage Door Lock
+    icon: mdi:lock-smart
   door_keypad_14_garage_switch:
+    name: Garage Door Lock
+    icon: mdi:lock-smart
   door_keypad_15_garage_switch:
+    name: Garage Door Lock
+    icon: mdi:lock-smart
   door_keypad_16_garage_switch:
+    name: Garage Door Lock
+    icon: mdi:lock-smart
   door_keypad_17_garage_switch:
+    name: Garage Door Lock
+    icon: mdi:lock-smart
   door_keypad_18_garage_switch:
+    name: Garage Door Lock
+    icon: mdi:lock-smart
 
 input_select:
   hass_status_for_garage_door_lock:

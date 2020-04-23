@@ -342,23 +342,59 @@ input_select:
       
 input_boolean:
   door_keypad_1_front_switch:
+    name: Front Door Lock
+    icon: mdi:lock-smart
   door_keypad_2_front_switch:
+    name: Front Door Lock
+    icon: mdi:lock-smart
   door_keypad_3_front_switch:
+    name: Front Door Lock
+    icon: mdi:lock-smart
   door_keypad_4_front_switch:
+    name: Front Door Lock
+    icon: mdi:lock-smart
   door_keypad_5_front_switch:
+    name: Front Door Lock
+    icon: mdi:lock-smart
   door_keypad_6_front_switch:
+    name: Front Door Lock
+    icon: mdi:lock-smart
   door_keypad_7_front_switch:
+    name: Front Door Lock
+    icon: mdi:lock-smart
   door_keypad_8_front_switch:
+    name: Front Door Lock
+    icon: mdi:lock-smart
   door_keypad_9_front_switch:
+    name: Front Door Lock
+    icon: mdi:lock-smart
   door_keypad_10_front_switch:
+    name: Front Door Lock
+    icon: mdi:lock-smart
   door_keypad_11_front_switch:
+    name: Front Door Lock
+    icon: mdi:lock-smart
   door_keypad_12_front_switch:
+    name: Front Door Lock
+    icon: mdi:lock-smart
   door_keypad_13_front_switch:
+    name: Front Door Lock
+    icon: mdi:lock-smart
   door_keypad_14_front_switch:
+    name: Front Door Lock
+    icon: mdi:lock-smart
   door_keypad_15_front_switch:
+    name: Front Door Lock
+    icon: mdi:lock-smart
   door_keypad_16_front_switch:
+    name: Front Door Lock
+    icon: mdi:lock-smart
   door_keypad_17_front_switch:
+    name: Front Door Lock
+    icon: mdi:lock-smart
   door_keypad_18_front_switch:
+    name: Front Door Lock
+    icon: mdi:lock-smart
 
 sensor:
   - platform: template

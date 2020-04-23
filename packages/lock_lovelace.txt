@@ -1,3 +1,4 @@
+views:
   - badges: []
     cards:
       - cards:
@@ -31,7 +32,7 @@
           - card:
               color: 'rgb(44, 109, 214)'
               color_type: label-card
-              name: Lock Schedule (Only Shows when on)
+              name: Lock Schedule
               styles:
                 card:
                   - height: 20px
@@ -42,6 +43,25 @@
               type: 'custom:button-card'
             cards: null
             conditions:
+              - entity: input_select.door_keypad_1_access_schedule
+                state_not: Always
+            type: conditional
+          - card:
+              content: >
+                {% if states.calendar.lock_code_1_schedule.attributes.start_time
+                is not defined %}
+
+                #### There is not a calendar event defined for this code slot. 
+                Recurring and Temp access schedule will not work.  Please set a
+                calendar event.
+
+                {% else %} ####  Google Calendar Start and End Times       {%
+                endif %}
+              type: markdown
+            cards: null
+            conditions:
+              - entity: calendar.lock_code_1_schedule
+                state_not: 'on'
               - entity: input_select.door_keypad_1_access_schedule
                 state_not: Always
             type: conditional
@@ -60,6 +80,7 @@
               show_state: true
               state_filter:
                 - 'on'
+                - 'off'
               type: entity-filter
             cards: null
             conditions:
@@ -71,9 +92,33 @@
                 - entity: input_boolean.door_keypad_1_front_switch
                 - entity: input_boolean.door_keypad_1_back_switch
                 - entity: input_boolean.door_keypad_1_garage_switch
-                - entity: script.door_keypad_1_delete
+              show_header_toggle: false
               type: entities
             cards: null
+            conditions:
+              - entity: input_text.door_keypad_1_code
+                state_not: Code Here
+            type: conditional
+          - card:
+              entity: script.door_keypad_1_delete
+              icon: 'mdi:delete'
+              lock:
+                enabled: true
+              show_icon: true
+              show_state: false
+              style:
+                - white-space: nowrap
+                - text-transform: none
+                - color: 'rgb(210, 255,255)'
+              styles:
+                card:
+                  - height: 50px
+              tap_action:
+                action: call-service
+                service: script.turn_on
+                service_data:
+                  entity_id: script.door_keypad_1_delete
+              type: 'custom:button-card'
             conditions:
               - entity: input_text.door_keypad_1_code
                 state_not: Code Here
@@ -110,7 +155,7 @@
           - card:
               color: 'rgb(44, 109, 214)'
               color_type: label-card
-              name: Lock Schedule (Only Shows when on)
+              name: Lock Schedule
               styles:
                 card:
                   - height: 20px
@@ -121,6 +166,25 @@
               type: 'custom:button-card'
             cards: null
             conditions:
+              - entity: input_select.door_keypad_2_access_schedule
+                state_not: Always
+            type: conditional
+          - card:
+              content: >
+                {% if states.calendar.lock_code_2_schedule.attributes.start_time
+                is not defined %}
+
+                #### There is not a calendar event defined for this code slot. 
+                Recurring and Temp access schedule will not work.  Please set a
+                calendar event.
+
+                {% else %} ####  Google Calendar Start and End Times   {% endif
+                %}
+              type: markdown
+            cards: null
+            conditions:
+              - entity: calendar.lock_code_2_schedule
+                state_not: 'on'
               - entity: input_select.door_keypad_2_access_schedule
                 state_not: Always
             type: conditional
@@ -139,6 +203,7 @@
               show_state: true
               state_filter:
                 - 'on'
+                - 'off'
               type: entity-filter
             cards: null
             conditions:
@@ -150,9 +215,33 @@
                 - entity: input_boolean.door_keypad_2_front_switch
                 - entity: input_boolean.door_keypad_2_back_switch
                 - entity: input_boolean.door_keypad_2_garage_switch
-                - entity: script.door_keypad_2_delete
+              show_header_toggle: false
               type: entities
             cards: null
+            conditions:
+              - entity: input_text.door_keypad_2_code
+                state_not: Code Here
+            type: conditional
+          - card:
+              entity: script.door_keypad_2_delete
+              icon: 'mdi:delete'
+              lock:
+                enabled: true
+              show_icon: true
+              show_state: false
+              style:
+                - white-space: nowrap
+                - text-transform: none
+                - color: 'rgb(210, 255,255)'
+              styles:
+                card:
+                  - height: 50px
+              tap_action:
+                action: call-service
+                service: script.turn_on
+                service_data:
+                  entity_id: script.door_keypad_2_delete
+              type: 'custom:button-card'
             conditions:
               - entity: input_text.door_keypad_2_code
                 state_not: Code Here
@@ -189,7 +278,7 @@
           - card:
               color: 'rgb(44, 109, 214)'
               color_type: label-card
-              name: Lock Schedule (Only Shows when on)
+              name: Lock Schedule
               styles:
                 card:
                   - height: 20px
@@ -200,6 +289,24 @@
               type: 'custom:button-card'
             cards: null
             conditions:
+              - entity: input_select.door_keypad_3_access_schedule
+                state_not: Always
+            type: conditional
+          - card:
+              content: >
+                {% if states.calendar.lock_code_3_schedule.attributes.start_time
+                is not defined %}
+
+                #### There is not a calendar event defined for this code slot. 
+                Recurring and Temp access schedule will not work.  Please set a
+                calendar event.
+
+                {% else %} ####  Google Calendar Start and End Times {% endif %}
+              type: markdown
+            cards: null
+            conditions:
+              - entity: calendar.lock_code_3_schedule
+                state_not: 'on'
               - entity: input_select.door_keypad_3_access_schedule
                 state_not: Always
             type: conditional
@@ -218,6 +325,7 @@
               show_state: true
               state_filter:
                 - 'on'
+                - 'off'
               type: entity-filter
             cards: null
             conditions:
@@ -229,9 +337,33 @@
                 - entity: input_boolean.door_keypad_3_front_switch
                 - entity: input_boolean.door_keypad_3_back_switch
                 - entity: input_boolean.door_keypad_3_garage_switch
-                - entity: script.door_keypad_3_delete
+              show_header_toggle: false
               type: entities
             cards: null
+            conditions:
+              - entity: input_text.door_keypad_3_code
+                state_not: Code Here
+            type: conditional
+          - card:
+              entity: script.door_keypad_3_delete
+              icon: 'mdi:delete'
+              lock:
+                enabled: true
+              show_icon: true
+              show_state: false
+              style:
+                - white-space: nowrap
+                - text-transform: none
+                - color: 'rgb(210, 255,255)'
+              styles:
+                card:
+                  - height: 50px
+              tap_action:
+                action: call-service
+                service: script.turn_on
+                service_data:
+                  entity_id: script.door_keypad_3_delete
+              type: 'custom:button-card'
             conditions:
               - entity: input_text.door_keypad_3_code
                 state_not: Code Here
@@ -268,7 +400,7 @@
           - card:
               color: 'rgb(44, 109, 214)'
               color_type: label-card
-              name: Lock Schedule (Only Shows when on)
+              name: Lock Schedule
               styles:
                 card:
                   - height: 20px
@@ -279,6 +411,24 @@
               type: 'custom:button-card'
             cards: null
             conditions:
+              - entity: input_select.door_keypad_4_access_schedule
+                state_not: Always
+            type: conditional
+          - card:
+              content: >
+                {% if states.calendar.lock_code_4_schedule.attributes.start_time
+                is not defined %}
+
+                #### There is not a calendar event defined for this code slot. 
+                Recurring and Temp access schedule will not work.  Please set a
+                calendar event.
+
+                {% else %} ####  Google Calendar Start and End Times {% endif %}
+              type: markdown
+            cards: null
+            conditions:
+              - entity: calendar.lock_code_4_schedule
+                state_not: 'on'
               - entity: input_select.door_keypad_4_access_schedule
                 state_not: Always
             type: conditional
@@ -297,6 +447,7 @@
               show_state: true
               state_filter:
                 - 'on'
+                - 'off'
               type: entity-filter
             cards: null
             conditions:
@@ -308,9 +459,33 @@
                 - entity: input_boolean.door_keypad_4_front_switch
                 - entity: input_boolean.door_keypad_4_back_switch
                 - entity: input_boolean.door_keypad_4_garage_switch
-                - entity: script.door_keypad_4_delete
+              show_header_toggle: false
               type: entities
             cards: null
+            conditions:
+              - entity: input_text.door_keypad_4_code
+                state_not: Code Here
+            type: conditional
+          - card:
+              entity: script.door_keypad_4_delete
+              icon: 'mdi:delete'
+              lock:
+                enabled: true
+              show_icon: true
+              show_state: false
+              style:
+                - white-space: nowrap
+                - text-transform: none
+                - color: 'rgb(210, 255,255)'
+              styles:
+                card:
+                  - height: 50px
+              tap_action:
+                action: call-service
+                service: script.turn_on
+                service_data:
+                  entity_id: script.door_keypad_4_delete
+              type: 'custom:button-card'
             conditions:
               - entity: input_text.door_keypad_4_code
                 state_not: Code Here
@@ -347,7 +522,7 @@
           - card:
               color: 'rgb(44, 109, 214)'
               color_type: label-card
-              name: Lock Schedule (Only Shows when on)
+              name: Lock Schedule
               styles:
                 card:
                   - height: 20px
@@ -358,6 +533,24 @@
               type: 'custom:button-card'
             cards: null
             conditions:
+              - entity: input_select.door_keypad_5_access_schedule
+                state_not: Always
+            type: conditional
+          - card:
+              content: >
+                {% if states.calendar.lock_code_5_schedule.attributes.start_time
+                is not defined %}
+
+                #### There is not a calendar event defined for this code slot. 
+                Recurring and Temp access schedule will not work.  Please set a
+                calendar event.
+
+                {% else %} ####  Google Calendar Start and End Times {% endif %}
+              type: markdown
+            cards: null
+            conditions:
+              - entity: calendar.lock_code_5_schedule
+                state_not: 'on'
               - entity: input_select.door_keypad_5_access_schedule
                 state_not: Always
             type: conditional
@@ -376,6 +569,7 @@
               show_state: true
               state_filter:
                 - 'on'
+                - 'off'
               type: entity-filter
             cards: null
             conditions:
@@ -387,9 +581,33 @@
                 - entity: input_boolean.door_keypad_5_front_switch
                 - entity: input_boolean.door_keypad_5_back_switch
                 - entity: input_boolean.door_keypad_5_garage_switch
-                - entity: script.door_keypad_5_delete
+              show_header_toggle: false
               type: entities
             cards: null
+            conditions:
+              - entity: input_text.door_keypad_5_code
+                state_not: Code Here
+            type: conditional
+          - card:
+              entity: script.door_keypad_5_delete
+              icon: 'mdi:delete'
+              lock:
+                enabled: true
+              show_icon: true
+              show_state: false
+              style:
+                - white-space: nowrap
+                - text-transform: none
+                - color: 'rgb(210, 255,255)'
+              styles:
+                card:
+                  - height: 50px
+              tap_action:
+                action: call-service
+                service: script.turn_on
+                service_data:
+                  entity_id: script.door_keypad_5_delete
+              type: 'custom:button-card'
             conditions:
               - entity: input_text.door_keypad_5_code
                 state_not: Code Here
@@ -426,7 +644,7 @@
           - card:
               color: 'rgb(44, 109, 214)'
               color_type: label-card
-              name: Lock Schedule (Only Shows when on)
+              name: Lock Schedule
               styles:
                 card:
                   - height: 20px
@@ -437,6 +655,24 @@
               type: 'custom:button-card'
             cards: null
             conditions:
+              - entity: input_select.door_keypad_6_access_schedule
+                state_not: Always
+            type: conditional
+          - card:
+              content: >
+                {% if states.calendar.lock_code_6_schedule.attributes.start_time
+                is not defined %}
+
+                #### There is not a calendar event defined for this code slot. 
+                Recurring and Temp access schedule will not work.  Please set a
+                calendar event.
+
+                {% else %} ####  Google Calendar Start and End Times {% endif %}
+              type: markdown
+            cards: null
+            conditions:
+              - entity: calendar.lock_code_6_schedule
+                state_not: 'on'
               - entity: input_select.door_keypad_6_access_schedule
                 state_not: Always
             type: conditional
@@ -455,6 +691,7 @@
               show_state: true
               state_filter:
                 - 'on'
+                - 'off'
               type: entity-filter
             cards: null
             conditions:
@@ -466,9 +703,33 @@
                 - entity: input_boolean.door_keypad_6_front_switch
                 - entity: input_boolean.door_keypad_6_back_switch
                 - entity: input_boolean.door_keypad_6_garage_switch
-                - entity: script.door_keypad_6_delete
+              show_header_toggle: false
               type: entities
             cards: null
+            conditions:
+              - entity: input_text.door_keypad_6_code
+                state_not: Code Here
+            type: conditional
+          - card:
+              entity: script.door_keypad_6_delete
+              icon: 'mdi:delete'
+              lock:
+                enabled: true
+              show_icon: true
+              show_state: false
+              style:
+                - white-space: nowrap
+                - text-transform: none
+                - color: 'rgb(210, 255,255)'
+              styles:
+                card:
+                  - height: 50px
+              tap_action:
+                action: call-service
+                service: script.turn_on
+                service_data:
+                  entity_id: script.door_keypad_6_delete
+              type: 'custom:button-card'
             conditions:
               - entity: input_text.door_keypad_6_code
                 state_not: Code Here
@@ -520,21 +781,42 @@
                 state_not: Always
             type: conditional
           - card:
+              content: >
+                {% if states.calendar.lock_code_7_schedule.attributes.start_time
+                is not defined %}
+
+                #### There is not a calendar event defined for this code slot. 
+                Recurring and Temp access schedule will not work.  Please set a
+                calendar event.
+
+                {% else %}
+                 ####  Google Calendar Start and End Times
+                {% endif %}
+              type: markdown
+            cards: null
+            conditions:
+              - entity: calendar.lock_code_7_schedule
+                state_not: 'on'
+              - entity: input_select.door_keypad_7_access_schedule
+                state_not: Always
+            type: conditional
+          - card:
               columns: 3
               entities:
                 - entity: calendar.lock_code_7_schedule
                   name: Start Time
                   secondary_info: '[[ {entity}.attributes.start_time ]]'
-                  show_state: false
                   type: 'custom:secondaryinfo-entity-row'
                 - entity: calendar.lock_code_7_schedule
                   name: End Time
                   secondary_info: '[[ {entity}.attributes.end_time ]]'
-                  show_state: false
                   type: 'custom:secondaryinfo-entity-row'
               show_icon: false
               show_state: true
-              type: entities
+              state_filter:
+                - 'on'
+                - 'off'
+              type: entity-filter
             cards: null
             conditions:
               - entity: input_select.door_keypad_7_access_schedule
@@ -545,9 +827,33 @@
                 - entity: input_boolean.door_keypad_7_front_switch
                 - entity: input_boolean.door_keypad_7_back_switch
                 - entity: input_boolean.door_keypad_7_garage_switch
-                - entity: script.door_keypad_7_delete
+              show_header_toggle: false
               type: entities
             cards: null
+            conditions:
+              - entity: input_text.door_keypad_7_code
+                state_not: Code Here
+            type: conditional
+          - card:
+              entity: script.door_keypad_7_delete
+              icon: 'mdi:delete'
+              lock:
+                enabled: true
+              show_icon: true
+              show_state: false
+              style:
+                - white-space: nowrap
+                - text-transform: none
+                - color: 'rgb(210, 255,255)'
+              styles:
+                card:
+                  - height: 50px
+              tap_action:
+                action: call-service
+                service: script.turn_on
+                service_data:
+                  entity_id: script.door_keypad_7_delete
+              type: 'custom:button-card'
             conditions:
               - entity: input_text.door_keypad_7_code
                 state_not: Code Here
@@ -584,7 +890,7 @@
           - card:
               color: 'rgb(44, 109, 214)'
               color_type: label-card
-              name: Lock Schedule (Only Shows when on)
+              name: Lock Schedule
               styles:
                 card:
                   - height: 20px
@@ -595,6 +901,24 @@
               type: 'custom:button-card'
             cards: null
             conditions:
+              - entity: input_select.door_keypad_8_access_schedule
+                state_not: Always
+            type: conditional
+          - card:
+              content: >
+                {% if states.calendar.lock_code_8_schedule.attributes.start_time
+                is not defined %}
+
+                #### There is not a calendar event defined for this code slot. 
+                Recurring and Temp access schedule will not work.  Please set a
+                calendar event.
+
+                {% else %} ####  Google Calendar Start and End Times {% endif %}
+              type: markdown
+            cards: null
+            conditions:
+              - entity: calendar.lock_code_8_schedule
+                state_not: 'on'
               - entity: input_select.door_keypad_8_access_schedule
                 state_not: Always
             type: conditional
@@ -613,6 +937,7 @@
               show_state: true
               state_filter:
                 - 'on'
+                - 'off'
               type: entity-filter
             cards: null
             conditions:
@@ -624,9 +949,33 @@
                 - entity: input_boolean.door_keypad_8_front_switch
                 - entity: input_boolean.door_keypad_8_back_switch
                 - entity: input_boolean.door_keypad_8_garage_switch
-                - entity: script.door_keypad_8_delete
+              show_header_toggle: false
               type: entities
             cards: null
+            conditions:
+              - entity: input_text.door_keypad_8_code
+                state_not: Code Here
+            type: conditional
+          - card:
+              entity: script.door_keypad_8_delete
+              icon: 'mdi:delete'
+              lock:
+                enabled: true
+              show_icon: true
+              show_state: false
+              style:
+                - white-space: nowrap
+                - text-transform: none
+                - color: 'rgb(210, 255,255)'
+              styles:
+                card:
+                  - height: 50px
+              tap_action:
+                action: call-service
+                service: script.turn_on
+                service_data:
+                  entity_id: script.door_keypad_8_delete
+              type: 'custom:button-card'
             conditions:
               - entity: input_text.door_keypad_8_code
                 state_not: Code Here
@@ -663,7 +1012,7 @@
           - card:
               color: 'rgb(44, 109, 214)'
               color_type: label-card
-              name: Lock Schedule (Only Shows when on)
+              name: Lock Schedule
               styles:
                 card:
                   - height: 20px
@@ -674,6 +1023,24 @@
               type: 'custom:button-card'
             cards: null
             conditions:
+              - entity: input_select.door_keypad_9_access_schedule
+                state_not: Always
+            type: conditional
+          - card:
+              content: >
+                {% if states.calendar.lock_code_9_schedule.attributes.start_time
+                is not defined %}
+
+                #### There is not a calendar event defined for this code slot. 
+                Recurring and Temp access schedule will not work.  Please set a
+                calendar event.
+
+                {% else %} ####  Google Calendar Start and End Times {% endif %}
+              type: markdown
+            cards: null
+            conditions:
+              - entity: calendar.lock_code_9_schedule
+                state_not: 'on'
               - entity: input_select.door_keypad_9_access_schedule
                 state_not: Always
             type: conditional
@@ -692,6 +1059,7 @@
               show_state: true
               state_filter:
                 - 'on'
+                - 'off'
               type: entity-filter
             cards: null
             conditions:
@@ -703,9 +1071,33 @@
                 - entity: input_boolean.door_keypad_9_front_switch
                 - entity: input_boolean.door_keypad_9_back_switch
                 - entity: input_boolean.door_keypad_9_garage_switch
-                - entity: script.door_keypad_9_delete
+              show_header_toggle: false
               type: entities
             cards: null
+            conditions:
+              - entity: input_text.door_keypad_9_code
+                state_not: Code Here
+            type: conditional
+          - card:
+              entity: script.door_keypad_9_delete
+              icon: 'mdi:delete'
+              lock:
+                enabled: true
+              show_icon: true
+              show_state: false
+              style:
+                - white-space: nowrap
+                - text-transform: none
+                - color: 'rgb(210, 255,255)'
+              styles:
+                card:
+                  - height: 50px
+              tap_action:
+                action: call-service
+                service: script.turn_on
+                service_data:
+                  entity_id: script.door_keypad_9_delete
+              type: 'custom:button-card'
             conditions:
               - entity: input_text.door_keypad_9_code
                 state_not: Code Here
@@ -742,7 +1134,7 @@
           - card:
               color: 'rgb(44, 109, 214)'
               color_type: label-card
-              name: Lock Schedule (Only Shows when on)
+              name: Lock Schedule
               styles:
                 card:
                   - height: 20px
@@ -753,6 +1145,25 @@
               type: 'custom:button-card'
             cards: null
             conditions:
+              - entity: input_select.door_keypad_10_access_schedule
+                state_not: Always
+            type: conditional
+          - card:
+              content: >
+                {% if
+                states.calendar.lock_code_10_schedule.attributes.start_time is
+                not defined %}
+
+                #### There is not a calendar event defined for this code slot. 
+                Recurring and Temp access schedule will not work.  Please set a
+                calendar event.
+
+                {% else %} ####  Google Calendar Start and End Times {% endif %}
+              type: markdown
+            cards: null
+            conditions:
+              - entity: calendar.lock_code_10_schedule
+                state_not: 'on'
               - entity: input_select.door_keypad_10_access_schedule
                 state_not: Always
             type: conditional
@@ -771,6 +1182,7 @@
               show_state: true
               state_filter:
                 - 'on'
+                - 'off'
               type: entity-filter
             cards: null
             conditions:
@@ -782,9 +1194,33 @@
                 - entity: input_boolean.door_keypad_10_front_switch
                 - entity: input_boolean.door_keypad_10_back_switch
                 - entity: input_boolean.door_keypad_10_garage_switch
-                - entity: script.door_keypad_10_delete
+              show_header_toggle: false
               type: entities
             cards: null
+            conditions:
+              - entity: input_text.door_keypad_10_code
+                state_not: Code Here
+            type: conditional
+          - card:
+              entity: script.door_keypad_10_delete
+              icon: 'mdi:delete'
+              lock:
+                enabled: true
+              show_icon: true
+              show_state: false
+              style:
+                - white-space: nowrap
+                - text-transform: none
+                - color: 'rgb(210, 255,255)'
+              styles:
+                card:
+                  - height: 50px
+              tap_action:
+                action: call-service
+                service: script.turn_on
+                service_data:
+                  entity_id: script.door_keypad_10_delete
+              type: 'custom:button-card'
             conditions:
               - entity: input_text.door_keypad_10_code
                 state_not: Code Here
@@ -821,7 +1257,7 @@
           - card:
               color: 'rgb(44, 109, 214)'
               color_type: label-card
-              name: Lock Schedule (Only Shows when on)
+              name: Lock Schedule
               styles:
                 card:
                   - height: 20px
@@ -832,6 +1268,25 @@
               type: 'custom:button-card'
             cards: null
             conditions:
+              - entity: input_select.door_keypad_11_access_schedule
+                state_not: Always
+            type: conditional
+          - card:
+              content: >
+                {% if
+                states.calendar.lock_code_11_schedule.attributes.start_time is
+                not defined %}
+
+                #### There is not a calendar event defined for this code slot. 
+                Recurring and Temp access schedule will not work.  Please set a
+                calendar event.
+
+                {% else %} ####  Google Calendar Start and End Times {% endif %}
+              type: markdown
+            cards: null
+            conditions:
+              - entity: calendar.lock_code_11_schedule
+                state_not: 'on'
               - entity: input_select.door_keypad_11_access_schedule
                 state_not: Always
             type: conditional
@@ -850,6 +1305,7 @@
               show_state: true
               state_filter:
                 - 'on'
+                - 'off'
               type: entity-filter
             cards: null
             conditions:
@@ -861,9 +1317,33 @@
                 - entity: input_boolean.door_keypad_11_front_switch
                 - entity: input_boolean.door_keypad_11_back_switch
                 - entity: input_boolean.door_keypad_11_garage_switch
-                - entity: script.door_keypad_11_delete
+              show_header_toggle: false
               type: entities
             cards: null
+            conditions:
+              - entity: input_text.door_keypad_11_code
+                state_not: Code Here
+            type: conditional
+          - card:
+              entity: script.door_keypad_11_delete
+              icon: 'mdi:delete'
+              lock:
+                enabled: true
+              show_icon: true
+              show_state: false
+              style:
+                - white-space: nowrap
+                - text-transform: none
+                - color: 'rgb(210, 255,255)'
+              styles:
+                card:
+                  - height: 50px
+              tap_action:
+                action: call-service
+                service: script.turn_on
+                service_data:
+                  entity_id: script.door_keypad_11_delete
+              type: 'custom:button-card'
             conditions:
               - entity: input_text.door_keypad_11_code
                 state_not: Code Here
@@ -900,7 +1380,7 @@
           - card:
               color: 'rgb(44, 109, 214)'
               color_type: label-card
-              name: Lock Schedule (Only Shows when on)
+              name: Lock Schedule
               styles:
                 card:
                   - height: 20px
@@ -911,6 +1391,25 @@
               type: 'custom:button-card'
             cards: null
             conditions:
+              - entity: input_select.door_keypad_12_access_schedule
+                state_not: Always
+            type: conditional
+          - card:
+              content: >
+                {% if
+                states.calendar.lock_code_12_schedule.attributes.start_time is
+                not defined %}
+
+                #### There is not a calendar event defined for this code slot. 
+                Recurring and Temp access schedule will not work.  Please set a
+                calendar event.
+
+                {% else %} ####  Google Calendar Start and End Times {% endif %}
+              type: markdown
+            cards: null
+            conditions:
+              - entity: calendar.lock_code_12_schedule
+                state_not: 'on'
               - entity: input_select.door_keypad_12_access_schedule
                 state_not: Always
             type: conditional
@@ -929,6 +1428,7 @@
               show_state: true
               state_filter:
                 - 'on'
+                - 'off'
               type: entity-filter
             cards: null
             conditions:
@@ -940,9 +1440,33 @@
                 - entity: input_boolean.door_keypad_12_front_switch
                 - entity: input_boolean.door_keypad_12_back_switch
                 - entity: input_boolean.door_keypad_12_garage_switch
-                - entity: script.door_keypad_12_delete
+              show_header_toggle: false
               type: entities
             cards: null
+            conditions:
+              - entity: input_text.door_keypad_12_code
+                state_not: Code Here
+            type: conditional
+          - card:
+              entity: script.door_keypad_12_delete
+              icon: 'mdi:delete'
+              lock:
+                enabled: true
+              show_icon: true
+              show_state: false
+              style:
+                - white-space: nowrap
+                - text-transform: none
+                - color: 'rgb(210, 255,255)'
+              styles:
+                card:
+                  - height: 50px
+              tap_action:
+                action: call-service
+                service: script.turn_on
+                service_data:
+                  entity_id: script.door_keypad_12_delete
+              type: 'custom:button-card'
             conditions:
               - entity: input_text.door_keypad_12_code
                 state_not: Code Here
@@ -979,7 +1503,7 @@
           - card:
               color: 'rgb(44, 109, 214)'
               color_type: label-card
-              name: Lock Schedule (Only Shows when on)
+              name: Lock Schedule
               styles:
                 card:
                   - height: 20px
@@ -990,6 +1514,25 @@
               type: 'custom:button-card'
             cards: null
             conditions:
+              - entity: input_select.door_keypad_13_access_schedule
+                state_not: Always
+            type: conditional
+          - card:
+              content: >
+                {% if
+                states.calendar.lock_code_13_schedule.attributes.start_time is
+                not defined %}
+
+                #### There is not a calendar event defined for this code slot. 
+                Recurring and Temp access schedule will not work.  Please set a
+                calendar event.
+
+                {% else %} ####  Google Calendar Start and End Times {% endif %}
+              type: markdown
+            cards: null
+            conditions:
+              - entity: calendar.lock_code_13_schedule
+                state_not: 'on'
               - entity: input_select.door_keypad_13_access_schedule
                 state_not: Always
             type: conditional
@@ -1008,6 +1551,7 @@
               show_state: true
               state_filter:
                 - 'on'
+                - 'off'
               type: entity-filter
             cards: null
             conditions:
@@ -1019,9 +1563,33 @@
                 - entity: input_boolean.door_keypad_13_front_switch
                 - entity: input_boolean.door_keypad_13_back_switch
                 - entity: input_boolean.door_keypad_13_garage_switch
-                - entity: script.door_keypad_13_delete
+              show_header_toggle: false
               type: entities
             cards: null
+            conditions:
+              - entity: input_text.door_keypad_13_code
+                state_not: Code Here
+            type: conditional
+          - card:
+              entity: script.door_keypad_13_delete
+              icon: 'mdi:delete'
+              lock:
+                enabled: true
+              show_icon: true
+              show_state: false
+              style:
+                - white-space: nowrap
+                - text-transform: none
+                - color: 'rgb(210, 255,255)'
+              styles:
+                card:
+                  - height: 50px
+              tap_action:
+                action: call-service
+                service: script.turn_on
+                service_data:
+                  entity_id: script.door_keypad_13_delete
+              type: 'custom:button-card'
             conditions:
               - entity: input_text.door_keypad_13_code
                 state_not: Code Here
@@ -1058,7 +1626,7 @@
           - card:
               color: 'rgb(44, 109, 214)'
               color_type: label-card
-              name: Lock Schedule (Only Shows when on)
+              name: Lock Schedule
               styles:
                 card:
                   - height: 20px
@@ -1069,6 +1637,25 @@
               type: 'custom:button-card'
             cards: null
             conditions:
+              - entity: input_select.door_keypad_14_access_schedule
+                state_not: Always
+            type: conditional
+          - card:
+              content: >
+                {% if
+                states.calendar.lock_code_14_schedule.attributes.start_time is
+                not defined %}
+
+                #### There is not a calendar event defined for this code slot. 
+                Recurring and Temp access schedule will not work.  Please set a
+                calendar event.
+
+                {% else %} ####  Google Calendar Start and End Times {% endif %}
+              type: markdown
+            cards: null
+            conditions:
+              - entity: calendar.lock_code_14_schedule
+                state_not: 'on'
               - entity: input_select.door_keypad_14_access_schedule
                 state_not: Always
             type: conditional
@@ -1087,6 +1674,7 @@
               show_state: true
               state_filter:
                 - 'on'
+                - 'off'
               type: entity-filter
             cards: null
             conditions:
@@ -1098,9 +1686,33 @@
                 - entity: input_boolean.door_keypad_14_front_switch
                 - entity: input_boolean.door_keypad_14_back_switch
                 - entity: input_boolean.door_keypad_14_garage_switch
-                - entity: script.door_keypad_14_delete
+              show_header_toggle: false
               type: entities
             cards: null
+            conditions:
+              - entity: input_text.door_keypad_14_code
+                state_not: Code Here
+            type: conditional
+          - card:
+              entity: script.door_keypad_14_delete
+              icon: 'mdi:delete'
+              lock:
+                enabled: true
+              show_icon: true
+              show_state: false
+              style:
+                - white-space: nowrap
+                - text-transform: none
+                - color: 'rgb(210, 255,255)'
+              styles:
+                card:
+                  - height: 50px
+              tap_action:
+                action: call-service
+                service: script.turn_on
+                service_data:
+                  entity_id: script.door_keypad_14_delete
+              type: 'custom:button-card'
             conditions:
               - entity: input_text.door_keypad_14_code
                 state_not: Code Here
@@ -1137,7 +1749,7 @@
           - card:
               color: 'rgb(44, 109, 214)'
               color_type: label-card
-              name: Lock Schedule (Only Shows when on)
+              name: Lock Schedule
               styles:
                 card:
                   - height: 20px
@@ -1148,6 +1760,25 @@
               type: 'custom:button-card'
             cards: null
             conditions:
+              - entity: input_select.door_keypad_15_access_schedule
+                state_not: Always
+            type: conditional
+          - card:
+              content: >
+                {% if
+                states.calendar.lock_code_15_schedule.attributes.start_time is
+                not defined %}
+
+                #### There is not a calendar event defined for this code slot. 
+                Recurring and Temp access schedule will not work.  Please set a
+                calendar event.
+
+                {% else %} ####  Google Calendar Start and End Times {% endif %}
+              type: markdown
+            cards: null
+            conditions:
+              - entity: calendar.lock_code_15_schedule
+                state_not: 'on'
               - entity: input_select.door_keypad_15_access_schedule
                 state_not: Always
             type: conditional
@@ -1166,6 +1797,7 @@
               show_state: true
               state_filter:
                 - 'on'
+                - 'off'
               type: entity-filter
             cards: null
             conditions:
@@ -1177,50 +1809,230 @@
                 - entity: input_boolean.door_keypad_15_front_switch
                 - entity: input_boolean.door_keypad_15_back_switch
                 - entity: input_boolean.door_keypad_15_garage_switch
-                - entity: script.door_keypad_15_delete
+              show_header_toggle: false
               type: entities
             cards: null
             conditions:
               - entity: input_text.door_keypad_15_code
                 state_not: Code Here
             type: conditional
+          - card:
+              entity: script.door_keypad_15_delete
+              icon: 'mdi:delete'
+              lock:
+                enabled: true
+              show_icon: true
+              show_state: false
+              style:
+                - white-space: nowrap
+                - text-transform: none
+                - color: 'rgb(210, 255,255)'
+              styles:
+                card:
+                  - height: 50px
+              tap_action:
+                action: call-service
+                service: script.turn_on
+                service_data:
+                  entity_id: script.door_keypad_15_delete
+              type: 'custom:button-card'
+            conditions:
+              - entity: input_text.door_keypad_15_code
+                state_not: Code Here
+            type: conditional
         type: vertical-stack
-      - entities:
-          - input_select.door_keypad_16_access_schedule
-          - input_text.door_keypad_16_name
-          - input_text.door_keypad_16_code
-          - input_boolean.code_16_notify
-          - input_boolean.door_keypad_16_front_switch
-          - input_boolean.door_keypad_16_back_switch
-          - input_boolean.door_keypad_16_garage_switch
-          - script.door_keypad_16_delete
-        show_header_toggle: false
-        title: One Time Use Code 1
-        type: entities
-      - entities:
-          - input_select.door_keypad_17_access_schedule
-          - input_text.door_keypad_17_name
-          - input_text.door_keypad_17_code
-          - input_boolean.code_17_notify
-          - input_boolean.door_keypad_17_front_switch
-          - input_boolean.door_keypad_17_back_switch
-          - input_boolean.door_keypad_17_garage_switch
-          - script.door_keypad_17_delete
-        show_header_toggle: false
-        title: One Time Use Code 2
-        type: entities
-      - entities:
-          - input_select.door_keypad_18_access_schedule
-          - input_text.door_keypad_18_name
-          - input_text.door_keypad_18_code
-          - input_boolean.code_18_notify
-          - input_boolean.door_keypad_18_front_switch
-          - input_boolean.door_keypad_18_back_switch
-          - input_boolean.door_keypad_18_garage_switch
-          - script.door_keypad_18_delete
-        show_header_toggle: false
-        title: One Time Use Code 3
-        type: entities
+      - cards:
+          - cards: null
+            color: 'rgb(0, 0, 0)'
+            color_type: label-card
+            name: One Time Use 1
+            styles:
+              card:
+                - height: 20px
+              name:
+                - justify-self: center
+                - padding-left: 10px
+                - font-size: 16px
+            type: 'custom:button-card'
+          - cards: null
+            entities:
+              - entity: input_select.door_keypad_16_access_schedule
+            type: entities
+          - card:
+              entities:
+                - entity: input_text.door_keypad_16_name
+                - entity: input_text.door_keypad_16_code
+              type: entities
+            cards: null
+            conditions:
+              - entity: input_select.door_keypad_16_access_schedule
+                state_not: Disabled
+            type: conditional
+          - card:
+              entities:
+                - entity: input_boolean.door_keypad_16_front_switch
+                - entity: input_boolean.door_keypad_16_back_switch
+                - entity: input_boolean.door_keypad_16_garage_switch
+              show_header_toggle: false
+              type: entities
+            cards: null
+            conditions:
+              - entity: input_text.door_keypad_16_code
+                state_not: Code Here
+            type: conditional
+          - card:
+              entity: script.door_keypad_16_delete
+              icon: 'mdi:delete'
+              lock:
+                enabled: true
+              show_icon: true
+              show_state: false
+              style:
+                - white-space: nowrap
+                - text-transform: none
+                - color: 'rgb(210, 255,255)'
+              styles:
+                card:
+                  - height: 50px
+              tap_action:
+                action: call-service
+                service: script.turn_on
+                service_data:
+                  entity_id: script.door_keypad_16_delete
+              type: 'custom:button-card'
+            conditions:
+              - entity: input_text.door_keypad_16_code
+                state_not: Code Here
+            type: conditional
+        type: vertical-stack
+      - cards:
+          - cards: null
+            color: 'rgb(0, 0, 0)'
+            color_type: label-card
+            name: One Time Use 2
+            styles:
+              card:
+                - height: 20px
+              name:
+                - justify-self: center
+                - padding-left: 10px
+                - font-size: 16px
+            type: 'custom:button-card'
+          - cards: null
+            entities:
+              - entity: input_select.door_keypad_17_access_schedule
+            type: entities
+          - card:
+              entities:
+                - entity: input_text.door_keypad_17_name
+                - entity: input_text.door_keypad_17_code
+              type: entities
+            cards: null
+            conditions:
+              - entity: input_select.door_keypad_17_access_schedule
+                state_not: Disabled
+            type: conditional
+          - card:
+              entities:
+                - entity: input_boolean.door_keypad_17_front_switch
+                - entity: input_boolean.door_keypad_17_back_switch
+                - entity: input_boolean.door_keypad_17_garage_switch
+              show_header_toggle: false
+              type: entities
+            cards: null
+            conditions:
+              - entity: input_text.door_keypad_17_code
+                state_not: Code Here
+            type: conditional
+          - card:
+              entity: script.door_keypad_17_delete
+              icon: 'mdi:delete'
+              lock:
+                enabled: true
+              show_icon: true
+              show_state: false
+              style:
+                - white-space: nowrap
+                - text-transform: none
+                - color: 'rgb(210, 255,255)'
+              styles:
+                card:
+                  - height: 50px
+              tap_action:
+                action: call-service
+                service: script.turn_on
+                service_data:
+                  entity_id: script.door_keypad_17_delete
+              type: 'custom:button-card'
+            conditions:
+              - entity: input_text.door_keypad_17_code
+                state_not: Code Here
+            type: conditional
+        type: vertical-stack
+      - cards:
+          - cards: null
+            color: 'rgb(0, 0, 0)'
+            color_type: label-card
+            name: One Time Use 3
+            styles:
+              card:
+                - height: 20px
+              name:
+                - justify-self: center
+                - padding-left: 10px
+                - font-size: 16px
+            type: 'custom:button-card'
+          - cards: null
+            entities:
+              - entity: input_select.door_keypad_18_access_schedule
+            type: entities
+          - card:
+              entities:
+                - entity: input_text.door_keypad_18_name
+                - entity: input_text.door_keypad_18_code
+              type: entities
+            cards: null
+            conditions:
+              - entity: input_select.door_keypad_18_access_schedule
+                state_not: Disabled
+            type: conditional
+          - card:
+              entities:
+                - entity: input_boolean.door_keypad_18_front_switch
+                - entity: input_boolean.door_keypad_18_back_switch
+                - entity: input_boolean.door_keypad_18_garage_switch
+              show_header_toggle: false
+              type: entities
+            cards: null
+            conditions:
+              - entity: input_text.door_keypad_18_code
+                state_not: Code Here
+            type: conditional
+          - card:
+              entity: script.door_keypad_18_delete
+              icon: 'mdi:delete'
+              lock:
+                enabled: true
+              show_icon: true
+              show_state: false
+              style:
+                - white-space: nowrap
+                - text-transform: none
+                - color: 'rgb(210, 255,255)'
+              styles:
+                card:
+                  - height: 50px
+              tap_action:
+                action: call-service
+                service: script.turn_on
+                service_data:
+                  entity_id: script.door_keypad_18_delete
+              type: 'custom:button-card'
+            conditions:
+              - entity: input_text.door_keypad_18_code
+                state_not: Code Here
+            type: conditional
+        type: vertical-stack
       - entities:
           - input_select.lock_zwave_option_3_back
           - input_select.lock_zwave_option_4_back
@@ -1233,7 +2045,7 @@
           - input_select.lock_zwave_option_15_back
           - input_select.lock_zwave_option_16_back
         show_header_toggle: false
-        title: Back Dooor Zwave Config Options
+        title: Back Door Zwave Config Options
         type: entities
       - dateColor: black
         dateSize: 90
@@ -1276,6 +2088,23 @@
         show_header_toggle: false
         title: Front Door Zwave Config Options
         type: entities
+      - entity: script.door_keypad_11_delete
+        icon: 'mdi:delete'
+        show_icon: true
+        show_state: false
+        style:
+          - white-space: nowrap
+          - text-transform: none
+          - color: 'rgb(210, 128, 199)'
+        styles:
+          card:
+            - height: 50px
+        tap_action:
+          action: call-service
+          service: script.turn_on
+          service_data:
+            entity_id: script.door_keypad_11_delete
+        type: 'custom:button-card'
     icon: 'mdi:lock-smart'
     path: keypads
     title: 'Door Lock Information, Codes and Configuration'

@@ -161,93 +161,129 @@ automation:
 input_text:
   door_keypad_1_name:
     name: Name
+    icon: mdi:format-letter-starts-with
   door_keypad_1_code:
     name: Code
+    icon: mdi:numeric
     pattern: '[0-9]*'
   door_keypad_2_name:
     name: Name
+    icon: mdi:format-letter-starts-with
   door_keypad_2_code:
     name: Code
+    icon: mdi:numeric
     pattern: '[0-9]*'
   door_keypad_3_name:
     name: Name
+    icon: mdi:format-letter-starts-with
   door_keypad_3_code:
     name: Code
+    icon: mdi:numeric
     pattern: '[0-9]*'
   door_keypad_4_name:
     name: Name
+    icon: mdi:format-letter-starts-with
   door_keypad_4_code:
     name: Code
+    icon: mdi:numeric
     pattern: '[0-9]*'
   door_keypad_5_name:
     name: Name
+    icon: mdi:format-letter-starts-with
   door_keypad_5_code:
     name: Code
+    icon: mdi:numeric
     pattern: '[0-9]*'
   door_keypad_6_name:
     name: Name
+    icon: mdi:format-letter-starts-with
   door_keypad_6_code:
     name: Code
+    icon: mdi:numeric
     pattern: '[0-9]*'
   door_keypad_7_name:
     name: Name
+    icon: mdi:format-letter-starts-with
   door_keypad_7_code:
     name: Code
+    icon: mdi:numeric
     pattern: '[0-9]*'
   door_keypad_8_name:
     name: Name
+    icon: mdi:format-letter-starts-with
   door_keypad_8_code:
     name: Code
+    icon: mdi:numeric
     pattern: '[0-9]*'
   door_keypad_9_name:
     name: Name
+    icon: mdi:format-letter-starts-with
   door_keypad_9_code:
     name: Code
+    icon: mdi:numeric
     pattern: '[0-9]*'
   door_keypad_10_name:
     name: Name
+    icon: mdi:format-letter-starts-with
   door_keypad_10_code:
     name: Code
+    icon: mdi:numeric
     pattern: '[0-9]*'
   door_keypad_11_name:
     name: Name
+    icon: mdi:format-letter-starts-with
   door_keypad_11_code:
     name: Code
+    icon: mdi:numeric
     pattern: '[0-9]*'
   door_keypad_12_name:
     name: Name
+    icon: mdi:format-letter-starts-with
   door_keypad_12_code:
     name: Code
+    icon: mdi:numeric
     pattern: '[0-9]*'
   door_keypad_13_name:
     name: Name
+    icon: mdi:format-letter-starts-with
   door_keypad_13_code:
     name: Code
+    icon: mdi:numeric
     pattern: '[0-9]*'
   door_keypad_14_name:
     name: Name
+    icon: mdi:format-letter-starts-with
   door_keypad_14_code:
     name: Code
+    icon: mdi:numeric
     pattern: '[0-9]*'
   door_keypad_15_name:
     name: Name
+    icon: mdi:format-letter-starts-with
   door_keypad_15_code:
     name: Code
+    icon: mdi:numeric
     pattern: '[0-9]*'
   door_keypad_16_name:
     name: Name
+    icon: mdi:format-letter-starts-with
   door_keypad_16_code:
     name: Code
+    icon: mdi:numeric
     pattern: '[0-9]*'
   door_keypad_17_name:
     name: Name
+    icon: mdi:format-letter-starts-with
   door_keypad_17_code:
     name: Code
+    icon: mdi:numeric
     pattern: '[0-9]*'
   door_keypad_18_name:
     name: Name
+    icon: mdi:format-letter-starts-with
   door_keypad_18_code:
     name: Code
+    icon: mdi:numeric
     pattern: '[0-9]*'
 
 input_select:
