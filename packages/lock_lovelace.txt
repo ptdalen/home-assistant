@@ -2033,20 +2033,6 @@ views:
                 state_not: Code Here
             type: conditional
         type: vertical-stack
-      - entities:
-          - input_select.lock_zwave_option_3_back
-          - input_select.lock_zwave_option_4_back
-          - input_select.lock_zwave_option_5_back
-          - input_select.lock_zwave_option_7_back
-          - input_select.lock_zwave_option_8_back
-          - input_select.lock_zwave_option_9_back
-          - input_select.lock_zwave_option_10_back
-          - input_select.lock_zwave_option_11_back
-          - input_select.lock_zwave_option_15_back
-          - input_select.lock_zwave_option_16_back
-        show_header_toggle: false
-        title: Back Door Zwave Config Options
-        type: entities
       - dateColor: black
         dateSize: 90
         dayWrapperLineColor: black
@@ -2075,6 +2061,20 @@ views:
         type: 'custom:atomic-calendar'
         untilText: Until
       - entities:
+          - input_select.lock_zwave_option_3_back
+          - input_select.lock_zwave_option_4_back
+          - input_select.lock_zwave_option_5_back
+          - input_select.lock_zwave_option_7_back
+          - input_select.lock_zwave_option_8_back
+          - input_select.lock_zwave_option_9_back
+          - input_select.lock_zwave_option_10_back
+          - input_select.lock_zwave_option_11_back
+          - input_select.lock_zwave_option_15_back
+          - input_select.lock_zwave_option_16_back
+        show_header_toggle: false
+        title: Back Door Zwave Config Options
+        type: entities
+      - entities:
           - input_select.lock_zwave_option_3_front
           - input_select.lock_zwave_option_4_front
           - input_select.lock_zwave_option_5_front
@@ -2088,23 +2088,6 @@ views:
         show_header_toggle: false
         title: Front Door Zwave Config Options
         type: entities
-      - entity: script.door_keypad_11_delete
-        icon: 'mdi:delete'
-        show_icon: true
-        show_state: false
-        style:
-          - white-space: nowrap
-          - text-transform: none
-          - color: 'rgb(210, 128, 199)'
-        styles:
-          card:
-            - height: 50px
-        tap_action:
-          action: call-service
-          service: script.turn_on
-          service_data:
-            entity_id: script.door_keypad_11_delete
-        type: 'custom:button-card'
     icon: 'mdi:lock-smart'
     path: keypads
     title: 'Door Lock Information, Codes and Configuration'
