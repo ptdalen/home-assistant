@@ -1,3 +1,4 @@
+title: Lock Code Manager
 views:
   - badges: []
     cards:
@@ -14,6 +15,15 @@ views:
                 - padding-left: 10px
                 - font-size: 16px
             type: 'custom:button-card'
+          - card:
+              content: >-
+                #### Zwave Network not started.  Please wait before making any
+                change
+              type: markdown
+            conditions:
+              - entity: input_boolean.allow_zwave_automation_execution
+                state: 'off'
+            type: conditional
           - cards: null
             entities:
               - entity: input_text.door_keypad_1_name
@@ -137,6 +147,15 @@ views:
                 - padding-left: 10px
                 - font-size: 16px
             type: 'custom:button-card'
+          - card:
+              content: >-
+                #### Zwave Network not started.  Please wait before making any
+                change
+              type: markdown
+            conditions:
+              - entity: input_boolean.allow_zwave_automation_execution
+                state: 'off'
+            type: conditional
           - cards: null
             entities:
               - entity: input_text.door_keypad_2_name
@@ -260,6 +279,15 @@ views:
                 - padding-left: 10px
                 - font-size: 16px
             type: 'custom:button-card'
+          - card:
+              content: >-
+                #### Zwave Network not started.  Please wait before making any
+                change
+              type: markdown
+            conditions:
+              - entity: input_boolean.allow_zwave_automation_execution
+                state: 'off'
+            type: conditional
           - cards: null
             entities:
               - entity: input_text.door_keypad_3_name
@@ -382,6 +410,15 @@ views:
                 - padding-left: 10px
                 - font-size: 16px
             type: 'custom:button-card'
+          - card:
+              content: >-
+                #### Zwave Network not started.  Please wait before making any
+                change
+              type: markdown
+            conditions:
+              - entity: input_boolean.allow_zwave_automation_execution
+                state: 'off'
+            type: conditional
           - cards: null
             entities:
               - entity: input_text.door_keypad_4_name
@@ -504,6 +541,15 @@ views:
                 - padding-left: 10px
                 - font-size: 16px
             type: 'custom:button-card'
+          - card:
+              content: >-
+                #### Zwave Network not started.  Please wait before making any
+                change
+              type: markdown
+            conditions:
+              - entity: input_boolean.allow_zwave_automation_execution
+                state: 'off'
+            type: conditional
           - cards: null
             entities:
               - entity: input_text.door_keypad_5_name
@@ -626,6 +672,15 @@ views:
                 - padding-left: 10px
                 - font-size: 16px
             type: 'custom:button-card'
+          - card:
+              content: >-
+                #### Zwave Network not started.  Please wait before making any
+                change
+              type: markdown
+            conditions:
+              - entity: input_boolean.allow_zwave_automation_execution
+                state: 'off'
+            type: conditional
           - cards: null
             entities:
               - entity: input_text.door_keypad_6_name
@@ -748,6 +803,15 @@ views:
                 - padding-left: 10px
                 - font-size: 16px
             type: 'custom:button-card'
+          - card:
+              content: >-
+                #### Zwave Network not started.  Please wait before making any
+                change
+              type: markdown
+            conditions:
+              - entity: input_boolean.allow_zwave_automation_execution
+                state: 'off'
+            type: conditional
           - cards: null
             entities:
               - entity: input_text.door_keypad_7_name
@@ -872,6 +936,15 @@ views:
                 - padding-left: 10px
                 - font-size: 16px
             type: 'custom:button-card'
+          - card:
+              content: >-
+                #### Zwave Network not started.  Please wait before making any
+                change
+              type: markdown
+            conditions:
+              - entity: input_boolean.allow_zwave_automation_execution
+                state: 'off'
+            type: conditional
           - cards: null
             entities:
               - entity: input_text.door_keypad_8_name
@@ -994,6 +1067,15 @@ views:
                 - padding-left: 10px
                 - font-size: 16px
             type: 'custom:button-card'
+          - card:
+              content: >-
+                #### Zwave Network not started.  Please wait before making any
+                change
+              type: markdown
+            conditions:
+              - entity: input_boolean.allow_zwave_automation_execution
+                state: 'off'
+            type: conditional
           - cards: null
             entities:
               - entity: input_text.door_keypad_9_name
@@ -1116,6 +1198,15 @@ views:
                 - padding-left: 10px
                 - font-size: 16px
             type: 'custom:button-card'
+          - card:
+              content: >-
+                #### Zwave Network not started.  Please wait before making any
+                change
+              type: markdown
+            conditions:
+              - entity: input_boolean.allow_zwave_automation_execution
+                state: 'off'
+            type: conditional
           - cards: null
             entities:
               - entity: input_text.door_keypad_10_name
@@ -1239,6 +1330,15 @@ views:
                 - padding-left: 10px
                 - font-size: 16px
             type: 'custom:button-card'
+          - card:
+              content: >-
+                #### Zwave Network not started.  Please wait before making any
+                change
+              type: markdown
+            conditions:
+              - entity: input_boolean.allow_zwave_automation_execution
+                state: 'off'
+            type: conditional
           - cards: null
             entities:
               - entity: input_text.door_keypad_11_name
@@ -1362,6 +1462,15 @@ views:
                 - padding-left: 10px
                 - font-size: 16px
             type: 'custom:button-card'
+          - card:
+              content: >-
+                #### Zwave Network not started.  Please wait before making any
+                change
+              type: markdown
+            conditions:
+              - entity: input_boolean.allow_zwave_automation_execution
+                state: 'off'
+            type: conditional
           - cards: null
             entities:
               - entity: input_text.door_keypad_12_name
@@ -1485,6 +1594,15 @@ views:
                 - padding-left: 10px
                 - font-size: 16px
             type: 'custom:button-card'
+          - card:
+              content: >-
+                #### Zwave Network not started.  Please wait before making any
+                change
+              type: markdown
+            conditions:
+              - entity: input_boolean.allow_zwave_automation_execution
+                state: 'off'
+            type: conditional
           - cards: null
             entities:
               - entity: input_text.door_keypad_13_name
@@ -1608,6 +1726,15 @@ views:
                 - padding-left: 10px
                 - font-size: 16px
             type: 'custom:button-card'
+          - card:
+              content: >-
+                #### Zwave Network not started.  Please wait before making any
+                change
+              type: markdown
+            conditions:
+              - entity: input_boolean.allow_zwave_automation_execution
+                state: 'off'
+            type: conditional
           - cards: null
             entities:
               - entity: input_text.door_keypad_14_name
@@ -1731,6 +1858,15 @@ views:
                 - padding-left: 10px
                 - font-size: 16px
             type: 'custom:button-card'
+          - card:
+              content: >-
+                #### Zwave Network not started.  Please wait before making any
+                change
+              type: markdown
+            conditions:
+              - entity: input_boolean.allow_zwave_automation_execution
+                state: 'off'
+            type: conditional
           - cards: null
             entities:
               - entity: input_text.door_keypad_15_name
@@ -1854,6 +1990,15 @@ views:
                 - padding-left: 10px
                 - font-size: 16px
             type: 'custom:button-card'
+          - card:
+              content: >-
+                #### Zwave Network not started.  Please wait before making any
+                change
+              type: markdown
+            conditions:
+              - entity: input_boolean.allow_zwave_automation_execution
+                state: 'off'
+            type: conditional
           - cards: null
             entities:
               - entity: input_select.door_keypad_16_access_schedule
@@ -1918,6 +2063,15 @@ views:
                 - padding-left: 10px
                 - font-size: 16px
             type: 'custom:button-card'
+          - card:
+              content: >-
+                #### Zwave Network not started.  Please wait before making any
+                change
+              type: markdown
+            conditions:
+              - entity: input_boolean.allow_zwave_automation_execution
+                state: 'off'
+            type: conditional
           - cards: null
             entities:
               - entity: input_select.door_keypad_17_access_schedule
@@ -1982,6 +2136,15 @@ views:
                 - padding-left: 10px
                 - font-size: 16px
             type: 'custom:button-card'
+          - card:
+              content: >-
+                #### Zwave Network not started.  Please wait before making any
+                change
+              type: markdown
+            conditions:
+              - entity: input_boolean.allow_zwave_automation_execution
+                state: 'off'
+            type: conditional
           - cards: null
             entities:
               - entity: input_select.door_keypad_18_access_schedule
