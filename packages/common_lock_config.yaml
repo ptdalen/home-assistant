@@ -8,6 +8,8 @@ automation:
     trigger:
       - platform: state
         to: 'True'
+        for:
+          seconds: 30
         entity_id:
           - sensor.keypad_1_temp_lock_turn_off
           - sensor.keypad_2_temp_lock_turn_off
@@ -24,6 +26,10 @@ automation:
           - sensor.keypad_13_temp_lock_turn_off
           - sensor.keypad_14_temp_lock_turn_off
           - sensor.keypad_15_temp_lock_turn_off
+    condition:
+      - condition: state
+        entity_id: 'input_boolean.allow_zwave_automation_execution'
+        state: 'on' 
 # this is where usercodes get deleted, for the Schlage locks there seems to be an issue with 
 # clear usercode, so this sets a random code, of course that means there is an unknown code in the cleared
 # slots.  If you dont like that set a specific code that only you know
@@ -105,6 +111,9 @@ automation:
         - condition: numeric_state
           entity_id: sensor.ha_runtime_in_minutes
           above: 1
+    - condition: state
+      entity_id: 'input_boolean.allow_zwave_automation_execution'
+      state: 'on' 
     action:
       - service: script.turn_on
         data_template:
@@ -128,6 +137,10 @@ automation:
           - input_select.door_keypad_16_access_schedule
           - input_select.door_keypad_17_access_schedule
           - input_select.door_keypad_18_access_schedule
+    condition:
+    - condition: state
+      entity_id: 'input_boolean.allow_zwave_automation_execution'
+      state: 'on' 
     action:
       - service: script.turn_on
         data_template:
@@ -136,6 +149,12 @@ automation:
                 {% set code_slot = "_".join(object_id.split("_")[3:-2]) %}
                 {% set script_to_run = 'script.door_keypad_' ~ code_slot ~ '_delete' %}
                 {{ script_to_run }}
+      - service: notify.pushover
+        data:
+          message: "Code has been cleared from all Doors"
+          target:
+          - Paul
+          title: "One Time Code Set to Disabled"
 
   - alias: Keypad set random code for one time use
     initial_state: true
@@ -392,128 +411,6 @@ input_select:
     options:
       - Disabled
       - Enabled
-
-#input_datetime:
-#  door_keypad_1_date_start:
-#    name: Start Time
-#    has_date: true
-#    has_time: true
-#  door_keypad_1_date_end:
-#    name: End Time
-#    has_date: true
-#    has_time: true
-#  door_keypad_2_date_start:
-#    name: Start Time
-#    has_date: true
-#    has_time: true
-#  door_keypad_2_date_end:
-#    name: End Time
-#    has_date: true
-#    has_time: true
-#  door_keypad_3_date_start:
-#    name: Start Time
-#    has_date: true
-#    has_time: true
-#  door_keypad_3_date_end:
-#    name: End Time
-#    has_date: true
-#    has_time: true
-#  door_keypad_4_date_start:
-#    name: Start Time
-#    has_date: true
-#    has_time: true
-#  door_keypad_4_date_end:
-#    name: End Time
-#    has_date: true
-#    has_time: true
-#  door_keypad_5_date_start:
-#    name: Start Time
-#    has_date: true
-#    has_time: true
-#  door_keypad_5_date_end:
-#    name: End Time
-#    has_date: true
-#    has_time: true
-#  door_keypad_6_date_start:
-#    name: Start Time
-#    has_date: true
-#    has_time: true
-#  door_keypad_6_date_end:
-#    name: End Time
-#    has_date: true
-#    has_time: true
-#  door_keypad_7_date_start:
-#    name: Start Time
-#    has_date: true
-#    has_time: true
-#  door_keypad_7_date_end:
-#    name: End Time
-#    has_date: true
-#    has_time: true
-#  door_keypad_8_date_start:
-#    name: Start Time
-#    has_date: true
-#    has_time: true
-#  door_keypad_8_date_end:
-#    name: End Time
-#    has_date: true
-#    has_time: true
-#  door_keypad_9_date_start:
-#    name: Start Time
-#    has_date: true
-#    has_time: true
-#  door_keypad_9_date_end:
-#    name: End Time
-#    has_date: true
-#    has_time: true
-#  door_keypad_10_date_start:
-#    name: Start Time
-#    has_date: true
-#    has_time: true
-#  door_keypad_10_date_end:
-#    name: End Time
-#    has_date: true
-#    has_time: true
-#  door_keypad_11_date_start:
-#    name: Start Time
-#    has_date: true
-#    has_time: true
-#  door_keypad_11_date_end:
-#    name: End Time
-#    has_date: true
-#    has_time: true
-#  door_keypad_12_date_start:
-#    name: Start Time
-#    has_date: true
-#    has_time: true
-#  door_keypad_12_date_end:
-#    name: End Time
-#    has_date: true
-#    has_time: true
-#  door_keypad_13_date_start:
-#    name: Start Time
-#    has_date: true
-#    has_time: true
-#  door_keypad_13_date_end:
-#    name: End Time
-#    has_date: true
-#    has_time: true
-#  door_keypad_14_date_start:
-#    name: Start Time
-#    has_date: true
-#    has_time: true
-#  door_keypad_14_date_end:
-#    name: End Time
-#    has_date: true
-#    has_time: true
-#  door_keypad_15_date_start:
-#    name: Start Time
-#    has_date: true
-#    has_time: true
-#  door_keypad_15_date_end:
-#    name: End Time
-#    has_date: true
-#    has_time: true
 
 input_boolean:
   code_1_notify:

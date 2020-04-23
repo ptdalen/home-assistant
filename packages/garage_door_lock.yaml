@@ -7,7 +7,7 @@
 # sensor.garage_door_lock_alarm_level                           #
 # also recommend you use the recorder component in your         #
 # configuration.yaml, as well as the uptime sensor component    #
-# and for notifications I use pushbullet, but replace with      #
+# and for notifications I use pushover, but replace with        #
 # notifyier of your choice.                                     #
 #################################################################
 automation:
@@ -16,6 +16,8 @@ automation:
     trigger:
       - platform: state
         to: 'on'
+        for:
+          seconds: 30
         entity_id:
 # Entities need to be named to match your lock name.  In this case garage
           - input_boolean.door_keypad_1_garage_switch
@@ -36,14 +38,41 @@ automation:
           - input_boolean.door_keypad_16_garage_switch
           - input_boolean.door_keypad_17_garage_switch
           - input_boolean.door_keypad_18_garage_switch
-
+      - platform: state
+        to: 'Always'
+        for:
+          seconds: 30
+        entity_id:
+          - input_select.door_keypad_1_access_schedule
+          - input_select.door_keypad_2_access_schedule
+          - input_select.door_keypad_3_access_schedule
+          - input_select.door_keypad_4_access_schedule
+          - input_select.door_keypad_5_access_schedule
+          - input_select.door_keypad_6_access_schedule
+          - input_select.door_keypad_7_access_schedule
+          - input_select.door_keypad_8_access_schedule
+          - input_select.door_keypad_9_access_schedule
+          - input_select.door_keypad_10_access_schedule
+          - input_select.door_keypad_11_access_schedule
+          - input_select.door_keypad_12_access_schedule
+          - input_select.door_keypad_13_access_schedule
+          - input_select.door_keypad_14_access_schedule
+          - input_select.door_keypad_15_access_schedule
+          
     condition:
       - condition: template
         value_template:  >-
           {% set object_id = trigger.to_state.object_id %}
           {% set code_slot = "_".join(object_id.split("_")[2:-2]) %}
           {% set select_id = 'door_keypad_' ~ code_slot ~ '_access_schedule' %}
-          {{ states['input_select'][select_id].state in ['Always', 'Enabled'] }}
+          {% set calendar_id = 'lock_code_' ~ code_slot ~ '_schedule' %}
+          {{ (states['input_select'][select_id].state in ['Always', 'Enabled']) or (states['input_select'][select_id].state in ['Temporary', 'Recurring'] and states['calendar'][calendar_id].state == 'on') }}
+      - condition: template
+        value_template:  >-
+          {% set object_id = trigger.to_state.object_id %}
+          {% set code_slot = "_".join(object_id.split("_")[2:-2]) %}
+          {% set select_id = 'door_keypad_' ~ code_slot ~ '_garage_switch' %}
+          {{ (states['input_boolean'][select_id].state == 'on')}}
 
     action:
       - service: lock.set_usercode
@@ -67,6 +96,8 @@ automation:
     trigger:
       - platform: state
         to: 'off'
+        for:
+          seconds: 30
         entity_id:
           - input_boolean.door_keypad_1_garage_switch
           - input_boolean.door_keypad_2_garage_switch
@@ -117,6 +148,8 @@ automation:
     trigger:
       - platform: state
         to: 'True'
+        for:
+          seconds: 30
         entity_id:
           - sensor.keypad_1_temp_lock_turn_on
           - sensor.keypad_2_temp_lock_turn_on
