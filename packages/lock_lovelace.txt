@@ -31,7 +31,6 @@ views:
             type: entities
           - card:
               entities:
-                - entity: input_boolean.code_1_notify
                 - entity: input_select.door_keypad_1_access_schedule
               type: entities
             cards: null
@@ -61,12 +60,12 @@ views:
                 {% if states.calendar.lock_code_1_schedule.attributes.start_time
                 is not defined %}
 
-                #### There is not a calendar event defined for this code slot. 
-                Recurring and Temp access schedule will not work.  Please set a
-                calendar event.
+                #### There is no calendar event defined for this code slot.
+                Recurring schedule will not work.  Please set a google calendar
+                event.
 
-                {% else %} ####  Google Calendar Start and End Times       {%
-                endif %}
+                {% else %} ####  Google Calendar Start and End Times   {% endif
+                %}
               type: markdown
             cards: null
             conditions:
@@ -110,25 +109,50 @@ views:
                 state_not: Code Here
             type: conditional
           - card:
-              entity: script.door_keypad_1_delete
-              icon: 'mdi:delete'
-              lock:
-                enabled: true
-              show_icon: true
-              show_state: false
-              style:
-                - white-space: nowrap
-                - text-transform: none
-                - color: 'rgb(210, 255,255)'
-              styles:
-                card:
-                  - height: 50px
-              tap_action:
-                action: call-service
-                service: script.turn_on
-                service_data:
-                  entity_id: script.door_keypad_1_delete
-              type: 'custom:button-card'
+              cards:
+                - color_type: icon
+                  entity: input_boolean.code_1_notify
+                  layout: icon_label
+                  show_label: true
+                  show_name: false
+                  show_state: false
+                  state:
+                    - icon: 'mdi:bell'
+                      label: Notifications Enabled
+                      value: 'on'
+                    - icon: 'mdi:bell-off'
+                      label: Notifications Disabled
+                      value: 'off'
+                  styles:
+                    card:
+                      - height: 60px
+                    label:
+                      - font-size: 12px
+                  type: 'custom:button-card'
+                - color_type: icon
+                  entity: script.door_keypad_1_delete
+                  icon: 'mdi:delete'
+                  label: Delete Code Slot
+                  layout: icon_label
+                  lock:
+                    enabled: true
+                  show_icon: true
+                  show_label: true
+                  show_name: false
+                  show_state: false
+                  styles:
+                    card:
+                      - height: 60px
+                    label:
+                      - font-size: 12px
+                      - justify-self: left
+                  tap_action:
+                    action: call-service
+                    service: script.turn_on
+                    service_data:
+                      entity_id: script.door_keypad_1_delete
+                  type: 'custom:button-card'
+              type: horizontal-stack
             conditions:
               - entity: input_text.door_keypad_1_code
                 state_not: Code Here
@@ -163,7 +187,6 @@ views:
             type: entities
           - card:
               entities:
-                - entity: input_boolean.code_2_notify
                 - entity: input_select.door_keypad_2_access_schedule
               type: entities
             cards: null
@@ -193,9 +216,9 @@ views:
                 {% if states.calendar.lock_code_2_schedule.attributes.start_time
                 is not defined %}
 
-                #### There is not a calendar event defined for this code slot. 
-                Recurring and Temp access schedule will not work.  Please set a
-                calendar event.
+                #### There is no calendar event defined for this code slot.
+                Recurring schedule will not work.  Please set a google calendar
+                event.
 
                 {% else %} ####  Google Calendar Start and End Times   {% endif
                 %}
@@ -242,25 +265,50 @@ views:
                 state_not: Code Here
             type: conditional
           - card:
-              entity: script.door_keypad_2_delete
-              icon: 'mdi:delete'
-              lock:
-                enabled: true
-              show_icon: true
-              show_state: false
-              style:
-                - white-space: nowrap
-                - text-transform: none
-                - color: 'rgb(210, 255,255)'
-              styles:
-                card:
-                  - height: 50px
-              tap_action:
-                action: call-service
-                service: script.turn_on
-                service_data:
-                  entity_id: script.door_keypad_2_delete
-              type: 'custom:button-card'
+              cards:
+                - color_type: icon
+                  entity: input_boolean.code_2_notify
+                  layout: icon_label
+                  show_label: true
+                  show_name: false
+                  show_state: false
+                  state:
+                    - icon: 'mdi:bell'
+                      label: Notifications Enabled
+                      value: 'on'
+                    - icon: 'mdi:bell-off'
+                      label: Notifications Disabled
+                      value: 'off'
+                  styles:
+                    card:
+                      - height: 60px
+                    label:
+                      - font-size: 12px
+                  type: 'custom:button-card'
+                - color_type: icon
+                  entity: script.door_keypad_2_delete
+                  icon: 'mdi:delete'
+                  label: Delete Code Slot
+                  layout: icon_label
+                  lock:
+                    enabled: true
+                  show_icon: true
+                  show_label: true
+                  show_name: false
+                  show_state: false
+                  styles:
+                    card:
+                      - height: 60px
+                    label:
+                      - font-size: 12px
+                      - justify-self: left
+                  tap_action:
+                    action: call-service
+                    service: script.turn_on
+                    service_data:
+                      entity_id: script.door_keypad_2_delete
+                  type: 'custom:button-card'
+              type: horizontal-stack
             conditions:
               - entity: input_text.door_keypad_2_code
                 state_not: Code Here
@@ -295,7 +343,6 @@ views:
             type: entities
           - card:
               entities:
-                - entity: input_boolean.code_3_notify
                 - entity: input_select.door_keypad_3_access_schedule
               type: entities
             cards: null
@@ -325,11 +372,12 @@ views:
                 {% if states.calendar.lock_code_3_schedule.attributes.start_time
                 is not defined %}
 
-                #### There is not a calendar event defined for this code slot. 
-                Recurring and Temp access schedule will not work.  Please set a
-                calendar event.
+                #### There is no calendar event defined for this code slot.
+                Recurring schedule will not work.  Please set a google calendar
+                event.
 
-                {% else %} ####  Google Calendar Start and End Times {% endif %}
+                {% else %} ####  Google Calendar Start and End Times   {% endif
+                %}
               type: markdown
             cards: null
             conditions:
@@ -373,25 +421,50 @@ views:
                 state_not: Code Here
             type: conditional
           - card:
-              entity: script.door_keypad_3_delete
-              icon: 'mdi:delete'
-              lock:
-                enabled: true
-              show_icon: true
-              show_state: false
-              style:
-                - white-space: nowrap
-                - text-transform: none
-                - color: 'rgb(210, 255,255)'
-              styles:
-                card:
-                  - height: 50px
-              tap_action:
-                action: call-service
-                service: script.turn_on
-                service_data:
-                  entity_id: script.door_keypad_3_delete
-              type: 'custom:button-card'
+              cards:
+                - color_type: icon
+                  entity: input_boolean.code_3_notify
+                  layout: icon_label
+                  show_label: true
+                  show_name: false
+                  show_state: false
+                  state:
+                    - icon: 'mdi:bell'
+                      label: Notifications Enabled
+                      value: 'on'
+                    - icon: 'mdi:bell-off'
+                      label: Notifications Disabled
+                      value: 'off'
+                  styles:
+                    card:
+                      - height: 60px
+                    label:
+                      - font-size: 12px
+                  type: 'custom:button-card'
+                - color_type: icon
+                  entity: script.door_keypad_3_delete
+                  icon: 'mdi:delete'
+                  label: Delete Code Slot
+                  layout: icon_label
+                  lock:
+                    enabled: true
+                  show_icon: true
+                  show_label: true
+                  show_name: false
+                  show_state: false
+                  styles:
+                    card:
+                      - height: 60px
+                    label:
+                      - font-size: 12px
+                      - justify-self: left
+                  tap_action:
+                    action: call-service
+                    service: script.turn_on
+                    service_data:
+                      entity_id: script.door_keypad_3_delete
+                  type: 'custom:button-card'
+              type: horizontal-stack
             conditions:
               - entity: input_text.door_keypad_3_code
                 state_not: Code Here
@@ -426,7 +499,6 @@ views:
             type: entities
           - card:
               entities:
-                - entity: input_boolean.code_4_notify
                 - entity: input_select.door_keypad_4_access_schedule
               type: entities
             cards: null
@@ -456,11 +528,12 @@ views:
                 {% if states.calendar.lock_code_4_schedule.attributes.start_time
                 is not defined %}
 
-                #### There is not a calendar event defined for this code slot. 
-                Recurring and Temp access schedule will not work.  Please set a
-                calendar event.
+                #### There is no calendar event defined for this code slot.
+                Recurring schedule will not work.  Please set a google calendar
+                event.
 
-                {% else %} ####  Google Calendar Start and End Times {% endif %}
+                {% else %} ####  Google Calendar Start and End Times   {% endif
+                %}
               type: markdown
             cards: null
             conditions:
@@ -504,25 +577,50 @@ views:
                 state_not: Code Here
             type: conditional
           - card:
-              entity: script.door_keypad_4_delete
-              icon: 'mdi:delete'
-              lock:
-                enabled: true
-              show_icon: true
-              show_state: false
-              style:
-                - white-space: nowrap
-                - text-transform: none
-                - color: 'rgb(210, 255,255)'
-              styles:
-                card:
-                  - height: 50px
-              tap_action:
-                action: call-service
-                service: script.turn_on
-                service_data:
-                  entity_id: script.door_keypad_4_delete
-              type: 'custom:button-card'
+              cards:
+                - color_type: icon
+                  entity: input_boolean.code_4_notify
+                  layout: icon_label
+                  show_label: true
+                  show_name: false
+                  show_state: false
+                  state:
+                    - icon: 'mdi:bell'
+                      label: Notifications Enabled
+                      value: 'on'
+                    - icon: 'mdi:bell-off'
+                      label: Notifications Disabled
+                      value: 'off'
+                  styles:
+                    card:
+                      - height: 60px
+                    label:
+                      - font-size: 12px
+                  type: 'custom:button-card'
+                - color_type: icon
+                  entity: script.door_keypad_4_delete
+                  icon: 'mdi:delete'
+                  label: Delete Code Slot
+                  layout: icon_label
+                  lock:
+                    enabled: true
+                  show_icon: true
+                  show_label: true
+                  show_name: false
+                  show_state: false
+                  styles:
+                    card:
+                      - height: 60px
+                    label:
+                      - font-size: 12px
+                      - justify-self: left
+                  tap_action:
+                    action: call-service
+                    service: script.turn_on
+                    service_data:
+                      entity_id: script.door_keypad_4_delete
+                  type: 'custom:button-card'
+              type: horizontal-stack
             conditions:
               - entity: input_text.door_keypad_4_code
                 state_not: Code Here
@@ -557,7 +655,6 @@ views:
             type: entities
           - card:
               entities:
-                - entity: input_boolean.code_5_notify
                 - entity: input_select.door_keypad_5_access_schedule
               type: entities
             cards: null
@@ -587,11 +684,12 @@ views:
                 {% if states.calendar.lock_code_5_schedule.attributes.start_time
                 is not defined %}
 
-                #### There is not a calendar event defined for this code slot. 
-                Recurring and Temp access schedule will not work.  Please set a
-                calendar event.
+                #### There is no calendar event defined for this code slot.
+                Recurring schedule will not work.  Please set a google calendar
+                event.
 
-                {% else %} ####  Google Calendar Start and End Times {% endif %}
+                {% else %} ####  Google Calendar Start and End Times   {% endif
+                %}
               type: markdown
             cards: null
             conditions:
@@ -635,25 +733,50 @@ views:
                 state_not: Code Here
             type: conditional
           - card:
-              entity: script.door_keypad_5_delete
-              icon: 'mdi:delete'
-              lock:
-                enabled: true
-              show_icon: true
-              show_state: false
-              style:
-                - white-space: nowrap
-                - text-transform: none
-                - color: 'rgb(210, 255,255)'
-              styles:
-                card:
-                  - height: 50px
-              tap_action:
-                action: call-service
-                service: script.turn_on
-                service_data:
-                  entity_id: script.door_keypad_5_delete
-              type: 'custom:button-card'
+              cards:
+                - color_type: icon
+                  entity: input_boolean.code_5_notify
+                  layout: icon_label
+                  show_label: true
+                  show_name: false
+                  show_state: false
+                  state:
+                    - icon: 'mdi:bell'
+                      label: Notifications Enabled
+                      value: 'on'
+                    - icon: 'mdi:bell-off'
+                      label: Notifications Disabled
+                      value: 'off'
+                  styles:
+                    card:
+                      - height: 60px
+                    label:
+                      - font-size: 12px
+                  type: 'custom:button-card'
+                - color_type: icon
+                  entity: script.door_keypad_5_delete
+                  icon: 'mdi:delete'
+                  label: Delete Code Slot
+                  layout: icon_label
+                  lock:
+                    enabled: true
+                  show_icon: true
+                  show_label: true
+                  show_name: false
+                  show_state: false
+                  styles:
+                    card:
+                      - height: 60px
+                    label:
+                      - font-size: 12px
+                      - justify-self: left
+                  tap_action:
+                    action: call-service
+                    service: script.turn_on
+                    service_data:
+                      entity_id: script.door_keypad_5_delete
+                  type: 'custom:button-card'
+              type: horizontal-stack
             conditions:
               - entity: input_text.door_keypad_5_code
                 state_not: Code Here
@@ -688,7 +811,6 @@ views:
             type: entities
           - card:
               entities:
-                - entity: input_boolean.code_6_notify
                 - entity: input_select.door_keypad_6_access_schedule
               type: entities
             cards: null
@@ -718,11 +840,12 @@ views:
                 {% if states.calendar.lock_code_6_schedule.attributes.start_time
                 is not defined %}
 
-                #### There is not a calendar event defined for this code slot. 
-                Recurring and Temp access schedule will not work.  Please set a
-                calendar event.
+                #### There is no calendar event defined for this code slot.
+                Recurring schedule will not work.  Please set a google calendar
+                event.
 
-                {% else %} ####  Google Calendar Start and End Times {% endif %}
+                {% else %} ####  Google Calendar Start and End Times   {% endif
+                %}
               type: markdown
             cards: null
             conditions:
@@ -766,25 +889,50 @@ views:
                 state_not: Code Here
             type: conditional
           - card:
-              entity: script.door_keypad_6_delete
-              icon: 'mdi:delete'
-              lock:
-                enabled: true
-              show_icon: true
-              show_state: false
-              style:
-                - white-space: nowrap
-                - text-transform: none
-                - color: 'rgb(210, 255,255)'
-              styles:
-                card:
-                  - height: 50px
-              tap_action:
-                action: call-service
-                service: script.turn_on
-                service_data:
-                  entity_id: script.door_keypad_6_delete
-              type: 'custom:button-card'
+              cards:
+                - color_type: icon
+                  entity: input_boolean.code_6_notify
+                  layout: icon_label
+                  show_label: true
+                  show_name: false
+                  show_state: false
+                  state:
+                    - icon: 'mdi:bell'
+                      label: Notifications Enabled
+                      value: 'on'
+                    - icon: 'mdi:bell-off'
+                      label: Notifications Disabled
+                      value: 'off'
+                  styles:
+                    card:
+                      - height: 60px
+                    label:
+                      - font-size: 12px
+                  type: 'custom:button-card'
+                - color_type: icon
+                  entity: script.door_keypad_6_delete
+                  icon: 'mdi:delete'
+                  label: Delete Code Slot
+                  layout: icon_label
+                  lock:
+                    enabled: true
+                  show_icon: true
+                  show_label: true
+                  show_name: false
+                  show_state: false
+                  styles:
+                    card:
+                      - height: 60px
+                    label:
+                      - font-size: 12px
+                      - justify-self: left
+                  tap_action:
+                    action: call-service
+                    service: script.turn_on
+                    service_data:
+                      entity_id: script.door_keypad_6_delete
+                  type: 'custom:button-card'
+              type: horizontal-stack
             conditions:
               - entity: input_text.door_keypad_6_code
                 state_not: Code Here
@@ -819,7 +967,6 @@ views:
             type: entities
           - card:
               entities:
-                - entity: input_boolean.code_7_notify
                 - entity: input_select.door_keypad_7_access_schedule
               type: entities
             cards: null
@@ -849,13 +996,12 @@ views:
                 {% if states.calendar.lock_code_7_schedule.attributes.start_time
                 is not defined %}
 
-                #### There is not a calendar event defined for this code slot. 
-                Recurring and Temp access schedule will not work.  Please set a
-                calendar event.
+                #### There is no calendar event defined for this code slot.
+                Recurring schedule will not work.  Please set a google calendar
+                event.
 
-                {% else %}
-                 ####  Google Calendar Start and End Times
-                {% endif %}
+                {% else %} ####  Google Calendar Start and End Times   {% endif
+                %}
               type: markdown
             cards: null
             conditions:
@@ -899,25 +1045,50 @@ views:
                 state_not: Code Here
             type: conditional
           - card:
-              entity: script.door_keypad_7_delete
-              icon: 'mdi:delete'
-              lock:
-                enabled: true
-              show_icon: true
-              show_state: false
-              style:
-                - white-space: nowrap
-                - text-transform: none
-                - color: 'rgb(210, 255,255)'
-              styles:
-                card:
-                  - height: 50px
-              tap_action:
-                action: call-service
-                service: script.turn_on
-                service_data:
-                  entity_id: script.door_keypad_7_delete
-              type: 'custom:button-card'
+              cards:
+                - color_type: icon
+                  entity: input_boolean.code_7_notify
+                  layout: icon_label
+                  show_label: true
+                  show_name: false
+                  show_state: false
+                  state:
+                    - icon: 'mdi:bell'
+                      label: Notifications Enabled
+                      value: 'on'
+                    - icon: 'mdi:bell-off'
+                      label: Notifications Disabled
+                      value: 'off'
+                  styles:
+                    card:
+                      - height: 60px
+                    label:
+                      - font-size: 12px
+                  type: 'custom:button-card'
+                - color_type: icon
+                  entity: script.door_keypad_7_delete
+                  icon: 'mdi:delete'
+                  label: Delete Code Slot
+                  layout: icon_label
+                  lock:
+                    enabled: true
+                  show_icon: true
+                  show_label: true
+                  show_name: false
+                  show_state: false
+                  styles:
+                    card:
+                      - height: 60px
+                    label:
+                      - font-size: 12px
+                      - justify-self: left
+                  tap_action:
+                    action: call-service
+                    service: script.turn_on
+                    service_data:
+                      entity_id: script.door_keypad_7_delete
+                  type: 'custom:button-card'
+              type: horizontal-stack
             conditions:
               - entity: input_text.door_keypad_7_code
                 state_not: Code Here
@@ -952,7 +1123,6 @@ views:
             type: entities
           - card:
               entities:
-                - entity: input_boolean.code_8_notify
                 - entity: input_select.door_keypad_8_access_schedule
               type: entities
             cards: null
@@ -982,11 +1152,12 @@ views:
                 {% if states.calendar.lock_code_8_schedule.attributes.start_time
                 is not defined %}
 
-                #### There is not a calendar event defined for this code slot. 
-                Recurring and Temp access schedule will not work.  Please set a
-                calendar event.
+                #### There is no calendar event defined for this code slot.
+                Recurring schedule will not work.  Please set a google calendar
+                event.
 
-                {% else %} ####  Google Calendar Start and End Times {% endif %}
+                {% else %} ####  Google Calendar Start and End Times   {% endif
+                %}
               type: markdown
             cards: null
             conditions:
@@ -1030,25 +1201,50 @@ views:
                 state_not: Code Here
             type: conditional
           - card:
-              entity: script.door_keypad_8_delete
-              icon: 'mdi:delete'
-              lock:
-                enabled: true
-              show_icon: true
-              show_state: false
-              style:
-                - white-space: nowrap
-                - text-transform: none
-                - color: 'rgb(210, 255,255)'
-              styles:
-                card:
-                  - height: 50px
-              tap_action:
-                action: call-service
-                service: script.turn_on
-                service_data:
-                  entity_id: script.door_keypad_8_delete
-              type: 'custom:button-card'
+              cards:
+                - color_type: icon
+                  entity: input_boolean.code_8_notify
+                  layout: icon_label
+                  show_label: true
+                  show_name: false
+                  show_state: false
+                  state:
+                    - icon: 'mdi:bell'
+                      label: Notifications Enabled
+                      value: 'on'
+                    - icon: 'mdi:bell-off'
+                      label: Notifications Disabled
+                      value: 'off'
+                  styles:
+                    card:
+                      - height: 60px
+                    label:
+                      - font-size: 12px
+                  type: 'custom:button-card'
+                - color_type: icon
+                  entity: script.door_keypad_8_delete
+                  icon: 'mdi:delete'
+                  label: Delete Code Slot
+                  layout: icon_label
+                  lock:
+                    enabled: true
+                  show_icon: true
+                  show_label: true
+                  show_name: false
+                  show_state: false
+                  styles:
+                    card:
+                      - height: 60px
+                    label:
+                      - font-size: 12px
+                      - justify-self: left
+                  tap_action:
+                    action: call-service
+                    service: script.turn_on
+                    service_data:
+                      entity_id: script.door_keypad_8_delete
+                  type: 'custom:button-card'
+              type: horizontal-stack
             conditions:
               - entity: input_text.door_keypad_8_code
                 state_not: Code Here
@@ -1083,7 +1279,6 @@ views:
             type: entities
           - card:
               entities:
-                - entity: input_boolean.code_9_notify
                 - entity: input_select.door_keypad_9_access_schedule
               type: entities
             cards: null
@@ -1113,11 +1308,12 @@ views:
                 {% if states.calendar.lock_code_9_schedule.attributes.start_time
                 is not defined %}
 
-                #### There is not a calendar event defined for this code slot. 
-                Recurring and Temp access schedule will not work.  Please set a
-                calendar event.
+                #### There is no calendar event defined for this code slot.
+                Recurring schedule will not work.  Please set a google calendar
+                event.
 
-                {% else %} ####  Google Calendar Start and End Times {% endif %}
+                {% else %} ####  Google Calendar Start and End Times   {% endif
+                %}
               type: markdown
             cards: null
             conditions:
@@ -1161,25 +1357,50 @@ views:
                 state_not: Code Here
             type: conditional
           - card:
-              entity: script.door_keypad_9_delete
-              icon: 'mdi:delete'
-              lock:
-                enabled: true
-              show_icon: true
-              show_state: false
-              style:
-                - white-space: nowrap
-                - text-transform: none
-                - color: 'rgb(210, 255,255)'
-              styles:
-                card:
-                  - height: 50px
-              tap_action:
-                action: call-service
-                service: script.turn_on
-                service_data:
-                  entity_id: script.door_keypad_9_delete
-              type: 'custom:button-card'
+              cards:
+                - color_type: icon
+                  entity: input_boolean.code_9_notify
+                  layout: icon_label
+                  show_label: true
+                  show_name: false
+                  show_state: false
+                  state:
+                    - icon: 'mdi:bell'
+                      label: Notifications Enabled
+                      value: 'on'
+                    - icon: 'mdi:bell-off'
+                      label: Notifications Disabled
+                      value: 'off'
+                  styles:
+                    card:
+                      - height: 60px
+                    label:
+                      - font-size: 12px
+                  type: 'custom:button-card'
+                - color_type: icon
+                  entity: script.door_keypad_9_delete
+                  icon: 'mdi:delete'
+                  label: Delete Code Slot
+                  layout: icon_label
+                  lock:
+                    enabled: true
+                  show_icon: true
+                  show_label: true
+                  show_name: false
+                  show_state: false
+                  styles:
+                    card:
+                      - height: 60px
+                    label:
+                      - font-size: 12px
+                      - justify-self: left
+                  tap_action:
+                    action: call-service
+                    service: script.turn_on
+                    service_data:
+                      entity_id: script.door_keypad_9_delete
+                  type: 'custom:button-card'
+              type: horizontal-stack
             conditions:
               - entity: input_text.door_keypad_9_code
                 state_not: Code Here
@@ -1214,7 +1435,6 @@ views:
             type: entities
           - card:
               entities:
-                - entity: input_boolean.code_10_notify
                 - entity: input_select.door_keypad_10_access_schedule
               type: entities
             cards: null
@@ -1245,11 +1465,12 @@ views:
                 states.calendar.lock_code_10_schedule.attributes.start_time is
                 not defined %}
 
-                #### There is not a calendar event defined for this code slot. 
-                Recurring and Temp access schedule will not work.  Please set a
-                calendar event.
+                #### There is no calendar event defined for this code slot.
+                Recurring schedule will not work.  Please set a google calendar
+                event.
 
-                {% else %} ####  Google Calendar Start and End Times {% endif %}
+                {% else %} ####  Google Calendar Start and End Times   {% endif
+                %}
               type: markdown
             cards: null
             conditions:
@@ -1293,25 +1514,50 @@ views:
                 state_not: Code Here
             type: conditional
           - card:
-              entity: script.door_keypad_10_delete
-              icon: 'mdi:delete'
-              lock:
-                enabled: true
-              show_icon: true
-              show_state: false
-              style:
-                - white-space: nowrap
-                - text-transform: none
-                - color: 'rgb(210, 255,255)'
-              styles:
-                card:
-                  - height: 50px
-              tap_action:
-                action: call-service
-                service: script.turn_on
-                service_data:
-                  entity_id: script.door_keypad_10_delete
-              type: 'custom:button-card'
+              cards:
+                - color_type: icon
+                  entity: input_boolean.code_10_notify
+                  layout: icon_label
+                  show_label: true
+                  show_name: false
+                  show_state: false
+                  state:
+                    - icon: 'mdi:bell'
+                      label: Notifications Enabled
+                      value: 'on'
+                    - icon: 'mdi:bell-off'
+                      label: Notifications Disabled
+                      value: 'off'
+                  styles:
+                    card:
+                      - height: 60px
+                    label:
+                      - font-size: 12px
+                  type: 'custom:button-card'
+                - color_type: icon
+                  entity: script.door_keypad_10_delete
+                  icon: 'mdi:delete'
+                  label: Delete Code Slot
+                  layout: icon_label
+                  lock:
+                    enabled: true
+                  show_icon: true
+                  show_label: true
+                  show_name: false
+                  show_state: false
+                  styles:
+                    card:
+                      - height: 60px
+                    label:
+                      - font-size: 12px
+                      - justify-self: left
+                  tap_action:
+                    action: call-service
+                    service: script.turn_on
+                    service_data:
+                      entity_id: script.door_keypad_10_delete
+                  type: 'custom:button-card'
+              type: horizontal-stack
             conditions:
               - entity: input_text.door_keypad_10_code
                 state_not: Code Here
@@ -1346,7 +1592,6 @@ views:
             type: entities
           - card:
               entities:
-                - entity: input_boolean.code_11_notify
                 - entity: input_select.door_keypad_11_access_schedule
               type: entities
             cards: null
@@ -1377,11 +1622,12 @@ views:
                 states.calendar.lock_code_11_schedule.attributes.start_time is
                 not defined %}
 
-                #### There is not a calendar event defined for this code slot. 
-                Recurring and Temp access schedule will not work.  Please set a
-                calendar event.
+                #### There is no calendar event defined for this code slot.
+                Recurring schedule will not work.  Please set a google calendar
+                event.
 
-                {% else %} ####  Google Calendar Start and End Times {% endif %}
+                {% else %} ####  Google Calendar Start and End Times   {% endif
+                %}
               type: markdown
             cards: null
             conditions:
@@ -1425,25 +1671,50 @@ views:
                 state_not: Code Here
             type: conditional
           - card:
-              entity: script.door_keypad_11_delete
-              icon: 'mdi:delete'
-              lock:
-                enabled: true
-              show_icon: true
-              show_state: false
-              style:
-                - white-space: nowrap
-                - text-transform: none
-                - color: 'rgb(210, 255,255)'
-              styles:
-                card:
-                  - height: 50px
-              tap_action:
-                action: call-service
-                service: script.turn_on
-                service_data:
-                  entity_id: script.door_keypad_11_delete
-              type: 'custom:button-card'
+              cards:
+                - color_type: icon
+                  entity: input_boolean.code_11_notify
+                  layout: icon_label
+                  show_label: true
+                  show_name: false
+                  show_state: false
+                  state:
+                    - icon: 'mdi:bell'
+                      label: Notifications Enabled
+                      value: 'on'
+                    - icon: 'mdi:bell-off'
+                      label: Notifications Disabled
+                      value: 'off'
+                  styles:
+                    card:
+                      - height: 60px
+                    label:
+                      - font-size: 12px
+                  type: 'custom:button-card'
+                - color_type: icon
+                  entity: script.door_keypad_11_delete
+                  icon: 'mdi:delete'
+                  label: Delete Code Slot
+                  layout: icon_label
+                  lock:
+                    enabled: true
+                  show_icon: true
+                  show_label: true
+                  show_name: false
+                  show_state: false
+                  styles:
+                    card:
+                      - height: 60px
+                    label:
+                      - font-size: 12px
+                      - justify-self: left
+                  tap_action:
+                    action: call-service
+                    service: script.turn_on
+                    service_data:
+                      entity_id: script.door_keypad_11_delete
+                  type: 'custom:button-card'
+              type: horizontal-stack
             conditions:
               - entity: input_text.door_keypad_11_code
                 state_not: Code Here
@@ -1478,7 +1749,6 @@ views:
             type: entities
           - card:
               entities:
-                - entity: input_boolean.code_12_notify
                 - entity: input_select.door_keypad_12_access_schedule
               type: entities
             cards: null
@@ -1509,11 +1779,12 @@ views:
                 states.calendar.lock_code_12_schedule.attributes.start_time is
                 not defined %}
 
-                #### There is not a calendar event defined for this code slot. 
-                Recurring and Temp access schedule will not work.  Please set a
-                calendar event.
+                #### There is no calendar event defined for this code slot.
+                Recurring schedule will not work.  Please set a google calendar
+                event.
 
-                {% else %} ####  Google Calendar Start and End Times {% endif %}
+                {% else %} ####  Google Calendar Start and End Times   {% endif
+                %}
               type: markdown
             cards: null
             conditions:
@@ -1557,25 +1828,50 @@ views:
                 state_not: Code Here
             type: conditional
           - card:
-              entity: script.door_keypad_12_delete
-              icon: 'mdi:delete'
-              lock:
-                enabled: true
-              show_icon: true
-              show_state: false
-              style:
-                - white-space: nowrap
-                - text-transform: none
-                - color: 'rgb(210, 255,255)'
-              styles:
-                card:
-                  - height: 50px
-              tap_action:
-                action: call-service
-                service: script.turn_on
-                service_data:
-                  entity_id: script.door_keypad_12_delete
-              type: 'custom:button-card'
+              cards:
+                - color_type: icon
+                  entity: input_boolean.code_12_notify
+                  layout: icon_label
+                  show_label: true
+                  show_name: false
+                  show_state: false
+                  state:
+                    - icon: 'mdi:bell'
+                      label: Notifications Enabled
+                      value: 'on'
+                    - icon: 'mdi:bell-off'
+                      label: Notifications Disabled
+                      value: 'off'
+                  styles:
+                    card:
+                      - height: 60px
+                    label:
+                      - font-size: 12px
+                  type: 'custom:button-card'
+                - color_type: icon
+                  entity: script.door_keypad_12_delete
+                  icon: 'mdi:delete'
+                  label: Delete Code Slot
+                  layout: icon_label
+                  lock:
+                    enabled: true
+                  show_icon: true
+                  show_label: true
+                  show_name: false
+                  show_state: false
+                  styles:
+                    card:
+                      - height: 60px
+                    label:
+                      - font-size: 12px
+                      - justify-self: left
+                  tap_action:
+                    action: call-service
+                    service: script.turn_on
+                    service_data:
+                      entity_id: script.door_keypad_12_delete
+                  type: 'custom:button-card'
+              type: horizontal-stack
             conditions:
               - entity: input_text.door_keypad_12_code
                 state_not: Code Here
@@ -1610,7 +1906,6 @@ views:
             type: entities
           - card:
               entities:
-                - entity: input_boolean.code_13_notify
                 - entity: input_select.door_keypad_13_access_schedule
               type: entities
             cards: null
@@ -1641,11 +1936,12 @@ views:
                 states.calendar.lock_code_13_schedule.attributes.start_time is
                 not defined %}
 
-                #### There is not a calendar event defined for this code slot. 
-                Recurring and Temp access schedule will not work.  Please set a
-                calendar event.
+                #### There is no calendar event defined for this code slot.
+                Recurring schedule will not work.  Please set a google calendar
+                event.
 
-                {% else %} ####  Google Calendar Start and End Times {% endif %}
+                {% else %} ####  Google Calendar Start and End Times   {% endif
+                %}
               type: markdown
             cards: null
             conditions:
@@ -1689,25 +1985,50 @@ views:
                 state_not: Code Here
             type: conditional
           - card:
-              entity: script.door_keypad_13_delete
-              icon: 'mdi:delete'
-              lock:
-                enabled: true
-              show_icon: true
-              show_state: false
-              style:
-                - white-space: nowrap
-                - text-transform: none
-                - color: 'rgb(210, 255,255)'
-              styles:
-                card:
-                  - height: 50px
-              tap_action:
-                action: call-service
-                service: script.turn_on
-                service_data:
-                  entity_id: script.door_keypad_13_delete
-              type: 'custom:button-card'
+              cards:
+                - color_type: icon
+                  entity: input_boolean.code_13_notify
+                  layout: icon_label
+                  show_label: true
+                  show_name: false
+                  show_state: false
+                  state:
+                    - icon: 'mdi:bell'
+                      label: Notifications Enabled
+                      value: 'on'
+                    - icon: 'mdi:bell-off'
+                      label: Notifications Disabled
+                      value: 'off'
+                  styles:
+                    card:
+                      - height: 60px
+                    label:
+                      - font-size: 12px
+                  type: 'custom:button-card'
+                - color_type: icon
+                  entity: script.door_keypad_13_delete
+                  icon: 'mdi:delete'
+                  label: Delete Code Slot
+                  layout: icon_label
+                  lock:
+                    enabled: true
+                  show_icon: true
+                  show_label: true
+                  show_name: false
+                  show_state: false
+                  styles:
+                    card:
+                      - height: 60px
+                    label:
+                      - font-size: 12px
+                      - justify-self: left
+                  tap_action:
+                    action: call-service
+                    service: script.turn_on
+                    service_data:
+                      entity_id: script.door_keypad_13_delete
+                  type: 'custom:button-card'
+              type: horizontal-stack
             conditions:
               - entity: input_text.door_keypad_13_code
                 state_not: Code Here
@@ -1742,7 +2063,6 @@ views:
             type: entities
           - card:
               entities:
-                - entity: input_boolean.code_14_notify
                 - entity: input_select.door_keypad_14_access_schedule
               type: entities
             cards: null
@@ -1773,11 +2093,12 @@ views:
                 states.calendar.lock_code_14_schedule.attributes.start_time is
                 not defined %}
 
-                #### There is not a calendar event defined for this code slot. 
-                Recurring and Temp access schedule will not work.  Please set a
-                calendar event.
+                #### There is no calendar event defined for this code slot.
+                Recurring schedule will not work.  Please set a google calendar
+                event.
 
-                {% else %} ####  Google Calendar Start and End Times {% endif %}
+                {% else %} ####  Google Calendar Start and End Times   {% endif
+                %}
               type: markdown
             cards: null
             conditions:
@@ -1821,25 +2142,50 @@ views:
                 state_not: Code Here
             type: conditional
           - card:
-              entity: script.door_keypad_14_delete
-              icon: 'mdi:delete'
-              lock:
-                enabled: true
-              show_icon: true
-              show_state: false
-              style:
-                - white-space: nowrap
-                - text-transform: none
-                - color: 'rgb(210, 255,255)'
-              styles:
-                card:
-                  - height: 50px
-              tap_action:
-                action: call-service
-                service: script.turn_on
-                service_data:
-                  entity_id: script.door_keypad_14_delete
-              type: 'custom:button-card'
+              cards:
+                - color_type: icon
+                  entity: input_boolean.code_14_notify
+                  layout: icon_label
+                  show_label: true
+                  show_name: false
+                  show_state: false
+                  state:
+                    - icon: 'mdi:bell'
+                      label: Notifications Enabled
+                      value: 'on'
+                    - icon: 'mdi:bell-off'
+                      label: Notifications Disabled
+                      value: 'off'
+                  styles:
+                    card:
+                      - height: 60px
+                    label:
+                      - font-size: 12px
+                  type: 'custom:button-card'
+                - color_type: icon
+                  entity: script.door_keypad_14_delete
+                  icon: 'mdi:delete'
+                  label: Delete Code Slot
+                  layout: icon_label
+                  lock:
+                    enabled: true
+                  show_icon: true
+                  show_label: true
+                  show_name: false
+                  show_state: false
+                  styles:
+                    card:
+                      - height: 60px
+                    label:
+                      - font-size: 12px
+                      - justify-self: left
+                  tap_action:
+                    action: call-service
+                    service: script.turn_on
+                    service_data:
+                      entity_id: script.door_keypad_14_delete
+                  type: 'custom:button-card'
+              type: horizontal-stack
             conditions:
               - entity: input_text.door_keypad_14_code
                 state_not: Code Here
@@ -1874,7 +2220,6 @@ views:
             type: entities
           - card:
               entities:
-                - entity: input_boolean.code_15_notify
                 - entity: input_select.door_keypad_15_access_schedule
               type: entities
             cards: null
@@ -1905,11 +2250,12 @@ views:
                 states.calendar.lock_code_15_schedule.attributes.start_time is
                 not defined %}
 
-                #### There is not a calendar event defined for this code slot. 
-                Recurring and Temp access schedule will not work.  Please set a
-                calendar event.
+                #### There is no calendar event defined for this code slot.
+                Recurring schedule will not work.  Please set a google calendar
+                event.
 
-                {% else %} ####  Google Calendar Start and End Times {% endif %}
+                {% else %} ####  Google Calendar Start and End Times   {% endif
+                %}
               type: markdown
             cards: null
             conditions:
@@ -1953,25 +2299,50 @@ views:
                 state_not: Code Here
             type: conditional
           - card:
-              entity: script.door_keypad_15_delete
-              icon: 'mdi:delete'
-              lock:
-                enabled: true
-              show_icon: true
-              show_state: false
-              style:
-                - white-space: nowrap
-                - text-transform: none
-                - color: 'rgb(210, 255,255)'
-              styles:
-                card:
-                  - height: 50px
-              tap_action:
-                action: call-service
-                service: script.turn_on
-                service_data:
-                  entity_id: script.door_keypad_15_delete
-              type: 'custom:button-card'
+              cards:
+                - color_type: icon
+                  entity: input_boolean.code_15_notify
+                  layout: icon_label
+                  show_label: true
+                  show_name: false
+                  show_state: false
+                  state:
+                    - icon: 'mdi:bell'
+                      label: Notifications Enabled
+                      value: 'on'
+                    - icon: 'mdi:bell-off'
+                      label: Notifications Disabled
+                      value: 'off'
+                  styles:
+                    card:
+                      - height: 60px
+                    label:
+                      - font-size: 12px
+                  type: 'custom:button-card'
+                - color_type: icon
+                  entity: script.door_keypad_15_delete
+                  icon: 'mdi:delete'
+                  label: Delete Code Slot
+                  layout: icon_label
+                  lock:
+                    enabled: true
+                  show_icon: true
+                  show_label: true
+                  show_name: false
+                  show_state: false
+                  styles:
+                    card:
+                      - height: 60px
+                    label:
+                      - font-size: 12px
+                      - justify-self: left
+                  tap_action:
+                    action: call-service
+                    service: script.turn_on
+                    service_data:
+                      entity_id: script.door_keypad_15_delete
+                  type: 'custom:button-card'
+              type: horizontal-stack
             conditions:
               - entity: input_text.door_keypad_15_code
                 state_not: Code Here

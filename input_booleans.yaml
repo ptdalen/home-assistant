@@ -65,5 +65,3 @@ fireplace_toggle:
 working_from_home:
   name: Working From Home
   icon: mdi:home
-allow_zwave_automation_execution:
-  name: Zwave Network State

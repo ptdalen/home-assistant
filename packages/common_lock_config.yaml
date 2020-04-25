@@ -8,8 +8,6 @@ automation:
     trigger:
       - platform: state
         to: 'True'
-        for:
-          seconds: 30
         entity_id:
           - sensor.keypad_1_temp_lock_turn_off
           - sensor.keypad_2_temp_lock_turn_off
@@ -78,10 +76,33 @@ automation:
             {% set name_input = 'door_keypad_' ~ code_slot ~ '_name' %}
             {% set name = states['input_text'][name_input].state %}
             The pin code {{ usercode }} for {{ name }} has now been removed from all doors.
-          title: "Beach House: Temporary code disabled on all doors"        
+          title: "Beach House: Code disabled on all doors"        
           target:
           - Paul
 #          - Tracy
+# This condition below will chech the description of a calendar event and if the word delete is found
+# will remove the code from HA as well.  Different from a one time use.  This would be good to set
+# a code for a week or for a day, etc.
+      - condition: template
+        value_template:  >-
+          {% set object_id = trigger.to_state.object_id %}
+          {% set code_slot = "_".join(object_id.split("_")[1]) %}
+          {% set select_id = 'door_keypad_' ~ code_slot ~ '_access_schedule' %}
+          {% set calendar_id = 'lock_code_' ~ code_slot ~ '_schedule' %}
+          {{ ('delete' | lower in states['calendar'][calendar_id].attributes.description) }}
+      - service: script.turn_on
+        data_template:
+          entity_id: >
+            {% set object_id = trigger.to_state.object_id %}
+            {% set code_slot = "_".join(object_id.split("_")[1]) %}
+            {{ 'script.door_keypad_' ~ code_slot ~ '_delete' }}
+      - service: notify.pushover
+        data:
+          message: "Code has been permanently deleted from all Doors"
+          target:
+          - Paul
+          title: "Code Deleted based on Calendar Event Description"
+
 
   - alias: Keypad clear code after one time use code is used for 16 through 18
     initial_state: true
@@ -108,9 +129,6 @@ automation:
               value_template: "{{ states.sensor.front_door_report.state.lower().startswith('keypad unlock') }}"
             - condition: template
               value_template: "{{ states.sensor.garage_door_report.state.lower().startswith('keypad unlock') }}"
-        - condition: numeric_state
-          entity_id: sensor.ha_runtime_in_minutes
-          above: 1
     - condition: state
       entity_id: 'input_boolean.allow_zwave_automation_execution'
       state: 'on' 
@@ -176,6 +194,122 @@ automation:
                 {% set user_code_id = 'input_text.door_keypad_' ~ code_slot ~ '_code' %}
                 {{ user_code_id }}
           value: '{{ range(1000, 9999) | random }}'
+          
+  - alias: Lock Saftey Check for on and always
+# This Timer is to prevent codes being sent if you change the access schedule or turn off and then back on 
+# a lock switch.  Basically it's a short cool down timer.  If you change a lock to off and then back on 
+# in a 20 second period, nothing will happen.  Because there is no need to send a code to a slot that already has the code  
+    trigger:
+      - platform: state
+        to: 'off'
+        entity_id:
+          - input_boolean.door_keypad_1_front_switch
+          - input_boolean.door_keypad_2_front_switch
+          - input_boolean.door_keypad_3_front_switch
+          - input_boolean.door_keypad_4_front_switch
+          - input_boolean.door_keypad_5_front_switch
+          - input_boolean.door_keypad_6_front_switch
+          - input_boolean.door_keypad_7_front_switch
+          - input_boolean.door_keypad_8_front_switch
+          - input_boolean.door_keypad_9_front_switch
+          - input_boolean.door_keypad_10_front_switch
+          - input_boolean.door_keypad_11_front_switch
+          - input_boolean.door_keypad_12_front_switch
+          - input_boolean.door_keypad_13_front_switch
+          - input_boolean.door_keypad_14_front_switch
+          - input_boolean.door_keypad_15_front_switch
+          - input_boolean.door_keypad_16_front_switch
+          - input_boolean.door_keypad_17_front_switch
+          - input_boolean.door_keypad_18_front_switch
+# remove or rename based on on your lock(s)          
+          - input_boolean.door_keypad_1_back_switch
+          - input_boolean.door_keypad_2_back_switch
+          - input_boolean.door_keypad_3_back_switch
+          - input_boolean.door_keypad_4_back_switch
+          - input_boolean.door_keypad_5_back_switch
+          - input_boolean.door_keypad_6_back_switch
+          - input_boolean.door_keypad_7_back_switch
+          - input_boolean.door_keypad_8_back_switch
+          - input_boolean.door_keypad_9_back_switch
+          - input_boolean.door_keypad_10_back_switch
+          - input_boolean.door_keypad_11_back_switch
+          - input_boolean.door_keypad_12_back_switch
+          - input_boolean.door_keypad_13_back_switch
+          - input_boolean.door_keypad_14_back_switch
+          - input_boolean.door_keypad_15_back_switch
+          - input_boolean.door_keypad_16_back_switch
+          - input_boolean.door_keypad_17_back_switch
+          - input_boolean.door_keypad_18_back_switch
+# remove or rename based on on your lock(s) 
+          - input_boolean.door_keypad_1_garage_switch
+          - input_boolean.door_keypad_2_garage_switch
+          - input_boolean.door_keypad_3_garage_switch
+          - input_boolean.door_keypad_4_garage_switch
+          - input_boolean.door_keypad_5_garage_switch
+          - input_boolean.door_keypad_6_garage_switch
+          - input_boolean.door_keypad_7_garage_switch
+          - input_boolean.door_keypad_8_garage_switch
+          - input_boolean.door_keypad_9_garage_switch
+          - input_boolean.door_keypad_10_garage_switch
+          - input_boolean.door_keypad_11_garage_switch
+          - input_boolean.door_keypad_12_garage_switch
+          - input_boolean.door_keypad_13_garage_switch
+          - input_boolean.door_keypad_14_garage_switch
+          - input_boolean.door_keypad_15_garage_switch
+          - input_boolean.door_keypad_16_garage_switch
+          - input_boolean.door_keypad_17_garage_switch
+          - input_boolean.door_keypad_18_garage_switch
+      - platform: state
+        to: 'Scheduled'
+        entity_id:
+          - input_select.door_keypad_1_access_schedule
+          - input_select.door_keypad_2_access_schedule
+          - input_select.door_keypad_3_access_schedule
+          - input_select.door_keypad_4_access_schedule
+          - input_select.door_keypad_5_access_schedule
+          - input_select.door_keypad_6_access_schedule
+          - input_select.door_keypad_7_access_schedule
+          - input_select.door_keypad_8_access_schedule
+          - input_select.door_keypad_9_access_schedule
+          - input_select.door_keypad_10_access_schedule
+          - input_select.door_keypad_11_access_schedule
+          - input_select.door_keypad_12_access_schedule
+          - input_select.door_keypad_13_access_schedule
+          - input_select.door_keypad_14_access_schedule
+          - input_select.door_keypad_15_access_schedule
+    condition:
+    
+    action:
+    - service: timer.start
+      entity_id: timer.set_code_saftey_check_on_always
+
+  - alias: homeassistant start-up
+    initial_state: true
+    trigger:
+      platform: homeassistant
+      event: start
+    action:
+      - service: input_boolean.turn_off
+        data:
+          entity_id: input_boolean.allow_zwave_automation_execution
+          
+  - alias: Zwave_loaded_Start_System
+    initial_state: true
+    trigger:
+      - platform: event
+        event_type: zwave.network_ready
+      - platform: event
+        event_type: zwave.network_complete
+      - platform: event
+        event_type: zwave.network_complete_some_dead
+    action:
+      - service: input_boolean.turn_on # enable zwave automations again
+        data:
+          entity_id: input_boolean.allow_zwave_automation_execution
+        
+timer:
+  set_code_saftey_check_on_always:
+    duration: '00:00:20'
 
 input_text:
   door_keypad_1_name:
@@ -308,106 +442,124 @@ input_text:
 input_select:
   door_keypad_1_access_schedule:
     name: Access Schedule
+    icon: mdi:calendar-clock
     options:
       - Always
-      - Recurring
-      - Temporary
+      - Scheduled
+
   door_keypad_2_access_schedule:
     name: Access Schedule
+    icon: mdi:calendar-clock
     options:
       - Always
-      - Recurring
-      - Temporary
+      - Scheduled
+
   door_keypad_3_access_schedule:
     name: Access Schedule
+    icon: mdi:calendar-clock
     options:
       - Always
-      - Recurring
-      - Temporary
+      - Scheduled
+
   door_keypad_4_access_schedule:
     name: Access Schedule
+    icon: mdi:calendar-clock
     options:
       - Always
-      - Recurring
-      - Temporary
+      - Scheduled
+
   door_keypad_5_access_schedule:
     name: Access Schedule
+    icon: mdi:calendar-clock
     options:
       - Always
-      - Recurring
-      - Temporary
+      - Scheduled
+
   door_keypad_6_access_schedule:
     name: Access Schedule
+    icon: mdi:calendar-clock
     options:
       - Always
-      - Recurring
-      - Temporary
+      - Scheduled
+
   door_keypad_7_access_schedule:
     name: Access Schedule
+    icon: mdi:calendar-clock
     options:
       - Always
-      - Recurring
-      - Temporary
+      - Scheduled
+
   door_keypad_8_access_schedule:
     name: Access Schedule
+    icon: mdi:calendar-clock
     options:
       - Always
-      - Recurring
-      - Temporary
+      - Scheduled
+
   door_keypad_9_access_schedule:
     name: Access Schedule
+    icon: mdi:calendar-clock
     options:
       - Always
-      - Recurring
-      - Temporary
+      - Scheduled
+
   door_keypad_10_access_schedule:
     name: Access Schedule
+    icon: mdi:calendar-clock
     options:
       - Always
-      - Recurring
-      - Temporary
+      - Scheduled
+
   door_keypad_11_access_schedule:
     name: Access Schedule
+    icon: mdi:calendar-clock
     options:
       - Always
-      - Recurring
-      - Temporary
+      - Scheduled
+
   door_keypad_12_access_schedule:
     name: Access Schedule
+    icon: mdi:calendar-clock
     options:
       - Always
-      - Recurring
-      - Temporary
+      - Scheduled
+
   door_keypad_13_access_schedule:
     name: Access Schedule
+    icon: mdi:calendar-clock
     options:
       - Always
-      - Recurring
-      - Temporary
+      - Scheduled
+
   door_keypad_14_access_schedule:
     name: Access Schedule
+    icon: mdi:calendar-clock
     options:
       - Always
-      - Recurring
-      - Temporary
+      - Scheduled
+
   door_keypad_15_access_schedule:
     name: Access Schedule
+    icon: mdi:calendar-clock
     options:
       - Always
-      - Recurring
-      - Temporary
+      - Scheduled
+
   door_keypad_16_access_schedule:
     name: One Time Use
+    icon: mdi:bomb
     options:
       - Disabled
       - Enabled
   door_keypad_17_access_schedule:
     name: One Time Use
+    icon: mdi:bomb
     options:
       - Disabled
       - Enabled
   door_keypad_18_access_schedule:
     name: One Time Use
+    icon: mdi:bomb
     options:
       - Disabled
       - Enabled
@@ -449,6 +601,8 @@ input_boolean:
     name: Notify when Used
   code_18_notify:
     name: Notify when Used
+  allow_zwave_automation_execution:
+    name: Zwave Network State
 
 # this is has entities for three locks (mine), if you only have one lock or
 # its named differently, delete the extra entities from all 18 scripts below
@@ -858,178 +1012,178 @@ sensor:
         friendly_name: Turn keypad 1 on
         entity_id: sensor.date_time
         value_template: >-
-          {{ ((states['input_select']['door_keypad_1_access_schedule'].state in ['Temporary', 'Recurring']) and states('calendar.lock_code_1_schedule') == 'on') }}
+          {{ ((states['input_select']['door_keypad_1_access_schedule'].state == 'Scheduled') and states('calendar.lock_code_1_schedule') == 'on' and states.calendar.lock_code_1_schedule.attributes.start_time != null) }}
 
       keypad_2_temp_lock_turn_on:
         friendly_name: Turn keypad 2 on
         entity_id: sensor.date_time
         value_template: >-
-          {{ ((states['input_select']['door_keypad_2_access_schedule'].state in ['Temporary', 'Recurring']) and states('calendar.lock_code_2_schedule') == 'on') }}
+          {{ ((states['input_select']['door_keypad_2_access_schedule'].state == 'Scheduled') and states('calendar.lock_code_2_schedule') == 'on') }}
 
       keypad_3_temp_lock_turn_on:
         friendly_name: Turn keypad 3 on
         entity_id: sensor.date_time
         value_template: >-
-          {{ ((states['input_select']['door_keypad_3_access_schedule'].state in ['Temporary', 'Recurring']) and states('calendar.lock_code_3_schedule') == 'on') }}
+          {{ ((states['input_select']['door_keypad_3_access_schedule'].state == 'Scheduled') and states('calendar.lock_code_3_schedule') == 'on') }}
           
       keypad_4_temp_lock_turn_on:
         friendly_name: Turn keypad 4 on
         entity_id: sensor.date_time
         value_template: >-
-          {{ ((states['input_select']['door_keypad_4_access_schedule'].state in ['Temporary', 'Recurring']) and states('calendar.lock_code_4_schedule') == 'on') }}
+          {{ ((states['input_select']['door_keypad_4_access_schedule'].state == 'Scheduled') and states('calendar.lock_code_4_schedule') == 'on') }}
           
       keypad_5_temp_lock_turn_on:
         friendly_name: Turn keypad 5 on
         entity_id: sensor.date_time
         value_template: >-
-          {{ ((states['input_select']['door_keypad_5_access_schedule'].state in ['Temporary', 'Recurring']) and states('calendar.lock_code_5_schedule') == 'on') }}
+          {{ ((states['input_select']['door_keypad_5_access_schedule'].state == 'Scheduled') and states('calendar.lock_code_5_schedule') == 'on') }}
           
       keypad_6_temp_lock_turn_on:
         friendly_name: Turn keypad 6 on
         entity_id: sensor.date_time
         value_template: >-
-          {{ ((states['input_select']['door_keypad_6_access_schedule'].state in ['Temporary', 'Recurring']) and states('calendar.lock_code_6_schedule') == 'on') }}
+          {{ ((states['input_select']['door_keypad_6_access_schedule'].state == 'Scheduled') and states('calendar.lock_code_6_schedule') == 'on') }}
           
       keypad_7_temp_lock_turn_on:
         friendly_name: Turn keypad 7 on
         entity_id: sensor.date_time
         value_template: >-
-          {{ ((states['input_select']['door_keypad_7_access_schedule'].state in ['Temporary', 'Recurring']) and states('calendar.lock_code_7_schedule') == 'on') }}
+          {{ ((states['input_select']['door_keypad_7_access_schedule'].state == 'Scheduled') and states('calendar.lock_code_7_schedule') == 'on') }}
           
       keypad_8_temp_lock_turn_on:
         friendly_name: Turn keypad 8 on
         entity_id: sensor.date_time
         value_template: >-
-          {{ ((states['input_select']['door_keypad_8_access_schedule'].state in ['Temporary', 'Recurring']) and states('calendar.lock_code_8_schedule') == 'on') }}
+          {{ ((states['input_select']['door_keypad_8_access_schedule'].state == 'Scheduled') and states('calendar.lock_code_8_schedule') == 'on') }}
           
       keypad_9_temp_lock_turn_on:
         friendly_name: Turn keypad 9 on
         entity_id: sensor.date_time
         value_template: >-
-          {{ ((states['input_select']['door_keypad_9_access_schedule'].state in ['Temporary', 'Recurring']) and states('calendar.lock_code_9_schedule') == 'on') }}
+          {{ ((states['input_select']['door_keypad_9_access_schedule'].state == 'Scheduled') and states('calendar.lock_code_9_schedule') == 'on') }}
           
       keypad_10_temp_lock_turn_on:
         friendly_name: Turn keypad 10 on
         entity_id: sensor.date_time
         value_template: >-
-          {{ ((states['input_select']['door_keypad_10_access_schedule'].state in ['Temporary', 'Recurring']) and states('calendar.lock_code_10_schedule') == 'on') }}
+          {{ ((states['input_select']['door_keypad_10_access_schedule'].state == 'Scheduled') and states('calendar.lock_code_10_schedule') == 'on') }}
           
       keypad_11_temp_lock_turn_on:
         friendly_name: Turn keypad 11 on
         entity_id: sensor.date_time
         value_template: >-
-          {{ ((states['input_select']['door_keypad_11_access_schedule'].state in ['Temporary', 'Recurring']) and states('calendar.lock_code_11_schedule') == 'on') }}
+          {{ ((states['input_select']['door_keypad_11_access_schedule'].state == 'Scheduled') and states('calendar.lock_code_11_schedule') == 'on') }}
           
       keypad_12_temp_lock_turn_on:
         friendly_name: Turn keypad 12 on
         entity_id: sensor.date_time
         value_template: >-
-          {{ ((states['input_select']['door_keypad_12_access_schedule'].state in ['Temporary', 'Recurring']) and states('calendar.lock_code_12_schedule') == 'on') }}
+          {{ ((states['input_select']['door_keypad_12_access_schedule'].state == 'Scheduled') and states('calendar.lock_code_12_schedule') == 'on') }}
           
       keypad_13_temp_lock_turn_on:
         friendly_name: Turn keypad 13 on
         entity_id: sensor.date_time
         value_template: >-
-          {{ ((states['input_select']['door_keypad_13_access_schedule'].state in ['Temporary', 'Recurring']) and states('calendar.lock_code_13_schedule') == 'on') }}
+          {{ ((states['input_select']['door_keypad_13_access_schedule'].state == 'Scheduled') and states('calendar.lock_code_13_schedule') == 'on') }}
           
       keypad_14_temp_lock_turn_on:
         friendly_name: Turn keypad 14 on
         entity_id: sensor.date_time
         value_template: >-
-          {{ ((states['input_select']['door_keypad_14_access_schedule'].state in ['Temporary', 'Recurring']) and states('calendar.lock_code_14_schedule') == 'on') }}
+          {{ ((states['input_select']['door_keypad_14_access_schedule'].state == 'Scheduled') and states('calendar.lock_code_14_schedule') == 'on') }}
           
       keypad_15_temp_lock_turn_on:
         friendly_name: Turn keypad 15 on
         entity_id: sensor.date_time
         value_template: >-
-          {{ ((states['input_select']['door_keypad_15_access_schedule'].state in ['Temporary', 'Recurring']) and states('calendar.lock_code_15_schedule') == 'on') }}
+          {{ ((states['input_select']['door_keypad_15_access_schedule'].state == 'Scheduled') and states('calendar.lock_code_15_schedule') == 'on') }}
           
       keypad_1_temp_lock_turn_off:
         friendly_name: Turn keypad 1 off
         entity_id: sensor.date_time
         value_template: >-
-          {{ ((states['input_select']['door_keypad_1_access_schedule'].state in ['Temporary', 'Recurring']) and states('calendar.lock_code_1_schedule') == 'off') }}
+          {{ ((states['input_select']['door_keypad_1_access_schedule'].state == 'Scheduled') and states.calendar.lock_code_1_schedule.state == 'off' and states.calendar.lock_code_1_schedule.attributes.end_time != null) }}
 
       keypad_2_temp_lock_turn_off:
         friendly_name: Turn keypad 2 off
         entity_id: sensor.date_time
         value_template: >-
-          {{ ((states['input_select']['door_keypad_2_access_schedule'].state in ['Temporary', 'Recurring']) and states('calendar.lock_code_2_schedule') == 'off') }}
+          {{ ((states['input_select']['door_keypad_2_access_schedule'].state == 'Scheduled') and states('calendar.lock_code_2_schedule') == 'off' and states.calendar.lock_code_2_schedule.attributes.end_time != null) }}
 
       keypad_3_temp_lock_turn_off:
         friendly_name: Turn keypad 3 off
         entity_id: sensor.date_time
         value_template: >-
-          {{ ((states['input_select']['door_keypad_3_access_schedule'].state in ['Temporary', 'Recurring']) and states('calendar.lock_code_3_schedule') == 'off') }}
+          {{ ((states['input_select']['door_keypad_3_access_schedule'].state == 'Scheduled') and states('calendar.lock_code_3_schedule') == 'off' and states.calendar.lock_code_3_schedule.attributes.end_time != null) }}
           
       keypad_4_temp_lock_turn_off:
         friendly_name: Turn keypad 4 off
         entity_id: sensor.date_time
         value_template: >-
-          {{ ((states['input_select']['door_keypad_4_access_schedule'].state in ['Temporary', 'Recurring']) and states('calendar.lock_code_4_schedule') == 'off') }}
+          {{ ((states['input_select']['door_keypad_4_access_schedule'].state == 'Scheduled') and states('calendar.lock_code_4_schedule') == 'off' and states.calendar.lock_code_4_schedule.attributes.end_time != null) }}
           
       keypad_5_temp_lock_turn_off:
         friendly_name: Turn keypad 5 off
         entity_id: sensor.date_time
         value_template: >-
-          {{ ((states['input_select']['door_keypad_5_access_schedule'].state in ['Temporary', 'Recurring']) and states('calendar.lock_code_5_schedule') == 'off') }}
+          {{ ((states['input_select']['door_keypad_5_access_schedule'].state == 'Scheduled') and states('calendar.lock_code_5_schedule') == 'off' and states.calendar.lock_code_5_schedule.attributes.end_time != null) }}
           
       keypad_6_temp_lock_turn_off:
         friendly_name: Turn keypad 6 off
         entity_id: sensor.date_time
         value_template: >-
-          {{ ((states['input_select']['door_keypad_6_access_schedule'].state in ['Temporary', 'Recurring']) and states('calendar.lock_code_6_schedule') == 'off') }}
+          {{ ((states['input_select']['door_keypad_6_access_schedule'].state == 'Scheduled') and states('calendar.lock_code_6_schedule') == 'off' and states.calendar.lock_code_6_schedule.attributes.end_time != null) }}
           
       keypad_7_temp_lock_turn_off:
         friendly_name: Turn keypad 7 off
         entity_id: sensor.date_time
         value_template: >-
-          {{ ((states['input_select']['door_keypad_7_access_schedule'].state in ['Temporary', 'Recurring']) and states('calendar.lock_code_7_schedule') == 'off') }}
+          {{ ((states['input_select']['door_keypad_7_access_schedule'].state == 'Scheduled') and states('calendar.lock_code_7_schedule') == 'off' and states.calendar.lock_code_7_schedule.attributes.end_time != null) }}
           
       keypad_8_temp_lock_turn_off:
         friendly_name: Turn keypad 8 off
         entity_id: sensor.date_time
         value_template: >-
-          {{ ((states['input_select']['door_keypad_8_access_schedule'].state in ['Temporary', 'Recurring']) and states('calendar.lock_code_8_schedule') == 'off') }}
+          {{ ((states['input_select']['door_keypad_8_access_schedule'].state == 'Scheduled') and states('calendar.lock_code_8_schedule') == 'off' and states.calendar.lock_code_8_schedule.attributes.end_time != null) }}
           
       keypad_9_temp_lock_turn_off:
         friendly_name: Turn keypad 9 off
         entity_id: sensor.date_time
         value_template: >-
-          {{ ((states['input_select']['door_keypad_9_access_schedule'].state in ['Temporary', 'Recurring']) and states('calendar.lock_code_9_schedule') == 'off') }}
+          {{ ((states['input_select']['door_keypad_9_access_schedule'].state == 'Scheduled') and states('calendar.lock_code_9_schedule') == 'off' and states.calendar.lock_code_9_schedule.attributes.end_time != null) }}
           
       keypad_10_temp_lock_turn_off:
         friendly_name: Turn keypad 10 off
         entity_id: sensor.date_time
         value_template: >-
-          {{ ((states['input_select']['door_keypad_10_access_schedule'].state in ['Temporary', 'Recurring']) and states('calendar.lock_code_10_schedule') == 'off') }}
+          {{ ((states['input_select']['door_keypad_10_access_schedule'].state == 'Scheduled') and states('calendar.lock_code_10_schedule') == 'off' and states.calendar.lock_code_10_schedule.attributes.end_time != null) }}
           
       keypad_11_temp_lock_turn_off:
         friendly_name: Turn keypad 11 off
         entity_id: sensor.date_time
         value_template: >-
-          {{ ((states['input_select']['door_keypad_11_access_schedule'].state in ['Temporary', 'Recurring']) and states('calendar.lock_code_11_schedule') == 'off') }}
+          {{ ((states['input_select']['door_keypad_11_access_schedule'].state == 'Scheduled') and states('calendar.lock_code_11_schedule') == 'off' and states.calendar.lock_code_11_schedule.attributes.end_time != null) }}
           
       keypad_12_temp_lock_turn_off:
         friendly_name: Turn keypad 12 off
         entity_id: sensor.date_time
         value_template: >-
-          {{ ((states['input_select']['door_keypad_12_access_schedule'].state in ['Temporary', 'Recurring']) and states('calendar.lock_code_12_schedule') == 'off') }}
+          {{ ((states['input_select']['door_keypad_12_access_schedule'].state == 'Scheduled') and states('calendar.lock_code_12_schedule') == 'off' and states.calendar.lock_code_12_schedule.attributes.end_time != null) }}
           
       keypad_13_temp_lock_turn_off:
         friendly_name: Turn keypad 13 off
         entity_id: sensor.date_time
         value_template: >-
-          {{ ((states['input_select']['door_keypad_13_access_schedule'].state in ['Temporary', 'Recurring']) and states('calendar.lock_code_13_schedule') == 'off') }}
+          {{ ((states['input_select']['door_keypad_13_access_schedule'].state == 'Scheduled') and states('calendar.lock_code_13_schedule') == 'off' and states.calendar.lock_code_13_schedule.attributes.end_time != null) }}
           
       keypad_14_temp_lock_turn_off:
         friendly_name: Turn keypad 14 off
         entity_id: sensor.date_time
         value_template: >-
-          {{ ((states['input_select']['door_keypad_14_access_schedule'].state in ['Temporary', 'Recurring']) and states('calendar.lock_code_14_schedule') == 'off') }}
+          {{ ((states['input_select']['door_keypad_14_access_schedule'].state == 'Scheduled') and states('calendar.lock_code_14_schedule') == 'off' and states.calendar.lock_code_14_schedule.attributes.end_time != null) }}
           
       keypad_15_temp_lock_turn_off:
         friendly_name: Turn keypad 15 off
         entity_id: sensor.date_time
         value_template: >-
-          {{ ((states['input_select']['door_keypad_15_access_schedule'].state in ['Temporary', 'Recurring']) and states('calendar.lock_code_15_schedule') == 'off') }}
+          {{ ((states['input_select']['door_keypad_15_access_schedule'].state == 'Scheduled') and states('calendar.lock_code_15_schedule') == 'off' and states.calendar.lock_code_15_schedule.attributes.end_time != null) }}

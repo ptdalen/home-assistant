@@ -3169,30 +3169,6 @@
 #    at: '3:30:00'
 #  action:
 #    service: zwave.heal_network
-- alias: homeassistant start-up
-  initial_state: true
-  trigger:
-    platform: homeassistant
-    event: start
-  action:
-    - service: input_boolean.turn_off
-      data:
-        entity_id: input_boolean.allow_zwave_automation_execution
-        
-- alias: Zwave_loaded_Start_System
-  initial_state: true
-  trigger:
-    - platform: event
-      event_type: zwave.network_ready
-    - platform: event
-      event_type: zwave.network_complete
-    - platform: event
-      event_type: zwave.network_complete_some_dead
-  action:
-    - service: input_boolean.turn_on # enable zwave automations again
-      data:
-        entity_id: input_boolean.allow_zwave_automation_execution
-
       
 - alias: IFTTT Automation Handler
   trigger:

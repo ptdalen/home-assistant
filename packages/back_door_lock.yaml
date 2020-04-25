@@ -14,8 +14,6 @@ automation:
     trigger:
       - platform: state
         to: 'on'
-        for:
-          seconds: 30
         entity_id:
 # Entities need to be named to match your lock name.  In this case back
           - input_boolean.door_keypad_1_back_switch
@@ -38,8 +36,6 @@ automation:
           - input_boolean.door_keypad_18_back_switch
       - platform: state
         to: 'Always'
-        for:
-          seconds: 30
         entity_id:
           - input_select.door_keypad_1_access_schedule
           - input_select.door_keypad_2_access_schedule
@@ -64,14 +60,20 @@ automation:
           {% set code_slot = "_".join(object_id.split("_")[2:-2]) %}
           {% set select_id = 'door_keypad_' ~ code_slot ~ '_access_schedule' %}
           {% set calendar_id = 'lock_code_' ~ code_slot ~ '_schedule' %}
-          {{ (states['input_select'][select_id].state in ['Always', 'Enabled']) or (states['input_select'][select_id].state in ['Temporary', 'Recurring'] and states['calendar'][calendar_id].state == 'on') }}
+          {{ (states['input_select'][select_id].state in ['Always', 'Enabled']) or (states['input_select'][select_id].state == 'Scheduled' and states['calendar'][calendar_id].state == 'on') }}
       - condition: template
         value_template:  >-
           {% set object_id = trigger.to_state.object_id %}
           {% set code_slot = "_".join(object_id.split("_")[2:-2]) %}
           {% set select_id = 'door_keypad_' ~ code_slot ~ '_back_switch' %}
           {{ (states['input_boolean'][select_id].state == 'on')}}
-
+      - condition: state
+        entity_id: 'input_boolean.allow_zwave_automation_execution'
+        state: 'on' 
+      - condition: state
+        entity_id: timer.set_code_saftey_check_on_always
+        state: 'idle'
+        
     action:
 # if your lock does not end in "door_lock" ie. often its "door_locked" change line 3 below to match
 # no other things should need to be changed
@@ -90,6 +92,21 @@ automation:
             {% set code_slot = "_".join(object_id.split("_")[2:-2]) %}
             {% set user_code_id = 'door_keypad_' ~ code_slot ~ '_code' %}
             {{ states['input_text'][user_code_id].state }}
+      - service: notify.pushover
+        data_template:
+          message: >-
+            {% set object_id = trigger.to_state.object_id %}
+            {% set code_slot = "_".join(object_id.split("_")[2:-2]) %}
+            {% set usercode_input = 'door_keypad_' ~ code_slot ~ '_code' %}
+            {% set name_input = 'door_keypad_' ~ code_slot ~ '_name' %}
+            {% set name = states['input_text'][name_input].state %}
+            The user code is now enabled for {{ name }}.
+
+          title: >-
+            Beach House: Code enabled on Back Door
+          target:
+          - Paul
+#          - Tracy
 
   - alias: Keypad switch turned off (Back Door)
     initial_state: true
@@ -97,7 +114,7 @@ automation:
       - platform: state
         to: 'off'
         for:
-          seconds: 30
+          seconds: 15
         entity_id:
           - input_boolean.door_keypad_1_back_switch
           - input_boolean.door_keypad_2_back_switch
@@ -141,14 +158,22 @@ automation:
             {% set object_id = trigger.to_state.object_id %}
             {% set code_slot = "_".join(object_id.split("_")[2:-2]) %}
             {{ code_slot }}
+            
+      - service: notify.pushover
+        data_template:
+          message: >-
+            {% set object_id = trigger.to_state.object_id %}
+            {% set code_slot = "_".join(object_id.split("_")[2:-2]) %}
+            {% set usercode_input = 'door_keypad_' ~ code_slot ~ '_code' %}
+            {% set name_input = 'door_keypad_' ~ code_slot ~ '_name' %}
+            {% set name = states['input_text'][name_input].state %}
+            The user code is now removed for {{ name }} from the back door.
 
-  - alias: Keypad temporary code start (Back Door)
+  - alias: Keypad scheduled code start (Back Door)
     initial_state: true
     trigger:
       - platform: state
         to: 'True'
-        for:
-          seconds: 30
         entity_id:
           - sensor.keypad_1_temp_lock_turn_on
           - sensor.keypad_2_temp_lock_turn_on
@@ -172,7 +197,10 @@ automation:
           {% set code_slot = object_id[7:-18] %}
           {% set input = 'door_keypad_' ~ code_slot ~ '_back_switch' %}
           {{ states['input_boolean'][input].state == 'on' }}
-  
+      - condition: state
+        entity_id: 'input_boolean.allow_zwave_automation_execution'
+        state: 'on' 
+
     action:
       - service: lock.set_usercode
         data_template:
@@ -206,7 +234,7 @@ automation:
             The pin code {{ usercode }} is now temporarily enabled for {{ name }} starting on {{ start }} and ending on {{ end }}.
 
           title: >-
-            Beach House: Temporary code enabled on Back Door.
+            Beach House: Scheduled code enabled on Back Door.
           target:
           - Paul
 #          - Tracy
@@ -217,9 +245,9 @@ automation:
     - platform: template
       value_template: "{{ states.sensor.back_door_report.state.lower().startswith('keypad unlock') }}"
     condition:
-    - condition: numeric_state
-      entity_id: sensor.ha_runtime_in_minutes
-      above: 3
+      - condition: state
+        entity_id: 'input_boolean.allow_zwave_automation_execution'
+        state: 'on'  
     action:
     - delay:
         seconds: 1
@@ -244,7 +272,7 @@ automation:
            by {{ states.input_text.back_door_code.state }} at {{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} 
         target:
         - Paul
-#        - Tracy
+        - Tracy
 
   - alias: Set Lock Options (Back Door)
     trigger:
