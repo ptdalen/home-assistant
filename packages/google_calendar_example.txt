@@ -1,0 +1,81 @@
+- cal_id: YOUR_GOOGLE_CALENDAR_ID@group.calendar.google.com
+  entities:
+  - device_id: door_lock_schedule
+    ignore_availability: true
+    name: Door Lock Schedule
+    track: true
+  - device_id: lock_code_1_schedule
+    ignore_availability: true
+    name: Door Code 1 Schedule
+    track: true
+    search: "#Door Code 1"
+  - device_id: lock_code_2_schedule
+    ignore_availability: true
+    name: Door Code 2 Schedule
+    track: true
+    search: "#Door Code 2"
+  - device_id: lock_code_3_schedule
+    ignore_availability: true
+    name: Door Code 3 Schedule
+    track: true
+    search: "#Door Code 3"
+  - device_id: lock_code_4_schedule
+    ignore_availability: true
+    name: Door Code 4 Schedule
+    track: true
+    search: "#Door Code 4"
+  - device_id: lock_code_5_schedule
+    ignore_availability: true
+    name: Door Code 5 Schedule
+    track: true
+    search: "#Door Code 5"
+  - device_id: lock_code_6_schedule
+    ignore_availability: true
+    name: Door Code 6 Schedule
+    track: true
+    search: "#Door Code 6"
+  - device_id: lock_code_7_schedule
+    ignore_availability: true
+    name: Door Code 7 Schedule
+    track: true
+    search: "#Door Code 7"
+  - device_id: lock_code_8_schedule
+    ignore_availability: true
+    name: Door Code 8 Schedule
+    track: true
+    search: "#Door Code 8"
+  - device_id: lock_code_9_schedule
+    ignore_availability: true
+    name: Door Code 9 Schedule
+    track: true
+    search: "#Door Code 9"
+  - device_id: lock_code_10_schedule
+    ignore_availability: true
+    name: Door Code 10 Schedule
+    track: true
+    search: "#Door Code 10"
+  - device_id: lock_code_11_schedule
+    ignore_availability: true
+    name: Door Code 11 Schedule
+    track: true
+    search: "#Door Code 11"
+  - device_id: lock_code_12_schedule
+    ignore_availability: true
+    name: Door Code 12 Schedule
+    track: true
+    search: "#Door Code 12"
+  - device_id: lock_code_13_schedule
+    ignore_availability: true
+    name: Door Code 13 Schedule
+    track: true
+    search: "#Door Code 13"
+  - device_id: lock_code_14_schedule
+    ignore_availability: true
+    name: Door Code 14 Schedule
+    track: true
+    search: "#Door Code 14"
+  - device_id: lock_code_15_schedule
+    ignore_availability: true
+    name: Door Code 15 Schedule
+    track: true
+    search: "#Door Code 15"
